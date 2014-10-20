@@ -1,0 +1,6 @@
+
+* create configure.ac
+* # touch NEWS README AUTHORS ChangeLog
+* # autoreconf -iv
+* # mkdir build; cd build
+* # ../configure LDFLAGS=-L/usr/local/lib CFLAGS=-I/usr/local/include --enable-debug
