@@ -29,7 +29,7 @@
 *.hex
 
 # Autotools
-/Makefile.in
+Makefile.in
 /aclocal.m4
 /compile
 /configure
