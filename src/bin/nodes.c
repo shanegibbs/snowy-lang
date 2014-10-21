@@ -10,3 +10,11 @@ Ident* opal_ident_new(char *name)
     n->name = name;
     return n;
 }
+
+IntLiteral* opal_int_literal_new(char *value)
+{
+    printf("{int exp %s}\n", value);
+    IntLiteral *n = malloc(sizeof(IntLiteral));
+
+    return n;
+}

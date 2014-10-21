@@ -7,4 +7,13 @@ typedef struct _Ident {
 
 Ident* opal_ident_new(char *name);
 
+typedef struct _IntLiteral {
+  int value;
+} IntLiteral;
+
+IntLiteral* opal_int_literal_new(char *value);
+
+typedef struct _Expression {
+} Expression;
+
 #endif
