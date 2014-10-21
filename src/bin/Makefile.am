@@ -10,6 +10,6 @@ endif
 
 bin_PROGRAMS = opal
 
-opal_SOURCES = opal.c tokens.l parser.y
+opal_SOURCES = opal.c nodes.c parser.y tokens.l
 
 #BUILT_SOURCES = calc_bison.h

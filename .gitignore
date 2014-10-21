@@ -27,3 +27,16 @@
 *.i*86
 *.x86_64
 *.hex
+
+# Autotools
+/Makefile.in
+/aclocal.m4
+/compile
+/configure
+/ylwrap
+/missing
+/depcomp
+/config.h.in
+/install-sh
+/build
+/autom4te.cache

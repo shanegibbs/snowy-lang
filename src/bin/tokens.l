@@ -1,6 +1,7 @@
 %{
 #include <stdio.h>
 
+#include "nodes.h"
 #include "parser.h"
 
 int num_lines = 0, num_chars = 0;
