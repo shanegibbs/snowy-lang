@@ -11,7 +11,8 @@ typedef enum {
 } NumOp;
 
 typedef enum {
-  STATEMENT
+  NODE_TYPE_STATEMENT,
+  NODE_TYPE_EXPRESSION
 } NodeType;
 
 typedef enum {
@@ -26,10 +27,13 @@ typedef enum {
 
 /* structs */
 
-typedef struct _Node {
-  NodeType type;
-  void *value; // Statement
-} Node;
+typedef struct _Node Node;
+
+#define NODE_MEMBERS Node *node_next; NodeType node_type;
+
+struct _Node {
+  NODE_MEMBERS
+};
 
 typedef struct _Statement {
   StatementType type;
@@ -37,8 +41,8 @@ typedef struct _Statement {
 } Statement;
 
 typedef struct _Expression {
-  ExpressionType type;
-  void *value; // IntLiteral, Tuple
+  NODE_MEMBERS
+  ExpressionType expr_type;
 } Expression;
 
 typedef struct _Tuple {
@@ -55,7 +59,9 @@ typedef struct _DeclareVar {
 } DeclarVar;
 
 typedef struct _IntLiteral {
-  Expression *parent;
+  NODE_MEMBERS
+  ExpressionType expr_type;
+
   int value;
 } IntLiteral;
 
@@ -71,6 +77,12 @@ NumOp opal_num_op_from_string(char* value);
 
 DeclarVar* opal_declare_var_new(char *id, Expression *e);
 
-Statement *root;
+void opal_add_node(Node *last, Node *node);
+
+char* get_int_literal_desc(IntLiteral *i);
+char* get_expr_desc(Expression *e);
+char* get_node_desc(Node *node);
+
+Node *root;
 
 #endif

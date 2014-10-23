@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <glib.h>
 
 #include "nodes.h"
 #include "opal.h"
@@ -8,6 +9,14 @@
 void exec_lex();
 int yyparse();
 int yydebug;
+
+void print_node(Node *node)
+{
+    while (node != NULL) {
+        printf("%s\n", get_node_desc(node));
+        node = node->node_next;
+    }
+}
 
 int main(int argc, char** argv)
 {
@@ -36,5 +45,6 @@ int main(int argc, char** argv)
         printf("root is NULL\n");
     }
 
+    print_node(root);
 
 }

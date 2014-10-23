@@ -21,19 +21,13 @@ char* opal_ident_new(char *name)
 
 IntLiteral* opal_int_literal_new(char *value)
 {
-    printf("{int exp %s}\n", value);
-
-    Statement *s = malloc(sizeof(Statement));
-    s->type = EXPRESSION;
-
-    Expression *e = malloc(sizeof(Expression));
-    e->type = INT_LITERAL;
-    s->value = e;
+    printf("{int %s}\n", value);
 
     IntLiteral *i = malloc(sizeof(IntLiteral));
-    i->parent = e;
+    i->node_next = NULL;
+    i->node_type = NODE_TYPE_EXPRESSION;
+    i->expr_type = INT_LITERAL;
     i->value = atoi(value);
-    e->value = i;
 
     return i;
 }
@@ -74,7 +68,7 @@ Tuple* opal_tuple_new(Expression* lhs, NumOp num_op, Expression *rhs)
     s->type = EXPRESSION;
 
     Expression *e = malloc(sizeof(Expression));
-    e->type = TUPLE;
+    // e->type = TUPLE;
     s->value = e;
 
     Tuple *t = malloc(sizeof(Tuple));
@@ -82,7 +76,7 @@ Tuple* opal_tuple_new(Expression* lhs, NumOp num_op, Expression *rhs)
     t->lhs = lhs;
     t->num_op = num_op;
     t->rhs = rhs;
-    e->value = t;
+    // e->value = t;
 
     return t;
 }
@@ -100,4 +94,44 @@ DeclarVar* opal_declare_var_new(char *id, Expression *e)
 
     printf("{var_decl '%s'}\n", d->id);
     return d;
+}
+
+void opal_add_node(Node *last, Node *node)
+{
+    printf(" {expr n}\n");
+    printf("Linking %s -> %s\n",
+            get_node_desc(last),
+            get_node_desc(node));
+    last->node_next = node;
+}
+
+char* get_int_literal_desc(IntLiteral *i)
+{
+    char *desc = malloc(128);
+    sprintf(desc, "Int %d", i->value);
+    return desc;
+}
+
+char* get_expr_desc(Expression *e)
+{
+    switch (e->expr_type) {
+        case INT_LITERAL:
+            return get_int_literal_desc((IntLiteral*)e);
+            break;
+        default:
+            return "Unknown expression type";
+            break;
+    }
+}
+
+char* get_node_desc(Node *node)
+{
+    switch (node->node_type) {
+        case NODE_TYPE_EXPRESSION:
+            return get_expr_desc((Expression*)node);
+            break;
+        default:
+            return "Unknown node type";
+            break;
+    }
 }
