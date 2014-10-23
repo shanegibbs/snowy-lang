@@ -99,8 +99,8 @@ DeclarVar* opal_declare_var_new(char *id, Expression *e)
 void opal_add_node(Node *last, Node *node)
 {
     printf("Linking %s -> %s\n",
-            get_node_desc(last),
-            get_node_desc(node));
+           get_node_desc(last),
+           get_node_desc(node));
     last->node_next = node;
 }
 
@@ -120,12 +120,10 @@ char* get_int_literal_desc(IntLiteral *i)
 char* get_expr_desc(Expression *e)
 {
     switch (e->expr_type) {
-        case INT_LITERAL:
-            return get_int_literal_desc((IntLiteral*)e);
-            break;
-        default:
-            return "Unknown expression type";
-            break;
+    case INT_LITERAL:
+        return get_int_literal_desc((IntLiteral*)e);
+    default:
+        return "Unknown expression type";
     }
 }
 
@@ -134,9 +132,7 @@ char* get_node_desc(Node *node)
     switch (node->node_type) {
         case NODE_TYPE_EXPRESSION:
             return get_expr_desc((Expression*)node);
-            break;
         default:
-            return "Unknown node type";
-            break;
+            return "unknown node type";
     }
 }
