@@ -77,6 +77,7 @@ NumOp opal_num_op_from_string(char* value);
 
 DeclarVar* opal_declare_var_new(char *id, Expression *e);
 
+void opal_set_root(Node *n);
 void opal_add_node(Node *last, Node *node);
 
 char* get_int_literal_desc(IntLiteral *i);

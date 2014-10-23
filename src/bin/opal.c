@@ -45,6 +45,7 @@ int main(int argc, char** argv)
         printf("root is NULL\n");
     }
 
+    printf("\nPrinting node graph:\n");
     print_node(root);
 
 }

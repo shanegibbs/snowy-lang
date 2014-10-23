@@ -21,13 +21,13 @@ char* opal_ident_new(char *name)
 
 IntLiteral* opal_int_literal_new(char *value)
 {
-    printf("{int %s}\n", value);
-
     IntLiteral *i = malloc(sizeof(IntLiteral));
     i->node_next = NULL;
     i->node_type = NODE_TYPE_EXPRESSION;
     i->expr_type = INT_LITERAL;
     i->value = atoi(value);
+
+    printf("Parsed: %s\n", get_int_literal_desc(i));
 
     return i;
 }
@@ -98,11 +98,16 @@ DeclarVar* opal_declare_var_new(char *id, Expression *e)
 
 void opal_add_node(Node *last, Node *node)
 {
-    printf(" {expr n}\n");
     printf("Linking %s -> %s\n",
             get_node_desc(last),
             get_node_desc(node));
     last->node_next = node;
+}
+
+void opal_set_root(Node *n)
+{
+    printf("Setting root\n");
+    root = n;
 }
 
 char* get_int_literal_desc(IntLiteral *i)

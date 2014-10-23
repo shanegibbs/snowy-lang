@@ -49,9 +49,9 @@ void yyerror(const char *s) {
 program: node
        ;
 
-node: stmt ENDL { root = (Node*)$1; printf("{stmt first}\n"); }
+node: stmt ENDL { opal_set_root((Node*)$1); }
      | node stmt ENDL { printf("{stmt}\n"); }
-     | expr ENDL { root = (Node*)$1; printf("{expr first}\n"); }
+     | expr ENDL { opal_set_root((Node*)$1); }
      | node expr ENDL { $$ = (Node*)$2; opal_add_node($1, (Node*)$2); }
      ;
 
