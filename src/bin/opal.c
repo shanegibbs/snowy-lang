@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 
+#include "nodes.h"
 #include "opal.h"
 
 void exec_lex();
@@ -30,4 +31,10 @@ int main(int argc, char** argv)
     yyparse();
 
     // printf("OK\n");
+
+    if (root == NULL) {
+        printf("root is NULL\n");
+    }
+
+
 }
