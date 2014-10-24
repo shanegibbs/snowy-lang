@@ -77,6 +77,7 @@ AM_CONDITIONAL([DEBUG], [test x$debug = xtrue])
 # file.in), substituting the output variable values
 AC_CONFIG_FILES([
                  Makefile
+                 src/lib/Makefile
                  src/bin/Makefile
                  ])
 

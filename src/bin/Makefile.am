@@ -1,4 +1,5 @@
 AM_CFLAGS = $(GLIB_CFLAGS)
+AM_CFLAGS += -I$(top_srcdir)/src/lib
 LEX=flex
 AM_YFLAGS = -d -v
 
@@ -10,4 +11,5 @@ endif
 
 bin_PROGRAMS = opal
 
-opal_SOURCES = opal.c nodes.c parser.y tokens.l
+opal_SOURCES = opal.c
+opal_LDADD = $(top_builddir)/src/lib/libopal.a
