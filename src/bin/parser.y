@@ -15,7 +15,7 @@ void yyerror(const char *s) {
 
 %union {
   Node *node;
-  char* ident;
+  Ident* ident;
   NumOp num_op;
   char* character;
   char* string;
@@ -55,7 +55,7 @@ node: stmt ENDL { opal_set_root((Node*)$1); }
      | node expr ENDL { $$ = (Node*)$2; opal_add_node($1, (Node*)$2); }
      ;
 
-stmt: var_decl { $$ = $1->parent; }
+stmt: var_decl { $$ = (Statement*)$1; }
     ;
 
 var_decl: ident EQ_OP expr { $$ = opal_declare_var_new($1, $3); }
@@ -68,7 +68,7 @@ num_op: NUM_OP { $$ = opal_num_op_from_string($1); }
       ;
 
 expr: INTEGER { $$ = (Expression*)opal_int_literal_new($1); }
-    | expr num_op expr { $$ = opal_tuple_new($1, $2, $3)->parent; }
+    | expr num_op expr { $$ = (Expression*)opal_tuple_new($1, $2, $3); }
     | ident args { printf("{method call}\n"); }
     ;
 
