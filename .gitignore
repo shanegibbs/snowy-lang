@@ -40,3 +40,5 @@ Makefile.in
 /install-sh
 /build
 /autom4te.cache
+/deps
+/test-driver

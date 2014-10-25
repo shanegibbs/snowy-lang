@@ -79,6 +79,7 @@ AC_CONFIG_FILES([
                  Makefile
                  src/lib/Makefile
                  src/bin/Makefile
+                 tests/Makefile
                  ])
 
 # Generate config.status and launch it. Call this macro once, at the

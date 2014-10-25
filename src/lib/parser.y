@@ -1,11 +1,20 @@
 %{
 #include <stdio.h>
 
+#include "tokens.h"
 #include "nodes.h"
 
-#define YYDEBUG 1
+#define OPAL_DEBUG 1
 
-int yylex();
+// int opal_lex();
+//int opal_bison_lex();
+
+
+int opal_bison_lex()
+{
+  return opal_flex_lex();
+}
+
 
 void yyerror(const char *s) {
   printf("ERROR: %s\n", s);
@@ -42,6 +51,8 @@ void yyerror(const char *s) {
 
 // %define parse.error verbose
 
+%defines
+%define api.prefix {opal_bison_}
 %start program
 
 %%

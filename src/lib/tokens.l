@@ -9,7 +9,7 @@ int num_lines = 0, num_chars = 0;
 // #define RETURN_STRING(id, desc) printf("[%s %s]", desc, yytext); yylval.string = yytext; return id;
 // #define RETURN_TOKEN(id, desc) printf("[%s]", desc); return id;
 
-#define RETURN_STRING(id, desc) yylval.string = yytext; return id;
+#define RETURN_STRING(id, desc) opal_bison_lval.string = opal_flex_text; return id;
 #define RETURN_TOKEN(id, desc) return id;
 
 %}
@@ -18,6 +18,10 @@ int num_lines = 0, num_chars = 0;
 %option always-interactive
 %option nounput
 %option noinput
+%option prefix="opal_flex_"
+
+%option header-file="tokens.h"
+%option outfile="tokens.c"
 
 INTEGER [0-9]
 ID [a-zA-Z][a-zA-Z0-9]*

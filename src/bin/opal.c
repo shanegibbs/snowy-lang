@@ -4,11 +4,10 @@
 #include <glib.h>
 
 #include "nodes.h"
-#include "opal.h"
 
-void exec_lex();
-int yyparse();
-int yydebug;
+// void exec_lex();
+// int yyparse();
+// int yydebug;
 
 void print_node(Node *node)
 {
@@ -20,29 +19,12 @@ void print_node(Node *node)
 
 int main(int argc, char** argv)
 {
-    /*
-    char buffer[4096];
-    int len = read(STDIN_FILENO, buffer, 4096);
-    printf("len=%d\n", len);
-    buffer[len] = 0;
-    printf("%s\n", buffer);
-    */
-
-    // yyin = stdin;
-    // yylex();
-
-    // yy_scan_buffer("a test string");
-    // yylex();
-
-    // exec_lex();
-
-    // yydebug = 1;
-    yyparse();
-
-    // printf("OK\n");
+    // opal_parse_string("1+2\n");
+    opal_stdin_parse();
 
     if (root == NULL) {
         printf("root is NULL\n");
+        return 3;
     }
 
     printf("\nPrinting node graph:\n");

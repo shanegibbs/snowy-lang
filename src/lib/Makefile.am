@@ -9,8 +9,9 @@ endif
 
 noinst_LIBRARIES = libopal.a
 
-libopal_a_SOURCES = nodes.c parser.y tokens.l
+libopal_a_SOURCES = parser.y tokens.l nodes.c nodes_desc.c
 
-AM_CFLAGS = $(GLIB_CFLAGS)
 LEX=flex
 AM_YFLAGS = -d -v
+
+#BUILT_SOURCES = tokens.h parser.h
