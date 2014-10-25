@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <glib.h>
 
 #include "nodes.h"
 
@@ -65,6 +66,8 @@ char* get_statement_desc(Statement *s)
     switch(s->statement_type) {
         case STATEMENT_TYPE_VAR_DECLAR:
             return get_var_declar_desc((DeclarVar*)s);
+        default:
+            return "unknown statement";
     }
 
 }
@@ -83,6 +86,7 @@ char* get_node_desc(Node *node)
 
 char* get_prog_desc(Node *root)
 {
+    g_assert_nonnull(root);
     Node *node = root;
     char *desc = malloc(4096);
     desc[0] = 0;

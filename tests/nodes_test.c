@@ -6,9 +6,12 @@
 
 void assert_code_desc(const char *code, const char *desc)
 {
+    root = NULL;
     opal_parse_string(code);
     g_assert_nonnull(root);
-    g_assert_cmpstr(get_prog_desc(root), ==, desc);
+    char *actual = get_prog_desc(root);
+    g_assert_nonnull(actual);
+    g_assert_cmpstr(actual, ==, desc);
 }
 
 void int_literal_test(void)

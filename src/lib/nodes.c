@@ -15,14 +15,8 @@ void  opal_stdin_parse()
 
 Node* opal_parse_string(const char *code)
 {
-    // yy_scan_string(code);
-    //yylex();
-    //exec_lex();
-    //yyparse();
-
     opal_flex__scan_string(code);
     opal_bison_parse();
-
     return root;
 }
 
