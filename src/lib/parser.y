@@ -1,20 +1,16 @@
 %{
 #include <stdio.h>
 
-#include "tokens.h"
 #include "nodes.h"
 
 #define OPAL_DEBUG 1
 
-// int opal_lex();
-//int opal_bison_lex();
-
+int opal_flex_lex();
 
 int opal_bison_lex()
 {
   return opal_flex_lex();
 }
-
 
 void yyerror(const char *s) {
   printf("ERROR: %s\n", s);
