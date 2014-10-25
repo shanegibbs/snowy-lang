@@ -5,10 +5,6 @@
 
 #include "nodes.h"
 
-// void exec_lex();
-// int yyparse();
-// int yydebug;
-
 void print_node(Node *node)
 {
     while (node != NULL) {

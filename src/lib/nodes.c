@@ -13,7 +13,7 @@ void  opal_stdin_parse()
     opal_bison_parse();
 }
 
-Node* opal_parse_string(char *code)
+Node* opal_parse_string(const char *code)
 {
     // yy_scan_string(code);
     //yylex();

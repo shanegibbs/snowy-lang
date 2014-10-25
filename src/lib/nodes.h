@@ -7,7 +7,7 @@
 /* functions */
 
 void  opal_stdin_parse();
-Node* opal_parse_string(char *code);
+Node* opal_parse_string(const char *code);
 
 
 /* graph functions */
@@ -36,6 +36,7 @@ char* get_var_declar_desc(DeclarVar *d);
 char* get_expr_desc(Expression *e);
 char* get_statement_desc(Statement *s);
 char* get_node_desc(Node *node);
+char* get_prog_desc(Node *root);
 
 Node *root;
 

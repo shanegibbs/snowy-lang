@@ -58,8 +58,8 @@ PKG_CHECK_MODULES([GOBJECT], [gobject-2.0], [LIBS="-lgobject-2.0 $LIBS"], [
   AC_MSG_FAILURE([no gobject-2.0 libs found])
 ])
 
-AC_SUBST([BAB_CFLAGS], ["-DG_LOG_DOMAIN=\\\"Opan\\\" -O3 -DG_DISABLE_ASSERT"])
-AC_SUBST([BAB_DEBUG_CFLAGS], ["-DG_LOG_DOMAIN=\\\"Opal\\\" -Wall -Werror -g -O0"])
+AC_SUBST([OPAL_CFLAGS], ["-DG_LOG_DOMAIN=\\\"Opan\\\" -O3 -DG_DISABLE_ASSERT"])
+AC_SUBST([OPAL_DEBUG_CFLAGS], ["-DG_LOG_DOMAIN=\\\"Opal\\\" -Wall -Werror -g -O0"])
 
 # debug flag
 AC_ARG_ENABLE([debug],

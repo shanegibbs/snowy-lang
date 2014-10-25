@@ -1,5 +1,6 @@
 AM_CFLAGS = $(GLIB_CFLAGS)
 AM_CFLAGS += -I$(top_srcdir)/src/lib
+AM_CFLAGS += @OPAL_DEBUG_CFLAGS@
 
 TESTS=$(check_PROGRAMS)
 check_PROGRAMS=nodes_test

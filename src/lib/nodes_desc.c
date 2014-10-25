@@ -80,3 +80,16 @@ char* get_node_desc(Node *node)
             return "unknown node type";
     }
 }
+
+char* get_prog_desc(Node *root)
+{
+    Node *node = root;
+    char *desc = malloc(4096);
+    desc[0] = 0;
+    while (node != NULL) {
+        sprintf(desc, "%s%s\n", desc, get_node_desc(node));
+        node = node->node_next;
+    }
+
+    return desc;
+}
