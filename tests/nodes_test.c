@@ -3,12 +3,14 @@
 #include <glib/gstdio.h>
 
 #include "nodes.h"
+#include "node_assert.h"
 
 void assert_code_desc(const char *code, const char *desc)
 {
     root = NULL;
     opal_parse_string(code);
     g_assert_nonnull(root);
+    opal_assert_valid_node(root);
     char *actual = get_prog_desc(root);
     g_assert_nonnull(actual);
     g_assert_cmpstr(actual, ==, desc);
@@ -31,11 +33,19 @@ void arithmetic_expr_test(void)
     assert_code_desc(code, desc);
 }
 
+void assignment_test(void)
+{
+    const char *code = "a = 1 + 2\n";
+    const char *desc = "Declare=[id=[Ident=[a]] expr=[Tuple=[lhs=[IntLiteral=[1]] op=[+] rhs=[IntLiteral=[2]]]]]\n";
+    assert_code_desc(code, desc);
+}
+
 int main(int argc, char** argv)
 {
     g_test_init(&argc, &argv, NULL);
     g_test_add_func("/nodes/int_literal", int_literal_test);
     g_test_add_func("/nodes/multi_node", multi_node_test);
     g_test_add_func("/nodes/arithmetic_expr_test", arithmetic_expr_test);
+    g_test_add_func("/nodes/assignment_test", assignment_test);
     return g_test_run();
 }

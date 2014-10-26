@@ -9,6 +9,7 @@
 void  opal_stdin_parse();
 Node* opal_parse_string(const char *code);
 
+#define opal_alloc(n) calloc(n, 1)
 
 /* graph functions */
 
@@ -19,12 +20,6 @@ NumOp       opal_num_op_from_string(char* value);
 DeclarVar*  opal_declare_var_new(Ident *id, Expression *e);
 void        opal_set_root(Node *n);
 void        opal_add_node(Node *last, Node *node);
-
-
-/* assert functions */
-
-void opal_assert_ident(Ident *i);
-
 
 /* description functions */
 

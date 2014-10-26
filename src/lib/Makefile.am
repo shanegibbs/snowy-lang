@@ -12,4 +12,4 @@ endif
 
 noinst_LIBRARIES = libopal.a
 
-libopal_a_SOURCES = parser.y tokens.l nodes.c nodes_desc.c
+libopal_a_SOURCES = parser.y tokens.l node_assert.c nodes.c nodes_desc.c

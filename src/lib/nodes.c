@@ -4,6 +4,7 @@
 #include <glib.h>
 
 #include "nodes.h"
+#include "node_assert.h"
 #include "parser.h"
 #include "tokens.h"
 
@@ -22,25 +23,25 @@ Node* opal_parse_string(const char *code)
 
 Ident* opal_ident_new(char *name)
 {
-    Ident *i = malloc(sizeof(Ident));
+    Ident *i = opal_alloc(sizeof(Ident));
     i->node_next = NULL;
     i->node_type = NODE_TYPE_EXPRESSION;
     i->expr_type = EXPR_TYPE_IDENT;
 
-    char* n = malloc((sizeof(char) * strlen(name)) + 1);
+    char* n = opal_alloc((sizeof(char) * strlen(name)) + 1);
     strncpy(n, name, strlen(name));
     i->value = n;
 
     printf("Parsed: %s\n", get_ident_desc(i));
 
-    opal_assert_ident(i);
+    opal_assert_valid_ident(i);
     g_assert(name != i->value);
     return i;
 }
 
 IntLiteral* opal_int_literal_new(char *value)
 {
-    IntLiteral *i = malloc(sizeof(IntLiteral));
+    IntLiteral *i = opal_alloc(sizeof(IntLiteral));
     i->node_next = NULL;
     i->node_type = NODE_TYPE_EXPRESSION;
     i->expr_type = INT_LITERAL;
@@ -79,7 +80,8 @@ Tuple* opal_tuple_new(Expression* lhs, NumOp num_op, Expression *rhs)
         op = '/';
     }
 
-    Tuple *t = malloc(sizeof(Tuple));
+    Tuple *t = opal_alloc(sizeof(Tuple));
+    t->node_next = NULL;
     t->node_type = NODE_TYPE_EXPRESSION;
     t->expr_type = EXPR_TYPE_TUPLE;
     t->lhs = lhs;
@@ -93,9 +95,10 @@ Tuple* opal_tuple_new(Expression* lhs, NumOp num_op, Expression *rhs)
 
 DeclarVar* opal_declare_var_new(Ident *id, Expression *e)
 {
-    opal_assert_ident(id);
+    opal_assert_valid_ident(id);
 
-    DeclarVar *d = malloc(sizeof(DeclarVar));
+    DeclarVar *d = opal_alloc(sizeof(DeclarVar));
+    d->node_next = NULL;
     d->node_type = NODE_TYPE_STATEMENT;
     d->statement_type = STATEMENT_TYPE_VAR_DECLAR;
     d->id = id;
@@ -117,11 +120,4 @@ void opal_set_root(Node *n)
 {
     printf("Setting root\n");
     root = n;
-}
-
-void opal_assert_ident(Ident *i)
-{
-    g_assert(i->node_type == NODE_TYPE_EXPRESSION);
-    g_assert(i->expr_type == EXPR_TYPE_IDENT);
-    g_assert_nonnull(i->value);
 }

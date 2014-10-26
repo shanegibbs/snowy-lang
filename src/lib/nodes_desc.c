@@ -4,6 +4,7 @@
 #include <glib.h>
 
 #include "nodes.h"
+#include "node_assert.h"
 
 char* get_num_op_desc(NumOp op)
 {
@@ -74,6 +75,8 @@ char* get_statement_desc(Statement *s)
 
 char* get_node_desc(Node *node)
 {
+    opal_assert_valid_node(node);
+
     switch (node->node_type) {
         case NODE_TYPE_EXPRESSION:
             return get_expr_desc((Expression*)node);
