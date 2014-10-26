@@ -42,3 +42,4 @@ Makefile.in
 /autom4te.cache
 /deps
 /test-driver
+/tmp
