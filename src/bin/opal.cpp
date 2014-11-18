@@ -7,6 +7,11 @@
 #include <llvm/IR/Constants.h>
 #include "llvm/IR/IRBuilder.h"
 
+#include <llvm/Support/TargetSelect.h>
+
+#include <llvm/ExecutionEngine/ExecutionEngine.h>
+#include "llvm/ExecutionEngine/JIT.h"
+
 extern "C" {
 #include "nodes.h"
 }
@@ -39,6 +44,8 @@ int current_prog()
 
 int main(int argc, char** argv)
 {
+  llvm::InitializeNativeTarget();
+
   llvm::LLVMContext &Context = llvm::getGlobalContext();
 
   llvm::IRBuilder<> Builder(Context);
@@ -78,14 +85,13 @@ int main(int argc, char** argv)
   std::string puts_name("puts");
   llvm::Function *puts_fn = TheModule->getFunction(puts_name);
   Builder.CreateCall(puts_fn, ArgsV, "puts_result");
-  Builder.CreateRet(llvm::ConstantInt::get(Context, llvm::APInt(32, 0, false)));
+  Builder.CreateRet(llvm::ConstantInt::get(Context, llvm::APInt(32, 3, false)));
 
   // llvm::Function::arg_iterator args_i = F->arg_begin();
   // llvm::Value* x = args_i++;
   // x->setName("a");
   // llvm::Value* y = args_i++;
   // y->setName("b");
-
 
   /*
   llvm::Value *L = llvm::ConstantInt::get(Context, llvm::APInt(8, 2, false));
@@ -105,5 +111,24 @@ int main(int argc, char** argv)
   */
 
   TheModule->dump();
+  puts("-------------------------------\n");
+
+  puts("Executing program:\n");
+
+  std::string ErrStr;
+  llvm::ExecutionEngine *TheExecutionEngine = llvm::EngineBuilder(TheModule).setErrorStr(&ErrStr).create();
+  if (!TheExecutionEngine)
+  {
+    fprintf(stderr, "Could not create ExecutionEngine: %s\n", ErrStr.c_str());
+    exit(1);
+  }
+
+  TheModule->setDataLayout(TheExecutionEngine->getDataLayout());
+
+  void *main_fn_ptr = TheExecutionEngine->getPointerToFunction(main_fn);
+  int (*program_main)(int, int) = (int (*)(int, int))main_fn_ptr;
+  int ret = program_main(2, 4);
+  fprintf(stderr, "main returned %i\n", ret);
 
 }
+

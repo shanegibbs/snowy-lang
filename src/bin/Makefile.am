@@ -15,4 +15,4 @@ bin_PROGRAMS = opal
 
 opal_SOURCES = opal.cpp
 opal_LDADD = $(top_builddir)/src/lib/libopal.a
-opal_LDFLAGS = `llvm-config --libs --system-libs`
+opal_LDFLAGS = `llvm-config --libs core jit native --system-libs`
