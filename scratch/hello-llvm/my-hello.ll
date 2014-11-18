@@ -17,7 +17,7 @@ define void @print_hello_world() {
   ret void
 }
 
-define void @print_int(i32 %a) #1 {
+define void @print_int(i32 %a) {
   %output = call i8* @malloc(i64 60)
   call i32 (i8*, i8*, ...)* @sprintf(i8* %output, i8* getelementptr inbounds ([3 x i8]* @itoa_fmt, i64 0, i64 0), i32 %a)
   call i32 @puts(i8* %output)
@@ -32,6 +32,10 @@ define i32 @main(i32 %argc, i8** %argv) {
   %argv_1_ptr = getelementptr i8** %argv, i64 1
   %argv_1 = load i8** %argv_1_ptr
   call i32 @puts(i8* %argv_1)
+
+  %x_ele = getelementptr i8** %argv, i64 1
+  %x_ptr = load i8** %x_ele
+  call i32 @puts(i8* %x_ptr)
 
   %a = add i32 2, 8
   call void @print_int(i32 %a)

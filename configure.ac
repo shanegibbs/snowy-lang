@@ -5,7 +5,7 @@
 
 AC_PREREQ([2.69])
 AC_INIT([babirusa], [0.1], [shane@gibbsdevops.com])
-AC_CONFIG_SRCDIR([src/bin/opal.c])
+AC_CONFIG_SRCDIR([src/bin/opal.h])
 AC_CONFIG_HEADERS([config.h])
 
 AM_INIT_AUTOMAKE
@@ -14,8 +14,8 @@ AM_INIT_AUTOMAKE
 EXTERNAL_CFLAGS="$CFLAGS"
 
 # Checks for programs.
+AC_PROG_CXX
 AC_PROG_CC_C99
-AC_PROG_CPP
 AC_PROG_RANLIB
 AM_PROG_LEX
 AC_PROG_YACC

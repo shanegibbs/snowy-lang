@@ -1,5 +1,4 @@
 AM_CFLAGS = $(GLIB_CFLAGS)
-AM_CFLAGS += -I$(top_srcdir)/src/lib/common
 
 LEX=flex
 AM_YFLAGS = -d -v
