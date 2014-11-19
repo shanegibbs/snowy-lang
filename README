@@ -3,7 +3,7 @@
 * # touch NEWS README AUTHORS ChangeLog
 * # autoreconf -iv
 * # mkdir build; cd build
-* # ../configure CC=clang LDFLAGS=-L/usr/local/lib CFLAGS=-I/usr/local/include --enable-debug
+* # ../configure CXX=clang++ LDFLAGS=-L/usr/local/lib CFLAGS=-I/usr/local/include --enable-debug
 
 Notes:
 

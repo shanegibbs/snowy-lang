@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <unistd.h>
 
+#include <FlexLexer.h>
+
 #include <llvm/IR/LLVMContext.h>
 #include <llvm/IR/Module.h>
 #include <llvm/IR/Constants.h>
@@ -12,6 +14,7 @@
 #include <llvm/ExecutionEngine/ExecutionEngine.h>
 #include "llvm/ExecutionEngine/JIT.h"
 
+/*
 extern "C" {
 #include "nodes.h"
 }
@@ -41,8 +44,19 @@ int current_prog()
 
   return 0;
 }
+*/
 
-int main(int argc, char** argv)
+/*
+int start_parse_stdin()
+{
+  FlexLexer* lexer = new yyFlexLexer;
+  while (lexer->yylex() != 0)
+    ;
+  return 0;
+}
+*/
+
+int test_program()
 {
   llvm::InitializeNativeTarget();
 
@@ -130,5 +144,11 @@ int main(int argc, char** argv)
   int ret = program_main(2, 4);
   fprintf(stderr, "main returned %i\n", ret);
 
+  return 0;
 }
 
+
+int main(int argc, char** argv)
+{
+  // return start_parse_stdin();
+}
