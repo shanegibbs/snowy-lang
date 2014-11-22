@@ -17,5 +17,5 @@ libopal_a_SOURCES = Parser.cpp Lexer.cc Parser/Driver.cpp
 Lexer.cc: Parser/lexer.l Parser.cpp
 	flex++ $(top_srcdir)/src/lib/Parser/lexer.l
 
-Parser.cpp: Parser/parser.ypp
-	bison -v --defines=Parser.h --output=Parser.cpp ../../../src/lib/Parser/parser.ypp
+Parser.cpp: Parser/Parser.ypp
+	bison -v --defines=Parser.h --output=Parser.cpp ../../../src/lib/Parser/Parser.ypp
