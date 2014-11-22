@@ -5,11 +5,6 @@
 
 // %option yyclass="Snowy::Scanner"
 
-const char *mystr;
-
-#define RETURN_STRING(id, desc) mystr = YYText(); return id;
-#define RETURN_TOKEN(id, desc) return id;
-
 %}
 
 %option debug
@@ -24,12 +19,12 @@ ID [a-zA-Z][a-zA-Z0-9]*
 
 %%
 
-{ID}                RETURN_STRING(Snowy::Parser::token::ID, "id");
-{INTEGER}+          RETURN_STRING(Snowy::Parser::token::INTEGER, "int");
-=                   RETURN_TOKEN(Snowy::Parser::token::EQ_OP, "assign");
-"+"|"-"|"*"|"/"     RETURN_STRING(Snowy::Parser::token::NUM_OP, "op");
-,                   RETURN_TOKEN(Snowy::Parser::token::COMMA, "comma");
-\n                  RETURN_TOKEN(Snowy::Parser::token::ENDL, "endl");
+{ID}                return Snowy::Parser::token::ID;
+{INTEGER}+          return Snowy::Parser::token::INTEGER;
+=                   return Snowy::Parser::token::EQ_OP;
+"+"|"-"|"*"|"/"     return Snowy::Parser::token::NUM_OP;
+,                   return Snowy::Parser::token::COMMA;
+\n                  return Snowy::Parser::token::ENDL;
 [ \t]+
 .                   printf("(new char)");
 
@@ -39,7 +34,7 @@ int Xmain( int /* argc */, char** /* argv */ )
 {
   FlexLexer* scanner = new yyFlexLexer;
   while(scanner->yylex() != 0) {
-    puts(mystr);
+    puts(scanner->YYText());
   }
   return 0;
 }
