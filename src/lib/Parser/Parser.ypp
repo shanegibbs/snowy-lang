@@ -70,14 +70,13 @@ namespace Snowy {
 
 %%
 
-program: node
-       ;
+program: node ENDL { puts("node ENDL"); }
+    | node node { puts("node node ENDL"); }
+    ;
 
-node: stmt ENDL { puts("opal_set_root((Snowy::Node*)$1);"); }
-     | node stmt ENDL { printf("{stmt}\n"); }
-     | expr ENDL { puts("opal_set_root((Snowy::Node*)$1);"); }
-     | node expr ENDL { puts("$$ = (Snowy::Node*)$2; opal_add_node($1, (Snowy::Node*)$2);"); }
-     ;
+node: stmt { $$ = $1; }
+    | expr { $$ = $1; }
+    ;
 
 stmt: var_decl { $$ = (Snowy::Statement*)$1; }
     ;

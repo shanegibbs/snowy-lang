@@ -6,7 +6,7 @@
 namespace Snowy
 {
 
-class Expression : Node
+class Expression : public Node
 {
 public:
   Expression() {}
