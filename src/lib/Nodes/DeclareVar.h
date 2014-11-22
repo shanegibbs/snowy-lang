@@ -11,10 +11,12 @@ namespace Snowy
 class DeclareVar : public Statement
 {
 public:
-  DeclareVar(Ident *ident, Expression* expr);
+  DeclareVar(Ident *i, Expression* e) { ident = i; exp = e; }
   ~DeclareVar();
 
 private:
+  Ident *ident;
+  Expression *exp;
 };
 
 }

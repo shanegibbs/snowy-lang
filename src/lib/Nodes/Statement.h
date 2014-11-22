@@ -6,10 +6,10 @@
 namespace Snowy
 {
 
-class Statement : Node
+class Statement : public Node
 {
 public:
-  Statement();
+  Statement() {}
   ~Statement();
 };
 

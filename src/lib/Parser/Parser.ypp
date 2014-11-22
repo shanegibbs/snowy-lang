@@ -82,7 +82,7 @@ node: stmt ENDL { puts("opal_set_root((Snowy::Node*)$1);"); }
 stmt: var_decl { $$ = (Snowy::Statement*)$1; }
     ;
 
-var_decl: ident EQ_OP expr { puts("$$ = new Snowy::DeclareVar($1, $3);"); }
+var_decl: ident EQ_OP expr { $$ = new Snowy::DeclareVar($1, $3); }
         ;
 
 ident : ID { $$ = new Snowy::Ident($1); }
