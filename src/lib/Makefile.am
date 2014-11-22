@@ -1,9 +1,5 @@
 AM_CFLAGS = $(GLIB_CFLAGS)
 
-#LEX=flex++
-# AM_YFLAGS = -d -v
-# AM_YFLAGS = --c++ -o lex.yy.c -L
-
 if DEBUG
 	AM_CFLAGS += @OPAL_DEBUG_CFLAGS@
 else
