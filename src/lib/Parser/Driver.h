@@ -2,14 +2,13 @@
 #define SNOWY_DRIVER_HPP
 
 #include <string>
-#include <FlexLexer.h>
 
 #include <Parser/Parser.h>
 
+class FlexLexer;
+
 namespace Snowy
 {
-
-  class Parser;
 
 class Driver
 {
