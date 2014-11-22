@@ -6,13 +6,13 @@
 %define parser_class_name {Parser}
 
 %code requires { /* code for the defines/header file */
-#include "Nodes/DeclareVar.h"
-#include "Nodes/Expression.h"
-#include "Nodes/Ident.h"
-#include "Nodes/IntLiteral.h"
-#include "Nodes/Node.h"
-#include "Nodes/Statement.h"
-#include "Nodes/Tuple.h"
+#include <Nodes/DeclareVar.h>
+#include <Nodes/Expression.h>
+#include <Nodes/Ident.h>
+#include <Nodes/IntLiteral.h>
+#include <Nodes/Node.h>
+#include <Nodes/Statement.h>
+#include <Nodes/Tuple.h>
 
 namespace Snowy {
    class Driver;
@@ -28,7 +28,7 @@ namespace Snowy {
    #include <fstream>
 
   /* So we can call Driver functions */
-  #include "Parser/Driver.h"
+  #include <Parser/Driver.h>
 
   /* because we want the tokens that the parser generates */
   #include "Parser.h"

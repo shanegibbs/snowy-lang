@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-#include "../lib/Parser/Driver.h"
+#include <Parser/Driver.h>
 
 #include <llvm/IR/LLVMContext.h>
 #include <llvm/IR/Module.h>

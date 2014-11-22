@@ -1,5 +1,6 @@
-#include "Parser/Driver.h"
 #include <FlexLexer.h>
+
+#include "Driver.h"
 
 Snowy::Driver::Driver()
 {

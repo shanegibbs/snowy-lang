@@ -4,7 +4,7 @@
 #include <string>
 #include <FlexLexer.h>
 
-#include "../lib/Parser.h"
+#include <Parser/Parser.h>
 
 namespace Snowy
 {
