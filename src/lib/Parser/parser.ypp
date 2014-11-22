@@ -28,11 +28,14 @@ namespace Snowy {
    #include <cstdlib>
    #include <fstream>
 
-   /* include for all driver functions */
-#include "Parser/Driver.hpp"
-#include "Parser.h"
+  /* So we can call Driver functions */
+  #include "Parser/Driver.h"
 
-#define yylex driver->mylex
+  /* because we want the tokens that the parser generates */
+  #include "Parser.h"
+
+  /* The parser calls back to the driver using this macro */
+  #define yylex driver->mylex
 }
 
 
@@ -98,9 +101,8 @@ args: // blank
 
 %%
 
-
 void
 Snowy::Parser::error( const std::string &err_message )
 {
-   std::cerr << "Error: " << err_message << "\n";
+   std::cerr << "Snowy Parser Error: " << err_message << "\n";
 }
