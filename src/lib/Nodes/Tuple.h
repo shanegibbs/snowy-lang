@@ -1,18 +1,21 @@
 #ifndef OPAL_NODES_TUPLE_H
 #define OPAL_NODES_TUPLE_H
 
-#include "Nodes/Expression.h"
+#include <Nodes/Expression.h>
 
 namespace Snowy
 {
 
-class Tuple : Expression
+class Tuple : public Expression
 {
 public:
-  Tuple(Expression *lhs, NumOp num_op, Expression *rhs);
+  Tuple(Expression *l, NumOp o, Expression *r);
   ~Tuple();
 
 private:
+  Expression *lhs;
+  Expression *rhs;
+  NumOp op;
 };
 
 }

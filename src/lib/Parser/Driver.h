@@ -9,6 +9,8 @@
 namespace Snowy
 {
 
+  class Parser;
+
 class Driver
 {
 public:
