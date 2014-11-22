@@ -9,3 +9,12 @@ Notes:
 
 List symbols in a library:
 # nm -gU <lib>
+
+Flex/Bison References:
+
+http://flex.sourceforge.net/manual/Cxx.html
+
+https://github.com/jonathan-beard/simple_wc_example
+
+http://www.mario-konrad.ch/wiki/doku.php?id=programming:flexbison:flexppbisonpp
+

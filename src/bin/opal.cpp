@@ -2,17 +2,17 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-#include <FlexLexer.h>
+#include "../lib/Parser/Driver.hpp"
 
 #include <llvm/IR/LLVMContext.h>
 #include <llvm/IR/Module.h>
 #include <llvm/IR/Constants.h>
-#include "llvm/IR/IRBuilder.h"
+#include <llvm/IR/IRBuilder.h>
 
 #include <llvm/Support/TargetSelect.h>
 
 #include <llvm/ExecutionEngine/ExecutionEngine.h>
-#include "llvm/ExecutionEngine/JIT.h"
+#include <llvm/ExecutionEngine/JIT.h>
 
 /*
 extern "C" {
@@ -46,15 +46,21 @@ int current_prog()
 }
 */
 
-/*
+extern const char *mystr;
 int start_parse_stdin()
 {
+  Snowy::Driver *driver = new Snowy::Driver;
+  driver->parse();
+
+  /*
   FlexLexer* lexer = new yyFlexLexer;
-  while (lexer->yylex() != 0)
-    ;
+  while (lexer->yylex() != 0) {
+    puts(mystr);
+    puts("^^ token str");
+  }
+  */
   return 0;
 }
-*/
 
 int test_program()
 {
@@ -150,5 +156,5 @@ int test_program()
 
 int main(int argc, char** argv)
 {
-  // return start_parse_stdin();
+  return start_parse_stdin();
 }
