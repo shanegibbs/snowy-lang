@@ -46,7 +46,7 @@ int current_prog()
 }
 */
 
-extern const char *mystr;
+
 int start_parse_stdin()
 {
   Snowy::Driver *driver = new Snowy::Driver;

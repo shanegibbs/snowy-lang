@@ -7,7 +7,7 @@ namespace Snowy
 class Node
 {
 public:
-  Node();
+  Node() {}
   ~Node();
 };
 

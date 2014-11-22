@@ -16,5 +16,6 @@ bin_PROGRAMS = opal
 
 opal_SOURCES = opal.cpp
 opal_LDADD = $(top_builddir)/src/lib/libsnowy.a
+opal_LDADD += $(top_builddir)/src/lib/Nodes/libsnowy-nodes.a
 opal_LDADD += $(top_builddir)/src/lib/Parser/libsnowy-parser.a
 opal_LDFLAGS = `llvm-config --libs core jit native --system-libs`

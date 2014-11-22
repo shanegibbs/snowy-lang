@@ -9,7 +9,7 @@ namespace Snowy
 class Expression : Node
 {
 public:
-  Expression();
+  Expression() {}
   ~Expression();
 };
 

@@ -2,18 +2,21 @@
 
 #include "Driver.h"
 
+extern const char *mystr;
+
 Snowy::Driver::Driver()
 {
-  puts("new Driver");
-
+  // puts("new Driver");
   lexer = new yyFlexLexer;
   parser = new Snowy::Parser(this);
 }
 
-int Snowy::Driver::mylex(void*)
+int Snowy::Driver::mylex(Parser::semantic_type *val)
 {
-  puts("Called mylex");
-  return lexer->yylex();
+  int i = lexer->yylex();
+  // printf("Called mylex - %d, %s\n", i, lexer->YYText());
+  val->string = lexer->YYText();
+  return i;
 }
 
 void Snowy::Driver::parse()

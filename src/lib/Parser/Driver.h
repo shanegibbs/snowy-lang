@@ -20,7 +20,7 @@ public:
 
   void parse(const char *filename);
 
-  int mylex(void*);
+  int mylex(Parser::semantic_type *);
 
   void tick();
 
