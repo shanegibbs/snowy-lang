@@ -88,7 +88,7 @@ ident : ID { $$ = new Snowy::Ident($1); }
 num_op: NUM_OP { puts("$$ = opal_num_op_from_string($1);"); }
       ;
 
-expr: INTEGER { puts("$$ = (Snowy::Expression*) new Snowy::IntLiteral($1);"); }
+expr: INTEGER { $$ = new Snowy::IntLiteral($1); }
     | expr num_op expr { puts("$$ = (Snowy::Expression*) new Snowy::Tuple($1, $2, $3);"); }
     | ident args { printf("{method call}\n"); }
     ;

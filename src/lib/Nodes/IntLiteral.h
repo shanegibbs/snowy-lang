@@ -1,19 +1,21 @@
 #ifndef OPAL_NODES_INT_LITERAL_H
 #define OPAL_NODES_INT_LITERAL_H
 
-#include "Nodes/Expression.h"
+#include <stdlib.h>
+
+#include <Nodes/Expression.h>
 
 namespace Snowy
 {
 
-class IntLiteral : Expression
+class IntLiteral : public Expression
 {
 public:
-  IntLiteral(const char *val);
+  IntLiteral(const char *str) { val = atoi(str); }
   ~IntLiteral();
 
 private:
-  char *val;
+  int val;
 };
 
 }
