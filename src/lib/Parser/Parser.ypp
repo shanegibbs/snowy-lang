@@ -5,8 +5,7 @@
 %define api.namespace {Snowy}
 %define parser_class_name {Parser}
 
-%code requires{
-
+%code requires { /* code for the defines/header file */
 #include "Nodes/DeclareVar.h"
 #include "Nodes/Expression.h"
 #include "Nodes/Ident.h"
@@ -23,7 +22,7 @@ namespace Snowy {
 
 %parse-param { Driver *driver }
 
-%code{
+%code { /* goes into the impl of Parser */
    #include <iostream>
    #include <cstdlib>
    #include <fstream>
@@ -38,8 +37,7 @@ namespace Snowy {
   #define yylex driver->mylex
 }
 
-
-/* token types */
+/* token types. Also used by the lexer */
 %union {
   Snowy::Node *node;
   Snowy::Ident *ident;
