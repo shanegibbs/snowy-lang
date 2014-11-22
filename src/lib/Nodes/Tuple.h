@@ -2,6 +2,7 @@
 #define OPAL_NODES_TUPLE_H
 
 #include <Nodes/Expression.h>
+#include <Nodes/Operator.h>
 
 namespace Snowy
 {
@@ -9,13 +10,13 @@ namespace Snowy
 class Tuple : public Expression
 {
 public:
-  Tuple(Expression *l, NumOp o, Expression *r);
+  Tuple(Expression *l, Operator *o, Expression *r);
   ~Tuple();
 
 private:
   Expression *lhs;
   Expression *rhs;
-  NumOp op;
+  Operator *op;
 };
 
 }

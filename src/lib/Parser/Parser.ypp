@@ -13,6 +13,7 @@
 #include <Nodes/Node.h>
 #include <Nodes/Statement.h>
 #include <Nodes/Tuple.h>
+#include <Nodes/Operator.h>
 
 namespace Snowy {
    class Driver;
@@ -39,31 +40,33 @@ namespace Snowy {
 
 /* token types. Also used by the lexer */
 %union {
-  Snowy::Node *node;
+  Snowy::DeclareVar *declare_var;
+  Snowy::Expression *expression;
   Snowy::Ident *ident;
-  Snowy::NumOp num_op;
+  Snowy::IntLiteral *int_literal;
+  Snowy::Node *node;
+  Snowy::Operator *oper;
+  Snowy::Statement* statement;
+  Snowy::Tuple* tuple;
   char* character;
   const char* string;
-  Snowy::Expression *expression;
-  Snowy::Statement* statement;
   int token;
-  Snowy::IntLiteral *int_literal;
-  Snowy::DeclareVar *declare_var;
 }
 
 %token <string> ID
 %token <string> INTEGER
 %token <string> ENDL
 %token <token> EQ_OP
-%token <character> NUM_OP
+%token <string> OP
 %token <token> COMMA
 
 %type <node> node
 %type <ident> ident
-%type <num_op> num_op
+%type <oper> op
 %type <expression> expr
 %type <declare_var> var_decl
 %type <statement> stmt
+%type <tuple> tuple
 
 %%
 
@@ -85,11 +88,14 @@ var_decl: ident EQ_OP expr { puts("$$ = new Snowy::DeclareVar($1, $3);"); }
 ident : ID { $$ = new Snowy::Ident($1); }
       ;
 
-num_op: NUM_OP { puts("$$ = opal_num_op_from_string($1);"); }
+op: OP { $$ = new Snowy::Operator($1); }
       ;
 
+tuple: expr op expr { $$ = new Snowy::Tuple($1, $2, $3); }
+  ;
+
 expr: INTEGER { $$ = new Snowy::IntLiteral($1); }
-    | expr num_op expr { $$ = new Snowy::Tuple($1, $2, $3); }
+    | tuple { $$ = $1; }
     | ident args { printf("{method call}\n"); }
     ;
 

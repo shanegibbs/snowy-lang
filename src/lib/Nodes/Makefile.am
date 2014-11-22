@@ -10,4 +10,4 @@ endif
 
 noinst_LIBRARIES = libsnowy-nodes.a
 
-libsnowy_nodes_a_SOURCES = Node.cpp Expression.cpp Ident.cpp Tuple.cpp
+libsnowy_nodes_a_SOURCES = Node.cpp Expression.cpp Ident.cpp Tuple.cpp Operator.cpp

@@ -22,7 +22,7 @@ ID [a-zA-Z][a-zA-Z0-9]*
 {ID}                return Snowy::Parser::token::ID;
 {INTEGER}+          return Snowy::Parser::token::INTEGER;
 =                   return Snowy::Parser::token::EQ_OP;
-"+"|"-"|"*"|"/"     return Snowy::Parser::token::NUM_OP;
+"+"|"-"|"*"|"/"     return Snowy::Parser::token::OP;
 ,                   return Snowy::Parser::token::COMMA;
 \n                  return Snowy::Parser::token::ENDL;
 [ \t]+

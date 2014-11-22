@@ -11,15 +11,6 @@ public:
   ~Node();
 };
 
-typedef enum
-{
-  NUM_OP_NULL,
-  PLUS,
-  MINUS,
-  MULTIPLY,
-  DIVIDE
-} NumOp;
-
 }
 #endif
 

@@ -5,7 +5,7 @@
 namespace Snowy
 {
 
-Tuple::Tuple(Expression *l, NumOp o, Expression *r)
+Tuple::Tuple(Expression *l, Operator *o, Expression *r)
 {
   lhs = l;
   rhs = r;
