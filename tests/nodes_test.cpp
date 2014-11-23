@@ -34,7 +34,7 @@ void arithmetic_expr_test(void)
 void assignment_test(void)
 {
     const char *code = "a = 1 + 2\n";
-    const char *desc = "Declare=[id=[Ident=[a]] expr=[Tuple=[lhs=[IntLiteral=[1]] op=[+] rhs=[IntLiteral=[2]]]]]\n";
+    const char *desc = "DeclareVar=[ident=[Ident[a]] expr=[Tuple=[lhs=[IntLiteral=[1]] op=[+] rhs=[IntLiteral=[2]]]]]\n";
     assert_code_desc(code, desc);
 }
 

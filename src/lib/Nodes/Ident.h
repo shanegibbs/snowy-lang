@@ -6,14 +6,16 @@
 namespace Snowy
 {
 
-class Ident : Expression
+class Ident : public Expression
 {
 public:
   Ident(const char *name);
-  ~Ident();
+//  ~Ident();
+
+  virtual void to_sstream(std::ostringstream*);
 
 private:
-  char *name;
+  const char *name;
 };
 
 }

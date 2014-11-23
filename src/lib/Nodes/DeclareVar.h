@@ -11,12 +11,14 @@ namespace Snowy
 class DeclareVar : public Statement
 {
 public:
-  DeclareVar(Ident *i, Expression* e) { ident = i; exp = e; }
+  DeclareVar(Ident *i, Expression* e) { ident = i; expr = e; }
   ~DeclareVar();
+
+  virtual void to_sstream(std::ostringstream*);
 
 private:
   Ident *ident;
-  Expression *exp;
+  Expression *expr;
 };
 
 }

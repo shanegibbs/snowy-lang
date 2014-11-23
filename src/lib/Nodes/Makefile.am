@@ -1,5 +1,5 @@
-AM_CFLAGS = $(GLIB_CFLAGS)
-AM_CXXFLAGS = -I$(top_srcdir)/src/lib
+AM_CXXFLAGS = $(GLIB_CFLAGS)
+AM_CXXFLAGS += -I$(top_srcdir)/src/lib
 AM_CXXFLAGS += -I$(top_builddir)/src/lib
 
 if DEBUG
@@ -10,4 +10,4 @@ endif
 
 noinst_LIBRARIES = libsnowy-nodes.a
 
-libsnowy_nodes_a_SOURCES = Node.cpp Expression.cpp Ident.cpp Tuple.cpp Operator.cpp IntLiteral.cpp
+libsnowy_nodes_a_SOURCES = Node.cpp Expression.cpp Ident.cpp Tuple.cpp Operator.cpp IntLiteral.cpp DeclareVar.cpp

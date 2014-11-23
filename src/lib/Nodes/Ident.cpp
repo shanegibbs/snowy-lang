@@ -1,13 +1,30 @@
+#include <glib.h>
 #include <stdio.h>
+#include <string.h>
 
 #include "Ident.h"
 
 namespace Snowy
 {
 
-Ident::Ident(const char* id)
+Ident::Ident(const char* n)
 {
-  printf("Ident[%s]\n", id);
+    fprintf(stderr, "name=%s\n", n);
+    g_assert_nonnull(n);
+    g_assert_cmpint(strlen(n), >, 0);
+    g_assert_cmpint(strlen(n), <, 100);
+
+    name = (const char*) malloc(strlen(n) + 1);
+    strncpy((char*)name, n, strlen(n));
+}
+
+void Snowy::Ident::to_sstream(std::ostringstream* s)
+{
+    g_assert_nonnull(name);
+    g_assert_cmpint(strlen(name), >, 0);
+    g_assert_cmpint(strlen(name), <, 100);
+
+    *s << "Ident[" << name << "]";
 }
 
 }
