@@ -11,8 +11,11 @@ StringLiteral::StringLiteral(const char* v)
     g_assert_cmpint(strlen(v), >, 0);
     g_assert_cmpint(strlen(v), <, 100);
 
-    val = (const char*) malloc(strlen(v) + 1);
-    strncpy((char*)val, v, strlen(v));
+    char* new_val = (char*)malloc(strlen(v) + 1);
+    strncpy((char*)new_val, v, strlen(v));
+    new_val[strlen(v)] = 0;
+
+    val = (const char*)new_val;
 }
 
 

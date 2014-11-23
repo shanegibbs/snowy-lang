@@ -4,14 +4,14 @@
 
 #include <Parser/Driver.h>
 
-void assert_code_desc(const char *code, const char *desc)
+void assert_code_desc(const char *code, const char *expected)
 {
     Snowy::Driver *driver = new Snowy::Driver;
     Snowy::Node *root = driver->parse(code);
     g_assert_nonnull(root);
 
     const char* actual = root->to_program_string();
-    g_assert_cmpstr(actual, ==, desc);
+    g_assert_cmpstr(actual, ==, expected);
 }
 
 void string_literal_test(void)
@@ -43,6 +43,13 @@ void assignment_test(void)
     assert_code_desc(code, desc);
 }
 
+void string_assignment_test(void)
+{
+    const char *code = "a = \"this is a test\"\n";
+    const char *desc = "DeclareVar=[ident=[Ident[a]] expr=[StringLiteral=[\"this is a test\"]]]\n";
+    assert_code_desc(code, desc);
+}
+
 int main(int argc, char** argv)
 {
     g_test_init(&argc, &argv, NULL);
@@ -51,5 +58,6 @@ int main(int argc, char** argv)
     g_test_add_func("/Parser/multi_node", multi_node_test);
     g_test_add_func("/Parser/arithmetic_expr_test", arithmetic_expr_test);
     g_test_add_func("/Parser/assignment_test", assignment_test);
+    g_test_add_func("/Parser/string_assignment_test", string_assignment_test);
     return g_test_run();
 }
