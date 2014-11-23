@@ -1,14 +1,18 @@
 #ifndef SNOWY_NODES_OPERATOR_H
 #define SNOWY_NODES_OPERATOR_H
 
+#include <Nodes/Node.h>
+
 namespace Snowy
 {
 
-class Operator
+class Operator : public Node
 {
 public:
   Operator(const char *) {}
-  ~Operator();
+//  ~Operator();
+
+  virtual void to_sstream(std::ostringstream*);
 
 private:
 };
