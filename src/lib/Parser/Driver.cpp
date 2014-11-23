@@ -25,7 +25,7 @@ int Snowy::Driver::mylex(Parser::semantic_type *val)
 Snowy::Node* Snowy::Driver::parse()
 {
   parser->parse();
-  return NULL;
+  return root;
 }
 
 Snowy::Node* Snowy::Driver::parse(const char *string)
@@ -35,7 +35,7 @@ Snowy::Node* Snowy::Driver::parse(const char *string)
   lexer = new yyFlexLexer((std::istream*)&ss);
 
   parser->parse();
-  return NULL;
+  return root;
 }
 
 Snowy::Node* Snowy::Driver::parse(FILE *steam)

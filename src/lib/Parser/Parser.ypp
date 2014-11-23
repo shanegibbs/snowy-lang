@@ -60,6 +60,7 @@ namespace Snowy {
 %token <string> OP
 %token <token> COMMA
 
+%type <node> program
 %type <node> node
 %type <ident> ident
 %type <oper> op
@@ -70,8 +71,8 @@ namespace Snowy {
 
 %%
 
-program: node ENDL { puts("node ENDL"); }
-    | node node { puts("node node ENDL"); }
+program: program node ENDL { $1->setNext($2); puts("Next Node"); }
+    | node ENDL { driver->setRoot($1); puts("Root"); }
     ;
 
 node: stmt { $$ = $1; }

@@ -27,7 +27,10 @@ public:
 
   void tick();
 
+  void setRoot(Node *r) { root = r; }
+
 private:
+  Node *root;
   FlexLexer* lexer;
   Snowy::Parser *parser;
 };

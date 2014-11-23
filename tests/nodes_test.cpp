@@ -10,7 +10,7 @@ void assert_code_desc(const char *code, const char *desc)
     Snowy::Node *root = driver->parse(code);
     g_assert_nonnull(root);
 
-    char *actual = (char*)"x";
+    const char* actual = root->to_string();
     g_assert_cmpstr(actual, ==, desc);
 }
 
