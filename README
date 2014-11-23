@@ -1,4 +1,6 @@
-# Setup
+# Snowy Lang
+
+## Setup
 
 ```
 # mkdir build; cd build
@@ -14,19 +16,19 @@
 # make check
 ```
 
-# Dependencies
+## Dependencies
 
 * bison (GNU Bison) 3.0.2
 * flex 2.5.35 Apple(flex-31)
 
-# Notes
+## Notes
 
-## List Symbols in a Library
+### List Symbols in a Library
 ```
 # nm -gU <lib>
 ```
 
-## Flex/Bison References
+### Flex/Bison References
 
 http://flex.sourceforge.net/manual/Cxx.html
 
@@ -35,4 +37,3 @@ https://github.com/jonathan-beard/simple_wc_example
 http://www.mario-konrad.ch/wiki/doku.php?id=programming:flexbison:flexppbisonpp
 
 http://www.epaperpress.com/lexandyacc/index.html
-
