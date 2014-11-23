@@ -10,7 +10,7 @@ class Expression : public Node
 {
 public:
   Expression() {}
-  ~Expression();
+//  ~Expression();
 };
 
 }

@@ -71,15 +71,15 @@ namespace Snowy {
 
 %%
 
-program: program node ENDL { $1->setNext($2); puts("Next Node"); }
-    | node ENDL { driver->setRoot($1); puts("Root"); }
+program: program node ENDL { $1->setNext($2); $$ = $2; printf("Next Node %d -> %d\n", $1->getId(), $2->getId()); }
+    | node ENDL { driver->setRoot($1); printf("Root %d\n", $1->getId()); }
     ;
 
 node: stmt { $$ = $1; }
     | expr { $$ = $1; }
     ;
 
-stmt: var_decl { $$ = (Snowy::Statement*)$1; }
+stmt: var_decl { $$ = $1; }
     ;
 
 var_decl: ident EQ_OP expr { $$ = new Snowy::DeclareVar($1, $3); }

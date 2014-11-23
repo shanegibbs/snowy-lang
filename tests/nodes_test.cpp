@@ -41,9 +41,9 @@ void assignment_test(void)
 int main(int argc, char** argv)
 {
     g_test_init(&argc, &argv, NULL);
-    g_test_add_func("/nodes/int_literal", int_literal_test);
-    g_test_add_func("/nodes/multi_node", multi_node_test);
-    g_test_add_func("/nodes/arithmetic_expr_test", arithmetic_expr_test);
-    g_test_add_func("/nodes/assignment_test", assignment_test);
+    g_test_add_func("/Parser/int_literal", int_literal_test);
+    g_test_add_func("/Parser/multi_node", multi_node_test);
+    g_test_add_func("/Parser/arithmetic_expr_test", arithmetic_expr_test);
+    g_test_add_func("/Parser/assignment_test", assignment_test);
     return g_test_run();
 }
