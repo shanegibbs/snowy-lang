@@ -12,10 +12,10 @@ else
 	AM_CXXFLAGS += @OPAL_CFLAGS@
 endif
 
-bin_PROGRAMS = opal
+bin_PROGRAMS = snowy
 
-opal_SOURCES = opal.cpp
-opal_LDADD = $(top_builddir)/src/lib/libsnowy.a
-opal_LDADD += $(top_builddir)/src/lib/Nodes/libsnowy-nodes.a
-opal_LDADD += $(top_builddir)/src/lib/Parser/libsnowy-parser.a
-opal_LDFLAGS = `llvm-config --libs core jit native --system-libs`
+snowy_SOURCES = main.cpp
+snowy_LDADD = $(top_builddir)/src/lib/libsnowy.a
+snowy_LDADD += $(top_builddir)/src/lib/Nodes/libsnowy-nodes.a
+snowy_LDADD += $(top_builddir)/src/lib/Parser/libsnowy-parser.a
+snowy_LDFLAGS = `llvm-config --libs core jit native --system-libs`

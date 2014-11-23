@@ -5,7 +5,7 @@
 
 AC_PREREQ([2.69])
 AC_INIT([babirusa], [0.1], [shane@gibbsdevops.com])
-AC_CONFIG_SRCDIR([src/bin/opal.cpp])
+AC_CONFIG_SRCDIR([src/bin/main.cpp])
 AC_CONFIG_HEADERS([config.h])
 
 AM_INIT_AUTOMAKE([subdir-objects])
