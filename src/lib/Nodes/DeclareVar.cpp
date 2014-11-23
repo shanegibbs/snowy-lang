@@ -2,7 +2,17 @@
 
 #include "DeclareVar.h"
 
-void Snowy::DeclareVar::to_sstream(std::ostringstream* s)
+namespace Snowy
+{
+
+DeclareVar::DeclareVar(Ident *i, Expression* e)
+{
+    g_debug("Creating DeclareVar node %d", getId());
+    ident = i;
+    expr = e;
+}
+
+void DeclareVar::to_sstream(std::ostringstream* s)
 {
     g_assert_nonnull(ident);
     g_assert_nonnull(expr);
@@ -12,4 +22,6 @@ void Snowy::DeclareVar::to_sstream(std::ostringstream* s)
     *s << "] expr=[";
     expr->to_sstream(s);
     *s << "]]";
+}
+
 }

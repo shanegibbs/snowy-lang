@@ -11,7 +11,6 @@ class Tuple : public Expression
 {
 public:
   Tuple(Expression *l, Operator *o, Expression *r);
-  ~Tuple();
 
   virtual void to_sstream(std::ostringstream*);
 

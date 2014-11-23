@@ -25,11 +25,3 @@ void int_literal_multi_test(void)
     const char* actual = a.to_program_string();
     g_assert_cmpstr(actual, ==, expected);
 }
-
-int main(int argc, char** argv)
-{
-    g_test_init(&argc, &argv, NULL);
-    g_test_add_func("/Nodes/int_literal", int_literal_test);
-    g_test_add_func("/Nodes/int_literal_multi", int_literal_multi_test);
-    return g_test_run();
-}

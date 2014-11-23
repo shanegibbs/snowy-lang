@@ -10,7 +10,6 @@ class Statement : public Node
 {
 public:
   Statement() {}
-  ~Statement();
 };
 
 }
