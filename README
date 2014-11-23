@@ -6,7 +6,7 @@
 # make check
 ```
 
-## MacOS
+### MacOS
 
 ```
 # mkdir build; cd build
