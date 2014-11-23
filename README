@@ -18,9 +18,9 @@ flex 2.5.35 Apple(flex-31)
 # nm -gU <lib>
 ```
 
-Flex/Bison References:
+## Flex/Bison References
 
-http://flex.sourceforge.net/manual/Cxx.html
+[http://flex.sourceforge.net/manual/Cxx.html]
 
 https://github.com/jonathan-beard/simple_wc_example
 
