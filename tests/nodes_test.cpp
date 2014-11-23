@@ -14,6 +14,11 @@ void assert_code_desc(const char *code, const char *desc)
     g_assert_cmpstr(actual, ==, desc);
 }
 
+void string_literal_test(void)
+{
+    assert_code_desc("\"abc\"\n", "StringLiteral=[\"abc\"]\n");
+}
+
 void int_literal_test(void)
 {
     assert_code_desc("1\n", "IntLiteral=[1]\n");
@@ -42,6 +47,7 @@ int main(int argc, char** argv)
 {
     g_test_init(&argc, &argv, NULL);
     g_test_add_func("/Parser/int_literal", int_literal_test);
+    g_test_add_func("/Parser/string_literal", string_literal_test);
     g_test_add_func("/Parser/multi_node", multi_node_test);
     g_test_add_func("/Parser/arithmetic_expr_test", arithmetic_expr_test);
     g_test_add_func("/Parser/assignment_test", assignment_test);

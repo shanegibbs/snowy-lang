@@ -25,12 +25,17 @@ public:
 
   int mylex(Parser::semantic_type *);
 
+  void error(const char*);
+
   void tick();
 
   void setRoot(Node *r) { root = r; }
 
 private:
-  Node *root;
+
+  Node* exec();
+
+  Node* root;
   FlexLexer* lexer;
   Snowy::Parser *parser;
 };

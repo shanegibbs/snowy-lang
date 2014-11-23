@@ -12,6 +12,7 @@
 #include <Nodes/IntLiteral.h>
 #include <Nodes/Node.h>
 #include <Nodes/Statement.h>
+#include <Nodes/StringLiteral.h>
 #include <Nodes/Tuple.h>
 #include <Nodes/Operator.h>
 
@@ -47,6 +48,7 @@ namespace Snowy {
   Snowy::Node *node;
   Snowy::Operator *oper;
   Snowy::Statement* statement;
+  Snowy::StringLiteral* string_literal;
   Snowy::Tuple* tuple;
   char* character;
   const char* string;
@@ -55,6 +57,7 @@ namespace Snowy {
 
 %token <string> ID
 %token <string> INTEGER
+%token <string> STRING_LIT
 %token <string> ENDL
 %token <token> EQ_OP
 %token <string> OP
@@ -95,6 +98,7 @@ tuple: expr op expr { $$ = new Snowy::Tuple($1, $2, $3); }
   ;
 
 expr: INTEGER { $$ = new Snowy::IntLiteral($1); }
+    | STRING_LIT { $$ = new Snowy::StringLiteral($1); }
     | tuple { $$ = $1; }
     | ident args { printf("{method call}\n"); }
     ;
@@ -108,5 +112,8 @@ args: // blank
 void
 Snowy::Parser::error( const std::string &err_message )
 {
-   std::cerr << "Snowy Parser Error: " << err_message << "\n";
+   const char* err = err_message.c_str();
+   char* err_cpy = (char*)malloc(strlen(err) + 1);
+   strncpy(err_cpy, err, strlen(err));
+   driver->error(err_cpy);
 }

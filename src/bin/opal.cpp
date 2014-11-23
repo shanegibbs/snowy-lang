@@ -50,7 +50,10 @@ int current_prog()
 int start_parse_stdin()
 {
   Snowy::Driver *driver = new Snowy::Driver;
-  driver->parse();
+  Snowy::Node *n = driver->parse();
+  if (n != NULL) {
+      puts(n->to_program_string());
+  }
 
   /*
   FlexLexer* lexer = new yyFlexLexer;

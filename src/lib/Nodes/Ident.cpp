@@ -9,7 +9,6 @@ namespace Snowy
 
 Ident::Ident(const char* n)
 {
-    fprintf(stderr, "name=%s\n", n);
     g_assert_nonnull(n);
     g_assert_cmpint(strlen(n), >, 0);
     g_assert_cmpint(strlen(n), <, 100);
