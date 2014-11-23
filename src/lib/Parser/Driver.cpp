@@ -1,4 +1,7 @@
+#include <sstream>
 #include <FlexLexer.h>
+
+#include <Nodes/Node.h>
 
 #include "Driver.h"
 
@@ -19,7 +22,23 @@ int Snowy::Driver::mylex(Parser::semantic_type *val)
   return i;
 }
 
-void Snowy::Driver::parse()
+Snowy::Node* Snowy::Driver::parse()
 {
   parser->parse();
+  return NULL;
+}
+
+Snowy::Node* Snowy::Driver::parse(const char *string)
+{
+  std::stringstream ss;
+  ss << string;
+  lexer = new yyFlexLexer((std::istream*)&ss);
+
+  parser->parse();
+  return NULL;
+}
+
+Snowy::Node* Snowy::Driver::parse(FILE *steam)
+{
+  return NULL;
 }

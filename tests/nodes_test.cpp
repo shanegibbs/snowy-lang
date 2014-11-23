@@ -2,17 +2,15 @@
 #include <stdio.h>
 #include <glib/gstdio.h>
 
-#include "nodes.h"
-#include "node_assert.h"
+#include <Parser/Driver.h>
 
 void assert_code_desc(const char *code, const char *desc)
 {
-    root = NULL;
-    opal_parse_string(code);
+    Snowy::Driver *driver = new Snowy::Driver;
+    Snowy::Node *root = driver->parse(code);
     g_assert_nonnull(root);
-    opal_assert_valid_node(root);
-    char *actual = get_prog_desc(root);
-    g_assert_nonnull(actual);
+
+    char *actual = (char*)"x";
     g_assert_cmpstr(actual, ==, desc);
 }
 

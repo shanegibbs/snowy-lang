@@ -17,9 +17,11 @@ public:
 
   ~Driver();
 
-  void parse();
+  Snowy::Node* parse();
 
-  void parse(const char *filename);
+  Snowy::Node* parse(FILE *);
+
+  Snowy::Node* parse(const char *);
 
   int mylex(Parser::semantic_type *);
 
