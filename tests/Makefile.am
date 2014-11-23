@@ -6,7 +6,7 @@ AM_CXXFLAGS += @OPAL_DEBUG_CFLAGS@
 TESTS=$(check_PROGRAMS)
 check_PROGRAMS=NodeTest ParserTest
 
-ParserTest_SOURCES = nodes_test.cpp
+ParserTest_SOURCES = ParserTest.cpp
 ParserTest_LDADD = $(top_builddir)/src/lib/Parser/libsnowy-parser.a
 ParserTest_LDADD += $(top_builddir)/src/lib/Nodes/libsnowy-nodes.a
 

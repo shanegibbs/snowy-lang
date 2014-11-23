@@ -50,6 +50,11 @@ void string_assignment_test(void)
     assert_code_desc(code, desc);
 }
 
+void multi_assignment_test(void)
+{
+    // TODO
+}
+
 int main(int argc, char** argv)
 {
     g_test_init(&argc, &argv, NULL);
@@ -59,5 +64,6 @@ int main(int argc, char** argv)
     g_test_add_func("/Parser/arithmetic_expr_test", arithmetic_expr_test);
     g_test_add_func("/Parser/assignment_test", assignment_test);
     g_test_add_func("/Parser/string_assignment_test", string_assignment_test);
+    g_test_add_func("/Parser/multi_assignment_test", multi_assignment_test);
     return g_test_run();
 }

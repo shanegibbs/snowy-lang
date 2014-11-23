@@ -10,7 +10,6 @@ Tuple::Tuple(Expression *l, Operator *o, Expression *r)
     lhs = l;
     rhs = r;
     op = o;
-    printf("Tuple[]\n");
 }
 
 void Snowy::Tuple::to_sstream(std::ostringstream* s)

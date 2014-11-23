@@ -52,7 +52,10 @@ int start_parse_stdin()
   Snowy::Driver *driver = new Snowy::Driver;
   Snowy::Node *n = driver->parse();
   if (n != NULL) {
+      puts("Program:");
       puts(n->to_program_string());
+  } else {
+      fprintf(stderr, "Driver->parse() returned NULL\n");
   }
 
   /*
