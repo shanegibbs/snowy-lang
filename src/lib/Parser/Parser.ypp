@@ -71,8 +71,8 @@ namespace Snowy {
 
 %%
 
-program: program node ENDL { $1->setNext($2); $$ = $2; printf("Next Node %d -> %d\n", $1->getId(), $2->getId()); }
-    | node ENDL { driver->setRoot($1); printf("Root %d\n", $1->getId()); }
+program: program node ENDL { $1->setNext($2); $$ = $2; }
+    | node ENDL { driver->setRoot($1); }
     ;
 
 node: stmt { $$ = $1; }

@@ -15,6 +15,11 @@ void Snowy::Node::setNext(Node *n)
     next = n;
 }
 
+void Snowy::Node::to_sstream(std::ostringstream* s)
+{
+    *s << "Node[id=" << id << "]";
+}
+
 const char* Snowy::Node::to_string()
 {
     std::ostringstream oss;

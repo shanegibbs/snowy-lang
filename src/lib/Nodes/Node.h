@@ -16,7 +16,7 @@ public:
 
   void setNext(Node *n);
 
-  virtual void to_sstream(std::ostringstream*) {}
+  virtual void to_sstream(std::ostringstream*);
 
   int getId() { return id; }
 
