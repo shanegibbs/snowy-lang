@@ -1,3 +1,4 @@
+# Setup
 
 * create configure.ac
 * # touch NEWS README AUTHORS ChangeLog
@@ -5,10 +6,17 @@
 * # mkdir build; cd build
 * # ../configure CXX=clang++ LDFLAGS=-L/usr/local/lib CFLAGS=-I/usr/local/include --enable-debug
 
-Notes:
+# Dependencies
 
-List symbols in a library:
+bison (GNU Bison) 3.0.2
+flex 2.5.35 Apple(flex-31)
+
+# Notes
+
+## List Symbols in a Library
+```
 # nm -gU <lib>
+```
 
 Flex/Bison References:
 
@@ -19,3 +27,4 @@ https://github.com/jonathan-beard/simple_wc_example
 http://www.mario-konrad.ch/wiki/doku.php?id=programming:flexbison:flexppbisonpp
 
 http://www.epaperpress.com/lexandyacc/index.html
+
