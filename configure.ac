@@ -78,6 +78,7 @@ AM_CONDITIONAL([DEBUG], [test x$debug = xtrue])
 AC_CONFIG_FILES([
                  Makefile
                  src/lib/Nodes/Makefile
+                 src/lib/Compiler/Makefile
                  src/lib/Parser/Makefile
                  src/lib/Makefile
                  src/bin/Makefile
