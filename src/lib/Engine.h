@@ -9,6 +9,9 @@ class Engine
 public:
   Engine();
   ~Engine();
+
+  static int Parse();
+
 private:
 };
 

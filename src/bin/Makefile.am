@@ -12,10 +12,13 @@ else
 	AM_CXXFLAGS += @OPAL_CFLAGS@
 endif
 
-bin_PROGRAMS = snowy
+bin_PROGRAMS = snowy test_program
 
 snowy_SOURCES = main.cpp
 snowy_LDADD = $(top_builddir)/src/lib/libsnowy.a
 snowy_LDADD += $(top_builddir)/src/lib/Nodes/libsnowy-nodes.a
 snowy_LDADD += $(top_builddir)/src/lib/Parser/libsnowy-parser.a
 snowy_LDFLAGS = `llvm-config --libs core jit native --system-libs`
+
+test_program_SOURCES = test_program.cpp
+test_program_LDFLAGS = `llvm-config --libs core jit native --system-libs`
