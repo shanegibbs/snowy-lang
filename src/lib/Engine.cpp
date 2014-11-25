@@ -9,14 +9,14 @@ namespace Snowy
 
 int Engine::Parse()
 {
-    Parser *driver = new Parser;
-    Snowy::Node *n = driver->parse();
+    Parser *parser = new Parser;
+    Snowy::Node *n = parser->parse();
     if (n != NULL) {
         puts("Program:");
         puts(n->to_program_string());
         return 0;
     } else {
-        fprintf(stderr, "Driver->parse() returned NULL\n");
+        fprintf(stderr, "Parser->parse() returned NULL\n");
         return 1;
     }
 }
