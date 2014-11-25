@@ -1,0 +1,10 @@
+
+namespace Snowy
+{
+
+class Compiler
+{
+
+};
+
+}

@@ -1,6 +1,7 @@
 #include <stdio.h>
 
 #include <Parser.h>
+#include <Compiler.h>
 
 #include "Engine.h"
 
@@ -11,14 +12,15 @@ int Engine::Parse()
 {
     Parser *parser = new Parser;
     Snowy::Node *n = parser->parse();
-    if (n != NULL) {
-        puts("Program:");
-        puts(n->to_program_string());
-        return 0;
-    } else {
+    if (n == NULL) {
         fprintf(stderr, "Parser->parse() returned NULL\n");
         return 1;
     }
+
+    puts("Program:");
+    puts(n->to_program_string());
+
+    return 0;
 }
 
 Engine::Engine()
