@@ -10,12 +10,12 @@ endif
 
 noinst_LIBRARIES = libsnowy-parser.a
 
-libsnowy_parser_a_SOURCES = Parser.cpp Lexer.cc Driver.cpp
+libsnowy_parser_a_SOURCES = ProgramParser.cpp Lexer.cc Driver.cpp
 
-Lexer.cc: Lexer.l Parser.cpp
+Lexer.cc: Lexer.l ProgramParser.cpp
 	flex++ $(top_srcdir)/src/lib/Parser/Lexer.l
 
-Parser.cpp: Parser.ypp
-	bison -v --defines=Parser.h --output=Parser.cpp ../../../../src/lib/Parser/Parser.ypp
+ProgramParser.cpp: ProgramParser.ypp
+	bison -v --defines=ProgramParser.h --output=ProgramParser.cpp ../../../../src/lib/Parser/ProgramParser.ypp
 
-CLEANFILES = Lexer.cc Parser.cpp Parser.h Parser.output stack.hh
+CLEANFILES = Lexer.cc ProgramParser.cpp ProgramParser.h ProgramParser.output stack.hh

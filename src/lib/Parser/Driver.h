@@ -3,7 +3,7 @@
 
 #include <string>
 
-#include <Parser.h>
+#include <ProgramParser.h>
 
 class FlexLexer;
 
@@ -23,7 +23,7 @@ public:
 
   Snowy::Node* parse(const char *);
 
-  int mylex(Parser::semantic_type *);
+  int mylex(ProgramParser::semantic_type *);
 
   void error(const char*);
 
@@ -37,7 +37,7 @@ private:
 
   Node* root;
   FlexLexer* lexer;
-  Snowy::Parser *parser;
+  Snowy::ProgramParser *program_parser;
 };
 
 }

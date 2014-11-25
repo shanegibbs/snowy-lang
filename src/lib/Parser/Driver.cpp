@@ -12,10 +12,10 @@ Snowy::Driver::Driver()
 {
     // puts("new Driver");
     lexer = new yyFlexLexer;
-    parser = new Snowy::Parser(this);
+    program_parser = new Snowy::ProgramParser(this);
 }
 
-int Snowy::Driver::mylex(Parser::semantic_type *val)
+int Snowy::Driver::mylex(ProgramParser::semantic_type *val)
 {
     int i = lexer->yylex();
     // printf("Called mylex - %d, %s\n", i, lexer->YYText());
@@ -44,7 +44,7 @@ Snowy::Node* Snowy::Driver::parse(FILE *steam)
 
 Snowy::Node* Snowy::Driver::exec()
 {
-    parser->parse();
+    program_parser->parse();
     return root;
 }
 

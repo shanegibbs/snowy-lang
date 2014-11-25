@@ -3,7 +3,7 @@
 %debug
 %defines
 %define api.namespace {Snowy}
-%define parser_class_name {Parser}
+%define parser_class_name {ProgramParser}
 
 %code requires { /* code for the defines/header file */
 #include <DeclareVar.h>
@@ -33,7 +33,7 @@ namespace Snowy {
   #include "Driver.h"
 
   /* because we want the tokens that the parser generates */
-  #include "Parser.h"
+  #include "ProgramParser.h"
 
   /* The parser calls back to the driver using this macro */
   #define yylex driver->mylex
@@ -112,7 +112,7 @@ args: // blank
 %%
 
 void
-Snowy::Parser::error( const std::string &err_message )
+Snowy::ProgramParser::error( const std::string &err_message )
 {
    const char* err = err_message.c_str();
    char* err_cpy = (char*)malloc(strlen(err) + 1);
