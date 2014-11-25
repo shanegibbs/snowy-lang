@@ -2,6 +2,7 @@
 #define SNOWY_DRIVER_HPP
 
 #include <string>
+#include <FlexLexer.h>
 
 #include <ProgramParser.h>
 
@@ -13,31 +14,29 @@ namespace Snowy
 class Driver
 {
 public:
-  Driver();
+    Driver();
+    ~Driver();
 
-  ~Driver();
+    int mylex(ProgramParser::semantic_type *);
 
-  Snowy::Node* parse();
+    void error(const char*);
 
-  Snowy::Node* parse(FILE *);
+    Node* exec();
 
-  Snowy::Node* parse(const char *);
+    void setLexer(FlexLexer* l)
+    {
+        lexer = l;
+    }
 
-  int mylex(ProgramParser::semantic_type *);
-
-  void error(const char*);
-
-  void tick();
-
-  void setRoot(Node *r) { root = r; }
+    void setRoot(Node *r)
+    {
+        root = r;
+    }
 
 private:
-
-  Node* exec();
-
-  Node* root;
-  FlexLexer* lexer;
-  Snowy::ProgramParser *program_parser;
+    Node* root;
+    FlexLexer* lexer;
+    ProgramParser *program_parser;
 };
 
 }

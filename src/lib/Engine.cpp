@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-#include "Parser/Driver.h"
+#include <Parser.h>
 
 #include "Engine.h"
 
@@ -9,7 +9,7 @@ namespace Snowy
 
 int Engine::Parse()
 {
-    Snowy::Driver *driver = new Snowy::Driver;
+    Parser *driver = new Parser;
     Snowy::Node *n = driver->parse();
     if (n != NULL) {
         puts("Program:");

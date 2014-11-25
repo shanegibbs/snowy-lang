@@ -1,6 +1,6 @@
-AM_CFLAGS = $(GLIB_CFLAGS)
-AM_CXXFLAGS = -I$(top_srcdir)/src/lib/Parser
-AM_CXXFLAGS = -I$(top_srcdir)/src/lib/Nodes
+AM_CXXFLAGS = $(GLIB_CFLAGS)
+AM_CXXFLAGS += -I$(top_srcdir)/src/lib/Parser
+AM_CXXFLAGS += -I$(top_srcdir)/src/lib/Nodes
 
 if DEBUG
 	AM_CFLAGS += @OPAL_DEBUG_CFLAGS@

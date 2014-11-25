@@ -2,12 +2,14 @@
 #include <stdio.h>
 #include <glib/gstdio.h>
 
-#include <Parser/Driver.h>
+#include <Parser.h>
+
+using namespace Snowy;
 
 void assert_code_desc(const char *code, const char *expected)
 {
-    Snowy::Driver *driver = new Snowy::Driver;
-    Snowy::Node *root = driver->parse(code);
+    Parser *parser = new Parser;
+    Node *root = parser->parse(code);
     g_assert_nonnull(root);
 
     const char* actual = root->to_program_string();

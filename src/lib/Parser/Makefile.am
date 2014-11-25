@@ -10,7 +10,7 @@ endif
 
 noinst_LIBRARIES = libsnowy-parser.a
 
-libsnowy_parser_a_SOURCES = ProgramParser.cpp Lexer.cc Driver.cpp
+libsnowy_parser_a_SOURCES = ProgramParser.cpp Lexer.cc Driver.cpp Parser.cpp
 
 Lexer.cc: Lexer.l ProgramParser.cpp
 	flex++ $(top_srcdir)/src/lib/Parser/Lexer.l
