@@ -8,7 +8,7 @@ AM_CXXFLAGS += @OPAL_DEBUG_CFLAGS@
 TESTS=$(check_PROGRAMS)
 check_PROGRAMS=NodeTestSuite ParserTestSuite
 
-ParserTestSuite_SOURCES = ParserTest.cpp
+ParserTestSuite_SOURCES = ParserTestSuite.cpp
 ParserTestSuite_LDADD = $(top_builddir)/src/lib/Parser/libsnowy-parser.a
 ParserTestSuite_LDADD += $(top_builddir)/src/lib/Nodes/libsnowy-nodes.a
 
