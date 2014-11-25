@@ -17,3 +17,5 @@ Lexer.cc: Lexer.l Parser.cpp
 
 Parser.cpp: Parser.ypp
 	bison -v --defines=Parser.h --output=Parser.cpp ../../../../src/lib/Parser/Parser.ypp
+
+CLEANFILES = Lexer.cc Parser.cpp Parser.h Parser.output stack.hh
