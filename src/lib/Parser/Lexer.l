@@ -1,7 +1,8 @@
 %{
 /* C++ string header, for string ops below */
 #include <string>
-#include <Parser/Parser.h>
+
+#include "Parser.h"
 
 // %option yyclass="Snowy::Scanner"
 

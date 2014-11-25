@@ -3,7 +3,7 @@
 
 #include <stdlib.h>
 
-#include <Nodes/Expression.h>
+#include "Expression.h"
 
 namespace Snowy
 {

@@ -2,7 +2,7 @@
 #include <sstream>
 #include <FlexLexer.h>
 
-#include <Nodes/Node.h>
+#include <Node.h>
 
 #include "Driver.h"
 

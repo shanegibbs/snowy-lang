@@ -1,8 +1,8 @@
 #ifndef OPAL_NODES_TUPLE_H
 #define OPAL_NODES_TUPLE_H
 
-#include <Nodes/Expression.h>
-#include <Nodes/Operator.h>
+#include "Expression.h"
+#include "Operator.h"
 
 namespace Snowy
 {

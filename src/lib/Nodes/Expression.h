@@ -1,7 +1,7 @@
 #ifndef OPAL_NODES_EXPRESSION_H
 #define OPAL_NODES_EXPRESSION_H
 
-#include "Nodes/Node.h"
+#include "Node.h"
 
 namespace Snowy
 {

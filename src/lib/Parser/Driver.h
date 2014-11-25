@@ -3,7 +3,7 @@
 
 #include <string>
 
-#include <Parser/Parser.h>
+#include <Parser.h>
 
 class FlexLexer;
 

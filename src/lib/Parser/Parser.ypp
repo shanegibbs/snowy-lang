@@ -6,15 +6,15 @@
 %define parser_class_name {Parser}
 
 %code requires { /* code for the defines/header file */
-#include <Nodes/DeclareVar.h>
-#include <Nodes/Expression.h>
-#include <Nodes/Ident.h>
-#include <Nodes/IntLiteral.h>
-#include <Nodes/Node.h>
-#include <Nodes/Statement.h>
-#include <Nodes/StringLiteral.h>
-#include <Nodes/Tuple.h>
-#include <Nodes/Operator.h>
+#include <DeclareVar.h>
+#include <Expression.h>
+#include <Ident.h>
+#include <IntLiteral.h>
+#include <Node.h>
+#include <Statement.h>
+#include <StringLiteral.h>
+#include <Tuple.h>
+#include <Operator.h>
 
 namespace Snowy {
    class Driver;
@@ -30,7 +30,7 @@ namespace Snowy {
    #include <fstream>
 
   /* So we can call Driver functions */
-  #include <Parser/Driver.h>
+  #include "Driver.h"
 
   /* because we want the tokens that the parser generates */
   #include "Parser.h"
@@ -97,10 +97,12 @@ op: OP { $$ = new Snowy::Operator($1); }
 tuple: expr op expr { $$ = new Snowy::Tuple($1, $2, $3); }
   ;
 
+call: ident args { printf("{method call}\n"); }
+
 expr: INTEGER { $$ = new Snowy::IntLiteral($1); }
     | STRING_LIT { $$ = new Snowy::StringLiteral($1); }
     | tuple { $$ = $1; }
-    | ident args { printf("{method call}\n"); }
+    | call {  }
     ;
 
 args: // blank

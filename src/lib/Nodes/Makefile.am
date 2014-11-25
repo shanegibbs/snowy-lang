@@ -1,6 +1,4 @@
 AM_CXXFLAGS = $(GLIB_CFLAGS)
-AM_CXXFLAGS += -I$(top_srcdir)/src/lib
-AM_CXXFLAGS += -I$(top_builddir)/src/lib
 
 if DEBUG
 	AM_CFLAGS += @OPAL_DEBUG_CFLAGS@

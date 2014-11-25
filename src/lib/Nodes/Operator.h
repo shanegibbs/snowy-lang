@@ -1,7 +1,7 @@
 #ifndef SNOWY_NODES_OPERATOR_H
 #define SNOWY_NODES_OPERATOR_H
 
-#include <Nodes/Node.h>
+#include "Node.h"
 
 namespace Snowy
 {
