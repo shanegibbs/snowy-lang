@@ -12,7 +12,7 @@ Tuple::Tuple(Expression *l, Operator *o, Expression *r)
     op = o;
 }
 
-void Snowy::Tuple::to_sstream(std::ostringstream* s)
+void Snowy::Tuple::to_sstream(std::ostringstream* s) const
 {
     *s << "Tuple=[lhs=[";
     lhs->to_sstream(s);

@@ -10,9 +10,8 @@ class Ident : public Expression
 {
 public:
   Ident(const char *name);
-//  ~Ident();
 
-  virtual void to_sstream(std::ostringstream*);
+  void to_sstream(std::ostringstream*) const;
 
 private:
   const char *name;

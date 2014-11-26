@@ -22,7 +22,7 @@ void Node::setNext(Node *n)
     next = n;
 }
 
-void Node::to_sstream(ostringstream* s)
+void Node::to_sstream(ostringstream* s) const
 {
     *s << "Node[id=" << id << "]";
 }

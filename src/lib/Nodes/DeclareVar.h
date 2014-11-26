@@ -13,7 +13,7 @@ class DeclareVar : public Statement
 public:
   DeclareVar(Ident*, Expression*);
 
-  virtual void to_sstream(std::ostringstream*);
+  void to_sstream(std::ostringstream*) const;
 
 private:
   Ident *ident;

@@ -12,7 +12,7 @@ class Tuple : public Expression
 public:
   Tuple(Expression *l, Operator *o, Expression *r);
 
-  virtual void to_sstream(std::ostringstream*);
+  void to_sstream(std::ostringstream*) const;
 
 private:
   Expression *lhs;

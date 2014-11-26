@@ -12,7 +12,7 @@ class StringLiteral : public Expression
 {
 public:
   StringLiteral(const char *str);
-  virtual void to_sstream(std::ostringstream*);
+  void to_sstream(std::ostringstream*) const;
 private:
   const char* val;
 };

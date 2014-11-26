@@ -10,9 +10,8 @@ class Operator : public Node
 {
 public:
   Operator(const char *) {}
-//  ~Operator();
 
-  virtual void to_sstream(std::ostringstream*);
+  virtual void to_sstream(std::ostringstream*) const;
 
 private:
 };

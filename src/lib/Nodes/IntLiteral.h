@@ -12,8 +12,7 @@ class IntLiteral : public Expression
 {
 public:
   IntLiteral(const char *str) { val = atoi(str); }
-//  ~IntLiteral();
-  virtual void to_sstream(std::ostringstream*);
+  void to_sstream(std::ostringstream*) const;
 private:
   int val;
 };

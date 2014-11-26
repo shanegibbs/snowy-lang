@@ -12,7 +12,7 @@ DeclareVar::DeclareVar(Ident *i, Expression* e)
     expr = e;
 }
 
-void DeclareVar::to_sstream(std::ostringstream* s)
+void DeclareVar::to_sstream(std::ostringstream* s) const
 {
     g_assert_nonnull(ident);
     g_assert_nonnull(expr);

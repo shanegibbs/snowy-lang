@@ -17,7 +17,7 @@ Ident::Ident(const char* n)
     strncpy((char*)name, n, strlen(n));
 }
 
-void Snowy::Ident::to_sstream(std::ostringstream* s)
+void Snowy::Ident::to_sstream(std::ostringstream* s) const
 {
     g_assert_nonnull(name);
     g_assert_cmpint(strlen(name), >, 0);

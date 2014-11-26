@@ -19,7 +19,7 @@ StringLiteral::StringLiteral(const char* v)
 }
 
 
-void StringLiteral::to_sstream(std::ostringstream* s)
+void StringLiteral::to_sstream(std::ostringstream* s) const
 {
     g_assert_nonnull(val);
     g_assert_cmpint(strlen(val), >, 0);
