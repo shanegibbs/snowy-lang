@@ -12,5 +12,5 @@ ParserTestSuite_SOURCES = ParserTestSuite.cpp
 ParserTestSuite_LDADD = $(top_builddir)/src/lib/Parser/libsnowy-parser.a
 ParserTestSuite_LDADD += $(top_builddir)/src/lib/Nodes/libsnowy-nodes.a
 
-NodeTestSuite_SOURCES = NodeTestSuite.cpp NodeTest/IntLiteralTest.cpp NodeTest/NodeTest.cpp NodeTest/StringLiteralTest.cpp
+NodeTestSuite_SOURCES = NodeTestSuite.cpp NodeTest/IntLiteralTest.cpp NodeTest/NodeTest.cpp NodeTest/StringLiteralTest.cpp NodeTest/CallTest.cpp
 NodeTestSuite_LDADD = $(top_builddir)/src/lib/Nodes/libsnowy-nodes.a

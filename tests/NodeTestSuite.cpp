@@ -7,6 +7,11 @@ void int_literal_multi_test(void);
 // StringLiteralTest
 void string_literal_to_string(void);
 
+// CallTest
+void call_no_arg_test(void);
+void call_single_arg_test(void);
+void call_three_arg_test(void);
+
 // NodeTest
 void node_basic_multi_test(void);
 
@@ -16,6 +21,9 @@ int main(int argc, char** argv)
     g_test_add_func("/Nodes/IntLiteral/test", int_literal_test);
     g_test_add_func("/Nodes/IntLiteral/multi", int_literal_multi_test);
     g_test_add_func("/Nodes/StringLiteral/to_string", string_literal_to_string);
+    g_test_add_func("/Nodes/Call/no_arg", call_no_arg_test);
+    g_test_add_func("/Nodes/Call/single_arg", call_single_arg_test);
+    g_test_add_func("/Nodes/Call/three_arg", call_three_arg_test);
     g_test_add_func("/Nodes/Node/basic_multi_expr", node_basic_multi_test);
     return g_test_run();
 }
