@@ -5,6 +5,8 @@
 #include <sstream>
 #include <string>
 
+class llvm::IRBuilder;
+
 namespace Snowy
 {
 
@@ -12,11 +14,11 @@ class Node
 {
 public:
   Node();
-//  ~Node();
 
   void setNext(Node *n);
 
   virtual void to_sstream(std::ostringstream*) const;
+  virtual void compile(llvm::IRBuilder<>*) const;
 
   int getId() { return id; }
 

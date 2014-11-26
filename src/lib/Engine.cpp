@@ -10,8 +10,8 @@ namespace Snowy
 
 int Engine::Parse()
 {
-    Parser *parser = new Parser;
-    Snowy::Node *n = parser->parse();
+    Parser parser = Parser();
+    Snowy::Node *n = parser.parse();
     if (n == NULL) {
         fprintf(stderr, "Parser->parse() returned NULL\n");
         return 1;
@@ -19,6 +19,9 @@ int Engine::Parse()
 
     puts("Program:");
     puts(n->to_program_string());
+
+    Compiler compiler;
+    compiler.compile(n);
 
     return 0;
 }
