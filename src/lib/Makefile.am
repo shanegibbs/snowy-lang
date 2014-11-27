@@ -11,4 +11,4 @@ endif
 
 noinst_LIBRARIES = libsnowy.a
 
-libsnowy_a_SOURCES = Engine.cpp
+libsnowy_a_SOURCES = Engine.cpp Log.cpp
