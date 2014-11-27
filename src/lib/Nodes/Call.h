@@ -11,13 +11,13 @@ namespace Snowy
 class Call : public Expression
 {
 public:
-  Call(Ident*, Args*);
-
-  void to_sstream(std::ostringstream*) const;
+    Call(Ident*, Args*);
+    void compile(CodeGen*) const;
+    void to_sstream(std::ostringstream*) const;
 
 private:
-  const Ident* name;
-  const Args* args;
+    const Ident* name;
+    const Args* args;
 };
 
 }

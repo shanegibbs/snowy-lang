@@ -1,5 +1,7 @@
 AM_CXXFLAGS = $(GLIB_CFLAGS)
 AM_CXXFLAGS += `llvm-config --cxxflags`
+AM_CXXFLAGS += -I$(top_srcdir)/src/lib
+AM_CXXFLAGS += -I$(top_srcdir)/src/lib/Compiler
 
 if DEBUG
 	AM_CXXFLAGS += @OPAL_DEBUG_CFLAGS@

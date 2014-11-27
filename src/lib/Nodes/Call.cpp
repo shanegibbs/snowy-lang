@@ -1,6 +1,11 @@
 #include <glib.h>
+#include <llvm/IR/LLVMContext.h>
+
+#include <CodeGen.h>
 
 #include "Call.h"
+
+using namespace llvm;
 
 namespace Snowy
 {
@@ -21,6 +26,12 @@ void Call::to_sstream(std::ostringstream* s) const
     *s << "],args=[";
     args->to_sstream(s);
     *s << "]]";
+}
+
+void Call::compile(CodeGen* gen) const
+{
+    LLVMContext* c = &gen->getBuilder()->getContext();
+
 }
 
 }

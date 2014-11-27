@@ -5,28 +5,32 @@
 #include <sstream>
 #include <string>
 
-class llvm::IRBuilder;
-
 namespace Snowy
 {
+
+class CodeGen;
 
 class Node
 {
 public:
-  Node();
+    Node();
 
-  void setNext(Node *n);
+    void setNext(Node *n);
 
-  virtual void to_sstream(std::ostringstream*) const;
-  virtual void compile(llvm::IRBuilder<>*) const;
+    virtual void compile(CodeGen*) const;
 
-  int getId() { return id; }
+    virtual void to_sstream(std::ostringstream*) const;
 
-  const char* to_string();
-  const char* to_program_string();
+    int getId() const
+    {
+        return id;
+    }
+
+    const char* to_string();
+    const char* to_program_string();
 private:
-  Node *next;
-  int id;
+    Node *next;
+    int id;
 };
 
 }

@@ -8,27 +8,27 @@
 namespace Snowy
 {
 
+const Log Engine::log = Log("Engine");
+
+Engine::Engine()
+{
+}
+
 int Engine::Parse()
 {
     Parser parser = Parser();
     Snowy::Node *n = parser.parse();
     if (n == NULL) {
-        fprintf(stderr, "Parser->parse() returned NULL\n");
+        log.warn("Parser->parse() returned NULL");
         return 1;
     }
 
-    puts("Program:");
-    puts(n->to_program_string());
+    log.info("Program:\n%s", n->to_program_string());
 
     Compiler compiler;
     compiler.compile(n);
 
     return 0;
-}
-
-Engine::Engine()
-{
-    puts("new Engine");
 }
 
 }

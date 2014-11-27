@@ -1,5 +1,5 @@
-#AM_CXXFLAGS = $(GLIB_CFLAGS)
-AM_CXXFLAGS = -I$(top_srcdir)/src/lib
+AM_CXXFLAGS = $(GLIB_CFLAGS)
+AM_CXXFLAGS += -I$(top_srcdir)/src/lib
 AM_CXXFLAGS += -I$(top_builddir)/src/lib
 AM_CXXFLAGS += `llvm-config --cxxflags`
 #AM_CXXFLAGS += `llvm-config --cxxflags --libs --system-libs --ldflags core`

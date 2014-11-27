@@ -59,4 +59,9 @@ const char* Node::to_program_string()
     return cstr;
 }
 
+void Node::compile(CodeGen*) const
+{
+    g_warning("This node does not support compile");
+}
+
 }

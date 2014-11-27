@@ -1,4 +1,5 @@
 AM_CXXFLAGS = $(GLIB_CFLAGS)
+AM_CXXFLAGS += -I$(top_srcdir)/src/lib
 AM_CXXFLAGS += -I$(top_srcdir)/src/lib/Nodes
 AM_CXXFLAGS += `llvm-config --cxxflags`
 
@@ -10,4 +11,4 @@ endif
 
 noinst_LIBRARIES = libsnowy-compiler.a
 
-libsnowy_compiler_a_SOURCES = Compiler.cpp
+libsnowy_compiler_a_SOURCES = Compiler.cpp CodeGen.cpp
