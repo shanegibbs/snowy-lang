@@ -12,7 +12,7 @@ class Call : public Expression
 {
 public:
     Call(Ident*, Args*);
-    void compile(CodeGen*) const;
+    llvm::Value* compile(CodeGen*) const;
     void to_sstream(std::ostringstream*) const;
 
 private:

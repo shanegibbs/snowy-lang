@@ -30,9 +30,10 @@ void Compiler::compile(Node* n)
     LLVMContext &Context = getGlobalContext();
 
     IRBuilder<> builder(Context);
-    CodeGen codeGen = CodeGen(&builder);
 
     Module *TheModule = new Module("my jit", Context);
+
+    CodeGen codeGen = CodeGen(&builder, TheModule);
 
     // puts
     std::vector<Type*> puts_args(1, Type::getInt8PtrTy(Context));

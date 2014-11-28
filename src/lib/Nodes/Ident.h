@@ -11,6 +11,11 @@ class Ident : public Expression
 public:
   Ident(const char *name);
 
+  const char* getName() const
+  {
+      return name;
+  }
+
   void to_sstream(std::ostringstream*) const;
 
 private:

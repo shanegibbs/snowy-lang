@@ -4,6 +4,7 @@
 
 static int next_node_index = 1;
 
+using namespace llvm;
 using namespace std;
 
 namespace Snowy
@@ -59,9 +60,10 @@ const char* Node::to_program_string()
     return cstr;
 }
 
-void Node::compile(CodeGen*) const
+Value* Node::compile(CodeGen*) const
 {
     g_warning("This node does not support compile");
+    return NULL;
 }
 
 }

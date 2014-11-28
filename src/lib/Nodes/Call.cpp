@@ -1,11 +1,13 @@
 #include <glib.h>
 #include <llvm/IR/LLVMContext.h>
+#include <llvm/IR/Module.h>
 
 #include <CodeGen.h>
 
 #include "Call.h"
 
 using namespace llvm;
+using namespace std;
 
 namespace Snowy
 {
@@ -28,9 +30,17 @@ void Call::to_sstream(std::ostringstream* s) const
     *s << "]]";
 }
 
-void Call::compile(CodeGen* gen) const
+Value* Call::compile(CodeGen* gen) const
 {
-    LLVMContext* c = &gen->getBuilder()->getContext();
+    // LLVMContext* c = &gen->getBuilder()->getContext();
+
+    string fn_name(name->getName());
+    Function *fn = gen->getModule()->getFunction(fn_name);
+
+    vector<Value*> argsV;
+    // argsV.push_back(argsV);
+
+    gen->getBuilder()->CreateCall(fn, argsV, "my_fn_call");
 
 }
 

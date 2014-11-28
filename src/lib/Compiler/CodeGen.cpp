@@ -9,9 +9,10 @@ namespace Snowy
 
 const Log CodeGen::log = Log("CodeGen");
 
-CodeGen::CodeGen(IRBuilder<>* b)
+CodeGen::CodeGen(IRBuilder<>* b, Module* m)
 {
     builder = b;
+    module = m;
 }
 
 void CodeGen::registerFunction(Function* fn)

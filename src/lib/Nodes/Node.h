@@ -5,6 +5,11 @@
 #include <sstream>
 #include <string>
 
+namespace llvm
+{
+class Value;
+}
+
 namespace Snowy
 {
 
@@ -17,7 +22,7 @@ public:
 
     void setNext(Node *n);
 
-    virtual void compile(CodeGen*) const;
+    virtual llvm::Value* compile(CodeGen*) const;
 
     virtual void to_sstream(std::ostringstream*) const;
 
