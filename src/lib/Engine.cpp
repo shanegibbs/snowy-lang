@@ -26,9 +26,7 @@ int Engine::Parse()
     log.info("Program:\n%s", n->to_program_string());
 
     Compiler compiler;
-    compiler.compile(n);
-
-    return 0;
+    return compiler.compile(n);
 }
 
 }

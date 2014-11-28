@@ -21,7 +21,7 @@ namespace Snowy
 
 const Log Compiler::log = Log("Compiler");
 
-void Compiler::compile(Node* n)
+int Compiler::compile(Node* n)
 {
     log.info("Compiling");
 
@@ -72,6 +72,7 @@ void Compiler::compile(Node* n)
     int ret = program_main(2, 4);
     log.info("main returned %i", ret);
 
+    return ret;
 }
 
 }

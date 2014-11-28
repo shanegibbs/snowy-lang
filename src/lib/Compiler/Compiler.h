@@ -8,7 +8,7 @@ class Log;
 class Compiler
 {
 public:
-    void compile(Node*);
+    int compile(Node*);
 
 private:
     static const Log log;
