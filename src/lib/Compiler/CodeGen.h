@@ -15,11 +15,12 @@ class CodeGen
 {
 public:
     CodeGen(IRBuilder<>*, Module*);
+    void registerFunction(Function* fn);
+
     IRBuilder<>* getBuilder() const
     {
         return builder;
     }
-    void registerFunction(Function* fn);
 
     LLVMContext* getContext() const
     {
@@ -31,8 +32,14 @@ public:
         return module;
     }
 
+    unsigned int getNextStringLiteralIndex()
+    {
+        return stringLiteralIndex++;
+    }
+
 private:
     static const Log log;
+    unsigned int stringLiteralIndex;
     IRBuilder<>* builder;
     Module* module;
     map<string, Function*> functions;

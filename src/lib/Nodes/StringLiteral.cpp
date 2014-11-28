@@ -26,21 +26,25 @@ StringLiteral::StringLiteral(const char* v)
 
 Value* StringLiteral::compile(CodeGen* gen) const
 {
+    unsigned int globalStrIdx = gen->getNextStringLiteralIndex();
+
     LLVMContext* context = &gen->getBuilder()->getContext();
 
-    ArrayType *str_arr_ty = ArrayType::get(Type::getInt8Ty(*context), strlen(val) + 1);
+    // global value
+    ArrayType *gv_arr_ty = ArrayType::get(Type::getInt8Ty(*context), strlen(val) + 1);
+    StringRef gv_ref(val, strlen(val));
+    Constant *str_init = ConstantDataArray::getString(*context, gv_ref, true);
+    GlobalVariable *my_str = new GlobalVariable(*gen->getModule(), gv_arr_ty, true, GlobalValue::LinkageTypes::ExternalLinkage, str_init, "my_str");
 
-    StringRef str_ref(val, strlen(val));
-    Constant *str_init = ConstantDataArray::getString(*context, str_ref, true);
+    // pointer to global value
+    Constant* eptr_args[2] = {
+        ConstantInt::get(*context, APInt(8, 0, false)),
+        ConstantInt::get(*context, APInt(8, 0, false))
+    };
+    ArrayRef<Constant*> eptr_args_ref(eptr_args, 2);
+    Constant* gv_ptr = ConstantExpr::getGetElementPtr(my_str, eptr_args_ref);
 
-    GlobalVariable *my_str = new GlobalVariable(*gen->getModule(), str_arr_ty, true, GlobalValue::LinkageTypes::ExternalLinkage, str_init, "my_str");
-
-    Constant* foo[2] = { ConstantInt::get(*context, APInt(8, 0, false)), ConstantInt::get(*context, APInt(8, 0, false)) };
-    ArrayRef<Constant*> idx(foo, 2);
-
-    Constant* my_str_ptr = ConstantExpr::getGetElementPtr(my_str, idx);
-
-    return my_str_ptr;
+    return gv_ptr;
 }
 
 void StringLiteral::to_sstream(std::ostringstream* s) const
