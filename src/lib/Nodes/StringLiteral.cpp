@@ -34,7 +34,7 @@ Value* StringLiteral::compile(CodeGen* gen) const
     ArrayType *gv_arr_ty = ArrayType::get(Type::getInt8Ty(*context), strlen(val) + 1);
     StringRef gv_ref(val, strlen(val));
     Constant *str_init = ConstantDataArray::getString(*context, gv_ref, true);
-    GlobalVariable *my_str = new GlobalVariable(*gen->getModule(), gv_arr_ty, true, GlobalValue::LinkageTypes::ExternalLinkage, str_init, "my_str");
+    GlobalVariable *str_lit = new GlobalVariable(*gen->getModule(), gv_arr_ty, true, GlobalValue::LinkageTypes::ExternalLinkage, str_init, "str_lit");
 
     // pointer to global value
     Constant* eptr_args[2] = {
@@ -42,7 +42,7 @@ Value* StringLiteral::compile(CodeGen* gen) const
         ConstantInt::get(*context, APInt(8, 0, false))
     };
     ArrayRef<Constant*> eptr_args_ref(eptr_args, 2);
-    Constant* gv_ptr = ConstantExpr::getGetElementPtr(my_str, eptr_args_ref);
+    Constant* gv_ptr = ConstantExpr::getGetElementPtr(str_lit, eptr_args_ref);
 
     return gv_ptr;
 }

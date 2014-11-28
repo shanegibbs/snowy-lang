@@ -49,7 +49,11 @@ int Compiler::compile(Node* n)
     BasicBlock *main_block = BasicBlock::Create(Context, "", main_fn);
     builder.SetInsertPoint(main_block);
 
-    n->compile(&codeGen);
+    Node* current = n;
+    while (current != NULL) {
+        current->compile(&codeGen);
+        current = current->getNext();
+    }
 
     builder.SetInsertPoint(main_block);
     builder.CreateRet(ConstantInt::get(Context, APInt(32, 3, false)));

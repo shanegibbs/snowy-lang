@@ -44,7 +44,7 @@ Value* Call::compile(CodeGen* gen) const
         argsV.push_back(argVal);
     }
 
-    return gen->getBuilder()->CreateCall(fn, argsV, "my_fn_call");
+    return gen->getBuilder()->CreateCall(fn, argsV, "fn_call");
 }
 
 }

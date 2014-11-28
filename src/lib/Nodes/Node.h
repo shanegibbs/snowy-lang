@@ -32,6 +32,11 @@ public:
         return id;
     }
 
+    Node* getNext() const
+    {
+        return next;
+    }
+
     const char* to_string();
     const char* to_program_string();
 private:
