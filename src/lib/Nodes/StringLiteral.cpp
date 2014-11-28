@@ -1,6 +1,12 @@
 #include <glib.h>
+#include <llvm/IR/GlobalVariable.h>
+#include <llvm/IR/Constants.h>
 
+#include <CodeGen.h>
 #include "StringLiteral.h"
+
+using namespace llvm;
+using namespace std;
 
 namespace Snowy
 {
@@ -18,6 +24,24 @@ StringLiteral::StringLiteral(const char* v)
     val = (const char*)new_val;
 }
 
+Value* StringLiteral::compile(CodeGen* gen) const
+{
+    LLVMContext* context = &gen->getBuilder()->getContext();
+
+    ArrayType *str_arr_ty = ArrayType::get(Type::getInt8Ty(*context), strlen(val) + 1);
+
+    StringRef str_ref(val, strlen(val));
+    Constant *str_init = ConstantDataArray::getString(*context, str_ref, true);
+
+    GlobalVariable *my_str = new GlobalVariable(*gen->getModule(), str_arr_ty, true, GlobalValue::LinkageTypes::ExternalLinkage, str_init, "my_str");
+
+    Constant* foo[2] = { ConstantInt::get(*context, APInt(8, 0, false)), ConstantInt::get(*context, APInt(8, 0, false)) };
+    ArrayRef<Constant*> idx(foo, 2);
+
+    Constant* my_str_ptr = ConstantExpr::getGetElementPtr(my_str, idx);
+
+    return my_str_ptr;
+}
 
 void StringLiteral::to_sstream(std::ostringstream* s) const
 {

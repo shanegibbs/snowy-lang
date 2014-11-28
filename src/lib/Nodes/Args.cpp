@@ -9,34 +9,24 @@ namespace Snowy
 
 Args::Args()
 {
-    list = NULL;
-    list_size = 0;
 }
 
 Args::Args(Expression* e)
 {
-    list = (Expression**)malloc(sizeof(Expression*));
-    list[0] = e;
-    list_size = 1;
+    list.push_back(e);
 }
 
 void Args::addArg(Expression* e)
 {
-    Expression** new_list = (Expression**)malloc(sizeof(Expression*) * (list_size + 1));
-    memcpy(new_list, list, sizeof(Expression*) * list_size);
-    free(list);
-
-    list = new_list;
-    list[list_size] = e;
-    list_size++;
+    list.push_back(e);
 }
 
 void Args::to_sstream(std::ostringstream* s) const
 {
-    *s << "Args[size=" << list_size;
-    if (list_size > 0) {
+    *s << "Args[size=" << list.size();
+    if (list.size() > 0) {
         *s << ",";
-        for (int i = 0; i < list_size; i++) {
+        for (int i = 0; i < list.size(); i++) {
             if (i != 0) {
                 *s << ",";
             }

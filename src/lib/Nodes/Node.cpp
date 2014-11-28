@@ -1,5 +1,7 @@
 #include <glib.h>
 
+#include <Log.h>
+
 #include "Node.h"
 
 static int next_node_index = 1;
@@ -9,6 +11,8 @@ using namespace std;
 
 namespace Snowy
 {
+
+const Log Node::log = Log("Node");
 
 Node::Node()
 {
@@ -62,7 +66,7 @@ const char* Node::to_program_string()
 
 Value* Node::compile(CodeGen*) const
 {
-    g_warning("This node does not support compile");
+    log.fatal("This node does not implement compile");
     return NULL;
 }
 

@@ -1,7 +1,11 @@
 #ifndef SNOWY_NODES_ARGS_H
 #define SNOWY_NODES_ARGS_H
 
+#include <vector>
+
 #include "Expression.h"
+
+using namespace std;
 
 namespace Snowy
 {
@@ -14,11 +18,20 @@ public:
 
   void addArg(Expression*);
 
+  unsigned int getCount() const
+  {
+      return list.size();
+  }
+
+  Expression* get(unsigned int i) const
+  {
+      return list[i];
+  }
+
   void to_sstream(std::ostringstream*) const;
 
 private:
-  int list_size;
-  Expression** list;
+  vector<Expression*> list;
 };
 
 }

@@ -15,13 +15,18 @@ class CodeGen
 {
 public:
     CodeGen(IRBuilder<>*, Module*);
-    IRBuilder<>* getBuilder()
+    IRBuilder<>* getBuilder() const
     {
         return builder;
     }
     void registerFunction(Function* fn);
 
-    Module* getModule()
+    LLVMContext* getContext() const
+    {
+        return &builder->getContext();
+    }
+
+    Module* getModule() const
     {
         return module;
     }

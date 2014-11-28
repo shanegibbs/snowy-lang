@@ -11,10 +11,11 @@ namespace Snowy
 class StringLiteral : public Expression
 {
 public:
-  StringLiteral(const char *str);
-  void to_sstream(std::ostringstream*) const;
+    StringLiteral(const char *str);
+    llvm::Value* compile(CodeGen*) const;
+    void to_sstream(std::ostringstream*) const;
 private:
-  const char* val;
+    const char* val;
 };
 
 }

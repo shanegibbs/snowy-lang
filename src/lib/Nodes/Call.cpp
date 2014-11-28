@@ -38,10 +38,13 @@ Value* Call::compile(CodeGen* gen) const
     Function *fn = gen->getModule()->getFunction(fn_name);
 
     vector<Value*> argsV;
-    // argsV.push_back(argsV);
+    for (unsigned i = 0; i < args->getCount(); i++) {
+        Value* argVal = args->get(i)->compile(gen);
+        g_assert_nonnull(argVal);
+        argsV.push_back(argVal);
+    }
 
-    gen->getBuilder()->CreateCall(fn, argsV, "my_fn_call");
-
+    return gen->getBuilder()->CreateCall(fn, argsV, "my_fn_call");
 }
 
 }
