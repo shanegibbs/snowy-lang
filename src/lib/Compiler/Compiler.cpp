@@ -54,7 +54,9 @@ int Compiler::compile(Node* n)
     builder.SetInsertPoint(main_block);
     builder.CreateRet(ConstantInt::get(Context, APInt(32, 3, false)));
 
-    TheModule->dump();
+    if (log.isLogLevel(DEBUG)) {
+        TheModule->dump();
+    }
 
     log.info("Executing program");
 
