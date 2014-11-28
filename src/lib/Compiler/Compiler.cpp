@@ -8,12 +8,17 @@
 #include <llvm/ExecutionEngine/ExecutionEngine.h>
 #include <llvm/ExecutionEngine/JIT.h>
 
+#include <llvm/Support/raw_ostream.h>
+#include <llvm/Support/FileSystem.h>
+#include <llvm/Bitcode/ReaderWriter.h>
+
 #include <Log.h>
 #include <Call.h>
 
 #include "CodeGen.h"
 #include "Compiler.h"
 
+using namespace std;
 using namespace llvm;
 
 namespace Snowy
@@ -62,6 +67,8 @@ int Compiler::compile(Node* n)
         TheModule->dump();
     }
 
+    write(TheModule);
+
     log.info("Executing program");
 
     std::string ErrStr;
@@ -79,6 +86,18 @@ int Compiler::compile(Node* n)
     log.info("main returned %i", ret);
 
     return ret;
+}
+
+void Compiler::write(const Module *m)
+{
+    const char* filename = "program.bc";
+
+    log.info("Writing program to '%s'. Compile with clang program.bc -o program", filename);
+
+    string errorInfo;
+    raw_fd_ostream myfile(filename, errorInfo, llvm::sys::fs::OpenFlags::F_None);
+
+    WriteBitcodeToFile(m, myfile);
 }
 
 }

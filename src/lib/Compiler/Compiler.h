@@ -1,5 +1,10 @@
 #include <Node.h>
 
+namespace llvm
+{
+class Module;
+}
+
 namespace Snowy
 {
 
@@ -12,6 +17,8 @@ public:
 
 private:
     static const Log log;
+
+    void write(const llvm::Module*);
 };
 
 }
