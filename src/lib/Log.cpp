@@ -40,6 +40,7 @@ void Log::log(LogLevel l, const char* format, va_list* args) const
 
     fprintf(out, "** %-5s [%s] - %s\n", level, name, msg);
     free(msg);
+    fflush(out);
 }
 
 void Log::debug(const char* format, ...) const
