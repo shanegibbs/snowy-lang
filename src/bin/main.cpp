@@ -17,5 +17,6 @@ int main(int argc, char** argv)
         }
     }
 
-    return Snowy::Engine::Parse();
+    Snowy::Engine engine;
+    return engine.parse();
 }

@@ -11,4 +11,4 @@ endif
 
 noinst_LIBRARIES = libsnowy-compiler.a
 
-libsnowy_compiler_a_SOURCES = Compiler.cpp CodeGen.cpp
+libsnowy_compiler_a_SOURCES = Compiler.cpp CodeGen.cpp Execer.cpp

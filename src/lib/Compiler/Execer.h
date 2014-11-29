@@ -1,5 +1,3 @@
-#include <Node.h>
-
 namespace llvm
 {
 class Module;
@@ -10,15 +8,16 @@ namespace Snowy
 
 class Log;
 
-class Compiler
+class Execer
 {
 public:
-    llvm::Module* compile(Node*);
+    Execer(llvm::Module*);
+    int exec();
 
 private:
     static const Log log;
-
-    void write(const llvm::Module*);
+    llvm::Module* module;
 };
 
 }
+

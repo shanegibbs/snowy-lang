@@ -5,9 +5,6 @@
 
 #include <llvm/Support/TargetSelect.h>
 
-#include <llvm/ExecutionEngine/ExecutionEngine.h>
-#include <llvm/ExecutionEngine/JIT.h>
-
 #include <llvm/Support/raw_ostream.h>
 #include <llvm/Support/FileSystem.h>
 #include <llvm/Bitcode/ReaderWriter.h>
@@ -26,7 +23,7 @@ namespace Snowy
 
 const Log Compiler::log = Log("Compiler");
 
-int Compiler::compile(Node* n)
+Module* Compiler::compile(Node* n)
 {
     log.info("Compiling");
 
@@ -69,23 +66,7 @@ int Compiler::compile(Node* n)
 
     write(TheModule);
 
-    log.info("Executing program");
-
-    std::string ErrStr;
-    ExecutionEngine *TheExecutionEngine = EngineBuilder(TheModule).setErrorStr(&ErrStr).create();
-    if (!TheExecutionEngine) {
-        log.fatal("Could not create ExecutionEngine: %s", ErrStr.c_str());
-        exit(1);
-    }
-
-    TheModule->setDataLayout(TheExecutionEngine->getDataLayout());
-
-    void *main_fn_ptr = TheExecutionEngine->getPointerToFunction(main_fn);
-    int (*program_main)(int, int) = (int (*)(int, int))main_fn_ptr;
-    int ret = program_main(2, 4);
-    log.info("main returned %i", ret);
-
-    return ret;
+    return TheModule;
 }
 
 void Compiler::write(const Module *m)
