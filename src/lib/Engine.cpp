@@ -23,6 +23,12 @@ Engine::~Engine()
     log.debug("Destroy Engine");
 }
 
+void Engine::setStdoutBuffer(char* b, int s)
+{
+    buffer = b;
+    buffer_size = s;
+}
+
 int Engine::parse()
 {
     Parser parser = Parser();

@@ -18,12 +18,12 @@ public:
 
     int parse();
     int parse(string code);
-
-    void setStdOut() {
-    }
+    void setStdoutBuffer(char* buffer, int size);
 
 private:
     static const Log log;
+    char* buffer;
+    unsigned int buffer_size;
 };
 
 }

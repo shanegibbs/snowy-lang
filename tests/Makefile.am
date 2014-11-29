@@ -6,7 +6,7 @@ AM_CXXFLAGS += -I$(top_srcdir)/src/lib/Parser
 AM_CXXFLAGS += @OPAL_DEBUG_CFLAGS@
 
 TESTS=$(check_PROGRAMS)
-check_PROGRAMS=NodeTestSuite ParserTestSuite
+check_PROGRAMS=NodeTestSuite ParserTestSuite ITSuite
 
 ParserTestSuite_SOURCES = ParserTestSuite.cpp
 ParserTestSuite_LDADD = $(top_builddir)/src/lib/Parser/libsnowy-parser.a
@@ -18,3 +18,10 @@ NodeTestSuite_SOURCES = NodeTestSuite.cpp NodeTest/IntLiteralTest.cpp NodeTest/N
 NodeTestSuite_LDADD = $(top_builddir)/src/lib/Nodes/libsnowy-nodes.a
 NodeTestSuite_LDADD += $(top_builddir)/src/lib/libsnowy.a
 NodeTestSuite_LDFLAGS = `llvm-config --libs core jit native --system-libs`
+
+ITSuite_SOURCES = ITSuite.cpp
+ITSuite_LDADD = $(top_builddir)/src/lib/libsnowy.a
+ITSuite_LDADD += $(top_builddir)/src/lib/Nodes/libsnowy-nodes.a
+ITSuite_LDADD += $(top_builddir)/src/lib/Parser/libsnowy-parser.a
+ITSuite_LDADD += $(top_builddir)/src/lib/Compiler/libsnowy-compiler.a
+ITSuite_LDFLAGS = `llvm-config --libs core jit native bitwriter --system-libs`
