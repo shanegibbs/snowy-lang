@@ -27,7 +27,6 @@ Module* Compiler::compile(Node* n)
 {
     log.info("Compiling");
 
-
     LLVMContext &Context = getGlobalContext();
 
     IRBuilder<>* builder = new IRBuilder<>(Context);
