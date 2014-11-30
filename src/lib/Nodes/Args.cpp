@@ -26,7 +26,7 @@ void Args::to_sstream(std::ostringstream* s) const
     *s << "Args[size=" << list.size();
     if (list.size() > 0) {
         *s << ",";
-        for (int i = 0; i < list.size(); i++) {
+        for (unsigned int i = 0; i < list.size(); i++) {
             if (i != 0) {
                 *s << ",";
             }

@@ -18,7 +18,7 @@ CodeGen::CodeGen(IRBuilder<>* b, Module* m)
 
 void CodeGen::registerFunction(Function* fn)
 {
-    log.debug("Registering function '%s'", fn->getName());
+    log.debug("Registering function '%s'", fn->getName().data());
     functions[fn->getName()] = fn;
 }
 

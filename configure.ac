@@ -11,7 +11,7 @@ AC_CONFIG_HEADERS([config.h])
 AM_INIT_AUTOMAKE([subdir-objects])
 
 # Remember externally set CFLAGS
-EXTERNAL_CFLAGS="$CXXFLAGS"
+EXTERNAL_CXXFLAGS="$CXXFLAGS"
 
 # Checks for programs.
 AC_PROG_CXX
@@ -22,6 +22,11 @@ AC_PROG_YACC
 #AC_PROG_LIBTOOL
 
 AC_CHECK_PROG([FLEX], [flex lex], [flex])
+AC_CHECK_PROG([LLVM_CONFIG], [llvm-config], [llvm-config])
+AC_CHECK_PROG([LLVM_CONFIG], [llvm-config-3.5], [llvm-config-3.5])
+if test x"${LLVM_CONFIG}" == x"" ; then
+  AC_MSG_ERROR([unable to find llvm-config command])
+fi
 
 # Reset the externally set CFLAGS after calling AC_PROG*
 CXXFLAGS="$EXTERNAL_CXXFLAGS"
@@ -58,8 +63,13 @@ PKG_CHECK_MODULES([GOBJECT], [gobject-2.0], [LIBS="-lgobject-2.0 $LIBS"], [
   AC_MSG_FAILURE([no gobject-2.0 libs found])
 ])
 
-AC_SUBST([SNOWY_CXXFLAGS], ["-O3 -DG_DISABLE_ASSERT"])
-AC_SUBST([SNOWY_DEBUG_CXXFLAGS], ["-Wall -Werror -g -O0"])
+# -O3 works
+# -O2 works
+# -O1 does not
+# -O0 does not
+
+AC_SUBST([SNOWY_CXXFLAGS], ["-DG_DISABLE_ASSERT"])
+AC_SUBST([SNOWY_DEBUG_CXXFLAGS], ["-Wall -Werror -Wno-deprecated-register"])
 
 # debug flag
 AC_ARG_ENABLE([debug],
@@ -77,6 +87,7 @@ AM_CONDITIONAL([DEBUG], [test x$debug = xtrue])
 # file.in), substituting the output variable values
 AC_CONFIG_FILES([
                  Makefile
+                 src/lib/Common/Makefile
                  src/lib/Nodes/Makefile
                  src/lib/Compiler/Makefile
                  src/lib/Parser/Makefile

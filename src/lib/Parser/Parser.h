@@ -3,14 +3,12 @@
 
 #include <string>
 
-#include <Log.h>
-#include <Node.h>
-
 namespace Snowy
 {
 
 class Log;
 class Driver;
+class Node;
 
 class Parser
 {

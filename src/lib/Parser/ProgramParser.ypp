@@ -27,6 +27,7 @@ namespace Snowy {
 %parse-param { Driver *driver }
 
 %code { /* goes into the impl of Parser */
+   #include <string.h>
    #include <iostream>
    #include <cstdlib>
    #include <fstream>

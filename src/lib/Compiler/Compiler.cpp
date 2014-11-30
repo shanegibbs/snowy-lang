@@ -74,7 +74,7 @@ void Compiler::write(const Module *m)
     log.info("Writing program to '%s'. Compile with clang program.bc -o program", filename);
 
     string errorInfo;
-    raw_fd_ostream myfile(filename, errorInfo, llvm::sys::fs::OpenFlags::F_None);
+    raw_fd_ostream myfile(filename, errorInfo, llvm::sys::fs::F_None);
 
     WriteBitcodeToFile(m, myfile);
 }

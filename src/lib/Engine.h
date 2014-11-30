@@ -3,8 +3,6 @@
 
 #include <string>
 
-#include <Log.h>
-
 using namespace std;
 
 namespace llvm
@@ -15,6 +13,7 @@ class Module;
 namespace Snowy
 {
 
+class Log;
 class Parser;
 class Compiler;
 class Execer;

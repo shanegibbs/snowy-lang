@@ -1,3 +1,4 @@
+#include <Log.h>
 #include <Engine.h>
 
 using namespace Snowy;

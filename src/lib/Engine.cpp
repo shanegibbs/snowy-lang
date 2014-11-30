@@ -1,5 +1,6 @@
 #include <stdio.h>
 
+#include <Log.h>
 #include <Parser.h>
 #include <Compiler.h>
 #include <Execer.h>

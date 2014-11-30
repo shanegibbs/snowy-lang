@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <string>
 #include <glib.h>
+#include <llvm/IR/GlobalValue.h>
 #include <llvm/IR/GlobalVariable.h>
 #include <llvm/IR/Constants.h>
 
@@ -45,7 +46,7 @@ Value* StringLiteral::compile(CodeGen* gen) const
     ArrayType *gv_arr_ty = ArrayType::get(Type::getInt8Ty(*context), actual.length() + 1);
     StringRef gv_ref(actual.c_str(), actual.length());
     Constant *str_init = ConstantDataArray::getString(*context, gv_ref, true);
-    GlobalVariable *str_lit = new GlobalVariable(*gen->getModule(), gv_arr_ty, true, GlobalValue::LinkageTypes::ExternalLinkage, str_init, "str_lit");
+    GlobalVariable *str_lit = new GlobalVariable(*gen->getModule(), gv_arr_ty, true, GlobalValue::ExternalLinkage, str_init, "str_lit");
 
     // pointer to global value
     Constant* eptr_args[2] = {

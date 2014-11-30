@@ -20,6 +20,7 @@
 
 * bison (GNU Bison) 3.0.2
 * flex 2.5.35 Apple(flex-31)
+* llvm 3.5.0
 
 ## Notes
 

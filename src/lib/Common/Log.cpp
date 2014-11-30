@@ -1,6 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
-#include <string>
+#include <cstring>
 
 #include "Log.h"
 

@@ -1,4 +1,5 @@
 AM_CXXFLAGS = $(GLIB_CFLAGS)
+AM_CXXFLAGS += -I$(top_srcdir)/src/lib/Common
 AM_CXXFLAGS += -I$(top_srcdir)/src/lib/Parser
 AM_CXXFLAGS += -I$(top_srcdir)/src/lib/Nodes
 AM_CXXFLAGS += -I$(top_srcdir)/src/lib/Compiler
@@ -11,4 +12,4 @@ endif
 
 noinst_LIBRARIES = libsnowy.a
 
-libsnowy_a_SOURCES = Engine.cpp Log.cpp
+libsnowy_a_SOURCES = Engine.cpp

@@ -62,7 +62,7 @@ int test_program()
     llvm::StringRef str_ref(str_value, strlen(str_value));
     llvm::Constant *str_init = llvm::ConstantDataArray::getString(Context, str_ref, true);
 
-    llvm::GlobalVariable *my_str = new llvm::GlobalVariable(*TheModule, str_arr_ty, true, llvm::GlobalValue::LinkageTypes::ExternalLinkage, str_init, "my_str");
+    llvm::GlobalVariable *my_str = new llvm::GlobalVariable(*TheModule, str_arr_ty, true, llvm::GlobalValue::ExternalLinkage, str_init, "my_str");
 
     // puts
     std::vector<llvm::Type*> puts_args(1, llvm::Type::getInt8PtrTy(Context));
@@ -124,7 +124,7 @@ int test_program()
         exit(1);
     }
 
-    TheModule->setDataLayout(TheExecutionEngine->getDataLayout());
+    TheModule->setDataLayout(TheExecutionEngine->getDataLayout()->getStringRepresentation());
 
     void *main_fn_ptr = TheExecutionEngine->getPointerToFunction(main_fn);
     int (*program_main)(int, int) = (int (*)(int, int))main_fn_ptr;

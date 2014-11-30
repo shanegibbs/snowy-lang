@@ -1,5 +1,5 @@
 AM_CXXFLAGS = $(GLIB_CFLAGS)
-AM_CXXFLAGS += -I$(top_srcdir)/src/lib
+AM_CXXFLAGS += -I$(top_srcdir)/src/lib/Common
 AM_CXXFLAGS += -I$(top_srcdir)/src/lib/Nodes
 AM_CXXFLAGS += -I$(top_builddir)/src/lib/Parser
 
@@ -17,6 +17,6 @@ Lexer.cc: Lexer.l ProgramParser.cpp
 	flex++ $(top_srcdir)/src/lib/Parser/Lexer.l
 
 ProgramParser.cpp: ProgramParser.ypp
-	bison -v --defines=ProgramParser.h --output=ProgramParser.cpp ../../../../src/lib/Parser/ProgramParser.ypp
+	bison -v --defines=ProgramParser.h --output=ProgramParser.cpp $(top_srcdir)/src/lib/Parser/ProgramParser.ypp
 
 CLEANFILES = Lexer.cc ProgramParser.cpp ProgramParser.h ProgramParser.output stack.hh

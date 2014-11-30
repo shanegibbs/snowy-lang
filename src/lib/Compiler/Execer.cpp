@@ -4,6 +4,7 @@
 
 #include <glib.h>
 #include <llvm/IR/Module.h>
+#include <llvm/IR/DataLayout.h>
 #include <llvm/ExecutionEngine/ExecutionEngine.h>
 #include <llvm/ExecutionEngine/JIT.h>
 #include <llvm/Support/TargetSelect.h>
@@ -45,7 +46,7 @@ int Execer::exec(Module* module)
         exit(1);
     }
 
-    module->setDataLayout(TheExecutionEngine->getDataLayout());
+    module->setDataLayout(TheExecutionEngine->getDataLayout()->getStringRepresentation());
 
     string fn_name("main");
     Function *main_fn = module->getFunction(fn_name);
