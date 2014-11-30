@@ -3,7 +3,7 @@ AM_CXXFLAGS += -I$(top_srcdir)/src/lib
 AM_CXXFLAGS += -I$(top_srcdir)/src/lib/Compiler
 AM_CXXFLAGS += -I$(top_srcdir)/src/lib/Nodes
 AM_CXXFLAGS += -I$(top_srcdir)/src/lib/Parser
-AM_CXXFLAGS += @OPAL_DEBUG_CFLAGS@
+AM_CXXFLAGS += @SNOWY_DEBUG_CXXFLAGS@
 
 TESTS=$(check_PROGRAMS)
 check_PROGRAMS=NodeTestSuite ParserTestSuite ITSuite

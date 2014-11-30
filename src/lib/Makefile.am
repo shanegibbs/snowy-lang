@@ -4,9 +4,9 @@ AM_CXXFLAGS += -I$(top_srcdir)/src/lib/Nodes
 AM_CXXFLAGS += -I$(top_srcdir)/src/lib/Compiler
 
 if DEBUG
-	AM_CXXFLAGS += @OPAL_DEBUG_CFLAGS@
+	AM_CXXFLAGS += @SNOWY_DEBUG_CXXFLAGS@
 else
-	AM_CXXFLAGS += @OPAL_CFLAGS@
+	AM_CXXFLAGS += @SNOWY_CXXFLAGS@
 endif
 
 noinst_LIBRARIES = libsnowy.a

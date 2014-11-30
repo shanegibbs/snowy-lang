@@ -4,7 +4,7 @@
 # http://www.gnu.org/savannah-checkouts/gnu/autoconf/manual/autoconf-2.69/html_node/index.html
 
 AC_PREREQ([2.69])
-AC_INIT([babirusa], [0.1], [shane@gibbsdevops.com])
+AC_INIT([snowy], [0.1], [shane@gibbsdevops.com])
 AC_CONFIG_SRCDIR([src/bin/main.cpp])
 AC_CONFIG_HEADERS([config.h])
 
@@ -58,8 +58,8 @@ PKG_CHECK_MODULES([GOBJECT], [gobject-2.0], [LIBS="-lgobject-2.0 $LIBS"], [
   AC_MSG_FAILURE([no gobject-2.0 libs found])
 ])
 
-AC_SUBST([OPAL_CFLAGS], ["-DG_LOG_DOMAIN=\\\"Opan\\\" -O3 -DG_DISABLE_ASSERT"])
-AC_SUBST([OPAL_DEBUG_CFLAGS], ["-DG_LOG_DOMAIN=\\\"Opal\\\" -Wall -Werror -g -O0"])
+AC_SUBST([SNOWY_CXXFLAGS], ["-O3 -DG_DISABLE_ASSERT"])
+AC_SUBST([SNOWY_DEBUG_CXXFLAGS], ["-Wall -Werror -g -O0"])
 
 # debug flag
 AC_ARG_ENABLE([debug],
