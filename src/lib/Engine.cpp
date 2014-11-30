@@ -21,6 +21,7 @@ Engine::Engine()
     compiler = new Compiler();
     execer = new Execer();
     module = NULL;
+    buffer = NULL;
 }
 
 Engine::~Engine()
@@ -65,7 +66,9 @@ bool Engine::parse(string code)
 
 int Engine::exec()
 {
-    execer->setStdoutBuffer(buffer, buffer_size);
+    if (buffer != NULL) {
+        execer->setStdoutBuffer(buffer, buffer_size);
+    }
     return execer->exec(module);
 }
 

@@ -53,31 +53,35 @@ int Execer::exec(Module* module)
     void *main_fn_ptr = TheExecutionEngine->getPointerToFunction(main_fn);
     int (*program_main)(int, int) = (int (*)(int, int))main_fn_ptr;
 
-    g_assert_nonnull(buffer);
     int out_pipe[2];
     int saved_stdout;
 
-    // save stdout
-    saved_stdout = dup(STDOUT_FILENO);
+    if (buffer != NULL) {
+        g_assert_nonnull(buffer);
 
-    // make pipe
-    if( pipe(out_pipe) != 0 ) {
-        log.fatal("Failed to create pipe");
+        // save stdout
+        saved_stdout = dup(STDOUT_FILENO);
+
+        // make pipe
+        if( pipe(out_pipe) != 0 ) {
+            log.fatal("Failed to create pipe");
+        }
+
+        // redirect stdout to pipe
+        dup2(out_pipe[1], STDOUT_FILENO);
+        close(out_pipe[1]);
     }
 
-    // redirect stdout to pipe
-    dup2(out_pipe[1], STDOUT_FILENO);
-    close(out_pipe[1]);
-
     int ret = program_main(2, 4);
-
     fflush(stdout);
 
-    // read from pipe
-    read(out_pipe[0], buffer, buffer_size);
-    dup2(saved_stdout, STDOUT_FILENO);
+    if (buffer != NULL) {
+        // read from pipe
+        read(out_pipe[0], buffer, buffer_size);
+        dup2(saved_stdout, STDOUT_FILENO);
 
-    log.debug("stdout was: '%s'\n", buffer);
+        log.debug("stdout was: '%s'\n", buffer);
+    }
 
     log.info("main returned %i", ret);
 
