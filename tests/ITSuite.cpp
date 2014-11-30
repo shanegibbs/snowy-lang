@@ -3,6 +3,7 @@
 #include <stdio.h>
 
 #include <Engine.h>
+#include <Log.h>
 
 using namespace Snowy;
 

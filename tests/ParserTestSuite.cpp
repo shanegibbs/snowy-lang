@@ -3,6 +3,7 @@
 #include <glib/gstdio.h>
 
 #include <Parser.h>
+#include <Node.h>
 
 using namespace Snowy;
 
