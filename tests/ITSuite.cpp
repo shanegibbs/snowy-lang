@@ -12,12 +12,12 @@ void it_puts_string_lit_test()
     char* buf = (char*)malloc(buf_size);
 
     Engine engine;
-    engine.parse("puts \"hello world!!\"");
+    engine.parse("puts \"hello world!!\"\n");
 
     engine.setStdoutBuffer(buf, buf_size);
     engine.exec();
 
-    g_assert_cmpstr(buf, ==, "abc");
+    g_assert_cmpstr(buf, ==, "\"hello world!!\"\n");
 }
 
 int main(int argc, char** argv)
@@ -27,4 +27,3 @@ int main(int argc, char** argv)
     g_test_add_func("/IT/puts/StringLiteral", it_puts_string_lit_test);
     return g_test_run();
 }
-

@@ -30,11 +30,11 @@ Module* Compiler::compile(Node* n)
 
     LLVMContext &Context = getGlobalContext();
 
-    IRBuilder<> builder(Context);
+    IRBuilder<>* builder = new IRBuilder<>(Context);
 
     Module *TheModule = new Module("my jit", Context);
 
-    CodeGen codeGen = CodeGen(&builder, TheModule);
+    CodeGen codeGen = CodeGen(builder, TheModule);
 
     // puts
     std::vector<Type*> puts_args(1, Type::getInt8PtrTy(Context));
@@ -48,7 +48,7 @@ Module* Compiler::compile(Node* n)
     Function *main_fn = Function::Create(main_ft, Function::ExternalLinkage, "main", TheModule);
 
     BasicBlock *main_block = BasicBlock::Create(Context, "", main_fn);
-    builder.SetInsertPoint(main_block);
+    builder->SetInsertPoint(main_block);
 
     Node* current = n;
     while (current != NULL) {
@@ -56,8 +56,8 @@ Module* Compiler::compile(Node* n)
         current = current->getNext();
     }
 
-    builder.SetInsertPoint(main_block);
-    builder.CreateRet(ConstantInt::get(Context, APInt(32, 3, false)));
+    builder->SetInsertPoint(main_block);
+    builder->CreateRet(ConstantInt::get(Context, APInt(32, 3, false)));
 
     if (log.isLogLevel(DEBUG)) {
         TheModule->dump();
