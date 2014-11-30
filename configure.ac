@@ -11,7 +11,7 @@ AC_CONFIG_HEADERS([config.h])
 AM_INIT_AUTOMAKE([subdir-objects])
 
 # Remember externally set CFLAGS
-EXTERNAL_CFLAGS="$CFLAGS"
+EXTERNAL_CFLAGS="$CXXFLAGS"
 
 # Checks for programs.
 AC_PROG_CXX
@@ -24,7 +24,7 @@ AC_PROG_YACC
 AC_CHECK_PROG([FLEX], [flex lex], [flex])
 
 # Reset the externally set CFLAGS after calling AC_PROG*
-CFLAGS="$EXTERNAL_CFLAGS"
+CXXFLAGS="$EXTERNAL_CXXFLAGS"
 
 # Use the C language and compiler for the following checks
 AC_LANG([C])

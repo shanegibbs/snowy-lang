@@ -7,9 +7,9 @@ AM_CXXFLAGS += `llvm-config --cxxflags`
 #AM_LDFLAGS = abc
 
 if DEBUG
-	AM_CXXFLAGS += @SNOWY_DEBUG_CXXFLAGS@
+AM_CXXFLAGS += @SNOWY_DEBUG_CXXFLAGS@
 else
-	AM_CXXFLAGS += @SNOWY_CXXFLAGS@
+AM_CXXFLAGS += @SNOWY_CXXFLAGS@
 endif
 
 bin_PROGRAMS = snowy test_program
