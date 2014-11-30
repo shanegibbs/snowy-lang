@@ -23,9 +23,9 @@ public:
 
     void setNext(Node *n);
 
-    virtual llvm::Value* compile(CodeGen*) const;
+    virtual llvm::Value* compile(CodeGen*) const = 0;
 
-    virtual void to_sstream(std::ostringstream*) const;
+    virtual void to_sstream(std::ostringstream*) const = 0;
 
     int getId() const
     {

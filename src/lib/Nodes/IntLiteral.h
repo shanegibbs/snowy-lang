@@ -11,10 +11,20 @@ namespace Snowy
 class IntLiteral : public Expression
 {
 public:
-  IntLiteral(const char *str) { val = atoi(str); }
-  void to_sstream(std::ostringstream*) const;
+    IntLiteral(const char *str)
+    {
+        val = atoi(str);
+    }
+
+    llvm::Value* compile(CodeGen*) const
+    {
+        return NULL;
+    }
+
+    void to_sstream(std::ostringstream*) const;
+
 private:
-  int val;
+    int val;
 };
 
 }

@@ -28,11 +28,6 @@ void Node::setNext(Node *n)
     next = n;
 }
 
-void Node::to_sstream(ostringstream* s) const
-{
-    *s << "Node[id=" << id << "]";
-}
-
 const char* Node::to_string()
 {
     ostringstream oss;
@@ -63,12 +58,6 @@ const char* Node::to_program_string()
     char* cstr = new char[str.length() + 1];
     strcpy(cstr, str.c_str());
     return cstr;
-}
-
-Value* Node::compile(CodeGen*) const
-{
-    log.fatal("This node does not implement compile");
-    return NULL;
 }
 
 }

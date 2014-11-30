@@ -9,17 +9,22 @@ namespace Snowy
 class Ident : public Expression
 {
 public:
-  Ident(const char *name);
+    Ident(const char *name);
 
-  const char* getName() const
-  {
-      return name;
-  }
+    const char* getName() const
+    {
+        return name;
+    }
 
-  void to_sstream(std::ostringstream*) const;
+    llvm::Value* compile(CodeGen*) const
+    {
+        return NULL;
+    }
+
+    void to_sstream(std::ostringstream*) const;
 
 private:
-  const char *name;
+    const char *name;
 };
 
 }

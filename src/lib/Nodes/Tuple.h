@@ -10,14 +10,19 @@ namespace Snowy
 class Tuple : public Expression
 {
 public:
-  Tuple(Expression *l, Operator *o, Expression *r);
+    Tuple(Expression *l, Operator *o, Expression *r);
 
-  void to_sstream(std::ostringstream*) const;
+    llvm::Value* compile(CodeGen*) const
+    {
+        return NULL;
+    }
+
+    void to_sstream(std::ostringstream*) const;
 
 private:
-  Expression *lhs;
-  Expression *rhs;
-  Operator *op;
+    Expression *lhs;
+    Expression *rhs;
+    Operator *op;
 };
 
 }

@@ -9,7 +9,11 @@ namespace Snowy
 class Statement : public Node
 {
 public:
-  Statement() {}
+    Statement() {}
+
+    virtual llvm::Value* compile(CodeGen*) const = 0;
+    virtual void to_sstream(std::ostringstream*) const = 0;
+
 };
 
 }

@@ -9,9 +9,14 @@ namespace Snowy
 class Operator : public Node
 {
 public:
-  Operator(const char *) {}
+    Operator(const char *) {}
 
-  virtual void to_sstream(std::ostringstream*) const;
+    virtual llvm::Value* compile(CodeGen*) const
+    {
+        return NULL;
+    }
+
+    virtual void to_sstream(std::ostringstream*) const;
 
 private:
 };

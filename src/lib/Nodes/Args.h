@@ -13,25 +13,30 @@ namespace Snowy
 class Args : public Node
 {
 public:
-  Args();
-  Args(Expression*);
+    Args();
+    Args(Expression*);
 
-  void addArg(Expression*);
+    virtual llvm::Value* compile(CodeGen*) const
+    {
+        return NULL;
+    }
 
-  unsigned int getCount() const
-  {
-      return list.size();
-  }
+    void addArg(Expression*);
 
-  Expression* get(unsigned int i) const
-  {
-      return list[i];
-  }
+    unsigned int getCount() const
+    {
+        return list.size();
+    }
 
-  void to_sstream(std::ostringstream*) const;
+    Expression* get(unsigned int i) const
+    {
+        return list[i];
+    }
+
+    virtual void to_sstream(std::ostringstream*) const;
 
 private:
-  vector<Expression*> list;
+    vector<Expression*> list;
 };
 
 }

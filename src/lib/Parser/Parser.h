@@ -14,6 +14,7 @@ class Parser
 {
 public:
     Parser();
+    ~Parser() {}
 
     Node* parse();
     Node* parse(FILE *);

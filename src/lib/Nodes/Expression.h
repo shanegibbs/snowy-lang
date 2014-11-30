@@ -9,7 +9,12 @@ namespace Snowy
 class Expression : public Node
 {
 public:
-  Expression() {}
+    Expression() {}
+    llvm::Value* compile(CodeGen*) const
+    {
+        return NULL;
+    }
+    void to_sstream(std::ostringstream*) const {}
 };
 
 }
