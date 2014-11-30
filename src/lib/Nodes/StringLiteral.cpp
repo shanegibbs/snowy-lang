@@ -37,7 +37,7 @@ Value* StringLiteral::compile(CodeGen* gen) const
     string val_str(val);
     string actual = val_str.substr(1, strlen(val) - 2);
 
-    unsigned int globalStrIdx = gen->getNextStringLiteralIndex();
+    // unsigned int globalStrIdx = gen->getNextStringLiteralIndex();
 
     LLVMContext* context = &gen->getBuilder()->getContext();
 
