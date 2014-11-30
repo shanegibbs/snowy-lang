@@ -1,3 +1,5 @@
+#include <stdlib.h>
+#include <string>
 #include <glib.h>
 #include <llvm/IR/GlobalVariable.h>
 #include <llvm/IR/Constants.h>
@@ -31,13 +33,17 @@ StringLiteral::StringLiteral(const char* v)
 
 Value* StringLiteral::compile(CodeGen* gen) const
 {
+    // strip off the quotes
+    string val_str(val);
+    string actual = val_str.substr(1, strlen(val) - 2);
+
     unsigned int globalStrIdx = gen->getNextStringLiteralIndex();
 
     LLVMContext* context = &gen->getBuilder()->getContext();
 
     // global value
-    ArrayType *gv_arr_ty = ArrayType::get(Type::getInt8Ty(*context), strlen(val) + 1);
-    StringRef gv_ref(val, strlen(val));
+    ArrayType *gv_arr_ty = ArrayType::get(Type::getInt8Ty(*context), actual.length() + 1);
+    StringRef gv_ref(actual.c_str(), actual.length());
     Constant *str_init = ConstantDataArray::getString(*context, gv_ref, true);
     GlobalVariable *str_lit = new GlobalVariable(*gen->getModule(), gv_arr_ty, true, GlobalValue::LinkageTypes::ExternalLinkage, str_init, "str_lit");
 

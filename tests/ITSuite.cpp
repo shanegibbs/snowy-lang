@@ -17,7 +17,7 @@ void it_puts_stdout_test()
     }
 
     g_test_trap_subprocess("/IT/puts/stdout", 0, G_TEST_SUBPROCESS_INHERIT_STDIN);
-    g_test_trap_assert_stdout("\"hello world!!\"\n");
+    g_test_trap_assert_stdout("hello world!!\n");
 }
 
 void it_puts_string_lit_test()
@@ -31,7 +31,7 @@ void it_puts_string_lit_test()
     engine.setStdoutBuffer(buf, buf_size);
     engine.exec();
 
-    g_assert_cmpstr(buf, ==, "\"hello world!!\"\n");
+    g_assert_cmpstr(buf, ==, "hello world!!\n");
 }
 
 int main(int argc, char** argv)
