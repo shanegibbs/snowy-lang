@@ -10,6 +10,8 @@
 namespace Snowy
 {
 
+const Log Parser::log = Log("Parser");
+
 Parser::Parser()
 {
     driver = new Driver;
@@ -23,6 +25,7 @@ Node* Parser::parse()
 
 Node* Parser::parse(const char *string)
 {
+    log.info("Parsing: %s", string);
     std::stringstream ss;
     ss << string;
     driver->setLexer(new yyFlexLexer((std::istream*)&ss));
@@ -31,7 +34,7 @@ Node* Parser::parse(const char *string)
 
 Node* Parser::parse(FILE *steam)
 {
-    printf("No impl\n");
+    log.warn("No impl");
     return NULL;
 }
 

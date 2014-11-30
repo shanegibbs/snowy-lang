@@ -35,6 +35,8 @@ public:
         log_level = l;
     }
 
+    static void setup();
+
     static FILE* out;
 
 private:

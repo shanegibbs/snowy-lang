@@ -1,5 +1,6 @@
 #include <glib.h>
 #include <stdlib.h>
+#include <stdio.h>
 
 #include <Engine.h>
 
@@ -11,14 +12,17 @@ void it_puts_string_lit_test()
     char* buf = (char*)malloc(buf_size);
 
     Engine engine;
-    engine.setStdoutBuffer(buf, buf_size);
     engine.parse("puts \"hello world!!\"");
+
+    engine.setStdoutBuffer(buf, buf_size);
+    engine.exec();
 
     g_assert_cmpstr(buf, ==, "abc");
 }
 
 int main(int argc, char** argv)
 {
+    Log::setup();
     g_test_init(&argc, &argv, NULL);
     g_test_add_func("/IT/puts/StringLiteral", it_puts_string_lit_test);
     return g_test_run();

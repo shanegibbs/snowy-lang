@@ -3,6 +3,7 @@
 #include <llvm/IR/Module.h>
 
 #include <CodeGen.h>
+#include <Log.h>
 
 #include "Call.h"
 
@@ -12,8 +13,11 @@ using namespace std;
 namespace Snowy
 {
 
+const Log Call::log = Log("Call");
+
 Call::Call(Ident* i, Args* a)
 {
+    log.debug("Creating call '%s'", i->getName());
     name = i;
     args = a;
 }

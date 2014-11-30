@@ -4,12 +4,15 @@
 #include <string>
 #include <FlexLexer.h>
 
+#include <Log.h>
 #include <ProgramParser.h>
 
 class FlexLexer;
 
 namespace Snowy
 {
+
+class Log;
 
 class Driver
 {
@@ -34,6 +37,7 @@ public:
     }
 
 private:
+    static const Log log;
     Node* root;
     FlexLexer* lexer;
     ProgramParser *program_parser;

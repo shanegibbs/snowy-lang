@@ -8,6 +8,8 @@
 namespace Snowy
 {
 
+class Log;
+
 class StringLiteral : public Expression
 {
 public:
@@ -15,6 +17,7 @@ public:
     llvm::Value* compile(CodeGen*) const;
     void to_sstream(std::ostringstream*) const;
 private:
+    static const Log log;
     const char* val;
 };
 

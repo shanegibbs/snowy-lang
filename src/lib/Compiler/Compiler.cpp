@@ -27,7 +27,6 @@ Module* Compiler::compile(Node* n)
 {
     log.info("Compiling");
 
-    InitializeNativeTarget();
 
     LLVMContext &Context = getGlobalContext();
 

@@ -3,6 +3,7 @@
 #include <llvm/IR/Constants.h>
 
 #include <CodeGen.h>
+#include <Log.h>
 #include "StringLiteral.h"
 
 using namespace llvm;
@@ -11,11 +12,15 @@ using namespace std;
 namespace Snowy
 {
 
+const Log StringLiteral::log = Log("StringLiteral");
+
 StringLiteral::StringLiteral(const char* v)
 {
     g_assert_nonnull(v);
     g_assert_cmpint(strlen(v), >, 0);
     g_assert_cmpint(strlen(v), <, 100);
+
+    log.debug("Creating StringLiteral '%s'", v);
 
     char* new_val = (char*)malloc(strlen(v) + 1);
     strncpy((char*)new_val, v, strlen(v));

@@ -1,4 +1,5 @@
 AM_CXXFLAGS = $(GLIB_CFLAGS)
+AM_CXXFLAGS += -I$(top_srcdir)/src/lib
 AM_CXXFLAGS += -I$(top_srcdir)/src/lib/Nodes
 AM_CXXFLAGS += -I$(top_builddir)/src/lib/Parser
 

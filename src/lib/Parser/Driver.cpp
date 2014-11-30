@@ -8,6 +8,8 @@
 namespace Snowy
 {
 
+const Log Driver::log = Log("Driver");
+
 Driver::Driver()
 {
     program_parser = new ProgramParser(this);
@@ -18,7 +20,7 @@ int Driver::mylex(ProgramParser::semantic_type *val)
     // exec yylex
     int i = lexer->yylex();
 
-    g_debug("Called mylex - %d, %s\n", i, lexer->YYText());
+    log.debug("Called mylex - %d, %s", i, lexer->YYText());
 
     // set return values
     val->string = lexer->YYText();
@@ -34,7 +36,7 @@ Node* Driver::exec()
 
 void Driver::error(const char* err)
 {
-    printf("Snowy Parse Error: %s\n", err);
+    log.fatal("Snowy Parse Error: %s", err);
     root = NULL;
 }
 

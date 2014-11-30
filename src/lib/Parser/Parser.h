@@ -3,11 +3,13 @@
 
 #include <string>
 
+#include <Log.h>
 #include <Node.h>
 
 namespace Snowy
 {
 
+class Log;
 class Driver;
 
 class Parser
@@ -20,6 +22,7 @@ public:
     Node* parse(const char *);
 
 private:
+    static const Log log;
     Driver* driver;
 };
 

@@ -8,6 +8,8 @@
 namespace Snowy
 {
 
+class Log;
+
 class Call : public Expression
 {
 public:
@@ -16,6 +18,7 @@ public:
     void to_sstream(std::ostringstream*) const;
 
 private:
+    static const Log log;
     const Ident* name;
     const Args* args;
 };

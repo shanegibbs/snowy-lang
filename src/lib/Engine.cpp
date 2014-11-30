@@ -7,6 +7,7 @@
 #include "Engine.h"
 
 using namespace std;
+using namespace llvm;
 
 namespace Snowy
 {
@@ -16,6 +17,10 @@ const Log Engine::log = Log("Engine");
 Engine::Engine()
 {
     log.debug("Creating Engine");
+    parser = new Parser();
+    compiler = new Compiler();
+    execer = new Execer();
+    module = NULL;
 }
 
 Engine::~Engine()
@@ -25,31 +30,43 @@ Engine::~Engine()
 
 void Engine::setStdoutBuffer(char* b, int s)
 {
+    log.debug("Setting stdout buffer");
     buffer = b;
     buffer_size = s;
 }
 
-int Engine::parse()
+bool Engine::parse()
 {
-    Parser parser = Parser();
-    Snowy::Node *n = parser.parse();
+    Node *n = parser->parse();
     if (n == NULL) {
         log.warn("Parser->parse() returned NULL");
-        return 1;
+        return false;
     }
 
     log.info("Program:\n%s", n->to_program_string());
 
-    Compiler compiler;
-    llvm::Module* module = compiler.compile(n);
+    module = compiler->compile(n);
 
-    Execer execer(module);
-    return execer.exec();
+    return true;
 }
 
-int Engine::parse(string code)
+bool Engine::parse(string code)
 {
-    return 0;
+    Node* n = parser->parse(code.c_str());
+    if (n == NULL) {
+        log.warn("Parser->parse() returned NULL");
+        return false;
+    }
+
+    module = compiler->compile(n);
+
+    return true;
+}
+
+int Engine::exec()
+{
+    execer->setStdoutBuffer(buffer, buffer_size);
+    return execer->exec(module);
 }
 
 }
