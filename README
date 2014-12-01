@@ -29,6 +29,12 @@
 # nm -gU <lib>
 ```
 
+### List C++ Symbols
+```
+# nm -C src/lib/libsnowy.a |c++filt
+# objdump -t src/lib/libsnowy.a |c++filt
+```
+
 ### Flex/Bison References
 
 http://flex.sourceforge.net/manual/Cxx.html
