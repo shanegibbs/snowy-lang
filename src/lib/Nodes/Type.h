@@ -1,21 +1,21 @@
-#ifndef OPAL_NODES_IDENT_H
-#define OPAL_NODES_IDENT_H
+#ifndef SNOWY_NODES_TYPE_H
+#define SNOWY_NODES_TYPE_H
 
-#include "Expression.h"
+#include "Node.h"
 
 namespace Snowy
 {
 
 class Log;
 
-class Ident : public Expression
+class Type : public Node
 {
 public:
-    Ident(const char *name);
+    Type(const char *id);
 
-    const char* getName() const
+    const char* getId() const
     {
-        return name;
+        return id;
     }
 
     llvm::Value* compile(CodeGen*) const
@@ -27,7 +27,7 @@ public:
 
 private:
     static const Log log;
-    const char *name;
+    const char *id;
 };
 
 }
