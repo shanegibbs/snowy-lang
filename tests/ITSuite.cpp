@@ -19,7 +19,7 @@ public:
     int exit_code;
 };
 
-Result snowy_stdout(const char* code)
+Result snowy_result(const char* code)
 {
     Result result;
 
@@ -30,6 +30,18 @@ Result snowy_stdout(const char* code)
     engine.parse(code);
 
     engine.setStdoutBuffer(result.buffer, buf_size);
+    result.exit_code = engine.exec();
+
+    return result;
+}
+
+Result snowy_result_no_stdout(const char* code)
+{
+    Result result;
+
+    Engine engine;
+    engine.parse(code);
+
     result.exit_code = engine.exec();
 
     return result;
@@ -51,19 +63,19 @@ void it_puts_stdout_test()
 
 void it_puts_string_lit_test()
 {
-    Result actual = snowy_stdout("puts \"hello world!!\"\n");
+    Result actual = snowy_result("puts \"hello world!!\"\n");
     g_assert_cmpstr(actual.buffer, ==, "hello world!!\n");
 }
 
 void it_puts_int_lit_test()
 {
-    Result actual = snowy_stdout("puts 5\n");
+    Result actual = snowy_result("puts 5\n");
     g_assert_cmpstr(actual.buffer, ==, "5\n");
 }
 
 void it_int_return_test()
 {
-    Result actual = snowy_stdout("5\n");
+    Result actual = snowy_result_no_stdout("5\n");
     g_assert_cmpint(actual.exit_code, ==, 5);
 }
 
