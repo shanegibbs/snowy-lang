@@ -23,40 +23,63 @@ namespace Snowy
 
 const Log Compiler::log = Log("Compiler");
 
+Compiler::Compiler()
+{
+    context = &getGlobalContext();
+}
+
+Value* Compiler::get_exit_value(Value* last_val)
+{
+    Value* zero = ConstantInt::get(*context, APInt(32, 0, false));
+
+    if (last_val == NULL) {
+        log.debug("Last value was NULL. Setting exit code to 0");
+        return zero;
+    }
+    Type *retType = last_val->getType();
+    if (retType->isIntegerTy(32)) {
+        log.debug("Last value was i32. Setting exit code to last_val");
+        return last_val;
+    } else {
+        log.debug("Last value was not i32. Setting exit code to 0");
+        return ConstantInt::get(*context, APInt(32, 0, false));
+    }
+}
+
 Module* Compiler::compile(Node* n)
 {
     log.info("Compiling");
 
-    LLVMContext &Context = getGlobalContext();
+    IRBuilder<>* builder = new IRBuilder<>(*context);
 
-    IRBuilder<>* builder = new IRBuilder<>(Context);
-
-    Module *TheModule = new Module("my jit", Context);
+    Module *TheModule = new Module("program.snowy", *context);
 
     CodeGen codeGen = CodeGen(builder, TheModule);
 
     // puts
-    std::vector<Type*> puts_args(1, Type::getInt8PtrTy(Context));
-    FunctionType *puts_ft = FunctionType::get(Type::getInt32Ty(Context), puts_args, false);
+    std::vector<Type*> puts_args(1, Type::getInt8PtrTy(*context));
+    FunctionType *puts_ft = FunctionType::get(Type::getInt32Ty(*context), puts_args, false);
     Function* puts_fn = Function::Create(puts_ft, Function::ExternalLinkage, "puts", TheModule);
     codeGen.registerFunction(puts_fn);
 
     // main
-    std::vector<Type*> main_args(2, Type::getInt8PtrTy(Context));
-    FunctionType *main_ft = FunctionType::get(Type::getInt32Ty(Context), main_args, false);
+    std::vector<Type*> main_args(2, Type::getInt8PtrTy(*context));
+    FunctionType *main_ft = FunctionType::get(Type::getInt32Ty(*context), main_args, false);
     Function *main_fn = Function::Create(main_ft, Function::ExternalLinkage, "main", TheModule);
 
-    BasicBlock *main_block = BasicBlock::Create(Context, "", main_fn);
+    BasicBlock *main_block = BasicBlock::Create(*context, "", main_fn);
     builder->SetInsertPoint(main_block);
 
     Node* current = n;
+    Value* value = NULL;
     while (current != NULL) {
-        current->compile(&codeGen);
+        value = current->compile(&codeGen);
         current = current->getNext();
     }
 
     builder->SetInsertPoint(main_block);
-    builder->CreateRet(ConstantInt::get(Context, APInt(32, 3, false)));
+    builder->CreateRet(get_exit_value(value));
+
 
     if (log.isLogLevel(DEBUG)) {
         TheModule->dump();

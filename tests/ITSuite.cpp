@@ -7,6 +7,34 @@
 
 using namespace Snowy;
 
+class Result
+{
+public:
+    Result()
+    {
+        buffer = NULL;
+        exit_code = 0;
+    }
+    char* buffer;
+    int exit_code;
+};
+
+Result snowy_stdout(const char* code)
+{
+    Result result;
+
+    const unsigned int buf_size = 4096;
+    result.buffer = (char*)malloc(buf_size);
+
+    Engine engine;
+    engine.parse(code);
+
+    engine.setStdoutBuffer(result.buffer, buf_size);
+    result.exit_code = engine.exec();
+
+    return result;
+}
+
 void it_puts_stdout_test()
 {
     Engine engine;
@@ -23,16 +51,20 @@ void it_puts_stdout_test()
 
 void it_puts_string_lit_test()
 {
-    const unsigned int buf_size = 4096;
-    char* buf = (char*)malloc(buf_size);
+    Result actual = snowy_stdout("puts \"hello world!!\"\n");
+    g_assert_cmpstr(actual.buffer, ==, "hello world!!\n");
+}
 
-    Engine engine;
-    engine.parse("puts \"hello world!!\"\n");
+void it_puts_int_lit_test()
+{
+    Result actual = snowy_stdout("puts 5\n");
+    g_assert_cmpstr(actual.buffer, ==, "5\n");
+}
 
-    engine.setStdoutBuffer(buf, buf_size);
-    engine.exec();
-
-    g_assert_cmpstr(buf, ==, "hello world!!\n");
+void it_int_return_test()
+{
+    Result actual = snowy_stdout("5\n");
+    g_assert_cmpint(actual.exit_code, ==, 5);
 }
 
 int main(int argc, char** argv)
@@ -41,5 +73,7 @@ int main(int argc, char** argv)
     g_test_init(&argc, &argv, NULL);
     g_test_add_func("/IT/puts/stdout", it_puts_stdout_test);
     g_test_add_func("/IT/puts/StringLiteral", it_puts_string_lit_test);
+    // g_test_add_func("/IT/puts/IntLiteral", it_puts_int_lit_test);
+    g_test_add_func("/IT/return/Int", it_int_return_test);
     return g_test_run();
 }

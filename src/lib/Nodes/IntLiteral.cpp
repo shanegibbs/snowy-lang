@@ -1,6 +1,23 @@
+#include <llvm/IR/Constants.h>
+
+#include <CodeGen.h>
+
 #include "IntLiteral.h"
 
-void Snowy::IntLiteral::to_sstream(std::ostringstream* s) const
+using namespace llvm;
+
+namespace Snowy
 {
-  *s << "IntLiteral=[" << val << "]";
+
+void IntLiteral::to_sstream(std::ostringstream* s) const
+{
+    *s << "IntLiteral=[" << val << "]";
+}
+
+llvm::Value* IntLiteral::compile(CodeGen* gen) const
+{
+    LLVMContext* context = &gen->getBuilder()->getContext();
+    return ConstantInt::get(*context, APInt(32, val, false));
+}
+
 }

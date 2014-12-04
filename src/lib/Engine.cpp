@@ -18,9 +18,9 @@ const Log Engine::log = Log("Engine");
 Engine::Engine()
 {
     log.debug("Creating Engine");
-    parser = new Parser();
-    compiler = new Compiler();
-    execer = new Execer();
+    parser = new Parser;
+    compiler = new Compiler;
+    execer = new Execer;
     module = NULL;
     buffer = NULL;
 }
@@ -59,6 +59,8 @@ bool Engine::parse(string code)
         log.warn("Parser->parse() returned NULL");
         return false;
     }
+
+    log.info("Program:\n%s", n->to_program_string());
 
     module = compiler->compile(n);
 

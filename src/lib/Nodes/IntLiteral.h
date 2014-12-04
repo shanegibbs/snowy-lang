@@ -16,10 +16,7 @@ public:
         val = atoi(str);
     }
 
-    llvm::Value* compile(CodeGen*) const
-    {
-        return NULL;
-    }
+    llvm::Value* compile(CodeGen*) const;
 
     void to_sstream(std::ostringstream*) const;
 
