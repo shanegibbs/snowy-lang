@@ -48,8 +48,8 @@ void assignment_test(void)
 
 void string_assignment_test(void)
 {
-    const char *code = "a = \"this is a test\"\n";
-    const char *desc = "DeclareVar=[ident=[Ident[a]] expr=[StringLiteral=[\"this is a test\"]]]\n";
+    const char *code = "String a = \"this is a test\"\n";
+    const char *desc = "DeclareVar=[type=[Type[String]] ident=[Ident[a]] expr=[StringLiteral=[\"this is a test\"]]]\n";
     assert_code_desc(code, desc);
 }
 

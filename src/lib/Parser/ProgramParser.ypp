@@ -98,7 +98,7 @@ stmt: var_decl { $$ = $1; }
 var_decl: type ident EQ_OP expr { $$ = new Snowy::DeclareVar($1, $2, $4); }
     ;
 
-type: ID { $$ = new Snowy::Type($1); printf("type='%s'\n", $1); }
+type: ID { $$ = new Snowy::Type($1); }
     ;
 
 ident: ID { $$ = new Snowy::Ident($1); }
