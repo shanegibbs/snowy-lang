@@ -19,8 +19,9 @@ Type::Type(const char* n)
     g_assert_cmpint(strlen(n), >, 0);
     g_assert_cmpint(strlen(n), <, 100);
 
-    id = (const char*) malloc(strlen(n) + 1);
-    strncpy((char*)id, n, strlen(n));
+    char* new_id = (char*) malloc(strlen(n) + 1);
+    strncpy(new_id, n, strlen(n));
+    id = new_id;
 }
 
 void Type::to_sstream(std::ostringstream* s) const

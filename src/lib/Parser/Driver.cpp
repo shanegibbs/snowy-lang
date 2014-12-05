@@ -1,6 +1,6 @@
 #include <glib.h>
 #include <sstream>
-#include <string>
+#include <string.h>
 
 #include <Node.h>
 

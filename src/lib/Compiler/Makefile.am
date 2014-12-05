@@ -1,5 +1,5 @@
 AM_CXXFLAGS = $(GLIB_CFLAGS)
-AM_CXXFLAGS += `$(LLVM_CONFIG) --cxxflags`
+AM_CXXFLAGS += -I`$(LLVM_CONFIG) --includedir`
 AM_CXXFLAGS += -I$(top_srcdir)/src/lib/Common
 AM_CXXFLAGS += -I$(top_srcdir)/src/lib/Nodes
 

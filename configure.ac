@@ -69,7 +69,7 @@ PKG_CHECK_MODULES([GOBJECT], [gobject-2.0], [LIBS="-lgobject-2.0 $LIBS"], [
 # -O0 does not
 
 AC_SUBST([SNOWY_CXXFLAGS], ["-DG_DISABLE_ASSERT"])
-AC_SUBST([SNOWY_DEBUG_CXXFLAGS], ["-Wall -Werror -Wno-deprecated-register"])
+AC_SUBST([SNOWY_DEBUG_CXXFLAGS], ["-Wall -Werror"]) # -Wno-deprecated-register
 
 # debug flag
 AC_ARG_ENABLE([debug],
