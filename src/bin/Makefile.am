@@ -1,9 +1,4 @@
-AM_CXXFLAGS = $(GLIB_CFLAGS)
-AM_CXXFLAGS += -I`$(LLVM_CONFIG) --includedir`
-AM_CXXFLAGS += -I$(top_srcdir)/src/lib/Common
-AM_CXXFLAGS += -I$(top_srcdir)/src/lib/Nodes
-AM_CXXFLAGS += -I$(top_srcdir)/src/lib/Parser
-AM_CXXFLAGS += -I$(top_srcdir)/src/lib/Compiler
+AM_CXXFLAGS = -I$(top_srcdir)/src/lib/Common
 AM_CXXFLAGS += -I$(top_srcdir)/src/lib
 
 if DEBUG
