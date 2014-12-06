@@ -3,7 +3,7 @@
 #include <glib.h>
 
 #include <Log.h>
-#include <Assert.h>
+#include <SnowyAssert.h>
 
 #include "Node.h"
 

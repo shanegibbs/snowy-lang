@@ -2,7 +2,7 @@
 
 #include "Log.h"
 
-#include "Assert.h"
+#include "SnowyAssert.h"
 
 using namespace std;
 using namespace Snowy;
