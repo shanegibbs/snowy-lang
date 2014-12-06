@@ -39,12 +39,13 @@ Value* DeclareVar::compile(CodeGen* gen) const
     Value *val = expr->compile(gen);
     g_assert_nonnull(val);
 
-    // IntegerType* mem_type = llvm::Type::getInt32Ty(*c);
-    llvm::Type* mem_type = val->getType();
-    ConstantInt* mem_count = gen->getBuilder()->getInt32(1);
-    AllocaInst* mem = gen->getBuilder()->CreateAlloca(mem_type, mem_count, ident->getName());
+    IRBuilder<>* b = gen->getBuilder();
 
-    StoreInst* stored = gen->getBuilder()->CreateStore(val, mem);
+    llvm::Type* mem_type = val->getType();
+    ConstantInt* mem_count = b->getInt32(1);
+    AllocaInst* mem = b->CreateAlloca(mem_type, mem_count, ident->getName());
+
+    StoreInst* stored = b->CreateStore(val, mem);
     return stored;
 }
 
