@@ -2,12 +2,14 @@
 #include <string.h>
 #include <sstream>
 
-#include <Nodes/Type.h>
-#include <Nodes/Ident.h>
-#include <Nodes/IntLiteral.h>
-#include <Nodes/Operator.h>
-#include <Nodes/Tuple.h>
-#include <Nodes/DeclareVar.h>
+#include <SnowyAssert.h>
+
+#include <Type.h>
+#include <Ident.h>
+#include <IntLiteral.h>
+#include <Operator.h>
+#include <Tuple.h>
+#include <DeclareVar.h>
 
 using namespace Snowy;
 using namespace std;
@@ -48,5 +50,5 @@ void node_basic_multi_test(void)
     const char* actual = aDecl.to_program_string();
     g_assert_nonnull(actual);
     g_assert_cmpuint(strlen(actual), >, 0);
-    g_assert_cmpstr(actual, ==, expected.c_str());
+    s_assert_cmpstr(actual, expected.c_str());
 }
