@@ -1,5 +1,6 @@
 #include <glib.h>
 #include <stdio.h>
+#include <string.h>
 #include <glib/gstdio.h>
 
 #include <Nodes/Call.h>

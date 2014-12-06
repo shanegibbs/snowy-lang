@@ -1,6 +1,6 @@
 #include <glib.h>
 #include <sstream>
-#include <string>
+#include <string.h>
 
 #include <Node.h>
 
@@ -25,8 +25,10 @@ int Driver::mylex(ProgramParser::semantic_type *val)
 
     // need to copy string as it will get nurfed when the
     // parser does a look ahead
-    val->string = (const char*)malloc(strlen(lexer->YYText() + 1));
+    size_t len = strlen(lexer->YYText());
+    val->string = (const char*)malloc(len + 1);
     strcpy((char*)val->string, lexer->YYText());
+    g_assert_cmpstr(val->string, ==, lexer->YYText());
 
     return i;
 }

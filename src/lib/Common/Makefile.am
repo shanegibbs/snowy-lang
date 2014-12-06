@@ -1,5 +1,5 @@
 AM_CXXFLAGS = $(GLIB_CFLAGS)
-AM_CXXFLAGS += `$(LLVM_CONFIG) --cxxflags`
+AM_CXXFLAGS += `$(LLVM_CONFIG) --cppflags`
 
 if DEBUG
 AM_CXXFLAGS += @SNOWY_DEBUG_CXXFLAGS@
@@ -9,4 +9,4 @@ endif
 
 noinst_LIBRARIES = libsnowy-common.a
 
-libsnowy_common_a_SOURCES = Log.cpp CodeGen.cpp
+libsnowy_common_a_SOURCES = Log.cpp CodeGen.cpp SnowyAssert.cpp

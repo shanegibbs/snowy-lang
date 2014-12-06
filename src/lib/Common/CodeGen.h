@@ -1,3 +1,6 @@
+#ifndef SNOWY_COMMON_CODEGEN_H
+#define SNOWY_COMMON_CODEGEN_H
+
 #include <map>
 
 #include <llvm/IR/IRBuilder.h>
@@ -46,3 +49,4 @@ private:
 };
 
 }
+#endif

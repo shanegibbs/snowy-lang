@@ -55,7 +55,7 @@ int Execer::exec(Module* module)
     int (*program_main)(int, int) = (int (*)(int, int))main_fn_ptr;
 
     int out_pipe[2];
-    int saved_stdout;
+    int saved_stdout = 0;
 
     if (buffer != NULL) {
         g_assert_nonnull(buffer);
@@ -78,7 +78,8 @@ int Execer::exec(Module* module)
 
     if (buffer != NULL) {
         // read from pipe
-        read(out_pipe[0], buffer, buffer_size);
+        ssize_t r = read(out_pipe[0], buffer, buffer_size);
+        log.debug("Read %d bytes", r);
         dup2(saved_stdout, STDOUT_FILENO);
 
         log.debug("stdout was: '%s'\n", buffer);
