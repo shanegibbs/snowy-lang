@@ -20,7 +20,7 @@ Type::Type(const char* n)
     g_assert_cmpint(strlen(n), <, 100);
 
     char* new_id = (char*) malloc(strlen(n) + 1);
-    strncpy(new_id, n, strlen(n));
+    strcpy(new_id, n);
     id = new_id;
 }
 

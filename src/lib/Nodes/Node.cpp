@@ -36,7 +36,9 @@ const char* Node::to_string()
     to_sstream(&oss);
     oss << endl;
 
-    const char* oss_out = oss.str().c_str();
+    string oss_str = oss.str();
+    const char* oss_out = oss_str.c_str();
+
     char* cstr = new char[strlen(oss_out) + 1];
     strcpy(cstr, oss_out);
     s_assert_cmpstr(cstr, oss.str().c_str());
