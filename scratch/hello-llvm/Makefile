@@ -4,8 +4,8 @@ my-hello: my-hello.ll
 	clang my-hello.ll -o my-hello
 
 fromc.ll: fromc.c
-	clang -O1 -emit-llvm fromc.c -c -o fromc.bc
-	llvm-dis < fromc.bc > fromc.ll
+	clang -O0 -emit-llvm fromc.c -c -o fromc.bc
+	llvm-dis-3.5 < fromc.bc > fromc.ll
 
 fromc: fromc.ll
 	clang fromc.ll -o fromc
