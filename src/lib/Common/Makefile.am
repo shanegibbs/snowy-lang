@@ -9,4 +9,4 @@ endif
 
 noinst_LIBRARIES = libsnowy-common.a
 
-libsnowy_common_a_SOURCES = Log.cpp CodeGen.cpp
+libsnowy_common_a_SOURCES = Log.cpp CodeGen.cpp Assert.cpp

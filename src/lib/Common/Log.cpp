@@ -110,8 +110,8 @@ void Log::fatal(const char* format, ...) const
     va_start(args, format);
     log(FATAL, format, &args);
     va_end(args);
-    fprintf(stderr, "** Exiting on FATAL...\n");
-    exit(1);
+    fprintf(stderr, "** Aborting on FATAL...\n");
+    abort();
 }
 
 }

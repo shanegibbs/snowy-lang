@@ -19,9 +19,10 @@ Ident::Ident(const char* n)
     g_assert_cmpint(strlen(n), >, 0);
     g_assert_cmpint(strlen(n), <, 100);
 
-    char* new_name = (char*) malloc(strlen(n) + 1);
-    strncpy(new_name, n, strlen(n));
+    char* new_name = (char*)malloc(strlen(n) + 1);
+    strcpy(new_name, n);
     name = new_name;
+    g_assert_cmpstr(n, ==, name);
 }
 
 void Snowy::Ident::to_sstream(std::ostringstream* s) const

@@ -1,5 +1,5 @@
 #include <glib.h>
-#include <string>
+#include <string.h>
 #include <sstream>
 
 #include <Nodes/Type.h>

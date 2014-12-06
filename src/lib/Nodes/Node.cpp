@@ -1,7 +1,9 @@
-#include <string.h>
+#include <stdlib.h>
+#include <cstring>
 #include <glib.h>
 
 #include <Log.h>
+#include <Assert.h>
 
 #include "Node.h"
 
@@ -37,6 +39,8 @@ const char* Node::to_string()
     const char* oss_out = oss.str().c_str();
     char* cstr = new char[strlen(oss_out) + 1];
     strcpy(cstr, oss_out);
+    s_assert_cmpstr(cstr, oss.str().c_str());
+
     return cstr;
 }
 
