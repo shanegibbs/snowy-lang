@@ -22,11 +22,19 @@ AC_PROG_YACC
 #AC_PROG_LIBTOOL
 
 AC_CHECK_PROG([FLEX], [flex lex], [flex])
+
+# llvm setup
 AC_CHECK_PROG([LLVM_CONFIG], [llvm-config], [llvm-config])
 AC_CHECK_PROG([LLVM_CONFIG], [llvm-config-3.5], [llvm-config-3.5])
 if test x"${LLVM_CONFIG}" == x"" ; then
   AC_MSG_ERROR([unable to find llvm-config command])
 fi
+
+LLVM_LIBS=`${LLVM_CONFIG} --libs core jit native bitwriter --system-libs |sed 'N;s/\n/ /'`
+LLVM_LIBDIR=-L`${LLVM_CONFIG} --libdir`
+
+AC_SUBST([LLVM_LIBS])
+AC_SUBST([LLVM_LIBDIR])
 
 # Reset the externally set CFLAGS after calling AC_PROG*
 CXXFLAGS="$EXTERNAL_CXXFLAGS"

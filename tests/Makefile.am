@@ -6,13 +6,14 @@ AM_CXXFLAGS += -I$(top_srcdir)/src/lib/Parser
 AM_CXXFLAGS += -I$(top_srcdir)/src/lib
 AM_CXXFLAGS += @SNOWY_DEBUG_CXXFLAGS@
 
-AM_LDFLAGS = -L`$(LLVM_CONFIG) --libdir` `llvm-config --libs core jit native bitwriter --system-libs`
+AM_LDFLAGS = @LLVM_LIBDIR@
 
-LDADD = $(top_builddir)/src/lib/Common/libsnowy-common.a
-LDADD += $(top_builddir)/src/lib/Nodes/libsnowy-nodes.a
+LDADD = $(top_builddir)/src/lib/libsnowy.a
 LDADD += $(top_builddir)/src/lib/Parser/libsnowy-parser.a
 LDADD += $(top_builddir)/src/lib/Compiler/libsnowy-compiler.a
-LDADD += $(top_builddir)/src/lib/libsnowy.a
+LDADD += $(top_builddir)/src/lib/Nodes/libsnowy-nodes.a
+LDADD += $(top_builddir)/src/lib/Common/libsnowy-common.a
+LDADD += @LLVM_LIBS@
 
 TESTS=$(check_PROGRAMS)
 check_PROGRAMS=NodeTestSuite ParserTestSuite ITSuite
