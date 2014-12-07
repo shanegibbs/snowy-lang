@@ -29,6 +29,12 @@ There are some pre setup scripts you can use. For ubuntu, run `../scripts/config
 * flex 2.5.35 Apple(flex-31)
 * llvm 3.5.0
 
+### Ubuntu
+
+```
+sudo apt-get install build-essential autoconf clang-3.5 llvm-3.5 llvm-3.5-dev libedit-dev libglib2.0-0 libglib2.0-dev bison flex
+```
+
 ## Notes
 
 ### List Symbols in a Library
