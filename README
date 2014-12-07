@@ -1,19 +1,26 @@
 # Snowy Lang
 
-## Setup
+## Getting Started
+
+### Generating the configure script
 
 ```
-# mkdir build; cd build
-# ../configure CXX=clang++ LDFLAGS=-L/usr/local/lib CFLAGS=-I/usr/local/include --enable-debug
-# make check
+# ./autogen.sh
 ```
 
-### MacOS
+### Run configure script
+
+Create a build directory:
 
 ```
-# mkdir build; cd build
-# ../scripts/configure.mac.sh
-# make check
+# mkdir build
+# cd build
+```
+
+There are some pre setup scripts you can use. For ubuntu, run `../scripts/configure.ubuntu.sh`. For mac, run `../scripts/configure.mac.sh`. Or you can run configure with your own options:
+
+```
+# ../configure CXX=clang++ CXXFLAGS='-g' LDFLAGS=-L/usr/local/lib CFLAGS=-I/usr/local/include --enable-debug
 ```
 
 ## Dependencies
