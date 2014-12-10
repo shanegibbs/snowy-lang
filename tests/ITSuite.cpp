@@ -11,8 +11,7 @@ using namespace Snowy;
 class Result
 {
 public:
-    Result()
-    {
+    Result() {
         buffer = NULL;
         exit_code = 0;
     }
@@ -74,7 +73,7 @@ void it_puts_int_lit_test()
     g_assert_cmpstr(actual.buffer, ==, "5\n");
 }
 
-void it_int_return_test()
+void it_return_int_test()
 {
     Result actual = snowy_result_no_stdout("5\n");
     g_assert_cmpint(actual.exit_code, ==, 5);
@@ -92,6 +91,18 @@ void it_variable_use_2()
     s_assert_cmpstr(actual.buffer, "one\n");
 }
 
+void it_add_int_single()
+{
+    Result actual = snowy_result_no_stdout("2 + 8\n");
+    s_assert_cmpint(actual.exit_code, ==, 10);
+}
+
+void it_add_int_multi()
+{
+    Result actual = snowy_result_no_stdout("2 + 8 + 3 + 7\n");
+    s_assert_cmpint(actual.exit_code, ==, 20);
+}
+
 int main(int argc, char** argv)
 {
     Log::setup();
@@ -99,8 +110,10 @@ int main(int argc, char** argv)
     g_test_add_func("/IT/puts/stdout", it_puts_stdout_test);
     g_test_add_func("/IT/puts/StringLiteral", it_puts_string_lit_test);
     // g_test_add_func("/IT/puts/IntLiteral", it_puts_int_lit_test);
-    g_test_add_func("/IT/return/Int", it_int_return_test);
+    g_test_add_func("/IT/return/Int", it_return_int_test);
     g_test_add_func("/IT/variable/use/1", it_variable_use_1);
     g_test_add_func("/IT/variable/use/2", it_variable_use_2);
+    g_test_add_func("/IT/add/int/single", it_add_int_single);
+    g_test_add_func("/IT/add/int/multi", it_add_int_multi);
     return g_test_run();
 }

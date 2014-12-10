@@ -12,10 +12,7 @@ class Tuple : public Expression
 public:
     Tuple(Expression *l, Operator *o, Expression *r);
 
-    llvm::Value* compile(CodeGen*) const
-    {
-        return NULL;
-    }
+    llvm::Value* compile(CodeGen*) const;
 
     void to_sstream(std::ostringstream*) const;
 
