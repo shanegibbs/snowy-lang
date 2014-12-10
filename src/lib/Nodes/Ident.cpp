@@ -36,12 +36,16 @@ Ident::Ident(const char* n)
 
 Value* Ident::compile(CodeGen* gen) const
 {
+    log.debug("Compiling Ident '%s'", name);
+
     IRBuilder<>* b = gen->getBuilder();
 
-    Value* ptr_to_load = NULL; // needs to come from somewhere
+    const string name_string(name);
+
+    const Value* ptr_to_load = gen->getValue(name_string); // needs to come from somewhere
     s_assert_notnull(ptr_to_load);
 
-    LoadInst* load_inst = b->CreateLoad(ptr_to_load, false, name);
+    LoadInst* load_inst = b->CreateLoad((Value*)ptr_to_load, false, name_string);
 
     return load_inst;
 }

@@ -87,8 +87,13 @@ namespace Snowy {
 
 %%
 
-program: program node ENDL { $1->setNext($2); $$ = $2; }
-    | node ENDL { driver->setRoot($1); }
+program: program node end { $1->setNext($2); $$ = $2; }
+    | node end { driver->setRoot($1); }
+    ;
+
+end: {}
+    | end ENDL {}
+    | ENDL {}
     ;
 
 node: stmt { $$ = $1; }
@@ -135,6 +140,6 @@ Snowy::ProgramParser::error( const std::string &err_message )
 {
    const char* err = err_message.c_str();
    char* err_cpy = (char*)malloc(strlen(err) + 1);
-   strncpy(err_cpy, err, strlen(err));
+   strcpy(err_cpy, err);
    driver->error(err_cpy);
 }

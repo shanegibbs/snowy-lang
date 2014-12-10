@@ -20,25 +20,24 @@ public:
     CodeGen(IRBuilder<>*, Module*);
     void registerFunction(Function* fn);
 
-    IRBuilder<>* getBuilder() const
-    {
+    IRBuilder<>* getBuilder() const {
         return builder;
     }
 
-    LLVMContext* getContext() const
-    {
+    LLVMContext* getContext() const {
         return &builder->getContext();
     }
 
-    Module* getModule() const
-    {
+    Module* getModule() const {
         return module;
     }
 
-    unsigned int getNextStringLiteralIndex()
-    {
+    unsigned int getNextStringLiteralIndex() {
         return stringLiteralIndex++;
     }
+
+    void registerValue(const string name, Value* value);
+    const Value* getValue(const string) const;
 
 private:
     static const Log log;
@@ -46,6 +45,7 @@ private:
     IRBuilder<>* builder;
     Module* module;
     map<string, Function*> functions;
+    map<string, Value*> values;
 };
 
 }
