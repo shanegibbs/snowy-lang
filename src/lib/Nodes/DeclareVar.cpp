@@ -46,6 +46,8 @@ Value* DeclareVar::compile(CodeGen* gen) const
     AllocaInst* mem = b->CreateAlloca(mem_type, mem_count, ident->getName());
 
     StoreInst* stored = b->CreateStore(val, mem);
+    gen->registerValue(ident->getName(), mem);
+
     return stored;
 }
 

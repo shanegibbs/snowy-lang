@@ -4,6 +4,7 @@
 %defines
 %define api.namespace {Snowy}
 %define parser_class_name {ProgramParser}
+%define parse.error verbose
 
 %code requires { /* code for the defines/header file */
 #include <Args.h>
@@ -69,6 +70,8 @@ namespace Snowy {
 %token <token> EQ_OP
 %token <string> OP
 %token <token> COMMA
+%token <token> OPEN_BRACKET
+%token <token> CLOSE_BRACKET
 
 %type <node> program
 %type <node> node
@@ -84,8 +87,13 @@ namespace Snowy {
 
 %%
 
-program: program node ENDL { $1->setNext($2); $$ = $2; }
-    | node ENDL { driver->setRoot($1); }
+program: program node end { $1->setNext($2); $$ = $2; }
+    | node end { driver->setRoot($1); }
+    ;
+
+end: {}
+    | end ENDL {}
+    | ENDL {}
     ;
 
 node: stmt { $$ = $1; }
@@ -110,13 +118,14 @@ op: OP { $$ = new Snowy::Operator($1); }
 tuple: expr op expr { $$ = new Snowy::Tuple($1, $2, $3); }
     ;
 
-call: ident args { $$ = new Call($1, $2); }
+call: ident OPEN_BRACKET args CLOSE_BRACKET { $$ = new Call($1, $3); }
     ;
 
 expr: INTEGER { $$ = new Snowy::IntLiteral($1); }
     | STRING_LIT { $$ = new Snowy::StringLiteral($1); }
     | tuple { $$ = $1; }
     | call { $$ = $1; }
+    | ident { $$ = $1; }
     ;
 
 args: { $$ = new Args; } // blank
@@ -131,6 +140,6 @@ Snowy::ProgramParser::error( const std::string &err_message )
 {
    const char* err = err_message.c_str();
    char* err_cpy = (char*)malloc(strlen(err) + 1);
-   strncpy(err_cpy, err, strlen(err));
+   strcpy(err_cpy, err);
    driver->error(err_cpy);
 }

@@ -80,6 +80,7 @@ int Execer::exec(Module* module)
         // read from pipe
         ssize_t r = read(out_pipe[0], buffer, buffer_size);
         log.debug("Read %d bytes", r);
+        buffer[r] = 0;
         dup2(saved_stdout, STDOUT_FILENO);
 
         log.debug("stdout was: '%s'\n", buffer);

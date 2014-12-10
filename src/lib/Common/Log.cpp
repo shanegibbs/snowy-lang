@@ -51,7 +51,7 @@ void Log::log(LogLevel l, const char* format, va_list* args) const
         level = "ERROR";
         break;
     case FATAL:
-        level = "FATAL";
+        level = "\x1b[31mFATAL\x1b[0m";
         break;
     };
 

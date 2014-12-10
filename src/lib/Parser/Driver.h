@@ -36,6 +36,8 @@ public:
         root = r;
     }
 
+    const char* getTokenString(int) const;
+
 private:
     static const Log log;
     Node* root;

@@ -4,6 +4,7 @@
 
 #include <Engine.h>
 #include <Log.h>
+#include <SnowyAssert.h>
 
 using namespace Snowy;
 
@@ -50,7 +51,7 @@ Result snowy_result_no_stdout(const char* code)
 void it_puts_stdout_test()
 {
     Engine engine;
-    engine.parse("puts \"hello world!!\"\n");
+    engine.parse("puts(\"hello world!!\")");
 
     if (g_test_subprocess()) {
         engine.exec();
@@ -63,7 +64,7 @@ void it_puts_stdout_test()
 
 void it_puts_string_lit_test()
 {
-    Result actual = snowy_result("puts \"hello world!!\"\n");
+    Result actual = snowy_result("puts(\"hello world!!\")");
     g_assert_cmpstr(actual.buffer, ==, "hello world!!\n");
 }
 
@@ -79,6 +80,18 @@ void it_int_return_test()
     g_assert_cmpint(actual.exit_code, ==, 5);
 }
 
+void it_variable_use_1()
+{
+    Result actual = snowy_result("string a = \"one\"\nputs(a)");
+    s_assert_cmpstr(actual.buffer, "one\n");
+}
+
+void it_variable_use_2()
+{
+    Result actual = snowy_result("string a = \"one\"\nstring b = \"two\"\nputs(a)");
+    s_assert_cmpstr(actual.buffer, "one\n");
+}
+
 int main(int argc, char** argv)
 {
     Log::setup();
@@ -87,5 +100,7 @@ int main(int argc, char** argv)
     g_test_add_func("/IT/puts/StringLiteral", it_puts_string_lit_test);
     // g_test_add_func("/IT/puts/IntLiteral", it_puts_int_lit_test);
     g_test_add_func("/IT/return/Int", it_int_return_test);
+    g_test_add_func("/IT/variable/use/1", it_variable_use_1);
+    g_test_add_func("/IT/variable/use/2", it_variable_use_2);
     return g_test_run();
 }

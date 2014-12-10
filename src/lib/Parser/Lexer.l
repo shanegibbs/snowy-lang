@@ -27,17 +27,10 @@ ID [a-zA-Z][a-zA-Z0-9]*
 =                   return token::EQ_OP;
 "+"|"-"|"*"|"/"     return token::OP;
 ,                   return token::COMMA;
+"("                 return token::OPEN_BRACKET;
+")"                 return token::CLOSE_BRACKET;
 \n                  return token::ENDL;
 [ \t]+
 .                   printf("(new char)");
 
 %%
-
-int Xmain( int /* argc */, char** /* argv */ )
-{
-  FlexLexer* scanner = new yyFlexLexer;
-  while(scanner->yylex() != 0) {
-    puts(scanner->YYText());
-  }
-  return 0;
-}

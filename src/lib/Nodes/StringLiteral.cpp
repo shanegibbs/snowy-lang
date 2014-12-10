@@ -26,8 +26,7 @@ StringLiteral::StringLiteral(const char* v)
     log.debug("Creating StringLiteral '%s'", v);
 
     char* new_val = (char*)malloc(strlen(v) + 1);
-    strncpy((char*)new_val, v, strlen(v));
-    new_val[strlen(v)] = 0;
+    strcpy((char*)new_val, v);
 
     val = (const char*)new_val;
 }

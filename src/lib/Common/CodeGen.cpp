@@ -22,4 +22,15 @@ void CodeGen::registerFunction(Function* fn)
     functions[fn->getName()] = fn;
 }
 
+void CodeGen::registerValue(const string name, Value* value)
+{
+    values[name] = value;
+}
+
+const Value* CodeGen::getValue(const string name) const
+{
+    log.debug("Registering value '%s'", name.c_str());
+    return values.at(name);
+}
+
 }
