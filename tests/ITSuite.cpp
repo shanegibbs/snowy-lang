@@ -115,6 +115,31 @@ void it_sub_int_multi()
     s_assert_cmpint(actual.exit_code, ==, 20 - 12 - 5);
 }
 
+void it_mul_int_single()
+{
+    Result actual = snowy_result_no_stdout("10 * 2\n");
+    s_assert_cmpint(actual.exit_code, ==, 10 * 2);
+}
+
+void it_mul_int_multi()
+{
+    Result actual = snowy_result_no_stdout("20 * 12 * 5\n");
+    s_assert_cmpint(actual.exit_code, ==, 20 * 12 * 5);
+}
+
+void it_div_int_single()
+{
+    Result actual = snowy_result_no_stdout("10 / 2\n");
+    s_assert_cmpint(actual.exit_code, ==, 10 / 2);
+}
+
+void it_div_int_multi()
+{
+    Result actual = snowy_result_no_stdout("20 / 4 / 2\n");
+    s_assert_cmpint(actual.exit_code, ==, 20 / 4 / 2);
+}
+
+
 void it_brackets_int_left()
 {
     Result actual = snowy_result_no_stdout("(10 - 5) + 2\n");
@@ -139,8 +164,12 @@ int main(int argc, char** argv)
     g_test_add_func("/IT/variable/use/2", it_variable_use_2);
     g_test_add_func("/IT/add/int/single", it_add_int_single);
     g_test_add_func("/IT/add/int/multi", it_add_int_multi);
-    g_test_add_func("/IT/add/sub/single", it_sub_int_single);
-    g_test_add_func("/IT/add/sub/multi", it_sub_int_multi);
+    g_test_add_func("/IT/sub/int/single", it_sub_int_single);
+    g_test_add_func("/IT/sub/int/multi", it_sub_int_multi);
+    g_test_add_func("/IT/mul/int/single", it_mul_int_single);
+    g_test_add_func("/IT/mul/int/multi", it_mul_int_multi);
+    g_test_add_func("/IT/div/int/single", it_div_int_single);
+    g_test_add_func("/IT/div/int/multi", it_div_int_multi);
     g_test_add_func("/IT/brackets/int/left", it_brackets_int_left);
     g_test_add_func("/IT/brackets/int/right", it_brackets_int_right);
     return g_test_run();

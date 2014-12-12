@@ -9,7 +9,9 @@ namespace Snowy
 
 enum OperatorType {
     OP_PLUS,
-    OP_MINUS
+    OP_MINUS,
+    OP_MULTIPLY,
+    OP_DIVIDE
 };
 
 class Operator : public Node
@@ -28,6 +30,7 @@ public:
     virtual void to_sstream(std::ostringstream*) const;
 
 private:
+    const static Log log;
     OperatorType op;
 };
 
