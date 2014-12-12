@@ -26,7 +26,12 @@ Value* Tuple::compile(CodeGen* gen) const
 
     IRBuilder<>* b = gen->getBuilder();
 
-    return b->CreateAdd(lhs_val, rhs_val, "tuple");
+    switch(op->getOp()) {
+    case OP_PLUS:
+        return b->CreateAdd(lhs_val, rhs_val, "tuple");
+    case OP_MINUS:
+        return b->CreateSub(lhs_val, rhs_val, "tuple");
+    }
 }
 
 void Snowy::Tuple::to_sstream(std::ostringstream* s) const
