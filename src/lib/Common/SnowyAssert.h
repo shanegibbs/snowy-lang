@@ -23,4 +23,8 @@ void snowy_assert_notnull(void* o, string strO, string func, string file, int li
         Log("assert").fatal("Assertion failed at %s:%d:%s\n\nAssertion was [%s] %s [%s]: %d %s %d\n", __FILE__, __LINE__, __PRETTY_FUNCTION__, #n1, #cmp, #n2, _n1, #cmp, _n2); \
 } while (0)
 
+#define s_assert_unreachable() do { \
+    Log("assert").fatal("Assertion failed at %s:%d:%s\n\nAssertion, statement was reached.\n", __FILE__, __LINE__, __PRETTY_FUNCTION__); \
+} while (0)
+
 #endif

@@ -5,6 +5,7 @@
 
 #include <CodeGen.h>
 
+#include <SnowyAssert.h>
 #include "Tuple.h"
 
 using namespace llvm;
@@ -31,7 +32,13 @@ Value* Tuple::compile(CodeGen* gen) const
         return b->CreateAdd(lhs_val, rhs_val, "tuple");
     case OP_MINUS:
         return b->CreateSub(lhs_val, rhs_val, "tuple");
+    case OP_MULTIPLY:
+        return b->CreateMul(lhs_val, rhs_val, "tuple");
+    case OP_DIVIDE:
+        return b->CreateUDiv(lhs_val, rhs_val, "tuple");
     }
+
+    s_assert_unreachable();
 }
 
 void Snowy::Tuple::to_sstream(std::ostringstream* s) const
