@@ -15,4 +15,4 @@ install:
 before_script:
   - mkdir m4 && ./autogen.sh
 script:
-  - ./configure && make -j && make test
+  - ./configure && make -j && make check
