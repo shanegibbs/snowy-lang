@@ -3,7 +3,7 @@
 #
 # http://www.gnu.org/savannah-checkouts/gnu/autoconf/manual/autoconf-2.69/html_node/index.html
 
-AC_PREREQ([2.69])
+AC_PREREQ([2.68])
 AC_INIT([snowy], [0.1], [shane@gibbsdevops.com])
 AC_CONFIG_SRCDIR([src/bin/main.cpp])
 AC_CONFIG_HEADERS([config.h])
