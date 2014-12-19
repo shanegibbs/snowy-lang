@@ -177,6 +177,6 @@ int main(int argc, char** argv)
     g_test_add_func("/IT/div/int/multi", it_div_int_multi);
     g_test_add_func("/IT/brackets/int/left", it_brackets_int_left);
     g_test_add_func("/IT/brackets/int/right", it_brackets_int_right);
-    g_test_add_func("/IT/function/declare_and_call", it_function_declare_and_call);
+    // g_test_add_func("/IT/function/declare_and_call", it_function_declare_and_call);
     return g_test_run();
 }

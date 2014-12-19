@@ -19,6 +19,7 @@ public:
     void to_sstream(std::ostringstream*) const;
 
 private:
+    static const Log log;
     Type *type;
     Ident *ident;
     Expression *expr;

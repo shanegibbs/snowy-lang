@@ -65,6 +65,10 @@ const char* Driver::getTokenString(int t) const
         return "OPEN_BRACKET";
     case ProgramParser::token::CLOSE_BRACKET:
         return "CLOSE_BRACKET";
+    case ProgramParser::token::DO:
+        return "DO";
+    case ProgramParser::token::END:
+        return "END";
     case ProgramParser::token::ENDL:
         return "ENDL";
     }

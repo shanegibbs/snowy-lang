@@ -10,8 +10,7 @@ class Expression : public Node
 {
 public:
     Expression() {}
-    llvm::Value* compile(CodeGen*) const
-    {
+    llvm::Value* compile(CodeGen*) const {
         return NULL;
     }
     void to_sstream(std::ostringstream*) const {}
