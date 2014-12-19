@@ -7,4 +7,4 @@ os:
   - osx
 osx_image: xcode61
 before_install:
-  - ./autogen.sh
+  - autoconf
