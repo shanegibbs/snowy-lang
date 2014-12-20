@@ -15,6 +15,6 @@ install:
 before_script:
   - mkdir m4 && ./autogen.sh
 script:
-  - ./configure CXXFLAGS='-std=c++11' && make && make check
+  - ./configure CXXFLAGS='-std=c++0x' && make && make check
 after_failure:
   - cat config.log
