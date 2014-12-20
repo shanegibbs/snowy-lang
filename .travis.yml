@@ -6,6 +6,8 @@ os:
   - linux
 before_install:
   - cat /etc/issue.net
+  - whoami
+  - pwd
 install:
 before_script:
   - mkdir m4 && ./autogen.sh
