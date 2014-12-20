@@ -107,7 +107,7 @@ int main(int argc, char** argv)
     g_test_add_func("/Parser/func/no_args", func_no_args);
     g_test_add_func("/Parser/func/one_arg", func_one_arg);
     g_test_add_func("/Parser/func/two_args", func_two_args);
-    g_test_add_func("/Parser/func/body_one_line", func_body_one_line);
-    g_test_add_func("/Parser/func/body_multi_line", func_body_multi_line);
+    // g_test_add_func("/Parser/func/body_one_line", func_body_one_line);
+    // g_test_add_func("/Parser/func/body_multi_line", func_body_multi_line);
     return g_test_run();
 }
