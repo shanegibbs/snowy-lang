@@ -18,3 +18,4 @@ script:
   - ./configure CXXFLAGS='-std=c++11' && make && make check
 after_failure:
   - cat config.log
+sudo: false
