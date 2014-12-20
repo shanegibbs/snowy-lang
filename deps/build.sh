@@ -25,6 +25,7 @@ mkdir -p $WORKSPACE
 
 INSTALL=$HOME/snowy-deps/$TAG
 
+export SNOWY_GCC=$INSTALL/gcc-4.8.4
 if [ ! -e "$INSTALL/gcc-4.8.4/bin/gcc" ]; then
   export CFLAGS='-g -O2 -I/usr/include/x86_64-linux-gnu'
   export CXXFLAGS=$CFLAGS
@@ -46,6 +47,7 @@ fi
 export PATH=$INSTALL/gcc-4.8.4/bin:$PATH
 
 LIB_NAME=flex-2.5.39
+export SNOWY_FLEX=$INSTALL/$LIB_NAME
 if [ ! -e "$INSTALL/$LIB_NAME/bin/flex" ]; then
   export CFLAGS='-g -O2'
   export CXXFLAGS=$CFLAGS
@@ -62,6 +64,8 @@ if [ ! -e "$INSTALL/$LIB_NAME/bin/flex" ]; then
 fi
 
 LIB_NAME=bison-3.0.2
+export SNOWY_BISON=$INSTALL/$LIB_NAME
+if [ ! -e "$INSTALL/$LIB_NAME/bin/flex" ]; then
 if [ ! -e "$INSTALL/$LIB_NAME/bin/bison" ]; then
   export CFLAGS='-g -O2'
   export CXXFLAGS=$CFLAGS
@@ -78,6 +82,7 @@ if [ ! -e "$INSTALL/$LIB_NAME/bin/bison" ]; then
 fi
 
 LIB_NAME=llvm-3.5.0
+export SNOWY_LLVM=$INSTALL/$LIB_NAME
 if [ ! -e "$INSTALL/$LIB_NAME/bin/llvm-config" ]; then
   export CFLAGS='-g -O2'
   export CXXFLAGS=$CFLAGS
@@ -94,6 +99,7 @@ if [ ! -e "$INSTALL/$LIB_NAME/bin/llvm-config" ]; then
 fi
 
 LIB_NAME=glib-2.43.2
+export SNOWY_GLIB=$INSTALL/$LIB_NAME
 if [ ! -e "$INSTALL/$LIB_NAME/bin/llvm-config" ]; then
   export CFLAGS='-g -O2'
   export CXXFLAGS=$CFLAGS
@@ -109,15 +115,7 @@ if [ ! -e "$INSTALL/$LIB_NAME/bin/llvm-config" ]; then
   rm -rf $LIB_NAME
 fi
 
+export PATH=$SNOWY_GCC/bin:$SNOWY_LLVM/bin:$SNOWY_FLEX/bin:$SNOWY_BISON/bin:$SNOWY_GLIB/bin:$PATH
+export PKG_CONFIG_PATH=$HOME/install/glib-2.43.2/lib/pkgconfig
+
 exit 0
-
-
-cd $WORKSPACE
-curl -O 'http://ftp.gnome.org/pub/gnome/sources/glib/2.43/glib-2.43.2.tar.xz'
-mkdir build-dir && cd build-dir
-../configure CFLAGS='-g -O2' --prefix=$HOME/install/glib-2.43.2
-
-export PATH=$HOME/install/gcc-4.8.4/bin:$HOME/install/llvm-3.5.0/bin:$HOME/install/flex-2.5.39/bin:$HOME/install/bison-3.0.2/bin:$PATH
-export PKG_CONFIG_PATH=/home/sgibbs/install/glib-2.43.2/lib/pkgconfig
-
-../configure
