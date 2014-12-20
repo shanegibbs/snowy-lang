@@ -4,14 +4,8 @@ compiler:
   - clang
 os:
   - linux
-  - osx
-osx_image: xcode61
 before_install:
-  - sudo sed -i 's/precise/trusty/' /etc/apt/sources.list && sudo apt-get update && sudo apt-get dist-upgrade -qq -y --force-yes -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold"
-  - if [ $TRAVIS_OS_NAME == osx ]; then brew update; fi
 install:
-  - if [ $TRAVIS_OS_NAME == linux ]; then sudo apt-get install -y build-essential autoconf automake g++4.8 libtool bison flex llvm-3.5 llvm-3.5-dev libedit-dev libglib2.0-0 libglib2.0-dev; fi
-  - if [ $TRAVIS_OS_NAME == osx ]; then brew install llvm && brew link --force llvm; fi
 before_script:
   - mkdir m4 && ./autogen.sh
 script:
