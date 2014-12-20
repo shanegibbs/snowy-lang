@@ -4,6 +4,8 @@
 #include <llvm/IR/Constants.h>
 
 #include <CodeGen.h>
+#include <SnowyAssert.h>
+#include <Log.h>
 
 #include "DeclareVar.h"
 
@@ -12,9 +14,11 @@ using namespace llvm;
 namespace Snowy
 {
 
+const Log DeclareVar::log = Log("DeclareVar");
+
 DeclareVar::DeclareVar(Type* t, Ident *i, Expression* e)
 {
-    g_debug("Creating DeclareVar node %d", getId());
+    log.debug("Creating DeclareVar node %d", getId());
     type = t;
     ident = i;
     expr = e;

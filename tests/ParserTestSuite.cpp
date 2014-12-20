@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <glib/gstdio.h>
 
+#include <SnowyAssert.h>
 #include <Parser.h>
 #include <Node.h>
 
@@ -11,10 +12,10 @@ void assert_code_desc(const char *code, const char *expected)
 {
     Parser *parser = new Parser;
     Node *root = parser->parse(code);
-    g_assert_nonnull(root);
+    s_assert_notnull(root);
 
     const char* actual = root->to_program_string();
-    g_assert_cmpstr(actual, ==, expected);
+    s_assert_cmpstr(actual, expected);
 }
 
 void string_literal_test(void)
@@ -58,6 +59,41 @@ void multi_assignment_test(void)
     // TODO
 }
 
+void func_no_args(void)
+{
+    const char *code = "int add() do\nend\n";
+    const char *desc = "DeclareFunc=[type=[Type[int]] ident=[Ident[add]] args=[ArgsDecl[size=0]] block=[NULL]]\n";
+    assert_code_desc(code, desc);
+}
+
+void func_one_arg(void)
+{
+    const char *code = "int add(int one) do\nend\n";
+    const char *desc = "DeclareFunc=[type=[Type[int]] ident=[Ident[add]] args=[ArgsDecl[size=1 type0=[Type[int]] ident0=[Ident[one]]]] block=[NULL]]\n";
+    assert_code_desc(code, desc);
+}
+
+void func_two_args(void)
+{
+    const char *code = "int add(int one, String two) do\nend\n";
+    const char *desc = "DeclareFunc=[type=[Type[int]] ident=[Ident[add]] args=[ArgsDecl[size=2 type0=[Type[int]] ident0=[Ident[one]] type1=[Type[String]] ident1=[Ident[two]]]] block=[NULL]]\n";
+    assert_code_desc(code, desc);
+}
+
+void func_body_one_line(void)
+{
+    const char *code = "int test() do\n1\nend\n";
+    const char *desc = "DeclareFunc=[type=[Type[int]] ident=[Ident[test]] args=[ArgsDecl[size=0]] block=[IntLiteral=[1]]]\n";
+    assert_code_desc(code, desc);
+}
+
+void func_body_multi_line(void)
+{
+    const char *code = "int test() do\n1\n2\n3\nend\n";
+    const char *desc = "DeclareFunc=[type=[Type[int]] ident=[Ident[test]] args=[ArgsDecl[size=0]] block=[IntLiteral=[1] IntLiteral=[2]]]\n";
+    assert_code_desc(code, desc);
+}
+
 int main(int argc, char** argv)
 {
     g_test_init(&argc, &argv, NULL);
@@ -68,5 +104,10 @@ int main(int argc, char** argv)
     g_test_add_func("/Parser/assignment_test", assignment_test);
     g_test_add_func("/Parser/string_assignment_test", string_assignment_test);
     g_test_add_func("/Parser/multi_assignment_test", multi_assignment_test);
+    g_test_add_func("/Parser/func/no_args", func_no_args);
+    g_test_add_func("/Parser/func/one_arg", func_one_arg);
+    g_test_add_func("/Parser/func/two_args", func_two_args);
+    // g_test_add_func("/Parser/func/body_one_line", func_body_one_line);
+    // g_test_add_func("/Parser/func/body_multi_line", func_body_multi_line);
     return g_test_run();
 }

@@ -1,18 +1,19 @@
-#ifndef OPAL_NODES_DECLARE_VAR_H
-#define OPAL_NODES_DECLARE_VAR_H
+#ifndef OPAL_NODES_DECLARE_FUNC_H
+#define OPAL_NODES_DECLARE_FUNC_H
 
 #include "Statement.h"
 #include "Type.h"
+#include "ArgsDecl.h"
 #include "Ident.h"
 #include "Expression.h"
 
 namespace Snowy
 {
 
-class DeclareVar : public Statement
+class DeclareFunc : public Statement
 {
 public:
-    DeclareVar(Type*, Ident*, Expression*);
+    DeclareFunc(Type*, Ident*, ArgsDecl*, Node*);
 
     llvm::Value* compile(CodeGen*) const;
 
@@ -22,8 +23,10 @@ private:
     static const Log log;
     Type *type;
     Ident *ident;
-    Expression *expr;
+    ArgsDecl *args;
+    Node *block;
 };
 
 }
 #endif
+
