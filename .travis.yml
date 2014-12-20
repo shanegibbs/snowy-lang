@@ -15,5 +15,4 @@ install:
 before_script:
   - mkdir m4 && ./autogen.sh
 script:
-  - cat /usr/include/glib-2.0/glib.h
-  - ./configure && make -j && make check
+  - ./configure && make && make check
