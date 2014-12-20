@@ -5,6 +5,7 @@ compiler:
 os:
   - linux
 before_install:
+  - cat /etc/issue.net
 install:
 before_script:
   - mkdir m4 && ./autogen.sh
