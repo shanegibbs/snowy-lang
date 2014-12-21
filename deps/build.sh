@@ -115,8 +115,3 @@ if [ ! -e "$INSTALL/$LIB_NAME/bin/llvm-config" ]; then
   cd $WORKSPACE
   rm -rf $LIB_NAME
 fi
-
-export PATH=$SNOWY_GCC/bin:$SNOWY_LLVM/bin:$SNOWY_FLEX/bin:$SNOWY_BISON/bin:$SNOWY_GLIB/bin:$PATH
-export PKG_CONFIG_PATH=$HOME/install/glib-2.43.2/lib/pkgconfig
-
-exit 0
