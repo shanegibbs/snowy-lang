@@ -1,18 +1,10 @@
 language: cpp
-compiler:
-  - gcc
-  - clang
 os:
   - linux
 before_install:
   - cat /etc/issue.net
   - whoami
   - pwd
-install:
-before_script:
-  - mkdir m4 && ./autogen.sh
 script:
-  - ./configure CXXFLAGS='-std=c++11' && make && make check
-after_failure:
-  - cat config.log
+  - ./scripts/travis/script.sh
 sudo: false
