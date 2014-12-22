@@ -14,4 +14,4 @@ export CXXFLAGS=''
 
 mkdir m4 && ./autogen.sh
 
-./configure && make && make check
+./configure CXXFLAGS='-L/home/travis/snowy-deps/libedit-3.1/lib' && make && make check
