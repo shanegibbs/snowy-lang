@@ -5,6 +5,8 @@ before_install:
   - cat /etc/issue.net
   - whoami
   - pwd
+before_script:
+  - ./scripts/travis/before_script.sh
 script:
   - ./scripts/travis/script.sh
 sudo: false
