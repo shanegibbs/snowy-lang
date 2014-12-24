@@ -14,4 +14,4 @@ export CXXFLAGS=''
 
 mkdir m4 && ./autogen.sh
 
-./configure CXXFLAGS='-L/home/travis/snowy-deps/libedit-3.1/lib' && make && make check
+./configure CXXFLAGS='-Wl,--rpath=/home/travis/snowy-deps/gcc-4.8.4/lib64 -Wl,--rpath=/home/travis/snowy-deps/glib-2.43.2/lib -I/home/travis/snowy-deps/flex-2.5.39/include -L/home/travis/snowy-deps/libedit-3.1/lib' && make -j && make check
