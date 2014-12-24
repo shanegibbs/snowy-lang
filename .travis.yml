@@ -5,6 +5,9 @@ before_install:
   - cat /etc/issue.net
   - whoami
   - pwd
+env:
+  - CXX=g++
+  - CXX=clang++
 before_script:
   - ./scripts/travis/before_script.sh
 script:
