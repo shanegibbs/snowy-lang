@@ -6,4 +6,6 @@ export PKG_CONFIG_PATH=/home/travis/snowy-deps/lib/pkgconfig
 
 mkdir -p m4 && ./autogen.sh
 
-./configure CXXFLAGS='-Wl,--rpath=/home/travis/snowy-deps/lib64 -Wl,--rpath=/home/travis/snowy-deps/lib -I/home/travis/snowy-deps/include -L/home/travis/snowy-deps/lib' && make -j && make check
+./configure CXXFLAGS='-Wno-deprecated-register -Wl,--rpath=/home/travis/snowy-deps/lib64 -Wl,--rpath=/home/travis/snowy-deps/lib -I/home/travis/snowy-deps/include -L/home/travis/snowy-deps/lib'
+make -j
+make check
