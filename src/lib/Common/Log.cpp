@@ -36,7 +36,7 @@ void Log::log(LogLevel l, const char* format, va_list* args) const
     char* msg = (char*)malloc(4096);
     vsprintf(msg, format, *args);
 
-    const char* level;
+    const char* level = "UNKNOWN";
     switch (l) {
     case DEBUG:
         level = "DEBUG";
