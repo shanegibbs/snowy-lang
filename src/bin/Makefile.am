@@ -12,6 +12,7 @@ bin_PROGRAMS = snowy
 snowy_SOURCES = main.cpp
 
 snowy_LDFLAGS = @LLVM_LIBDIR@
+snowy_LDFLAGS += $(GLIB_LIBS)
 
 snowy_LDADD = $(top_builddir)/src/lib/libsnowy.a
 snowy_LDADD += $(top_builddir)/src/lib/Parser/libsnowy-parser.a

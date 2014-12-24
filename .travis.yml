@@ -1,18 +1,12 @@
 language: cpp
-compiler:
-  - gcc
-  - clang
 os:
   - linux
-  - osx
-osx_image: xcode61
 before_install:
-  - if [ $TRAVIS_OS_NAME == linux ]; then sudo apt-get update; fi
-  - if [ $TRAVIS_OS_NAME == osx ]; then brew update; fi
-install:
-  - if [ $TRAVIS_OS_NAME == linux ]; then sudo apt-get install -y autoconf automake libtool bison flex llvm-3.4 llvm-3.4-dev; fi
-  - if [ $TRAVIS_OS_NAME == osx ]; then brew install llvm && brew link --force llvm; fi
+  - cat /etc/issue.net
+  - whoami
+  - pwd
 before_script:
-  - mkdir m4 && ./autogen.sh
+  - ./scripts/travis/before_script.sh
 script:
-  - ./configure && make -j && make check
+  - ./scripts/travis/script.sh
+sudo: false

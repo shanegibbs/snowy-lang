@@ -7,6 +7,7 @@ AM_CXXFLAGS += -I$(top_srcdir)/src/lib
 AM_CXXFLAGS += @SNOWY_DEBUG_CXXFLAGS@
 
 AM_LDFLAGS = @LLVM_LIBDIR@
+AM_LDFLAGS += $(GLIB_LIBS)
 
 LDADD = $(top_builddir)/src/lib/libsnowy.a
 LDADD += $(top_builddir)/src/lib/Parser/libsnowy-parser.a

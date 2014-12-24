@@ -40,7 +40,7 @@ AC_SUBST([LLVM_LIBDIR])
 CXXFLAGS="$EXTERNAL_CXXFLAGS"
 
 # Use the C language and compiler for the following checks
-AC_LANG([C])
+AC_LANG([C++])
 
 # Checks for typedefs, structures, and compiler characteristics.
 AC_TYPE_SIZE_T
@@ -61,6 +61,10 @@ AC_SEARCH_LIBS([pow], [m], [], [
   AC_MSG_ERROR([unable to find the pow() function])
 ])
 
+AC_CHECK_HEADERS([FlexLexer.h], [],
+  AC_MSG_ERROR([FlexLexer.h mising])
+)
+
 # Checks for glib
 PKG_CHECK_MODULES([GLIB], [glib-2.0], [LIBS="-lglib-2.0 $LIBS"], [
   AC_MSG_ERROR([no glib-2.0 libs found])
@@ -76,8 +80,8 @@ PKG_CHECK_MODULES([GOBJECT], [gobject-2.0], [LIBS="-lgobject-2.0 $LIBS"], [
 # -O1 does not
 # -O0 does not
 
-AC_SUBST([SNOWY_CXXFLAGS], ["-DG_DISABLE_ASSERT"])
-AC_SUBST([SNOWY_DEBUG_CXXFLAGS], ["-Wall -Werror"]) # -Wno-deprecated-register
+AC_SUBST([SNOWY_CXXFLAGS], ["-std=c++11 -DG_DISABLE_ASSERT"])
+AC_SUBST([SNOWY_DEBUG_CXXFLAGS], ["-std=c++11 -Wall -Werror"]) # -Wno-deprecated-register
 
 # debug flag
 AC_ARG_ENABLE([debug],
