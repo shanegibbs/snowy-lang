@@ -39,6 +39,7 @@ Value* Tuple::compile(CodeGen* gen) const
     }
 
     s_assert_unreachable();
+    return NULL;
 }
 
 void Snowy::Tuple::to_sstream(std::ostringstream* s) const

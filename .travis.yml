@@ -5,8 +5,14 @@ before_install:
   - whoami
   - pwd
 env:
-  - CXX=g++
-  - CXX=clang++
+  - CXX='g++' CXXFLAGS='-O0'
+  - CXX='g++' CXXFLAGS='-O1'
+  - CXX='g++' CXXFLAGS='-O2'
+  - CXX='g++' CXXFLAGS='-O3'
+  - CXX='clang++' CXXFLAGS='-O0'
+  - CXX='clang++' CXXFLAGS='-O1'
+  - CXX='clang++' CXXFLAGS='-O2'
+  - CXX='clang++' CXXFLAGS='-O3'
 before_script:
   - ./scripts/travis/before_script.sh
 script:
