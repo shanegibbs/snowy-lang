@@ -36,9 +36,10 @@ Makefile.in
 /ylwrap
 /missing
 /depcomp
-/config.h.in
+/config.h.in*
 /install-sh
 /build
 /autom4te.cache
 /test-driver
 /tmp
+/m4
