@@ -9,17 +9,16 @@ AC_CONFIG_SRCDIR([src/bin/main.cpp])
 AC_CONFIG_HEADERS([config.h])
 
 AM_INIT_AUTOMAKE([subdir-objects])
+LT_INIT
 
 # Remember externally set CFLAGS
 EXTERNAL_CXXFLAGS="$CXXFLAGS"
 
 # Checks for programs.
 AC_PROG_CXX
-#AC_PROG_CC_C99
 AC_PROG_RANLIB
 AM_PROG_LEX
 AC_PROG_YACC
-#AC_PROG_LIBTOOL
 
 AC_CHECK_PROG([FLEX], [flex lex], [flex])
 
@@ -30,7 +29,9 @@ if test x"${LLVM_CONFIG}" == x"" ; then
   AC_MSG_ERROR([unable to find llvm-config command])
 fi
 
-LLVM_LIBS=`${LLVM_CONFIG} --libs core jit native bitwriter --system-libs |sed 'N;s/\n/ /'`
+LLVM_LIBS=`${LLVM_CONFIG} --system-libs |sed 'N;s/\n/ /'`
+LLVM_LIBS="$LLVM_LIBS -lLLVM-`${LLVM_CONFIG} --version`"
+#LLVM_LIBS="$LLVM_LIBS `${LLVM_CONFIG} --libs core jit native bitwriter`"
 LLVM_LIBDIR=-L`${LLVM_CONFIG} --libdir`
 
 AC_SUBST([LLVM_LIBS])
@@ -74,11 +75,6 @@ PKG_CHECK_MODULES([GLIB], [glib-2.0], [LIBS="-lglib-2.0 $LIBS"], [
 PKG_CHECK_MODULES([GOBJECT], [gobject-2.0], [LIBS="-lgobject-2.0 $LIBS"], [
   AC_MSG_FAILURE([no gobject-2.0 libs found])
 ])
-
-# -O3 works
-# -O2 works
-# -O1 does not
-# -O0 does not
 
 AC_SUBST([SNOWY_CXXFLAGS], ["-std=c++11 -DG_DISABLE_ASSERT"])
 AC_SUBST([SNOWY_DEBUG_CXXFLAGS], ["-std=c++11 -Wall -Werror"]) # -Wno-deprecated-register
