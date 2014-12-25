@@ -9,7 +9,7 @@ AC_CONFIG_SRCDIR([src/bin/main.cpp])
 AC_CONFIG_HEADERS([config.h])
 
 AM_INIT_AUTOMAKE([subdir-objects])
-LT_INIT
+#LT_INIT
 
 # Remember externally set CFLAGS
 EXTERNAL_CXXFLAGS="$CXXFLAGS"
