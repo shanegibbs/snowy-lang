@@ -1,6 +1,8 @@
 AM_CXXFLAGS = -I$(top_srcdir)/src/lib/Common
 AM_CXXFLAGS += -I$(top_srcdir)/src/lib
 
+AM_CPPFLAGS = @LLVM_CPPFLAGS@
+
 if DEBUG
 AM_CXXFLAGS += @SNOWY_DEBUG_CXXFLAGS@
 else
