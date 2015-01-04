@@ -10,8 +10,11 @@ using namespace Snowy;
 
 void assert_code_desc(const char *code, const char *expected)
 {
+    std::stringstream ins;
+    ins << code;
+
     Parser *parser = new Parser;
-    Node *root = parser->parse(code);
+    Node *root = parser->parse(ins);
     s_assert_notnull(root);
 
     const char* actual = root->to_program_string();

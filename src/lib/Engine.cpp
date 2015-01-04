@@ -1,6 +1,7 @@
 #include <stdio.h>
 
 #include <Log.h>
+#include <SnowyAssert.h>
 #include <Parser.h>
 #include <Compiler.h>
 #include <Execer.h>
@@ -54,7 +55,14 @@ bool Engine::parse()
 
 bool Engine::parse(string code)
 {
-    Node* n = parser->parse(code.c_str());
+    std::stringstream ins;
+    ins << code;
+    return parse(ins);
+}
+
+bool Engine::parse(istream& ins)
+{
+    Node* n = parser->parse(ins);
     if (n == NULL) {
         log.warn("Parser->parse() returned NULL");
         return false;
@@ -69,6 +77,7 @@ bool Engine::parse(string code)
 
 int Engine::exec()
 {
+    s_assert_notnull(module);
     if (buffer != NULL) {
         execer->setStdoutBuffer(buffer, buffer_size);
     }

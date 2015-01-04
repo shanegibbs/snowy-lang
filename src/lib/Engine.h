@@ -1,6 +1,7 @@
 #ifndef SNOWY_ENGINE_H
 #define SNOWY_ENGINE_H
 
+#include <istream>
 #include <string>
 
 using namespace std;
@@ -26,6 +27,7 @@ public:
 
     bool parse();
     bool parse(string code);
+    bool parse(istream&);
     void setStdoutBuffer(char* buffer, int size);
     int exec();
 
