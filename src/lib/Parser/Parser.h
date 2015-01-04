@@ -1,6 +1,7 @@
 #ifndef SNOWY_PARSER_HPP
 #define SNOWY_PARSER_HPP
 
+#include <istream>
 #include <string>
 
 namespace Snowy
@@ -17,8 +18,7 @@ public:
     ~Parser() {}
 
     Node* parse();
-    Node* parse(FILE *);
-    Node* parse(const char *);
+    Node* parse(std::istream&);
 
 private:
     static const Log log;

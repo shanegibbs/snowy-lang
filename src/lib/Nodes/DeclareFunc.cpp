@@ -52,7 +52,30 @@ void DeclareFunc::to_sstream(std::ostringstream* s) const
 
 Value* DeclareFunc::compile(CodeGen* gen) const
 {
-    return NULL;
+    s_assert_notnull(type);
+    s_assert_notnull(ident);
+    s_assert_notnull(args);
+
+    LLVMContext* context = &gen->getBuilder()->getContext();
+
+    // TODO map types
+    std::vector<llvm::Type*> fn_args(args->getCount());
+    for (unsigned int i = 0; i < args->getCount(); i++) {
+    }
+
+    FunctionType *ft = FunctionType::get(llvm::Type::getInt32Ty(*context), fn_args, false);
+
+    Function* fn = Function::Create(ft, Function::ExternalLinkage, ident->getName(), gen->getModule());
+    gen->registerFunction(fn);
+
+    BasicBlock *bb = BasicBlock::Create(getGlobalContext(), "entry", fn);
+    BasicBlock* last_block = gen->getBuilder()->GetInsertBlock();
+    gen->getBuilder()->SetInsertPoint(bb);
+    gen->getBuilder()->CreateRet(block->compile(gen));
+
+    gen->getBuilder()->SetInsertPoint(last_block);
+
+    return fn;
 }
 
 }

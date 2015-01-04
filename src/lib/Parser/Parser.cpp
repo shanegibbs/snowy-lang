@@ -23,19 +23,11 @@ Node* Parser::parse()
     return driver->exec();
 }
 
-Node* Parser::parse(const char *string)
+Node* Parser::parse(istream& ins)
 {
-    log.info("Parsing: %s", string);
-    std::stringstream ss;
-    ss << string;
-    driver->setLexer(new yyFlexLexer((std::istream*)&ss));
+    log.info("Parsing file");
+    driver->setLexer(new yyFlexLexer(&ins));
     return driver->exec();
-}
-
-Node* Parser::parse(FILE *steam)
-{
-    log.warn("No impl");
-    return NULL;
 }
 
 }

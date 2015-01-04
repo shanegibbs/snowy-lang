@@ -3,6 +3,7 @@
 #include <llvm/IR/Module.h>
 
 #include <CodeGen.h>
+#include <SnowyAssert.h>
 #include <Log.h>
 
 #include "Call.h"
@@ -40,6 +41,10 @@ Value* Call::compile(CodeGen* gen) const
 
     string fn_name(name->getName());
     Function *fn = gen->getModule()->getFunction(fn_name);
+    if (fn == NULL) {
+        log.fatal("Function '%s' not found", fn_name.c_str());
+    }
+    s_assert_notnull(fn);
 
     vector<Value*> argsV;
     for (unsigned i = 0; i < args->getCount(); i++) {

@@ -151,6 +151,12 @@ void it_brackets_int_right()
     s_assert_cmpint(actual.exit_code, ==, 10 - (5 + 2));
 }
 
+void it_function_declare_and_call_no_args()
+{
+    Result actual = snowy_result_no_stdout("int myval() do\n8\nend\nmyval()\n");
+    s_assert_cmpint(actual.exit_code, ==, 8);
+}
+
 void it_function_declare_and_call()
 {
     Result actual = snowy_result_no_stdout("int add(int a, int b) do\na + b\nend\nadd(1, 3)\n");
@@ -177,6 +183,7 @@ int main(int argc, char** argv)
     g_test_add_func("/IT/div/int/multi", it_div_int_multi);
     g_test_add_func("/IT/brackets/int/left", it_brackets_int_left);
     g_test_add_func("/IT/brackets/int/right", it_brackets_int_right);
+    g_test_add_func("/IT/function/declare_and_call_no_args", it_function_declare_and_call_no_args);
     // g_test_add_func("/IT/function/declare_and_call", it_function_declare_and_call);
     return g_test_run();
 }
