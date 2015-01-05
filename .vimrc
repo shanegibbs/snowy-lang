@@ -1,6 +1,6 @@
-set tabstop=2
-set shiftwidth=2
-set softtabstop=2
+set tabstop=4
+set shiftwidth=4
+set softtabstop=4
 set expandtab
 let g:formatprg_c = "astyle"
 let g:formatprg_args_c = "--mode=c --style=1tbs --indent=spaces=4"
