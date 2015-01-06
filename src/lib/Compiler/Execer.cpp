@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-#include <glib.h>
 #include <llvm/IR/Module.h>
 #include <llvm/IR/DataLayout.h>
 #include <llvm/ExecutionEngine/ExecutionEngine.h>
@@ -10,6 +9,7 @@
 #include <llvm/Support/TargetSelect.h>
 
 #include <Log.h>
+#include <SnowyAssert.h>
 
 #include "Execer.h"
 
@@ -58,7 +58,7 @@ int Execer::exec(Module* module)
     int saved_stdout = 0;
 
     if (buffer != NULL) {
-        g_assert_nonnull(buffer);
+        s_assert_notnull(buffer);
 
         // save stdout
         saved_stdout = dup(STDOUT_FILENO);

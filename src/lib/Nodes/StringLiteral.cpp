@@ -1,12 +1,13 @@
 #include <stdlib.h>
 #include <string>
-#include <glib.h>
 #include <llvm/IR/GlobalValue.h>
 #include <llvm/IR/GlobalVariable.h>
 #include <llvm/IR/Constants.h>
 
 #include <CodeGen.h>
 #include <Log.h>
+#include <SnowyAssert.h>
+
 #include "StringLiteral.h"
 
 using namespace llvm;
@@ -19,9 +20,9 @@ const Log StringLiteral::log = Log("StringLiteral");
 
 StringLiteral::StringLiteral(const char* v)
 {
-    g_assert_nonnull(v);
-    g_assert_cmpint(strlen(v), >, 0);
-    g_assert_cmpint(strlen(v), <, 100);
+    s_assert_notnull(v);
+    s_assert_cmpint(strlen(v), >, 0);
+    s_assert_cmpint(strlen(v), <, 100);
 
     log.debug("Creating StringLiteral '%s'", v);
 
@@ -60,9 +61,9 @@ Value* StringLiteral::compile(CodeGen& gen) const
 
 void StringLiteral::to_sstream(std::ostringstream& s) const
 {
-    g_assert_nonnull(val);
-    g_assert_cmpint(strlen(val), >, 0);
-    g_assert_cmpint(strlen(val), <, 100);
+    s_assert_notnull(val);
+    s_assert_cmpint(strlen(val), >, 0);
+    s_assert_cmpint(strlen(val), <, 100);
 
     s << "StringLiteral=[" << val << "]";
 }

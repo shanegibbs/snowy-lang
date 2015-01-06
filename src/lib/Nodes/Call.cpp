@@ -1,4 +1,3 @@
-#include <glib.h>
 #include <llvm/IR/LLVMContext.h>
 #include <llvm/IR/Module.h>
 
@@ -44,7 +43,7 @@ Value* Call::compile(CodeGen& gen) const
     vector<Value*> argsV;
     for (unsigned i = 0; i < args.getCount(); i++) {
         Value* argVal = args.get(i).compile(gen);
-        g_assert_nonnull(argVal);
+        s_assert_notnull(argVal);
         argsV.push_back(argVal);
     }
 

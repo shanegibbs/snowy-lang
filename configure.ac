@@ -90,16 +90,6 @@ AC_SUBST([LLVM_LIBDIR])
 # Reset the externally set CFLAGS after calling AC_PROG*
 CXXFLAGS="$EXTERNAL_CXXFLAGS"
 
-# Checks for glib
-PKG_CHECK_MODULES([GLIB], [glib-2.0], [LIBS="-lglib-2.0 $LIBS"], [
-  AC_MSG_ERROR([no glib-2.0 libs found])
-])
-
-# Checks for gobject
-PKG_CHECK_MODULES([GOBJECT], [gobject-2.0], [LIBS="-lgobject-2.0 $LIBS"], [
-  AC_MSG_FAILURE([no gobject-2.0 libs found])
-])
-
 AC_SUBST([SNOWY_CXXFLAGS], ["-std=c++11 -DG_DISABLE_ASSERT"])
 AC_SUBST([SNOWY_DEBUG_CXXFLAGS], ["-std=c++11 -Wall -Werror"]) # -Wno-deprecated-register
 

@@ -1,6 +1,5 @@
 #include <stdlib.h>
 #include <cstring>
-#include <glib.h>
 
 #include <Log.h>
 #include <SnowyAssert.h>
@@ -63,7 +62,7 @@ const char* Node::to_program_string()
     }
 
     const string str = oss.str();
-    g_assert_cmpuint(str.length(), >, 0);
+    s_assert_cmpint(str.length(), >, 0);
 
     char* cstr = new char[str.length() + 1];
     strcpy(cstr, str.c_str());

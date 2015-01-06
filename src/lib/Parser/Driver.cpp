@@ -1,7 +1,7 @@
-#include <glib.h>
 #include <sstream>
 #include <string.h>
 
+#include <SnowyAssert.h>
 #include <Node.h>
 
 #include "Driver.h"
@@ -28,14 +28,14 @@ int Driver::mylex(ProgramParser::semantic_type *val)
     size_t len = strlen(lexer->YYText());
     val->string = (const char*)malloc(len + 1);
     strcpy((char*)val->string, lexer->YYText());
-    g_assert_cmpstr(val->string, ==, lexer->YYText());
+    s_assert_cmpstr(val->string, lexer->YYText());
 
     return i;
 }
 
 Node* Driver::exec()
 {
-    g_assert_nonnull(lexer);
+    s_assert_notnull(lexer);
     program_parser->parse();
     return root;
 }

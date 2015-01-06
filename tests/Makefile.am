@@ -1,4 +1,4 @@
-AM_CXXFLAGS = $(GLIB_CFLAGS)
+AM_CXXFLAGS = -I/usr/include/glib-2.0 -I/usr/lib/x86_64-linux-gnu/glib-2.0/include
 AM_CXXFLAGS += -I$(top_srcdir)/src/lib/Common
 AM_CXXFLAGS += -I$(top_srcdir)/src/lib/Compiler
 AM_CXXFLAGS += -I$(top_srcdir)/src/lib/Nodes
@@ -7,7 +7,7 @@ AM_CXXFLAGS += -I$(top_srcdir)/src/lib
 AM_CXXFLAGS += @SNOWY_DEBUG_CXXFLAGS@
 
 AM_LDFLAGS = @LLVM_LIBDIR@
-AM_LDFLAGS += $(GLIB_LIBS)
+AM_LDFLAGS += -lglib-2.0
 
 LDADD = $(top_builddir)/src/lib/libsnowy.a
 LDADD += $(top_builddir)/src/lib/Parser/libsnowy-parser.a

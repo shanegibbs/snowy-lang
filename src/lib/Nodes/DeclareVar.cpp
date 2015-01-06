@@ -1,4 +1,3 @@
-#include <glib.h>
 #include <llvm/IR/LLVMContext.h>
 #include <llvm/IR/Module.h>
 #include <llvm/IR/Constants.h>
@@ -26,8 +25,8 @@ DeclareVar::DeclareVar(Type* t, Ident *i, Expression* e)
 
 void DeclareVar::to_sstream(std::ostringstream& s) const
 {
-    g_assert_nonnull(ident);
-    g_assert_nonnull(expr);
+    s_assert_notnull(ident);
+    s_assert_notnull(expr);
 
     s << "DeclareVar=[type=[";
     type->to_sstream(s);
@@ -41,7 +40,7 @@ void DeclareVar::to_sstream(std::ostringstream& s) const
 Value* DeclareVar::compile(CodeGen& gen) const
 {
     Value *val = expr->compile(gen);
-    g_assert_nonnull(val);
+    s_assert_notnull(val);
 
     IRBuilder<>* b = gen.getBuilder();
 
