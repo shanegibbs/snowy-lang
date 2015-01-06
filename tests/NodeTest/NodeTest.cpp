@@ -1,4 +1,3 @@
-#include <glib.h>
 #include <string.h>
 #include <sstream>
 
@@ -48,7 +47,7 @@ void node_basic_multi_test(void)
     const string expected = ss.str();
 
     const char* actual = aDecl.to_program_string();
-    g_assert_nonnull(actual);
-    g_assert_cmpuint(strlen(actual), >, 0);
+    s_assert_notnull(actual);
+    s_assert_cmpint(strlen(actual), >, 0);
     s_assert_cmpstr(actual, expected.c_str());
 }

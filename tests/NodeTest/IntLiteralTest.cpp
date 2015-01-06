@@ -1,6 +1,6 @@
-#include <glib.h>
 #include <stdio.h>
-#include <glib/gstdio.h>
+
+#include <SnowyAssert.h>
 
 #include <Nodes/IntLiteral.h>
 
@@ -9,7 +9,7 @@ using namespace Snowy;
 void int_literal_test(void)
 {
     IntLiteral i("3");
-    g_assert_cmpstr(i.to_string(), ==, "IntLiteral=[3]\n");
+    s_assert_cmpstr(i.to_string(), "IntLiteral=[3]\n");
 }
 
 void int_literal_multi_test(void)
@@ -23,5 +23,5 @@ void int_literal_multi_test(void)
 
     const char* expected = "IntLiteral=[1]\nIntLiteral=[2]\nIntLiteral=[3]\n";
     const char* actual = a.to_program_string();
-    g_assert_cmpstr(actual, ==, expected);
+    s_assert_cmpstr(actual, expected);
 }

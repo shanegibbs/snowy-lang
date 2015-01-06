@@ -1,10 +1,8 @@
-#include <glib.h>
 #include <stdlib.h>
 #include <stdio.h>
 
+#include "SnowyTestSuite.h"
 #include <Engine.h>
-#include <Log.h>
-#include <SnowyAssert.h>
 
 using namespace Snowy;
 
@@ -47,6 +45,7 @@ Result snowy_result_no_stdout(const char* code)
     return result;
 }
 
+/* TODO port stdout test
 void it_puts_stdout_test()
 {
     Engine engine;
@@ -60,23 +59,24 @@ void it_puts_stdout_test()
     g_test_trap_subprocess("/IT/puts/stdout", 0, G_TEST_SUBPROCESS_INHERIT_STDIN);
     g_test_trap_assert_stdout("hello world!!\n");
 }
+*/
 
 void it_puts_string_lit_test()
 {
     Result actual = snowy_result("puts(\"hello world!!\")");
-    g_assert_cmpstr(actual.buffer, ==, "hello world!!\n");
+    s_assert_cmpstr(actual.buffer, "hello world!!\n");
 }
 
 void it_puts_int_lit_test()
 {
     Result actual = snowy_result("puts 5\n");
-    g_assert_cmpstr(actual.buffer, ==, "5\n");
+    s_assert_cmpstr(actual.buffer, "5\n");
 }
 
 void it_return_int_test()
 {
     Result actual = snowy_result_no_stdout("5\n");
-    g_assert_cmpint(actual.exit_code, ==, 5);
+    s_assert_cmpint(actual.exit_code, ==, 5);
 }
 
 void it_variable_use_1()
@@ -165,25 +165,24 @@ void it_function_declare_and_call()
 
 int main(int argc, char** argv)
 {
-    Log::setup();
-    g_test_init(&argc, &argv, NULL);
-    g_test_add_func("/IT/puts/stdout", it_puts_stdout_test);
-    g_test_add_func("/IT/puts/StringLiteral", it_puts_string_lit_test);
-    // g_test_add_func("/IT/puts/IntLiteral", it_puts_int_lit_test);
-    g_test_add_func("/IT/return/Int", it_return_int_test);
-    g_test_add_func("/IT/variable/use/1", it_variable_use_1);
-    g_test_add_func("/IT/variable/use/2", it_variable_use_2);
-    g_test_add_func("/IT/add/int/single", it_add_int_single);
-    g_test_add_func("/IT/add/int/multi", it_add_int_multi);
-    g_test_add_func("/IT/sub/int/single", it_sub_int_single);
-    g_test_add_func("/IT/sub/int/multi", it_sub_int_multi);
-    g_test_add_func("/IT/mul/int/single", it_mul_int_single);
-    g_test_add_func("/IT/mul/int/multi", it_mul_int_multi);
-    g_test_add_func("/IT/div/int/single", it_div_int_single);
-    g_test_add_func("/IT/div/int/multi", it_div_int_multi);
-    g_test_add_func("/IT/brackets/int/left", it_brackets_int_left);
-    g_test_add_func("/IT/brackets/int/right", it_brackets_int_right);
-    g_test_add_func("/IT/function/declare_and_call_no_args", it_function_declare_and_call_no_args);
-    // g_test_add_func("/IT/function/declare_and_call", it_function_declare_and_call);
-    return g_test_run();
+    Snowy::TestSuite tests;
+    // tests.add("/IT/puts/stdout", it_puts_stdout_test);
+    tests.add("/IT/puts/StringLiteral", it_puts_string_lit_test);
+    // tests.add("/IT/puts/IntLiteral", it_puts_int_lit_test);
+    tests.add("/IT/return/Int", it_return_int_test);
+    tests.add("/IT/variable/use/1", it_variable_use_1);
+    tests.add("/IT/variable/use/2", it_variable_use_2);
+    tests.add("/IT/add/int/single", it_add_int_single);
+    tests.add("/IT/add/int/multi", it_add_int_multi);
+    tests.add("/IT/sub/int/single", it_sub_int_single);
+    tests.add("/IT/sub/int/multi", it_sub_int_multi);
+    tests.add("/IT/mul/int/single", it_mul_int_single);
+    tests.add("/IT/mul/int/multi", it_mul_int_multi);
+    tests.add("/IT/div/int/single", it_div_int_single);
+    tests.add("/IT/div/int/multi", it_div_int_multi);
+    tests.add("/IT/brackets/int/left", it_brackets_int_left);
+    tests.add("/IT/brackets/int/right", it_brackets_int_right);
+    tests.add("/IT/function/declare_and_call_no_args", it_function_declare_and_call_no_args);
+    // tests.add("/IT/function/declare_and_call", it_function_declare_and_call);
+    return tests.run();
 }
