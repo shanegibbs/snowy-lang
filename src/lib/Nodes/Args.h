@@ -14,29 +14,29 @@ class Args : public Node
 {
 public:
     Args();
-    Args(Expression*);
+    Args(const Expression&);
 
-    virtual llvm::Value* compile(CodeGen*) const
+    virtual llvm::Value* compile(CodeGen&) const
     {
         return NULL;
     }
 
-    void addArg(Expression*);
+    void addArg(const Expression&);
 
     unsigned int getCount() const
     {
         return list.size();
     }
 
-    Expression* get(unsigned int i) const
+    const Expression& get(unsigned int i) const
     {
-        return list[i];
+        return *list[i];
     }
 
-    virtual void to_sstream(std::ostringstream*) const;
+    virtual void to_sstream(std::ostringstream&) const;
 
 private:
-    vector<Expression*> list;
+    vector<const Expression*> list;
 };
 
 }

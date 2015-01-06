@@ -24,13 +24,13 @@ Type::Type(const char* n)
     id = new_id;
 }
 
-void Type::to_sstream(std::ostringstream* s) const
+void Type::to_sstream(std::ostringstream& s) const
 {
     g_assert_nonnull(id);
     g_assert_cmpint(strlen(id), >, 0);
     g_assert_cmpint(strlen(id), <, 100);
 
-    *s << "Type[" << id << "]";
+    s << "Type[" << id << "]";
 }
 
 }

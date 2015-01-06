@@ -10,10 +10,12 @@ class Expression : public Node
 {
 public:
     Expression() {}
-    llvm::Value* compile(CodeGen*) const {
+    virtual Expression* clone() const = 0;
+
+    llvm::Value* compile(CodeGen&) const {
         return NULL;
     }
-    void to_sstream(std::ostringstream*) const {}
+    void to_sstream(std::ostringstream&) const {}
 };
 
 }

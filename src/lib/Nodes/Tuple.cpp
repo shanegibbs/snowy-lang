@@ -20,12 +20,12 @@ Tuple::Tuple(Expression *l, Operator *o, Expression *r)
     op = o;
 }
 
-Value* Tuple::compile(CodeGen* gen) const
+Value* Tuple::compile(CodeGen& gen) const
 {
     Value* lhs_val = lhs->compile(gen);
     Value* rhs_val = rhs->compile(gen);
 
-    IRBuilder<>* b = gen->getBuilder();
+    IRBuilder<>* b = gen.getBuilder();
 
     switch(op->getOp()) {
     case OP_PLUS:
@@ -42,15 +42,15 @@ Value* Tuple::compile(CodeGen* gen) const
     return NULL;
 }
 
-void Snowy::Tuple::to_sstream(std::ostringstream* s) const
+void Snowy::Tuple::to_sstream(std::ostringstream& s) const
 {
-    *s << "Tuple=[lhs=[";
+    s << "Tuple=[lhs=[";
     lhs->to_sstream(s);
-    *s << "] op=[";
+    s << "] op=[";
     op->to_sstream(s);
-    *s << "] rhs=[";
+    s << "] rhs=[";
     rhs->to_sstream(s);
-    *s << "]]";
+    s << "]]";
 }
 
 }

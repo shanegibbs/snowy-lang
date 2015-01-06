@@ -1,3 +1,5 @@
+#include <SnowyAssert.h>
+
 #include "Expression.h"
 
 #include "Args.h"
@@ -11,31 +13,34 @@ Args::Args()
 {
 }
 
-Args::Args(Expression* e)
+Args::Args(const Expression &e)
 {
-    list.push_back(e);
+    addArg(e);
 }
 
-void Args::addArg(Expression* e)
+void Args::addArg(const Expression &e)
 {
-    list.push_back(e);
+    list.push_back(e.clone());
 }
 
-void Args::to_sstream(std::ostringstream* s) const
+void Args::to_sstream(std::ostringstream& s) const
 {
-    *s << "Args[size=" << list.size();
+    const Expression* e;
+
+    s << "Args[size=" << list.size();
     if (list.size() > 0) {
-        *s << ",";
+        s << ",";
         for (unsigned int i = 0; i < list.size(); i++) {
             if (i != 0) {
-                *s << ",";
+                s << ",";
             }
-            *s << "arg" << i << "=[";
-            ((Expression*)list[i])->to_sstream(s);
-            *s << "]";
+            s << "arg" << i << "=[";
+            e = list[i];
+            e->to_sstream(s);
+            s << "]";
         }
     }
-    *s << "]";
+    s << "]";
 }
 
 }

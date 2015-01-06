@@ -31,7 +31,7 @@ StringLiteral::StringLiteral(const char* v)
     val = (const char*)new_val;
 }
 
-Value* StringLiteral::compile(CodeGen* gen) const
+Value* StringLiteral::compile(CodeGen& gen) const
 {
     // strip off the quotes
     string val_str(val);
@@ -39,13 +39,13 @@ Value* StringLiteral::compile(CodeGen* gen) const
 
     // unsigned int globalStrIdx = gen->getNextStringLiteralIndex();
 
-    LLVMContext* context = &gen->getBuilder()->getContext();
+    LLVMContext* context = &gen.getBuilder()->getContext();
 
     // global value
     ArrayType *gv_arr_ty = ArrayType::get(Type::getInt8Ty(*context), actual.length() + 1);
     StringRef gv_ref(actual.c_str(), actual.length());
     Constant *str_init = ConstantDataArray::getString(*context, gv_ref, true);
-    GlobalVariable *str_lit = new GlobalVariable(*gen->getModule(), gv_arr_ty, true, GlobalValue::ExternalLinkage, str_init, "str_lit");
+    GlobalVariable *str_lit = new GlobalVariable(*gen.getModule(), gv_arr_ty, true, GlobalValue::ExternalLinkage, str_init, "str_lit");
 
     // pointer to global value
     Constant* eptr_args[2] = {
@@ -58,13 +58,13 @@ Value* StringLiteral::compile(CodeGen* gen) const
     return gv_ptr;
 }
 
-void StringLiteral::to_sstream(std::ostringstream* s) const
+void StringLiteral::to_sstream(std::ostringstream& s) const
 {
     g_assert_nonnull(val);
     g_assert_cmpint(strlen(val), >, 0);
     g_assert_cmpint(strlen(val), <, 100);
 
-    *s << "StringLiteral=[" << val << "]";
+    s << "StringLiteral=[" << val << "]";
 }
 
 }

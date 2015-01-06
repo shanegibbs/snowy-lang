@@ -14,9 +14,9 @@ class DeclareVar : public Statement
 public:
     DeclareVar(Type*, Ident*, Expression*);
 
-    llvm::Value* compile(CodeGen*) const;
+    llvm::Value* compile(CodeGen&) const;
 
-    void to_sstream(std::ostringstream*) const;
+    void to_sstream(std::ostringstream&) const;
 
 private:
     static const Log log;

@@ -13,14 +13,19 @@ class Ident : public Expression
 public:
     Ident(const char *name);
 
+    Ident* clone() const
+    {
+        return new Ident(*this);
+    }
+
     const char* getName() const
     {
         return name;
     }
 
-    llvm::Value* compile(CodeGen*) const;
+    llvm::Value* compile(CodeGen&) const;
 
-    void to_sstream(std::ostringstream*) const;
+    void to_sstream(std::ostringstream&) const;
 
 private:
     static const Log log;

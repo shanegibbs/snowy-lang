@@ -24,39 +24,39 @@ DeclareFunc::DeclareFunc(Type* t, Ident *i, ArgsDecl* a, Node* b)
     block = b;
 }
 
-void DeclareFunc::to_sstream(std::ostringstream* s) const
+void DeclareFunc::to_sstream(std::ostringstream& s) const
 {
     s_assert_notnull(type);
     s_assert_notnull(ident);
     s_assert_notnull(args);
 
-    *s << "DeclareFunc=[type=[";
+    s << "DeclareFunc=[type=[";
     type->to_sstream(s);
-    *s << "] ident=[";
+    s << "] ident=[";
     ident->to_sstream(s);
-    *s << "] args=[";
+    s << "] args=[";
     args->to_sstream(s);
-    *s << "] block=[";
+    s << "] block=[";
     if (block == NULL) {
-        *s << "NULL";
+        s << "NULL";
     } else {
         Node* current = block;
         while (current != NULL) {
             current->to_sstream(s);
-            *s << endl;
+            s << endl;
             current = current->getNext();
         }
     }
-    *s << "]]";
+    s << "]]";
 }
 
-Value* DeclareFunc::compile(CodeGen* gen) const
+Value* DeclareFunc::compile(CodeGen& gen) const
 {
     s_assert_notnull(type);
     s_assert_notnull(ident);
     s_assert_notnull(args);
 
-    LLVMContext* context = &gen->getBuilder()->getContext();
+    LLVMContext* context = &gen.getBuilder()->getContext();
 
     // TODO map types
     std::vector<llvm::Type*> fn_args(args->getCount());
@@ -65,15 +65,15 @@ Value* DeclareFunc::compile(CodeGen* gen) const
 
     FunctionType *ft = FunctionType::get(llvm::Type::getInt32Ty(*context), fn_args, false);
 
-    Function* fn = Function::Create(ft, Function::ExternalLinkage, ident->getName(), gen->getModule());
-    gen->registerFunction(fn);
+    Function* fn = Function::Create(ft, Function::ExternalLinkage, ident->getName(), gen.getModule());
+    gen.registerFunction(fn);
 
     BasicBlock *bb = BasicBlock::Create(getGlobalContext(), "entry", fn);
-    BasicBlock* last_block = gen->getBuilder()->GetInsertBlock();
-    gen->getBuilder()->SetInsertPoint(bb);
-    gen->getBuilder()->CreateRet(block->compile(gen));
+    BasicBlock* last_block = gen.getBuilder()->GetInsertBlock();
+    gen.getBuilder()->SetInsertPoint(bb);
+    gen.getBuilder()->CreateRet(block->compile(gen));
 
-    gen->getBuilder()->SetInsertPoint(last_block);
+    gen.getBuilder()->SetInsertPoint(last_block);
 
     return fn;
 }

@@ -20,12 +20,13 @@ class Node
 {
 public:
     Node();
+    virtual ~Node() = 0;
 
     void setNext(Node *n);
 
-    virtual llvm::Value* compile(CodeGen*) const = 0;
+    virtual llvm::Value* compile(CodeGen&) const = 0;
 
-    virtual void to_sstream(std::ostringstream*) const = 0;
+    virtual void to_sstream(std::ostringstream&) const = 0;
 
     int getId() const
     {

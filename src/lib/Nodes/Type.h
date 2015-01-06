@@ -18,12 +18,12 @@ public:
         return id;
     }
 
-    llvm::Value* compile(CodeGen*) const
+    llvm::Value* compile(CodeGen&) const
     {
         return NULL;
     }
 
-    void to_sstream(std::ostringstream*) const;
+    void to_sstream(std::ostringstream&) const;
 
 private:
     static const Log log;

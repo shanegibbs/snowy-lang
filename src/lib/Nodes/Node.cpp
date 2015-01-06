@@ -24,6 +24,10 @@ Node::Node()
     next = NULL;
 }
 
+Node::~Node()
+{
+}
+
 void Node::setNext(Node *n)
 {
     // printf("Attaching nodes %d -> %d\n", id, n->id);
@@ -33,7 +37,7 @@ void Node::setNext(Node *n)
 const char* Node::to_string()
 {
     ostringstream oss;
-    to_sstream(&oss);
+    to_sstream(oss);
     oss << endl;
 
     string oss_str = oss.str();
@@ -53,7 +57,7 @@ const char* Node::to_program_string()
     Node* current = this;
 
     while (current != NULL) {
-        current->to_sstream(&oss);
+        current->to_sstream(oss);
         oss << endl;
         current = current->next;
     }

@@ -73,7 +73,7 @@ Module* Compiler::compile(Node* n)
     Node* current = n;
     Value* value = NULL;
     while (current != NULL) {
-        value = current->compile(&codeGen);
+        value = current->compile(codeGen);
         current = current->getNext();
     }
 

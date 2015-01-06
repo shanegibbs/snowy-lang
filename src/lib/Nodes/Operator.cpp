@@ -22,20 +22,20 @@ Operator::Operator(const char* op_str)
     }
 }
 
-void Snowy::Operator::to_sstream(std::ostringstream* s) const
+void Snowy::Operator::to_sstream(std::ostringstream& s) const
 {
     switch(op) {
     case OP_PLUS:
-        *s << "+";
+        s << "+";
         break;
     case OP_MINUS:
-        *s << "-";
+        s << "-";
         break;
     case OP_MULTIPLY:
-        *s << "*";
+        s << "*";
         break;
     case OP_DIVIDE:
-        *s << "/";
+        s << "/";
         break;
     }
 }

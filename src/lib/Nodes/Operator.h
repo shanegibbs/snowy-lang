@@ -19,7 +19,7 @@ class Operator : public Node
 public:
     Operator(const char *);
 
-    virtual llvm::Value* compile(CodeGen*) const {
+    virtual llvm::Value* compile(CodeGen&) const {
         return NULL;
     }
 
@@ -27,7 +27,7 @@ public:
         return op;
     }
 
-    virtual void to_sstream(std::ostringstream*) const;
+    virtual void to_sstream(std::ostringstream&) const;
 
 private:
     const static Log log;

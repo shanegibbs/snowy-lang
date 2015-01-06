@@ -16,9 +16,14 @@ public:
         val = atoi(str);
     }
 
-    llvm::Value* compile(CodeGen*) const;
+    IntLiteral* clone() const
+    {
+        return new IntLiteral(*this);
+    }
 
-    void to_sstream(std::ostringstream*) const;
+    llvm::Value* compile(CodeGen&) const;
+
+    void to_sstream(std::ostringstream&) const;
 
 private:
     int val;
