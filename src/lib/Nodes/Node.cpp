@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <string>
 #include <cstring>
 
 #include <Log.h>
@@ -49,7 +50,7 @@ const char* Node::to_string()
     return cstr;
 }
 
-const char* Node::to_program_string()
+const string Node::to_program_string()
 {
     ostringstream oss;
 
@@ -61,12 +62,7 @@ const char* Node::to_program_string()
         current = current->next;
     }
 
-    const string str = oss.str();
-    s_assert_cmpint(str.length(), >, 0);
-
-    char* cstr = new char[str.length() + 1];
-    strcpy(cstr, str.c_str());
-    return cstr;
+    return oss.str();
 }
 
 }

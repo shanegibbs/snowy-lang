@@ -79,7 +79,7 @@ Module* Compiler::compile(Node* n)
 
     builder->SetInsertPoint(main_block);
     builder->CreateRet(get_exit_value(value));
-
+    delete builder;
 
     if (log.isLogLevel(DEBUG)) {
         TheModule->dump();

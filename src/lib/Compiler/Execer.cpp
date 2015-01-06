@@ -74,6 +74,7 @@ int Execer::exec(Module* module)
     }
 
     int ret = program_main(2, 4);
+    delete TheExecutionEngine;
     fflush(stdout);
 
     if (buffer != NULL) {

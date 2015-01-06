@@ -46,8 +46,7 @@ void node_basic_multi_test(void)
     ss << "DeclareVar=[type=[Type[int]] ident=[Ident[c]] expr=[Tuple=[lhs=[IntLiteral=[10]] op=[+] rhs=[IntLiteral=[11]]]]]\n";
     const string expected = ss.str();
 
-    const char* actual = aDecl.to_program_string();
-    s_assert_notnull(actual);
-    s_assert_cmpint(strlen(actual), >, 0);
+    const string& actual = aDecl.to_program_string();
+    s_assert_cmpint(actual.length(), >, 0);
     s_assert_cmpstr(actual, expected.c_str());
 }

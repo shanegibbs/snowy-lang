@@ -7,7 +7,7 @@
 
 using namespace Snowy;
 
-void assert_code_desc(const char *code, const char *expected)
+void assert_code_desc(const char *code, const string& expected)
 {
     std::stringstream ins;
     ins << code;
@@ -16,7 +16,7 @@ void assert_code_desc(const char *code, const char *expected)
     Node *root = parser->parse(ins);
     s_assert_notnull(root);
 
-    const char* actual = root->to_program_string();
+    const string& actual = root->to_program_string();
     s_assert_cmpstr(actual, expected);
 }
 

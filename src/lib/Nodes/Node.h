@@ -39,7 +39,7 @@ public:
     }
 
     const char* to_string();
-    const char* to_program_string();
+    const std::string to_program_string();
 private:
     static const Log log;
     Node *next;

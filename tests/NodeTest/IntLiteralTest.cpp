@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <string>
 
 #include <SnowyAssert.h>
 
@@ -21,7 +22,7 @@ void int_literal_multi_test(void)
     a.setNext(&b);
     b.setNext(&c);
 
-    const char* expected = "IntLiteral=[1]\nIntLiteral=[2]\nIntLiteral=[3]\n";
-    const char* actual = a.to_program_string();
+    const string& expected = "IntLiteral=[1]\nIntLiteral=[2]\nIntLiteral=[3]\n";
+    const string& actual = a.to_program_string();
     s_assert_cmpstr(actual, expected);
 }

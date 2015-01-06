@@ -16,6 +16,11 @@ Driver::Driver()
     program_parser = new ProgramParser(this);
 }
 
+Driver::~Driver()
+{
+    delete program_parser;
+}
+
 int Driver::mylex(ProgramParser::semantic_type *val)
 {
     // exec yylex
