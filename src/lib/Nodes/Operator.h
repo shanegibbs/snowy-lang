@@ -4,6 +4,8 @@
 
 #include "Node.h"
 
+using namespace std;
+
 namespace Snowy
 {
 
@@ -17,7 +19,8 @@ enum OperatorType {
 class Operator : public Node
 {
 public:
-    Operator(const char *);
+    Operator(const char*);
+    Operator(const string*);
 
     virtual llvm::Value* compile(CodeGen&) const {
         return NULL;
@@ -27,9 +30,11 @@ public:
         return op;
     }
 
-    virtual void to_sstream(std::ostringstream&) const;
+    virtual void to_sstream(ostringstream&) const;
 
 private:
+    void init(const string& op_str);
+
     const static Log log;
     OperatorType op;
 };

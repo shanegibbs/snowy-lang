@@ -17,7 +17,7 @@ const Log Call::log = Log("Call");
 
 Call::Call(const Ident& i, const Args& a) : name(i), args(a)
 {
-    log.debug("Creating call '%s'", i.getName());
+    log.debug("Creating call '%s'", i.getName().c_str());
 }
 
 void Call::to_sstream(std::ostringstream& s) const

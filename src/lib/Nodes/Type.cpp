@@ -7,29 +7,35 @@
 
 #include "Type.h"
 
+using namespace std;
+
 namespace Snowy
 {
 
 const Log Type::log = Log("Type");
 
-Type::Type(const char* n)
+Type::Type(const char* s) : id(string(s))
 {
-    log.debug("Creating Type with id '%s'", n);
+    init();
+}
 
-    s_assert_notnull(n);
-    s_assert_cmpint(strlen(n), >, 0);
-    s_assert_cmpint(strlen(n), <, 100);
+Type::Type(const string* s) : id(string(*s))
+{
+    init();
+}
 
-    char* new_id = (char*) malloc(strlen(n) + 1);
-    strcpy(new_id, n);
-    id = new_id;
+void Type::init()
+{
+    log.debug("Creating Type with id '%s'", id.c_str());
+
+    s_assert_cmpint(id.length(), >, 0);
+    s_assert_cmpint(id.length(), <, 100);
 }
 
 void Type::to_sstream(std::ostringstream& s) const
 {
-    s_assert_notnull(id);
-    s_assert_cmpint(strlen(id), >, 0);
-    s_assert_cmpint(strlen(id), <, 100);
+    s_assert_cmpint(id.length(), >, 0);
+    s_assert_cmpint(id.length(), <, 100);
 
     s << "Type[" << id << "]";
 }

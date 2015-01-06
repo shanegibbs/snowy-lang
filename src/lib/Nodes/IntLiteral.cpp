@@ -9,7 +9,7 @@ using namespace llvm;
 namespace Snowy
 {
 
-void IntLiteral::to_sstream(std::ostringstream& s) const
+void IntLiteral::to_sstream(ostringstream& s) const
 {
     s << "IntLiteral=[" << val << "]";
 }

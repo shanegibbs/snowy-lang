@@ -30,10 +30,7 @@ int Driver::mylex(ProgramParser::semantic_type *val)
 
     // need to copy string as it will get nurfed when the
     // parser does a look ahead
-    size_t len = strlen(lexer->YYText());
-    val->string = (const char*)malloc(len + 1);
-    strcpy((char*)val->string, lexer->YYText());
-    s_assert_cmpstr(val->string, lexer->YYText());
+    val->string = new string(lexer->YYText());
 
     return i;
 }

@@ -19,23 +19,26 @@ namespace Snowy
 
 const Log Ident::log = Log("Ident");
 
-Ident::Ident(const char* n)
+Ident::Ident(const char* n) : name(string(n))
 {
-    log.debug("Creating Ident with name '%s'", n);
+    init();
+}
 
-    s_assert_notnull(n);
-    s_assert_cmpint(strlen(n), >, 0);
-    s_assert_cmpint(strlen(n), <, 100);
+Ident::Ident(const string* n) : name(string(*n))
+{
+    init();
+}
 
-    char* new_name = (char*)malloc(strlen(n) + 1);
-    strcpy(new_name, n);
-    name = new_name;
-    s_assert_cmpstr(n, name);
+void Ident::init()
+{
+    log.debug("Creating Ident with name '%s'", name.c_str());
+    s_assert_cmpint(name.length(), >, 0);
+    s_assert_cmpint(name.length(), <, 100);
 }
 
 Value* Ident::compile(CodeGen& gen) const
 {
-    log.debug("Compiling Ident '%s'", name);
+    log.debug("Compiling Ident '%s'", name.c_str());
 
     IRBuilder<>* b = gen.getBuilder();
 
@@ -51,9 +54,8 @@ Value* Ident::compile(CodeGen& gen) const
 
 void Snowy::Ident::to_sstream(std::ostringstream& s) const
 {
-    s_assert_notnull(name);
-    s_assert_cmpint(strlen(name), >, 0);
-    s_assert_cmpint(strlen(name), <, 100);
+    s_assert_cmpint(name.length(), >, 0);
+    s_assert_cmpint(name.length(), <, 100);
 
     s << "Ident[" << name << "]";
 }
