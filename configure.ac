@@ -72,10 +72,10 @@ export LDFLAGS
 
 AC_LINK_IFELSE([AC_LANG_PROGRAM([[@%:@include <llvm/IR/LLVMContext.h>]], [[llvm::getGlobalContext(); return 0;]])], [
   AC_MSG_RESULT([yes])
-  LLVM_LIBS="${LLVM_LIBS} -lLLVM-`${LLVM_CONFIG} --version`"
+  LLVM_LIBS="-lLLVM-`${LLVM_CONFIG} --version` ${LLVM_LIBS}"
 ],[
   AC_MSG_RESULT([using static libs])
-  LLVM_LIBS="${LLVM_LIBS} `${LLVM_CONFIG} --libs core jit native bitwriter`"
+  LLVM_LIBS="`${LLVM_CONFIG} --libs core jit native bitwriter` ${LLVM_LIBS}"
 ])
 
 CPPFLAGS="$CPPFLAGS_SAVED"
