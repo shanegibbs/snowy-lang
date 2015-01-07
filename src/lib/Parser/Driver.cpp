@@ -30,7 +30,7 @@ int Driver::mylex(ProgramParser::semantic_type *val)
 
     // need to copy string as it will get nurfed when the
     // parser does a look ahead
-    val->string = new string(lexer->YYText());
+    val->str = new string(lexer->YYText());
 
     return i;
 }
