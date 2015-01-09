@@ -18,6 +18,11 @@ Operator::Operator(const string* op_str)
     delete op_str;
 }
 
+Operator::~Operator()
+{
+    log.debug("Deleting Operator");
+}
+
 void Operator::init(const string& op_str)
 {
     if (op_str == "+") {

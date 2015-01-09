@@ -10,6 +10,7 @@ class Expression : public Node
 {
 public:
     Expression() {}
+    virtual ~Expression() {};
     virtual Expression* clone() const = 0;
 
     llvm::Value* compile(CodeGen&) const {

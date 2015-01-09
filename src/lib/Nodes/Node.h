@@ -29,9 +29,9 @@ public:
 
     virtual void to_sstream(std::ostringstream&) const = 0;
 
-    int getId() const
+    int getNodeId() const
     {
-        return id;
+        return node_id;
     }
 
     Node* getNext() const
@@ -44,7 +44,7 @@ public:
 private:
     static const Log log;
     Node *next;
-    int id;
+    const int node_id;
 };
 
 }

@@ -24,6 +24,12 @@ Type::Type(const string* s) : id(s)
     init();
 }
 
+Type::~Type()
+{
+    log.debug("Deleting Type(%d) with id '%s'", getNodeId(), id->c_str());
+    delete id;
+}
+
 void Type::init()
 {
     log.debug("Creating Type with id '%s'", id->c_str());

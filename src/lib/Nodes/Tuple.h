@@ -23,6 +23,7 @@ public:
     void to_sstream(std::ostringstream&) const;
 
 private:
+    static const Log log;
     const Expression* lhs;
     const Expression* rhs;
     const Operator* op;

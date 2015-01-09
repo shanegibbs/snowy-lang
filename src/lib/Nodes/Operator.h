@@ -21,6 +21,7 @@ class Operator : public Node
 public:
     Operator(const char*);
     Operator(const string*);
+    ~Operator();
 
     Operator* clone() const
     {

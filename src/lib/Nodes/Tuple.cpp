@@ -13,6 +13,8 @@ using namespace llvm;
 namespace Snowy
 {
 
+const Log Tuple::log = Log("Tuple");
+
 Tuple::Tuple(Expression* l, Operator* o, Expression* r) : lhs(l), rhs(r), op(o)
 {
     s_assert_notnull(lhs);
@@ -22,6 +24,7 @@ Tuple::Tuple(Expression* l, Operator* o, Expression* r) : lhs(l), rhs(r), op(o)
 
 Tuple::~Tuple()
 {
+    log.debug("Deleting Tuple with id '%d'", getNodeId());
     delete lhs;
     delete rhs;
     delete op;

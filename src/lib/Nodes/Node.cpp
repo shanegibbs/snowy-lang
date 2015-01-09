@@ -17,17 +17,17 @@ namespace Snowy
 
 const Log Node::log = Log("Node");
 
-Node::Node()
+Node::Node() : node_id(next_node_index++)
 {
-    id = next_node_index++;
     // printf("Created node with ID %d\n", id);
     next = NULL;
 }
 
 Node::~Node()
 {
-    log.debug("Deleting node");
+    log.debug("Deleting node %d", node_id);
     if (next != NULL) {
+        log.debug("Deleting next node");
         delete next;
     }
 }

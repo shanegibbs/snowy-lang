@@ -40,6 +40,7 @@ Ident::Ident(const string* n) : name(n)
 
 Ident::~Ident()
 {
+    log.debug("Deleting Ident with name '%s'", name->c_str());
     delete name;
 }
 

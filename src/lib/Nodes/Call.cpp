@@ -24,6 +24,7 @@ Call::Call(const Ident* i, const Args* a) : name(i), args(a)
 
 Call::~Call()
 {
+    log.debug("Deleting call '%s'", name->getName()->c_str());
     delete name;
     delete args;
 }

@@ -15,6 +15,7 @@ class Type : public Node
 public:
     Type(const char* s);
     Type(const string* s);
+    ~Type();
 
     Type* clone() const
     {
