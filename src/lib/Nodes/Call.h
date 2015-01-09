@@ -14,6 +14,7 @@ class Call : public Expression
 {
 public:
     Call(const Ident*, const Args*);
+    ~Call();
 
     Call* clone() const
     {

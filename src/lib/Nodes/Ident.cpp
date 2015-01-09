@@ -38,6 +38,11 @@ Ident::Ident(const string* n) : name(n)
     init();
 }
 
+Ident::~Ident()
+{
+    delete name;
+}
+
 Value* Ident::compile(CodeGen& gen) const
 {
     log.debug("Compiling Ident '%s'", name->c_str());

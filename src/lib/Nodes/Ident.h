@@ -17,6 +17,7 @@ class Ident : public Expression
 public:
     Ident(const char* name);
     Ident(const string* name);
+    ~Ident();
 
     Ident* clone() const {
         return new Ident(*this);

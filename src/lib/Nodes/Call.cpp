@@ -22,6 +22,12 @@ Call::Call(const Ident* i, const Args* a) : name(i), args(a)
     log.debug("Creating call '%s'", name->getName()->c_str());
 }
 
+Call::~Call()
+{
+    delete name;
+    delete args;
+}
+
 void Call::to_sstream(std::ostringstream& s) const
 {
     s << "Call=[name=[";
