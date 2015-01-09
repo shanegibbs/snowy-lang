@@ -13,6 +13,9 @@ public:
         buffer = NULL;
         exit_code = 0;
     }
+    ~Result() {
+        free(buffer);
+    }
     char* buffer;
     int exit_code;
 };

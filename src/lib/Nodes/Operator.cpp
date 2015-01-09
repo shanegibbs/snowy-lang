@@ -15,6 +15,7 @@ Operator::Operator(const char* op_str)
 Operator::Operator(const string* op_str)
 {
     init(*op_str);
+    delete op_str;
 }
 
 void Operator::init(const string& op_str)

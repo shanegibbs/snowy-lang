@@ -20,6 +20,13 @@ Tuple::Tuple(Expression* l, Operator* o, Expression* r) : lhs(l), rhs(r), op(o)
     s_assert_notnull(rhs);
 }
 
+Tuple::~Tuple()
+{
+    delete lhs;
+    delete rhs;
+    delete op;
+}
+
 Value* Tuple::compile(CodeGen& gen) const
 {
     Value* lhs_val = lhs->compile(gen);

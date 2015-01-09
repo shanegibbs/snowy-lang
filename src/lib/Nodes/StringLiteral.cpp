@@ -28,6 +28,12 @@ StringLiteral::StringLiteral(const string* str) : val(str)
     init();
 }
 
+StringLiteral::~StringLiteral()
+{
+    log.debug("Deleting StringLiteral '%s'", val->c_str());
+    delete val;
+}
+
 void StringLiteral::init()
 {
     s_assert_notnull(val);

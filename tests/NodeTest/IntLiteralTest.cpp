@@ -15,14 +15,14 @@ void int_literal_test(void)
 
 void int_literal_multi_test(void)
 {
-    IntLiteral a("1");
-    IntLiteral b("2");
-    IntLiteral c("3");
+    IntLiteral root("1");
+    IntLiteral* b = new IntLiteral("2");
+    IntLiteral* c = new IntLiteral("3");
 
-    a.setNext(&b);
-    b.setNext(&c);
+    root.setNext(b);
+    b->setNext(c);
 
     const string& expected = "IntLiteral=[1]\nIntLiteral=[2]\nIntLiteral=[3]\n";
-    const string& actual = a.to_program_string();
+    const string& actual = root.to_program_string();
     s_assert_cmpstr(actual, expected);
 }

@@ -13,6 +13,7 @@ class DeclareVar : public Statement
 {
 public:
     DeclareVar(const Type*, const Ident*, const Expression*);
+    ~DeclareVar();
 
     DeclareVar* clone() const
     {

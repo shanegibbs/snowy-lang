@@ -21,7 +21,15 @@ DeclareVar::DeclareVar(const Type* t, const Ident *i, const Expression* e) : typ
     s_assert_notnull(ident);
     s_assert_notnull(expr);
 
-    log.debug("Creating DeclareVar node %d", getId());
+    log.debug("Creating DeclareVar '%s'", ident->getName()->c_str());
+}
+
+DeclareVar::~DeclareVar()
+{
+    log.debug("Deleting DeclareVar '%s'", ident->getName()->c_str());
+    delete type;
+    delete ident;
+    delete expr;
 }
 
 void DeclareVar::to_sstream(std::ostringstream& s) const

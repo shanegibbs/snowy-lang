@@ -26,6 +26,10 @@ Node::Node()
 
 Node::~Node()
 {
+    log.debug("Deleting node");
+    if (next != NULL) {
+        delete next;
+    }
 }
 
 void Node::setNext(Node *n)

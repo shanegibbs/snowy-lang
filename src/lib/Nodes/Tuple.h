@@ -11,6 +11,7 @@ class Tuple : public Expression
 {
 public:
     Tuple(Expression*, Operator*, Expression*);
+    ~Tuple();
 
     Tuple* clone() const
     {

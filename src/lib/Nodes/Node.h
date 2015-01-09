@@ -20,7 +20,7 @@ class Node
 {
 public:
     Node();
-    virtual ~Node() = 0;
+    virtual ~Node();
     virtual Node* clone() const = 0;
 
     void setNext(Node *n);

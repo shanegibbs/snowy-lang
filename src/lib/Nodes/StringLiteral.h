@@ -17,6 +17,7 @@ class StringLiteral : public Expression
 public:
     StringLiteral(const char*);
     StringLiteral(const string*);
+    ~StringLiteral();
 
     StringLiteral* clone() const
     {
