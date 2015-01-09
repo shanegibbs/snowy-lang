@@ -15,16 +15,14 @@ class Log;
 class Ident : public Expression
 {
 public:
-    Ident(const char* n);
+    Ident(const char* name);
     Ident(const string* name);
 
-    Ident* clone() const
-    {
+    Ident* clone() const {
         return new Ident(*this);
     }
 
-    const string& getName() const
-    {
+    const string* getName() const {
         return name;
     }
 
@@ -33,10 +31,9 @@ public:
     void to_sstream(ostringstream&) const;
 
 private:
-    void init();
-
     static const Log log;
-    const string name;
+    void init();
+    const string* name;
 };
 
 }

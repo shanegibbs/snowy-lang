@@ -16,14 +16,12 @@ public:
     Type(const char* s);
     Type(const string* s);
 
-    static Type create(const char* s) {
-        string* str = new string(s);
-        Type t(str);
-        delete str;
-        return t;
+    Type* clone() const
+    {
+        return new Type(*this);
     }
 
-    const string& getId() const {
+    const string* getId() const {
         return id;
     }
 
@@ -37,7 +35,7 @@ private:
     void init();
 
     static const Log log;
-    const string id;
+    const string* id;
 };
 
 }

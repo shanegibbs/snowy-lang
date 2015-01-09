@@ -14,30 +14,30 @@ namespace Snowy
 
 const Log Type::log = Log("Type");
 
-Type::Type(const char* s) : id(string(s))
+Type::Type(const char* s) : id(new string(s))
 {
     init();
 }
 
-Type::Type(const string* s) : id(string(*s))
+Type::Type(const string* s) : id(s)
 {
     init();
 }
 
 void Type::init()
 {
-    log.debug("Creating Type with id '%s'", id.c_str());
+    log.debug("Creating Type with id '%s'", id->c_str());
 
-    s_assert_cmpint(id.length(), >, 0);
-    s_assert_cmpint(id.length(), <, 100);
+    s_assert_cmpint(id->length(), >, 0);
+    s_assert_cmpint(id->length(), <, 100);
 }
 
 void Type::to_sstream(std::ostringstream& s) const
 {
-    s_assert_cmpint(id.length(), >, 0);
-    s_assert_cmpint(id.length(), <, 100);
+    s_assert_cmpint(id->length(), >, 0);
+    s_assert_cmpint(id->length(), <, 100);
 
-    s << "Type[" << id << "]";
+    s << "Type[" << *id << "]";
 }
 
 }

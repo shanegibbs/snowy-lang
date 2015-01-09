@@ -9,15 +9,15 @@ ArgsDecl::ArgsDecl()
 {
 }
 
-ArgsDecl::ArgsDecl(Type& t, Ident& i)
+ArgsDecl::ArgsDecl(const Type* t, const Ident* i)
 {
     addArgDecl(t, i);
 }
 
-void ArgsDecl::addArgDecl(Type& t, Ident& i)
+void ArgsDecl::addArgDecl(const Type* t, const Ident* i)
 {
-    types.push_back(&t);
-    idents.push_back(&i);
+    types.push_back(t);
+    idents.push_back(i);
 }
 
 void ArgsDecl::to_sstream(std::ostringstream& s) const

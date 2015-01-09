@@ -15,12 +15,13 @@ namespace Snowy
 
 const Log DeclareVar::log = Log("DeclareVar");
 
-DeclareVar::DeclareVar(Type* t, Ident *i, Expression* e)
+DeclareVar::DeclareVar(const Type* t, const Ident *i, const Expression* e) : type(t), ident(i), expr(e)
 {
+    s_assert_notnull(type);
+    s_assert_notnull(ident);
+    s_assert_notnull(expr);
+
     log.debug("Creating DeclareVar node %d", getId());
-    type = t;
-    ident = i;
-    expr = e;
 }
 
 void DeclareVar::to_sstream(std::ostringstream& s) const
@@ -46,10 +47,10 @@ Value* DeclareVar::compile(CodeGen& gen) const
 
     llvm::Type* mem_type = val->getType();
     ConstantInt* mem_count = b->getInt32(1);
-    AllocaInst* mem = b->CreateAlloca(mem_type, mem_count, ident->getName());
+    AllocaInst* mem = b->CreateAlloca(mem_type, mem_count, *ident->getName());
 
     StoreInst* stored = b->CreateStore(val, mem);
-    gen.registerValue(ident->getName(), mem);
+    gen.registerValue(*ident->getName(), mem);
 
     return stored;
 }

@@ -22,6 +22,11 @@ public:
     Operator(const char*);
     Operator(const string*);
 
+    Operator* clone() const
+    {
+        return new Operator(*this);
+    }
+
     virtual llvm::Value* compile(CodeGen&) const {
         return NULL;
     }

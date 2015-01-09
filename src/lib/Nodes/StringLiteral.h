@@ -28,7 +28,7 @@ public:
 private:
     void init();
     static const Log log;
-    const string val;
+    const string* val;
 };
 
 }

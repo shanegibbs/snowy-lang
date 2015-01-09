@@ -13,14 +13,15 @@ Args::Args()
 {
 }
 
-Args::Args(const Expression &e)
+Args::Args(const Expression* e)
 {
     addArg(e);
 }
 
-void Args::addArg(const Expression &e)
+void Args::addArg(const Expression* e)
 {
-    list.push_back(e.clone());
+    s_assert_notnull(e);
+    list.push_back(e);
 }
 
 void Args::to_sstream(std::ostringstream& s) const

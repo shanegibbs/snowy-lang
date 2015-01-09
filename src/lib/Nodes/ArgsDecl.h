@@ -16,13 +16,18 @@ class ArgsDecl : public Node
 {
 public:
     ArgsDecl();
-    ArgsDecl(Type&, Ident&);
+    ArgsDecl(const Type*, const Ident*);
+
+    ArgsDecl* clone() const
+    {
+        return new ArgsDecl(*this);
+    }
 
     virtual llvm::Value* compile(CodeGen&) const {
         return NULL;
     }
 
-    void addArgDecl(Type&, Ident&);
+    void addArgDecl(const Type*, const Ident*);
 
     unsigned int getCount() const {
         // TODO assert types.size() == idents.size()

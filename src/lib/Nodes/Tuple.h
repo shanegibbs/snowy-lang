@@ -10,7 +10,7 @@ namespace Snowy
 class Tuple : public Expression
 {
 public:
-    Tuple(Expression *l, Operator *o, Expression *r);
+    Tuple(Expression*, Operator*, Expression*);
 
     Tuple* clone() const
     {
@@ -22,9 +22,9 @@ public:
     void to_sstream(std::ostringstream&) const;
 
 private:
-    Expression *lhs;
-    Expression *rhs;
-    Operator *op;
+    const Expression* lhs;
+    const Expression* rhs;
+    const Operator* op;
 };
 
 }

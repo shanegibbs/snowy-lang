@@ -14,14 +14,19 @@ class Args : public Node
 {
 public:
     Args();
-    Args(const Expression&);
+    Args(const Expression*);
+
+    Args* clone() const
+    {
+        return new Args(*this);
+    }
 
     virtual llvm::Value* compile(CodeGen&) const
     {
         return NULL;
     }
 
-    void addArg(const Expression&);
+    void addArg(const Expression*);
 
     unsigned int getCount() const
     {

@@ -15,17 +15,19 @@ namespace Snowy
 
 const Log Call::log = Log("Call");
 
-Call::Call(const Ident& i, const Args& a) : name(i), args(a)
+Call::Call(const Ident* i, const Args* a) : name(i), args(a)
 {
-    log.debug("Creating call '%s'", i.getName().c_str());
+    s_assert_notnull(name);
+    s_assert_notnull(args);
+    log.debug("Creating call '%s'", name->getName()->c_str());
 }
 
 void Call::to_sstream(std::ostringstream& s) const
 {
     s << "Call=[name=[";
-    name.to_sstream(s);
+    name->to_sstream(s);
     s << "],args=[";
-    args.to_sstream(s);
+    args->to_sstream(s);
     s << "]]";
 }
 
@@ -33,7 +35,7 @@ Value* Call::compile(CodeGen& gen) const
 {
     // LLVMContext* c = &gen->getBuilder()->getContext();
 
-    string fn_name(name.getName());
+    string fn_name(*name->getName());
     Function *fn = gen.getModule()->getFunction(fn_name);
     if (fn == NULL) {
         log.fatal("Function '%s' not found", fn_name.c_str());
@@ -41,8 +43,8 @@ Value* Call::compile(CodeGen& gen) const
     s_assert_notnull(fn);
 
     vector<Value*> argsV;
-    for (unsigned i = 0; i < args.getCount(); i++) {
-        Value* argVal = args.get(i).compile(gen);
+    for (unsigned i = 0; i < args->getCount(); i++) {
+        Value* argVal = args->get(i).compile(gen);
         s_assert_notnull(argVal);
         argsV.push_back(argVal);
     }

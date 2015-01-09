@@ -26,6 +26,7 @@ public:
     void to_sstream(ostringstream&) const;
 
 private:
+    static const Log log;
     const int val;
 };
 

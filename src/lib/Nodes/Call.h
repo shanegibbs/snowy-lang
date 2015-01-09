@@ -13,7 +13,7 @@ class Log;
 class Call : public Expression
 {
 public:
-    Call(const Ident&, const Args&);
+    Call(const Ident*, const Args*);
 
     Call* clone() const
     {
@@ -25,8 +25,8 @@ public:
 
 private:
     static const Log log;
-    const Ident name;
-    const Args args;
+    const Ident* name;
+    const Args* args;
 };
 
 }

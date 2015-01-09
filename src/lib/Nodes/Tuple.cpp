@@ -13,11 +13,11 @@ using namespace llvm;
 namespace Snowy
 {
 
-Tuple::Tuple(Expression *l, Operator *o, Expression *r)
+Tuple::Tuple(Expression* l, Operator* o, Expression* r) : lhs(l), rhs(r), op(o)
 {
-    lhs = l;
-    rhs = r;
-    op = o;
+    s_assert_notnull(lhs);
+    s_assert_notnull(op);
+    s_assert_notnull(rhs);
 }
 
 Value* Tuple::compile(CodeGen& gen) const

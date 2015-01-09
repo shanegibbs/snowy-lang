@@ -18,29 +18,30 @@ namespace Snowy
 
 const Log StringLiteral::log = Log("StringLiteral");
 
-StringLiteral::StringLiteral(const char* str) : val(string(str))
+StringLiteral::StringLiteral(const char* str) : val(new string(str))
 {
     init();
 }
 
-StringLiteral::StringLiteral(const string* str) : val(string(*str))
+StringLiteral::StringLiteral(const string* str) : val(str)
 {
     init();
 }
 
 void StringLiteral::init()
 {
-    s_assert_cmpint(val.length(), >, 0);
-    s_assert_cmpint(val.length(), <, 100);
+    s_assert_notnull(val);
+    s_assert_cmpint(val->length(), >, 0);
+    s_assert_cmpint(val->length(), <, 100);
 
-    log.debug("Creating StringLiteral '%s'", val.c_str());
+    log.debug("Creating StringLiteral '%s'", val->c_str());
 }
 
 Value* StringLiteral::compile(CodeGen& gen) const
 {
     // strip off the quotes
-    string val_str(val);
-    string actual = val_str.substr(1, val.length() - 2);
+    string val_str(*val);
+    string actual = val_str.substr(1, val->length() - 2);
 
     // unsigned int globalStrIdx = gen->getNextStringLiteralIndex();
 
@@ -65,10 +66,11 @@ Value* StringLiteral::compile(CodeGen& gen) const
 
 void StringLiteral::to_sstream(ostringstream& s) const
 {
-    s_assert_cmpint(val.length(), >, 0);
-    s_assert_cmpint(val.length(), <, 100);
+    s_assert_notnull(val);
+    s_assert_cmpint(val->length(), >, 0);
+    s_assert_cmpint(val->length(), <, 100);
 
-    s << "StringLiteral=[" << val << "]";
+    s << "StringLiteral=[" << *val << "]";
 }
 
 }

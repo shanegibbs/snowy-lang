@@ -12,7 +12,12 @@ namespace Snowy
 class DeclareVar : public Statement
 {
 public:
-    DeclareVar(Type*, Ident*, Expression*);
+    DeclareVar(const Type*, const Ident*, const Expression*);
+
+    DeclareVar* clone() const
+    {
+        return new DeclareVar(*this);
+    }
 
     llvm::Value* compile(CodeGen&) const;
 
@@ -20,9 +25,9 @@ public:
 
 private:
     static const Log log;
-    Type *type;
-    Ident *ident;
-    Expression *expr;
+    const Type* type;
+    const Ident* ident;
+    const Expression* expr;
 };
 
 }
