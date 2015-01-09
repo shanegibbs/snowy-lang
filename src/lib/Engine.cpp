@@ -53,6 +53,7 @@ bool Engine::parse()
     log.info("Program:\n%s", program_str.c_str());
 
     module = compiler->compile(n);
+    delete n;
 
     return true;
 }
@@ -76,6 +77,7 @@ bool Engine::parse(istream& ins)
     log.info("Program:\n%s", program_str.c_str());
 
     module = compiler->compile(n);
+    delete n;
 
     return true;
 }

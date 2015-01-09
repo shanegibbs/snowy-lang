@@ -13,8 +13,8 @@ namespace Snowy
 class IntLiteral : public Expression
 {
 public:
-    IntLiteral(const char* str) : val(atoi(str)) {}
-    IntLiteral(const string* str) : val(stoi(*str)) {}
+    IntLiteral(const char* str);
+    IntLiteral(const string* str);
 
     IntLiteral* clone() const
     {
