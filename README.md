@@ -3,7 +3,31 @@
 
 # Snowy Lang
 
-## Getting Started
+### Ubuntu Quick Start
+
+```
+# Install dependencies
+sudo apt-get install build-essential autoconf clang-3.5 llvm-3.5 llvm-3.5-dev libedit-dev bison flex
+
+# Configure
+./autogen.sh
+mkdir build && cd build
+../scripts/configure.ubuntu.sh
+
+# Build and test
+make -j check
+
+# Run
+echo 'puts("Hello World!!")' | ./src/bin/snowy
+```
+
+## Dependencies
+
+* bison (GNU Bison) 3.0.2
+* flex 2.5.35
+* llvm 3.5.0
+
+## Building
 
 ### Generating the configure script
 
@@ -24,16 +48,4 @@ There are some pre setup scripts you can use. For ubuntu, run `../scripts/config
 
 ```
 # ../configure CXX=clang++ CXXFLAGS='-g' LDFLAGS=-L/usr/local/lib CFLAGS=-I/usr/local/include --enable-debug
-```
-
-## Dependencies
-
-* bison (GNU Bison) 3.0.2
-* flex 2.5.35 Apple(flex-31)
-* llvm 3.5.0
-
-### Ubuntu
-
-```
-sudo apt-get install build-essential autoconf clang-3.5 llvm-3.5 llvm-3.5-dev libedit-dev libglib2.0-0 libglib2.0-dev bison flex
 ```
