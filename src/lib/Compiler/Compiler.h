@@ -18,12 +18,14 @@ class Compiler
 {
 public:
     Compiler();
+    ~Compiler();
     llvm::Module* compile(Node*);
 
 private:
     static const Log log;
 
     LLVMContext* context;
+    Module* module;
     void write(const llvm::Module*);
     Value* get_exit_value(Value*);
 };

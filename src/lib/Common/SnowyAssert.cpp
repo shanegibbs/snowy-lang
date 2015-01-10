@@ -14,6 +14,11 @@ void snowy_assert_cmpstr(const char* val1, const char* val2, string str1, string
     }
 }
 
+void snowy_assert_cmpstr(const string& val1, const string& val2, string str1, string str2, string func, string file, int line)
+{
+    snowy_assert_cmpstr(val1.c_str(), val2.c_str(), str1, str2, func, file, line);
+}
+
 void snowy_assert_notnull(void* o, string strO, string func, string file, int line)
 {
     if (o == NULL) {

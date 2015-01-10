@@ -5,6 +5,8 @@
 
 #include "Expression.h"
 
+using namespace std;
+
 namespace Snowy
 {
 
@@ -13,12 +15,21 @@ class Log;
 class StringLiteral : public Expression
 {
 public:
-    StringLiteral(const char *str);
-    llvm::Value* compile(CodeGen*) const;
-    void to_sstream(std::ostringstream*) const;
+    StringLiteral(const char*);
+    StringLiteral(const string*);
+    ~StringLiteral();
+
+    StringLiteral* clone() const
+    {
+        return new StringLiteral(*this);
+    }
+
+    llvm::Value* compile(CodeGen&) const;
+    void to_sstream(ostringstream&) const;
 private:
+    void init();
     static const Log log;
-    const char* val;
+    const string* val;
 };
 
 }

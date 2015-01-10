@@ -5,23 +5,29 @@
 
 #include "Expression.h"
 
+using namespace std;
+
 namespace Snowy
 {
 
 class IntLiteral : public Expression
 {
 public:
-    IntLiteral(const char *str)
+    IntLiteral(const char* str);
+    IntLiteral(const string* str);
+
+    IntLiteral* clone() const
     {
-        val = atoi(str);
+        return new IntLiteral(*this);
     }
 
-    llvm::Value* compile(CodeGen*) const;
+    llvm::Value* compile(CodeGen&) const;
 
-    void to_sstream(std::ostringstream*) const;
+    void to_sstream(ostringstream&) const;
 
 private:
-    int val;
+    static const Log log;
+    const int val;
 };
 
 }

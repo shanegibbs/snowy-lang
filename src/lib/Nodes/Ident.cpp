@@ -1,7 +1,6 @@
-#include <glib.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <cstring>
+#include <string>
 #include <llvm/IR/LLVMContext.h>
 #include <llvm/IR/Module.h>
 #include <llvm/IR/Constants.h>
@@ -20,29 +19,40 @@ namespace Snowy
 
 const Log Ident::log = Log("Ident");
 
-Ident::Ident(const char* n)
+void Ident::init()
 {
-    log.debug("Creating Ident with name '%s'", n);
-
-    s_assert_notnull(n);
-    g_assert_cmpint(strlen(n), >, 0);
-    g_assert_cmpint(strlen(n), <, 100);
-
-    char* new_name = (char*)malloc(strlen(n) + 1);
-    strcpy(new_name, n);
-    name = new_name;
-    s_assert_cmpstr(n, name);
+    s_assert_notnull(name);
+    s_assert_cmpint(name->length(), >, 0);
+    s_assert_cmpint(name->length(), <, 100);
+    log.debug("Creating Ident with name '%s'", name->c_str());
 }
 
-Value* Ident::compile(CodeGen* gen) const
+Ident::Ident(const char* n) : name(new string(n))
 {
-    log.debug("Compiling Ident '%s'", name);
+    s_assert_notnull(n);
+    init();
+}
 
-    IRBuilder<>* b = gen->getBuilder();
+Ident::Ident(const string* n) : name(n)
+{
+    init();
+}
 
-    const string name_string(name);
+Ident::~Ident()
+{
+    log.debug("Deleting Ident with name '%s'", name->c_str());
+    delete name;
+}
 
-    const Value* ptr_to_load = gen->getValue(name_string); // needs to come from somewhere
+Value* Ident::compile(CodeGen& gen) const
+{
+    log.debug("Compiling Ident '%s'", name->c_str());
+
+    IRBuilder<>* b = gen.getBuilder();
+
+    const string name_string(*name);
+
+    const Value* ptr_to_load = gen.getValue(name_string); // needs to come from somewhere
     s_assert_notnull(ptr_to_load);
 
     LoadInst* load_inst = b->CreateLoad((Value*)ptr_to_load, false, name_string);
@@ -50,13 +60,12 @@ Value* Ident::compile(CodeGen* gen) const
     return load_inst;
 }
 
-void Snowy::Ident::to_sstream(std::ostringstream* s) const
+void Snowy::Ident::to_sstream(std::ostringstream& s) const
 {
-    s_assert_notnull(name);
-    g_assert_cmpint(strlen(name), >, 0);
-    g_assert_cmpint(strlen(name), <, 100);
+    s_assert_cmpint(name->length(), >, 0);
+    s_assert_cmpint(name->length(), <, 100);
 
-    *s << "Ident[" << name << "]";
+    s << "Ident[" << *name << "]";
 }
 
 }

@@ -10,16 +10,23 @@ namespace Snowy
 class Tuple : public Expression
 {
 public:
-    Tuple(Expression *l, Operator *o, Expression *r);
+    Tuple(Expression*, Operator*, Expression*);
+    ~Tuple();
 
-    llvm::Value* compile(CodeGen*) const;
+    Tuple* clone() const
+    {
+        return new Tuple(*this);
+    }
 
-    void to_sstream(std::ostringstream*) const;
+    llvm::Value* compile(CodeGen&) const;
+
+    void to_sstream(std::ostringstream&) const;
 
 private:
-    Expression *lhs;
-    Expression *rhs;
-    Operator *op;
+    static const Log log;
+    const Expression* lhs;
+    const Expression* rhs;
+    const Operator* op;
 };
 
 }

@@ -13,19 +13,29 @@ using namespace llvm;
 namespace Snowy
 {
 
-Tuple::Tuple(Expression *l, Operator *o, Expression *r)
+const Log Tuple::log = Log("Tuple");
+
+Tuple::Tuple(Expression* l, Operator* o, Expression* r) : lhs(l), rhs(r), op(o)
 {
-    lhs = l;
-    rhs = r;
-    op = o;
+    s_assert_notnull(lhs);
+    s_assert_notnull(op);
+    s_assert_notnull(rhs);
 }
 
-Value* Tuple::compile(CodeGen* gen) const
+Tuple::~Tuple()
+{
+    log.debug("Deleting Tuple with id '%d'", getNodeId());
+    delete lhs;
+    delete rhs;
+    delete op;
+}
+
+Value* Tuple::compile(CodeGen& gen) const
 {
     Value* lhs_val = lhs->compile(gen);
     Value* rhs_val = rhs->compile(gen);
 
-    IRBuilder<>* b = gen->getBuilder();
+    IRBuilder<>* b = gen.getBuilder();
 
     switch(op->getOp()) {
     case OP_PLUS:
@@ -42,15 +52,15 @@ Value* Tuple::compile(CodeGen* gen) const
     return NULL;
 }
 
-void Snowy::Tuple::to_sstream(std::ostringstream* s) const
+void Snowy::Tuple::to_sstream(std::ostringstream& s) const
 {
-    *s << "Tuple=[lhs=[";
+    s << "Tuple=[lhs=[";
     lhs->to_sstream(s);
-    *s << "] op=[";
+    s << "] op=[";
     op->to_sstream(s);
-    *s << "] rhs=[";
+    s << "] rhs=[";
     rhs->to_sstream(s);
-    *s << "]]";
+    s << "]]";
 }
 
 }

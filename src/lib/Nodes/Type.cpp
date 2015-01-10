@@ -1,36 +1,49 @@
-#include <glib.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <cstring>
 
-#include "Type.h"
+#include <SnowyAssert.h>
 #include <Log.h>
+
+#include "Type.h"
+
+using namespace std;
 
 namespace Snowy
 {
 
 const Log Type::log = Log("Type");
 
-Type::Type(const char* n)
+Type::Type(const char* s) : id(new string(s))
 {
-    log.debug("Creating Type with id '%s'", n);
-
-    g_assert_nonnull(n);
-    g_assert_cmpint(strlen(n), >, 0);
-    g_assert_cmpint(strlen(n), <, 100);
-
-    char* new_id = (char*) malloc(strlen(n) + 1);
-    strcpy(new_id, n);
-    id = new_id;
+    init();
 }
 
-void Type::to_sstream(std::ostringstream* s) const
+Type::Type(const string* s) : id(s)
 {
-    g_assert_nonnull(id);
-    g_assert_cmpint(strlen(id), >, 0);
-    g_assert_cmpint(strlen(id), <, 100);
+    init();
+}
 
-    *s << "Type[" << id << "]";
+Type::~Type()
+{
+    log.debug("Deleting Type(%d) with id '%s'", getNodeId(), id->c_str());
+    delete id;
+}
+
+void Type::init()
+{
+    log.debug("Creating Type with id '%s'", id->c_str());
+
+    s_assert_cmpint(id->length(), >, 0);
+    s_assert_cmpint(id->length(), <, 100);
+}
+
+void Type::to_sstream(std::ostringstream& s) const
+{
+    s_assert_cmpint(id->length(), >, 0);
+    s_assert_cmpint(id->length(), <, 100);
+
+    s << "Type[" << *id << "]";
 }
 
 }

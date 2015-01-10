@@ -9,36 +9,46 @@ ArgsDecl::ArgsDecl()
 {
 }
 
-ArgsDecl::ArgsDecl(Type* t, Ident* i)
+ArgsDecl::ArgsDecl(const Type* t, const Ident* i)
 {
     addArgDecl(t, i);
 }
 
-void ArgsDecl::addArgDecl(Type* t, Ident* i)
+ArgsDecl::~ArgsDecl()
+{
+    for (const Type* t : types) {
+        delete t;
+    }
+    for (const Ident* i : idents) {
+        delete i;
+    }
+}
+
+void ArgsDecl::addArgDecl(const Type* t, const Ident* i)
 {
     types.push_back(t);
     idents.push_back(i);
 }
 
-void ArgsDecl::to_sstream(std::ostringstream* s) const
+void ArgsDecl::to_sstream(std::ostringstream& s) const
 {
-    *s << "ArgsDecl[size=" << types.size();
+    s << "ArgsDecl[size=" << types.size();
     if (types.size() > 0) {
-        *s << " ";
+        s << " ";
         for (unsigned int i = 0; i < types.size(); i++) {
             if (i != 0) {
-                *s << " ";
+                s << " ";
             }
-            *s << "type" << i << "=[";
+            s << "type" << i << "=[";
             (types[i])->to_sstream(s);
-            *s << "]";
+            s << "]";
 
-            *s << " ident" << i << "=[";
+            s << " ident" << i << "=[";
             (idents[i])->to_sstream(s);
-            *s << "]";
+            s << "]";
         }
     }
-    *s << "]";
+    s << "]";
 }
 
 }

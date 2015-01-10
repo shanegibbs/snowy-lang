@@ -66,16 +66,16 @@ AC_MSG_CHECKING([for llvm shared lib])
 CPPFLAGS_SAVED="$CPPFLAGS"
 CPPFLAGS="$CPPFLAGS $LLVM_CPPFLAGS"
 LDFLAGS_SAVED="$LDFLAGS"
-LDFLAGS="$LDFLAGS -lLLVM-3.5"
+LDFLAGS="$LDFLAGS -lLLVM-`${LLVM_CONFIG} --version`"
 export CPPFLAGS
 export LDFLAGS
 
 AC_LINK_IFELSE([AC_LANG_PROGRAM([[@%:@include <llvm/IR/LLVMContext.h>]], [[llvm::getGlobalContext(); return 0;]])], [
   AC_MSG_RESULT([yes])
-  LLVM_LIBS="${LLVM_LIBS} -lLLVM-`${LLVM_CONFIG} --version`"
+  LLVM_LIBS="-lLLVM-`${LLVM_CONFIG} --version` ${LLVM_LIBS}"
 ],[
   AC_MSG_RESULT([using static libs])
-  LLVM_LIBS="${LLVM_LIBS} `${LLVM_CONFIG} --libs core jit native bitwriter`"
+  LLVM_LIBS="`${LLVM_CONFIG} --libs core mcjit native bitwriter` ${LLVM_LIBS}"
 ])
 
 CPPFLAGS="$CPPFLAGS_SAVED"
@@ -89,16 +89,6 @@ AC_SUBST([LLVM_LIBDIR])
 
 # Reset the externally set CFLAGS after calling AC_PROG*
 CXXFLAGS="$EXTERNAL_CXXFLAGS"
-
-# Checks for glib
-PKG_CHECK_MODULES([GLIB], [glib-2.0], [LIBS="-lglib-2.0 $LIBS"], [
-  AC_MSG_ERROR([no glib-2.0 libs found])
-])
-
-# Checks for gobject
-PKG_CHECK_MODULES([GOBJECT], [gobject-2.0], [LIBS="-lgobject-2.0 $LIBS"], [
-  AC_MSG_FAILURE([no gobject-2.0 libs found])
-])
 
 AC_SUBST([SNOWY_CXXFLAGS], ["-std=c++11 -DG_DISABLE_ASSERT"])
 AC_SUBST([SNOWY_DEBUG_CXXFLAGS], ["-std=c++11 -Wall -Werror"]) # -Wno-deprecated-register

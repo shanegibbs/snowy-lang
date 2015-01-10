@@ -16,32 +16,39 @@ class ArgsDecl : public Node
 {
 public:
     ArgsDecl();
-    ArgsDecl(Type*, Ident*);
+    ArgsDecl(const Type*, const Ident*);
+    ~ArgsDecl();
 
-    virtual llvm::Value* compile(CodeGen*) const {
+    ArgsDecl* clone() const
+    {
+        return new ArgsDecl(*this);
+    }
+
+    virtual llvm::Value* compile(CodeGen&) const {
         return NULL;
     }
 
-    void addArgDecl(Type* t, Ident* i);
+    void addArgDecl(const Type*, const Ident*);
 
     unsigned int getCount() const {
         // TODO assert types.size() == idents.size()
         return types.size();
     }
 
-    Type* getType(unsigned int i) const {
-        return types[i];
+    const Type& getType(unsigned int i) const {
+        return *types[i];
     }
 
-    Ident* getIdent(unsigned int i) const {
-        return idents[i];
+    const Ident& getIdent(unsigned int i) const {
+        return *idents[i];
     }
 
-    virtual void to_sstream(std::ostringstream*) const;
+    virtual void to_sstream(std::ostringstream&) const;
 
 private:
-    vector<Type*> types;
-    vector<Ident*> idents;
+    static const Log log;
+    vector<const Type*> types;
+    vector<const Ident*> idents;
 };
 
 }
