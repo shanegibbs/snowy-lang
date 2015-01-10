@@ -166,9 +166,8 @@ void it_function_declare_and_call()
     s_assert_cmpint(actual.exit_code, ==, 3);
 }
 
-int main(int argc, char** argv)
+void it_tests(Snowy::TestSuite& tests)
 {
-    Snowy::TestSuite tests;
     // tests.add("/IT/puts/stdout", it_puts_stdout_test);
     tests.add("/IT/puts/StringLiteral", it_puts_string_lit_test);
     // tests.add("/IT/puts/IntLiteral", it_puts_int_lit_test);
@@ -187,5 +186,4 @@ int main(int argc, char** argv)
     tests.add("/IT/brackets/int/right", it_brackets_int_right);
     tests.add("/IT/function/declare_and_call_no_args", it_function_declare_and_call_no_args);
     // tests.add("/IT/function/declare_and_call", it_function_declare_and_call);
-    return tests.run();
 }

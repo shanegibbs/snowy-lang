@@ -5,8 +5,9 @@
 #include <llvm/IR/Module.h>
 #include <llvm/IR/DataLayout.h>
 #include <llvm/ExecutionEngine/ExecutionEngine.h>
-#include <llvm/ExecutionEngine/JIT.h>
+#include <llvm/ExecutionEngine/MCJIT.h>
 #include <llvm/Support/TargetSelect.h>
+#include <llvm/Support/ManagedStatic.h>
 
 #include <Log.h>
 #include <SnowyAssert.h>
@@ -38,15 +39,24 @@ int Execer::exec(Module* module)
     log.debug("Execing");
 
     InitializeNativeTarget();
+    InitializeNativeTargetAsmPrinter();
+    InitializeNativeTargetAsmParser();
 
     std::string ErrStr;
-    ExecutionEngine *TheExecutionEngine = EngineBuilder(module).setErrorStr(&ErrStr).create();
+    // ExecutionEngine takes ownership of module from here
+    // when EE is deleted, so is module.
+    ExecutionEngine *TheExecutionEngine = EngineBuilder(module)
+        .setErrorStr(&ErrStr)
+        .setUseMCJIT(true)
+        .create();
     if (!TheExecutionEngine) {
         log.fatal("Could not create ExecutionEngine: %s", ErrStr.c_str());
         exit(1);
     }
+    TheExecutionEngine->finalizeObject();
+    TheExecutionEngine->runStaticConstructorsDestructors(false);
 
-    module->setDataLayout(TheExecutionEngine->getDataLayout()->getStringRepresentation());
+    // module->setDataLayout(TheExecutionEngine->getDataLayout()->getStringRepresentation());
 
     string fn_name("main");
     Function *main_fn = module->getFunction(fn_name);
@@ -74,8 +84,11 @@ int Execer::exec(Module* module)
     }
 
     int ret = program_main(2, 4);
-    delete TheExecutionEngine;
     fflush(stdout);
+
+    TheExecutionEngine->runStaticConstructorsDestructors(true);
+
+    delete TheExecutionEngine;
 
     if (buffer != NULL) {
         // read from pipe
@@ -90,6 +103,11 @@ int Execer::exec(Module* module)
     log.info("main returned %i", ret);
 
     return ret;
+}
+
+void Execer::shutdown()
+{
+    llvm_shutdown();
 }
 
 }

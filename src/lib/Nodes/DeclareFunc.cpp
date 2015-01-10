@@ -24,6 +24,16 @@ DeclareFunc::DeclareFunc(const Type* t, const Ident* i, const ArgsDecl* a, const
     log.debug("Creating DeclarerFunc node %s", ident->getName()->c_str());
 }
 
+DeclareFunc::~DeclareFunc()
+{
+    delete type;
+    delete ident;
+    delete args;
+    if (block != NULL) {
+        delete block;
+    }
+}
+
 void DeclareFunc::to_sstream(std::ostringstream& s) const
 {
     s << "DeclareFunc=[type=[";

@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 
 #include <Log.h>
 #include <SnowyAssert.h>
@@ -15,6 +16,16 @@ namespace Snowy
 {
 
 const Log Engine::log = Log("Engine");
+
+void Engine::shutdown()
+{
+    Execer::shutdown();
+}
+
+void Engine::init()
+{
+    atexit(Engine::shutdown);
+}
 
 Engine::Engine()
 {

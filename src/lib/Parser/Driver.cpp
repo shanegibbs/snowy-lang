@@ -18,6 +18,7 @@ Driver::Driver()
 
 Driver::~Driver()
 {
+    log.debug("Destroying Driver");
     delete program_parser;
 }
 

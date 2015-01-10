@@ -9,17 +9,30 @@ using namespace std;
 namespace Snowy
 {
 
+const Log Args::log = Log("Args");
+
 Args::Args()
 {
+    log.debug("Created empty Args");
+}
+
+Args::~Args()
+{
+    log.debug("Deleting Args");
+    for (const Expression* e : list) {
+        delete e;
+    }
 }
 
 Args::Args(const Expression* e)
 {
+    log.debug("Created Args with Expression");
     addArg(e);
 }
 
 void Args::addArg(const Expression* e)
 {
+    log.debug("Added Expression to Args list");
     s_assert_notnull(e);
     list.push_back(e);
 }

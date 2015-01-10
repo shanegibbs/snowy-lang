@@ -14,6 +14,16 @@ ArgsDecl::ArgsDecl(const Type* t, const Ident* i)
     addArgDecl(t, i);
 }
 
+ArgsDecl::~ArgsDecl()
+{
+    for (const Type* t : types) {
+        delete t;
+    }
+    for (const Ident* i : idents) {
+        delete i;
+    }
+}
+
 void ArgsDecl::addArgDecl(const Type* t, const Ident* i)
 {
     types.push_back(t);

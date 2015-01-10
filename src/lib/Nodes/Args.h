@@ -15,6 +15,7 @@ class Args : public Node
 public:
     Args();
     Args(const Expression*);
+    ~Args();
 
     Args* clone() const
     {
@@ -41,6 +42,7 @@ public:
     virtual void to_sstream(std::ostringstream&) const;
 
 private:
+    static const Log log;
     vector<const Expression*> list;
 };
 

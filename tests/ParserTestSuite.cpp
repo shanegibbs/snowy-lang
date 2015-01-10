@@ -12,11 +12,12 @@ void assert_code_desc(const char *code, const string& expected)
     std::stringstream ins;
     ins << code;
 
-    Parser *parser = new Parser;
-    Node *root = parser->parse(ins);
+    Parser parser;
+    Node *root = parser.parse(ins);
     s_assert_notnull(root);
 
     const string& actual = root->to_program_string();
+    delete root;
     s_assert_cmpstr(actual, expected);
 }
 
@@ -96,9 +97,8 @@ void func_body_multi_line(void)
     assert_code_desc(code, desc);
 }
 
-int main(int argc, char** argv)
+void parser_tests(TestSuite& tests)
 {
-    Snowy::TestSuite tests;
     tests.add("/Parser/int_literal", int_literal_test);
     tests.add("/Parser/string_literal", string_literal_test);
     tests.add("/Parser/multi_node", multi_node_test);
@@ -111,5 +111,4 @@ int main(int argc, char** argv)
     tests.add("/Parser/func/two_args", func_two_args);
     // tests.add("/Parser/func/body_one_line", func_body_one_line);
     // tests.add("/Parser/func/body_multi_line", func_body_multi_line);
-    return tests.run();
 }

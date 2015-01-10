@@ -25,7 +25,12 @@ const Log Compiler::log = Log("Compiler");
 
 Compiler::Compiler()
 {
-    context = &getGlobalContext();
+    context = new LLVMContext();
+}
+
+Compiler::~Compiler()
+{
+    delete context;
 }
 
 Value* Compiler::get_exit_value(Value* last_val)
@@ -57,7 +62,8 @@ Module* Compiler::compile(Node* n)
     CodeGen codeGen = CodeGen(builder, TheModule);
 
     // puts
-    std::vector<Type*> puts_args(1, Type::getInt8PtrTy(*context));
+    Type* ptr_type = Type::getInt8PtrTy(*context);
+    std::vector<Type*> puts_args(1, ptr_type);
     FunctionType *puts_ft = FunctionType::get(Type::getInt32Ty(*context), puts_args, false);
     Function* puts_fn = Function::Create(puts_ft, Function::ExternalLinkage, "puts", TheModule);
     codeGen.registerFunction(puts_fn);
@@ -87,6 +93,7 @@ Module* Compiler::compile(Node* n)
 
     write(TheModule);
 
+    module = TheModule;
     return TheModule;
 }
 

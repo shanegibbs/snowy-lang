@@ -18,6 +18,7 @@ Parser::Parser()
 
 Parser::~Parser()
 {
+    log.debug("Destroying Parser");
     delete driver;
 }
 

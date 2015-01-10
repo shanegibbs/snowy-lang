@@ -14,6 +14,7 @@ class DeclareFunc : public Statement
 {
 public:
     DeclareFunc(const Type*, const Ident*, const ArgsDecl*, const Node*);
+    ~DeclareFunc();
 
     DeclareFunc* clone() const
     {

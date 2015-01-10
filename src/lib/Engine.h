@@ -31,6 +31,9 @@ public:
     void setStdoutBuffer(char* buffer, int size);
     int exec();
 
+    static void init();
+    static void shutdown();
+
 private:
     static const Log log;
     char* buffer;

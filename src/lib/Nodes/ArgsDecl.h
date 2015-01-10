@@ -17,6 +17,7 @@ class ArgsDecl : public Node
 public:
     ArgsDecl();
     ArgsDecl(const Type*, const Ident*);
+    ~ArgsDecl();
 
     ArgsDecl* clone() const
     {
@@ -45,6 +46,7 @@ public:
     virtual void to_sstream(std::ostringstream&) const;
 
 private:
+    static const Log log;
     vector<const Type*> types;
     vector<const Ident*> idents;
 };

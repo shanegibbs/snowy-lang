@@ -66,7 +66,7 @@ AC_MSG_CHECKING([for llvm shared lib])
 CPPFLAGS_SAVED="$CPPFLAGS"
 CPPFLAGS="$CPPFLAGS $LLVM_CPPFLAGS"
 LDFLAGS_SAVED="$LDFLAGS"
-LDFLAGS="$LDFLAGS -lLLVM-3.5"
+LDFLAGS="$LDFLAGS -lLLVM-`${LLVM_CONFIG} --version`"
 export CPPFLAGS
 export LDFLAGS
 
@@ -75,7 +75,7 @@ AC_LINK_IFELSE([AC_LANG_PROGRAM([[@%:@include <llvm/IR/LLVMContext.h>]], [[llvm:
   LLVM_LIBS="-lLLVM-`${LLVM_CONFIG} --version` ${LLVM_LIBS}"
 ],[
   AC_MSG_RESULT([using static libs])
-  LLVM_LIBS="`${LLVM_CONFIG} --libs core jit native bitwriter` ${LLVM_LIBS}"
+  LLVM_LIBS="`${LLVM_CONFIG} --libs core mcjit native bitwriter` ${LLVM_LIBS}"
 ])
 
 CPPFLAGS="$CPPFLAGS_SAVED"

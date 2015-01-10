@@ -5,15 +5,20 @@
 
 #include <Nodes/IntLiteral.h>
 
+#include "SnowyTestSuite.h"
+
 using namespace Snowy;
 
-void int_literal_test(void)
+static void int_literal_test(void)
 {
     IntLiteral i("3");
-    s_assert_cmpstr(i.to_string(), "IntLiteral=[3]\n");
+    const char* expected = "IntLiteral=[3]\n";
+    const char* actual = i.to_string();
+    s_assert_cmpstr(actual, expected);
+    delete[] actual;
 }
 
-void int_literal_multi_test(void)
+static void int_literal_multi_test(void)
 {
     IntLiteral root("1");
     IntLiteral* b = new IntLiteral("2");
@@ -25,4 +30,10 @@ void int_literal_multi_test(void)
     const string& expected = "IntLiteral=[1]\nIntLiteral=[2]\nIntLiteral=[3]\n";
     const string& actual = root.to_program_string();
     s_assert_cmpstr(actual, expected);
+}
+
+void node_int_literal_tests(TestSuite& tests)
+{
+    tests.add("/Nodes/IntLiteral/test", int_literal_test);
+    tests.add("/Nodes/IntLiteral/multi", int_literal_multi_test);
 }
