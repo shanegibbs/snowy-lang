@@ -12,8 +12,14 @@
 # cd build
 # ../scripts/configure.ubuntu.sh
 # make -j check
-
+# echo 'puts("Hello World!!")' | ./src/bin/snowy
 ```
+
+## Dependencies
+
+* bison (GNU Bison) 3.0.2
+* flex 2.5.35
+* llvm 3.5.0
 
 ## Building
 
@@ -37,9 +43,3 @@ There are some pre setup scripts you can use. For ubuntu, run `../scripts/config
 ```
 # ../configure CXX=clang++ CXXFLAGS='-g' LDFLAGS=-L/usr/local/lib CFLAGS=-I/usr/local/include --enable-debug
 ```
-
-## Dependencies
-
-* bison (GNU Bison) 3.0.2
-* flex 2.5.35
-* llvm 3.5.0
