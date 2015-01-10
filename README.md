@@ -6,13 +6,20 @@
 ### Ubuntu Quick Start
 
 ```
-# sudo apt-get install build-essential autoconf clang-3.5 llvm-3.5 llvm-3.5-dev libedit-dev bison flex
-# ./autogen.sh
-# mkdir build
-# cd build
-# ../scripts/configure.ubuntu.sh
-# make -j check
-# echo 'puts("Hello World!!")' | ./src/bin/snowy
+# Install dependencies
+sudo apt-get install build-essential autoconf clang-3.5 llvm-3.5 llvm-3.5-dev libedit-dev bison flex
+
+# Configure
+./autogen.sh
+mkdir build
+cd build
+../scripts/configure.ubuntu.sh
+
+# Build and test
+make -j check
+
+# Run
+echo 'puts("Hello World!!")' | ./src/bin/snowy
 ```
 
 ## Dependencies
