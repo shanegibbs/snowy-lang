@@ -11,8 +11,7 @@ sudo apt-get install build-essential autoconf clang-3.5 llvm-3.5 llvm-3.5-dev li
 
 # Configure
 ./autogen.sh
-mkdir build
-cd build
+mkdir build && cd build
 ../scripts/configure.ubuntu.sh
 
 # Build and test
