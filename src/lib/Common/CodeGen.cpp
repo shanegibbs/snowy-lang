@@ -30,7 +30,12 @@ void CodeGen::registerValue(const string name, Value* value)
 const Value* CodeGen::getValue(const string name) const
 {
     log.debug("Registering value '%s'", name.c_str());
-    return values.at(name);
+    try {
+        return values.at(name);
+    } catch (std::out_of_range e) {
+        log.fatal("Value '%s' not found", name.c_str());
+        return NULL;
+    }
 }
 
 }

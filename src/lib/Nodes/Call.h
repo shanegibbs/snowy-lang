@@ -13,9 +13,16 @@ class Log;
 class Call : public Expression
 {
 public:
-    Call(Ident*, Args*);
-    llvm::Value* compile(CodeGen*) const;
-    void to_sstream(std::ostringstream*) const;
+    Call(const Ident*, const Args*);
+    ~Call();
+
+    Call* clone() const
+    {
+        return new Call(*this);
+    }
+
+    llvm::Value* compile(CodeGen&) const;
+    void to_sstream(std::ostringstream&) const;
 
 private:
     static const Log log;

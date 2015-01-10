@@ -9,33 +9,49 @@ const Log Operator::log = Log("Operator");
 
 Operator::Operator(const char* op_str)
 {
-    if (strcmp(op_str, "+") == 0) {
+    init(op_str);
+}
+
+Operator::Operator(const string* op_str)
+{
+    init(*op_str);
+    delete op_str;
+}
+
+Operator::~Operator()
+{
+    log.debug("Deleting Operator");
+}
+
+void Operator::init(const string& op_str)
+{
+    if (op_str == "+") {
         op = OP_PLUS;
-    } else if (strcmp(op_str, "-") == 0) {
+    } else if (op_str == "-") {
         op = OP_MINUS;
-    } else if (strcmp(op_str, "*") == 0) {
+    } else if (op_str == "*") {
         op = OP_MULTIPLY;
-    } else if (strcmp(op_str, "/") == 0) {
+    } else if (op_str == "/") {
         op = OP_DIVIDE;
     } else {
-        log.fatal("Unknown operator found: '%s'", op_str);
+        log.fatal("Unknown operator found: '%s'", op_str.c_str());
     }
 }
 
-void Snowy::Operator::to_sstream(std::ostringstream* s) const
+void Snowy::Operator::to_sstream(std::ostringstream& s) const
 {
     switch(op) {
     case OP_PLUS:
-        *s << "+";
+        s << "+";
         break;
     case OP_MINUS:
-        *s << "-";
+        s << "-";
         break;
     case OP_MULTIPLY:
-        *s << "*";
+        s << "*";
         break;
     case OP_DIVIDE:
-        *s << "/";
+        s << "/";
         break;
     }
 }

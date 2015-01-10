@@ -1,4 +1,3 @@
-#include <glib.h>
 #include <sstream>
 #include <FlexLexer.h>
 
@@ -17,6 +16,12 @@ Parser::Parser()
     driver = new Driver;
 }
 
+Parser::~Parser()
+{
+    log.debug("Destroying Parser");
+    delete driver;
+}
+
 Node* Parser::parse()
 {
     driver->setLexer(new yyFlexLexer);
@@ -26,8 +31,15 @@ Node* Parser::parse()
 Node* Parser::parse(istream& ins)
 {
     log.info("Parsing file");
-    driver->setLexer(new yyFlexLexer(&ins));
-    return driver->exec();
+
+    FlexLexer* lexer = new yyFlexLexer(&ins);
+    driver->setLexer(lexer);
+
+    Node* node = driver->exec();
+    driver->setLexer(NULL);
+    delete lexer;
+
+    return node;
 }
 
 }

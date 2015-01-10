@@ -9,6 +9,7 @@ using namespace Snowy;
 int main(int argc, char** argv)
 {
     Log::setup();
+    Engine::init();
 
     Log log("main");
 
@@ -24,4 +25,3 @@ int main(int argc, char** argv)
         log.fatal("Parsing failed");
     }
 }
-

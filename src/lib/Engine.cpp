@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 
 #include <Log.h>
 #include <SnowyAssert.h>
@@ -16,6 +17,16 @@ namespace Snowy
 
 const Log Engine::log = Log("Engine");
 
+void Engine::shutdown()
+{
+    Execer::shutdown();
+}
+
+void Engine::init()
+{
+    atexit(Engine::shutdown);
+}
+
 Engine::Engine()
 {
     log.debug("Creating Engine");
@@ -29,6 +40,9 @@ Engine::Engine()
 Engine::~Engine()
 {
     log.debug("Destroy Engine");
+    delete parser;
+    delete compiler;
+    delete execer;
 }
 
 void Engine::setStdoutBuffer(char* b, int s)
@@ -46,9 +60,11 @@ bool Engine::parse()
         return false;
     }
 
-    log.info("Program:\n%s", n->to_program_string());
+    const string& program_str = n->to_program_string();
+    log.info("Program:\n%s", program_str.c_str());
 
     module = compiler->compile(n);
+    delete n;
 
     return true;
 }
@@ -68,9 +84,11 @@ bool Engine::parse(istream& ins)
         return false;
     }
 
-    log.info("Program:\n%s", n->to_program_string());
+    const string& program_str = n->to_program_string();
+    log.info("Program:\n%s", program_str.c_str());
 
     module = compiler->compile(n);
+    delete n;
 
     return true;
 }

@@ -15,7 +15,7 @@ class Parser
 {
 public:
     Parser();
-    ~Parser() {}
+    ~Parser();
 
     Node* parse();
     Node* parse(std::istream&);

@@ -31,7 +31,7 @@ namespace Snowy {
 %parse-param { Driver *driver }
 
 %code { /* goes into the impl of Parser */
-   #include <string.h>
+   #include <string>
    #include <iostream>
    #include <cstdlib>
    #include <fstream>
@@ -63,16 +63,16 @@ namespace Snowy {
   Snowy::StringLiteral* string_literal;
   Snowy::Tuple* tuple;
   char* character;
-  const char* string;
+  string* str;
   int token;
 }
 
-%token <string> ID
-%token <string> INTEGER
-%token <string> STRING_LIT
-%token <string> ENDL
+%token <str> ID
+%token <str> INTEGER
+%token <str> STRING_LIT
+%token <str> ENDL
 %token <token> EQ_OP
-%token <string> OP
+%token <str> OP
 %token <token> COMMA
 %token <token> OPEN_BRACKET
 %token <token> CLOSE_BRACKET

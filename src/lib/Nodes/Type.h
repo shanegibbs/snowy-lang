@@ -3,6 +3,8 @@
 
 #include "Node.h"
 
+using namespace std;
+
 namespace Snowy
 {
 
@@ -11,23 +13,30 @@ class Log;
 class Type : public Node
 {
 public:
-    Type(const char *id);
+    Type(const char* s);
+    Type(const string* s);
+    ~Type();
 
-    const char* getId() const
+    Type* clone() const
     {
+        return new Type(*this);
+    }
+
+    const string* getId() const {
         return id;
     }
 
-    llvm::Value* compile(CodeGen*) const
-    {
+    llvm::Value* compile(CodeGen&) const {
         return NULL;
     }
 
-    void to_sstream(std::ostringstream*) const;
+    void to_sstream(ostringstream&) const;
 
 private:
+    void init();
+
     static const Log log;
-    const char *id;
+    const string* id;
 };
 
 }

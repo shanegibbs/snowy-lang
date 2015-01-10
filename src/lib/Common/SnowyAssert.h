@@ -8,6 +8,7 @@
 using namespace std;
 
 void snowy_assert_cmpstr(const char* val1, const char* val2, string str1, string str2, string func, string file, int line);
+void snowy_assert_cmpstr(const string& val1, const string& val2, string str1, string str2, string func, string file, int line);
 void snowy_assert_notnull(void* o, string strO, string func, string file, int line);
 
 #define s_assert_cmpstr(s1, s2) do { \

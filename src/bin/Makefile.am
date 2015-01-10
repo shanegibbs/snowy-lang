@@ -10,7 +10,6 @@ AM_CXXFLAGS += @SNOWY_CXXFLAGS@
 endif
 
 LDFLAGS = @LLVM_LIBDIR@
-LDFLAGS += $(GLIB_LIBS)
 
 LDADD = $(top_builddir)/src/lib/libsnowy.a
 LDADD += $(top_builddir)/src/lib/Parser/libsnowy-parser.a

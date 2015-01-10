@@ -1,6 +1,6 @@
 #include <stdlib.h>
+#include <string>
 #include <cstring>
-#include <glib.h>
 
 #include <Log.h>
 #include <SnowyAssert.h>
@@ -17,11 +17,19 @@ namespace Snowy
 
 const Log Node::log = Log("Node");
 
-Node::Node()
+Node::Node() : node_id(next_node_index++)
 {
-    id = next_node_index++;
     // printf("Created node with ID %d\n", id);
     next = NULL;
+}
+
+Node::~Node()
+{
+    log.debug("Deleting node %d", node_id);
+    if (next != NULL) {
+        log.debug("Deleting next node");
+        delete next;
+    }
 }
 
 void Node::setNext(Node *n)
@@ -33,7 +41,7 @@ void Node::setNext(Node *n)
 const char* Node::to_string()
 {
     ostringstream oss;
-    to_sstream(&oss);
+    to_sstream(oss);
     oss << endl;
 
     string oss_str = oss.str();
@@ -46,24 +54,19 @@ const char* Node::to_string()
     return cstr;
 }
 
-const char* Node::to_program_string()
+const string Node::to_program_string()
 {
     ostringstream oss;
 
     Node* current = this;
 
     while (current != NULL) {
-        current->to_sstream(&oss);
+        current->to_sstream(oss);
         oss << endl;
         current = current->next;
     }
 
-    const string str = oss.str();
-    g_assert_cmpuint(str.length(), >, 0);
-
-    char* cstr = new char[str.length() + 1];
-    strcpy(cstr, str.c_str());
-    return cstr;
+    return oss.str();
 }
 
 }

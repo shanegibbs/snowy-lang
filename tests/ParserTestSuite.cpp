@@ -1,23 +1,23 @@
-#include <glib.h>
 #include <stdio.h>
-#include <glib/gstdio.h>
 
-#include <SnowyAssert.h>
 #include <Parser.h>
 #include <Node.h>
 
+#include "SnowyTestSuite.h"
+
 using namespace Snowy;
 
-void assert_code_desc(const char *code, const char *expected)
+void assert_code_desc(const char *code, const string& expected)
 {
     std::stringstream ins;
     ins << code;
 
-    Parser *parser = new Parser;
-    Node *root = parser->parse(ins);
+    Parser parser;
+    Node *root = parser.parse(ins);
     s_assert_notnull(root);
 
-    const char* actual = root->to_program_string();
+    const string& actual = root->to_program_string();
+    delete root;
     s_assert_cmpstr(actual, expected);
 }
 
@@ -97,20 +97,18 @@ void func_body_multi_line(void)
     assert_code_desc(code, desc);
 }
 
-int main(int argc, char** argv)
+void parser_tests(TestSuite& tests)
 {
-    g_test_init(&argc, &argv, NULL);
-    g_test_add_func("/Parser/int_literal", int_literal_test);
-    g_test_add_func("/Parser/string_literal", string_literal_test);
-    g_test_add_func("/Parser/multi_node", multi_node_test);
-    g_test_add_func("/Parser/arithmetic_expr_test", arithmetic_expr_test);
-    g_test_add_func("/Parser/assignment_test", assignment_test);
-    g_test_add_func("/Parser/string_assignment_test", string_assignment_test);
-    g_test_add_func("/Parser/multi_assignment_test", multi_assignment_test);
-    g_test_add_func("/Parser/func/no_args", func_no_args);
-    g_test_add_func("/Parser/func/one_arg", func_one_arg);
-    g_test_add_func("/Parser/func/two_args", func_two_args);
-    // g_test_add_func("/Parser/func/body_one_line", func_body_one_line);
-    // g_test_add_func("/Parser/func/body_multi_line", func_body_multi_line);
-    return g_test_run();
+    tests.add("/Parser/int_literal", int_literal_test);
+    tests.add("/Parser/string_literal", string_literal_test);
+    tests.add("/Parser/multi_node", multi_node_test);
+    tests.add("/Parser/arithmetic_expr_test", arithmetic_expr_test);
+    tests.add("/Parser/assignment_test", assignment_test);
+    tests.add("/Parser/string_assignment_test", string_assignment_test);
+    tests.add("/Parser/multi_assignment_test", multi_assignment_test);
+    tests.add("/Parser/func/no_args", func_no_args);
+    tests.add("/Parser/func/one_arg", func_one_arg);
+    tests.add("/Parser/func/two_args", func_two_args);
+    // tests.add("/Parser/func/body_one_line", func_body_one_line);
+    // tests.add("/Parser/func/body_multi_line", func_body_multi_line);
 }

@@ -20,16 +20,18 @@ class Node
 {
 public:
     Node();
+    virtual ~Node();
+    virtual Node* clone() const = 0;
 
     void setNext(Node *n);
 
-    virtual llvm::Value* compile(CodeGen*) const = 0;
+    virtual llvm::Value* compile(CodeGen&) const = 0;
 
-    virtual void to_sstream(std::ostringstream*) const = 0;
+    virtual void to_sstream(std::ostringstream&) const = 0;
 
-    int getId() const
+    int getNodeId() const
     {
-        return id;
+        return node_id;
     }
 
     Node* getNext() const
@@ -38,11 +40,11 @@ public:
     }
 
     const char* to_string();
-    const char* to_program_string();
+    const std::string to_program_string();
 private:
     static const Log log;
     Node *next;
-    int id;
+    const int node_id;
 };
 
 }

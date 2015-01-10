@@ -1,4 +1,3 @@
-#include <glib.h>
 #include <llvm/IR/LLVMContext.h>
 #include <llvm/IR/Module.h>
 #include <llvm/IR/Constants.h>
@@ -16,41 +15,50 @@ namespace Snowy
 
 const Log DeclareVar::log = Log("DeclareVar");
 
-DeclareVar::DeclareVar(Type* t, Ident *i, Expression* e)
+DeclareVar::DeclareVar(const Type* t, const Ident *i, const Expression* e) : type(t), ident(i), expr(e)
 {
-    log.debug("Creating DeclareVar node %d", getId());
-    type = t;
-    ident = i;
-    expr = e;
+    s_assert_notnull(type);
+    s_assert_notnull(ident);
+    s_assert_notnull(expr);
+
+    log.debug("Creating DeclareVar '%s'", ident->getName()->c_str());
 }
 
-void DeclareVar::to_sstream(std::ostringstream* s) const
+DeclareVar::~DeclareVar()
 {
-    g_assert_nonnull(ident);
-    g_assert_nonnull(expr);
+    log.debug("Deleting DeclareVar '%s'", ident->getName()->c_str());
+    delete type;
+    delete ident;
+    delete expr;
+}
 
-    *s << "DeclareVar=[type=[";
+void DeclareVar::to_sstream(std::ostringstream& s) const
+{
+    s_assert_notnull(ident);
+    s_assert_notnull(expr);
+
+    s << "DeclareVar=[type=[";
     type->to_sstream(s);
-    *s << "] ident=[";
+    s << "] ident=[";
     ident->to_sstream(s);
-    *s << "] expr=[";
+    s << "] expr=[";
     expr->to_sstream(s);
-    *s << "]]";
+    s << "]]";
 }
 
-Value* DeclareVar::compile(CodeGen* gen) const
+Value* DeclareVar::compile(CodeGen& gen) const
 {
     Value *val = expr->compile(gen);
-    g_assert_nonnull(val);
+    s_assert_notnull(val);
 
-    IRBuilder<>* b = gen->getBuilder();
+    IRBuilder<>* b = gen.getBuilder();
 
     llvm::Type* mem_type = val->getType();
     ConstantInt* mem_count = b->getInt32(1);
-    AllocaInst* mem = b->CreateAlloca(mem_type, mem_count, ident->getName());
+    AllocaInst* mem = b->CreateAlloca(mem_type, mem_count, *ident->getName());
 
     StoreInst* stored = b->CreateStore(val, mem);
-    gen->registerValue(ident->getName(), mem);
+    gen.registerValue(*ident->getName(), mem);
 
     return stored;
 }
