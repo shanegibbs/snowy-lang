@@ -78,7 +78,6 @@ namespace Snowy {
 %token <token> CLOSE_BRACKET
 %token <token> DO
 %token <token> END
-%token <token> WHITE_SPACE
 
 %type <node> program
 %type <node> block

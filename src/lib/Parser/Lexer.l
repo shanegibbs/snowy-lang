@@ -11,7 +11,6 @@ typedef Snowy::ProgramParser::token token;
 
 %option debug
 %option noyywrap
-%option yylineno
 %option nodefault
 
 %option c++
@@ -33,7 +32,7 @@ end                 return token::END;
 "("                 return token::OPEN_BRACKET;
 ")"                 return token::CLOSE_BRACKET;
 \n                  return token::ENDL;
-[ \t]+              return token::WHITE_SPACE;
-.                   printf("(ignoring char '%s' on line %d)\n", yytext, lineno());
+[ \t]+
+.                   printf("(new char)");
 
 %%
