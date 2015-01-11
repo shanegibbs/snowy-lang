@@ -43,6 +43,8 @@ private:
     Node* root;
     FlexLexer* lexer;
     ProgramParser *program_parser;
+    int line_number;
+    int column_number;
 };
 
 }

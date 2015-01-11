@@ -14,6 +14,8 @@ const Log Driver::log = Log("Driver");
 Driver::Driver()
 {
     program_parser = new ProgramParser(this);
+    line_number = 1;
+    column_number = 1;
 }
 
 Driver::~Driver()
@@ -27,7 +29,18 @@ int Driver::mylex(ProgramParser::semantic_type *val)
     // exec yylex
     int i = lexer->yylex();
 
-    log.debug("Called mylex - %s(%d), %s", getTokenString(i), i, lexer->YYText());
+    int new_line_number = lexer->lineno();
+    int new_column_number = column_number + lexer->YYLeng();
+
+    log.debug("Called mylex - %s(%d), %s. Line %d-%d, column %d-%d.", getTokenString(i), i, lexer->YYText(), line_number, new_line_number, column_number, new_column_number - 1);
+
+    line_number = new_line_number;
+    column_number = new_column_number;
+
+    // if whitespace, ignore and get the next token
+    if (i == ProgramParser::token::WHITE_SPACE) {
+        return mylex(val);
+    }
 
     // need to copy string as it will get nurfed when the
     // parser does a look ahead
@@ -36,6 +49,10 @@ int Driver::mylex(ProgramParser::semantic_type *val)
             || i == ProgramParser::token::STRING_LIT
             || i == ProgramParser::token::OP) {
         val->str = new string(lexer->YYText());
+    }
+
+    if (i == ProgramParser::token::ENDL) {
+        column_number = 1;
     }
 
     return i;
@@ -79,6 +96,8 @@ const char* Driver::getTokenString(int t) const
         return "END";
     case ProgramParser::token::ENDL:
         return "ENDL";
+    case ProgramParser::token::WHITE_SPACE:
+        return "WHITE_SPACE";
     }
     return "UNKNOWN";
 }
