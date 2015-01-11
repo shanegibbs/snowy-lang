@@ -38,13 +38,8 @@ Result snowy_result(const char* code)
 
 Result snowy_result_no_stdout(const char* code)
 {
-    Result result;
-
-    Engine engine;
-    engine.parse(code);
-
-    result.exit_code = engine.exec();
-
+    Result result = snowy_result(code);
+    s_assert_cmpstr(result.buffer, "");
     return result;
 }
 
@@ -154,16 +149,23 @@ void it_brackets_int_right()
     s_assert_cmpint(actual.exit_code, ==, 10 - (5 + 2));
 }
 
-void it_function_declare_and_call_no_args()
-{
-    Result actual = snowy_result_no_stdout("int myval() do\n8\nend\nmyval()\n");
-    s_assert_cmpint(actual.exit_code, ==, 8);
-}
-
 void it_function_declare_and_call()
 {
+    Result actual = snowy_result_no_stdout("int myval() do\nend\nmyval()\n");
+    s_assert_cmpint(actual.exit_code, ==, 0);
+}
+
+void it_function_declare_and_call_with_block()
+{
+    Result actual = snowy_result("int myfunc() do\nputs(\"In myfunc\")\n1\nend\nmyfunc()\n");
+    s_assert_cmpstr(actual.buffer, "In myfunc\n");
+    s_assert_cmpint(actual.exit_code, ==, 1);
+}
+
+void it_function_declare_and_call_with_args()
+{
     Result actual = snowy_result_no_stdout("int add(int a, int b) do\na + b\nend\nadd(1, 3)\n");
-    s_assert_cmpint(actual.exit_code, ==, 3);
+    s_assert_cmpint(actual.exit_code, ==, 4);
 }
 
 void it_tests(Snowy::TestSuite& tests)
@@ -184,6 +186,7 @@ void it_tests(Snowy::TestSuite& tests)
     tests.add("/IT/div/int/multi", it_div_int_multi);
     tests.add("/IT/brackets/int/left", it_brackets_int_left);
     tests.add("/IT/brackets/int/right", it_brackets_int_right);
-    tests.add("/IT/function/declare_and_call_no_args", it_function_declare_and_call_no_args);
-    // tests.add("/IT/function/declare_and_call", it_function_declare_and_call);
+    tests.add("/IT/function/declare_and_call", it_function_declare_and_call);
+    tests.add("/IT/function/declare_and_call_with_block", it_function_declare_and_call_with_block);
+    tests.add("/IT/function/declare_and_call_with_args", it_function_declare_and_call_with_args);
 }

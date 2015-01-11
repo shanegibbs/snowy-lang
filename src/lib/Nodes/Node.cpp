@@ -19,23 +19,31 @@ const Log Node::log = Log("Node");
 
 Node::Node() : node_id(next_node_index++)
 {
-    // printf("Created node with ID %d\n", id);
+    // printf("Created node with ID %d\n", node_id);
+    first = this;
     next = NULL;
 }
 
 Node::~Node()
 {
-    log.debug("Deleting node %d", node_id);
+    // log.debug("Deleting node %d", node_id);
     if (next != NULL) {
-        log.debug("Deleting next node");
+        // log.debug("Deleting next node");
         delete next;
     }
+}
+
+Node* Node::getFirst() const
+{
+    s_assert_notnull(first);
+    return first;
 }
 
 void Node::setNext(Node *n)
 {
     // printf("Attaching nodes %d -> %d\n", id, n->id);
     next = n;
+    n->first = first;
 }
 
 const char* Node::to_string()

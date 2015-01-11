@@ -24,8 +24,12 @@ public:
     }
     void run() const {
         cerr << path << ": ";
-        f();
-        cerr << "\x1b[32mOK\x1b[0m" << endl;
+        try {
+            f();
+            cerr << "\x1b[32mOK\x1b[0m" << endl;
+        } catch (FatalLogEvent e) {
+            cerr << "FAIL" << endl;
+        }
     }
     static bool SortAsc(const Test* a, const Test* b) {
         return a->path.compare(b->path) < 0;
@@ -57,6 +61,12 @@ public:
         int r;
         auto start_time = chrono::high_resolution_clock::now();
 
+        cerr << "* Running tests in natural order..." << endl;
+        r = run_script();
+        if (r != 0) {
+            return r;
+        }
+
         cerr << "* Running tests in ascending order..." << endl;
         sort(script.begin(), script.end(), Test::SortAsc);
         r = run_script();
@@ -74,7 +84,7 @@ public:
         auto time = chrono::high_resolution_clock::now() - start_time;
         cerr << "----------------------------------------" << endl;
         double seconds = chrono::duration_cast<chrono::milliseconds>(time).count() / 1000.0f;
-        cerr << "Ran " << script.size() * 2 << " tests in " << seconds << "s" << endl;
+        cerr << "Ran " << script.size() * 3 << " tests in " << seconds << "s" << endl;
 
         cerr << endl << "\x1b[32mOK\x1b[0m" << endl;
         return 0;

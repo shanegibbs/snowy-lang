@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <fcntl.h>
 
 #include <llvm/IR/Module.h>
 #include <llvm/IR/DataLayout.h>
@@ -46,9 +47,9 @@ int Execer::exec(Module* module)
     // ExecutionEngine takes ownership of module from here
     // when EE is deleted, so is module.
     ExecutionEngine *TheExecutionEngine = EngineBuilder(module)
-        .setErrorStr(&ErrStr)
-        .setUseMCJIT(true)
-        .create();
+                                          .setErrorStr(&ErrStr)
+                                          .setUseMCJIT(true)
+                                          .create();
     if (!TheExecutionEngine) {
         log.fatal("Could not create ExecutionEngine: %s", ErrStr.c_str());
         exit(1);
@@ -92,11 +93,18 @@ int Execer::exec(Module* module)
 
     if (buffer != NULL) {
         // read from pipe
+        fcntl(out_pipe[0], F_SETFL, O_NONBLOCK);
         ssize_t r = read(out_pipe[0], buffer, buffer_size);
-        log.debug("Read %d bytes", r);
-        buffer[r] = 0;
+        if (r != -1) {
+            buffer[r] = 0;
+        } else {
+            buffer[0] = 0;
+        }
+
+        // swap back real stdout
         dup2(saved_stdout, STDOUT_FILENO);
 
+        log.debug("Read %d bytes", r);
         log.debug("stdout was: '%s'\n", buffer);
     }
 

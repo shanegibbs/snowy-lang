@@ -1,3 +1,6 @@
+#include <IntLiteral.h>
+#include <DeclareFunc.h>
+
 #include "SnowyTestSuite.h"
 
 using namespace Snowy;
@@ -16,6 +19,44 @@ void call_three_arg_test(void);
 // NodeTest
 void node_basic_multi_test(void);
 
+void node_declare_func_simple(void)
+{
+    DeclareFunc root(new Type("int"), new Ident("myfunc"), new ArgsDecl(), NULL);
+
+    std::ostringstream ss;
+    ss << "DeclareFunc=[type=[Type[int]] ident=[Ident[myfunc]] args=[ArgsDecl[size=0]] block=[NULL]]\n";
+    const string expected = ss.str();
+
+    const string& actual = root.to_program_string();
+    s_assert_cmpint(actual.length(), >, 0);
+    s_assert_cmpstr(actual, expected.c_str());
+}
+
+void node_declare_func_complex(void)
+{
+    IntLiteral* a = new IntLiteral("1");
+    IntLiteral* b = new IntLiteral("2");
+    IntLiteral* c = new IntLiteral("3");
+    a->setNext(b);
+    b->setNext(c);
+
+    DeclareFunc root(new Type("int"), new Ident("myfunc"),
+                     new ArgsDecl(new Type("int"), new Ident("a"))
+                     , a);
+
+    std::ostringstream ss;
+    ss << "DeclareFunc=[type=[Type[int]] ident=[Ident[myfunc]] args=[ArgsDecl[size=1 type0=[Type[int]] ident0=[Ident[a]]]] block=[\n";
+    ss << " IntLiteral=[1]\n";
+    ss << " IntLiteral=[2]\n";
+    ss << " IntLiteral=[3]\n";
+    ss << "]]\n";
+    const string expected = ss.str();
+
+    const string& actual = root.to_program_string();
+    s_assert_cmpint(actual.length(), >, 0);
+    s_assert_cmpstr(actual, expected.c_str());
+}
+
 void nodes_tests(TestSuite& tests)
 {
     tests.add(node_int_literal_tests);
@@ -24,4 +65,6 @@ void nodes_tests(TestSuite& tests)
     tests.add("/Nodes/Call/single_arg", call_single_arg_test);
     tests.add("/Nodes/Call/three_arg", call_three_arg_test);
     tests.add("/Nodes/Node/basic_multi_expr", node_basic_multi_test);
+    tests.add("/Nodes/DeclarFunc/simple", node_declare_func_simple);
+    tests.add("/Nodes/DeclarFunc/complex", node_declare_func_complex);
 }

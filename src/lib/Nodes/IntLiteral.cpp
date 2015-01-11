@@ -33,6 +33,7 @@ void IntLiteral::to_sstream(ostringstream& s) const
 
 llvm::Value* IntLiteral::compile(CodeGen& gen) const
 {
+    log.debug("Compiling IntLiteral '%d'", val);
     LLVMContext* context = &gen.getBuilder()->getContext();
     return ConstantInt::get(*context, APInt(32, val, false));
 }
