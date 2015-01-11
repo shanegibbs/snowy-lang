@@ -1,9 +1,16 @@
-#!/bin/sh -e
+#!/bin/bash -e
 
 if ! which valgrind > /dev/null 2> /dev/null
 then
     echo WARNING: Skipping memcheck. valgrind not found in PATH
     exit 77
+fi
+
+if [ $FAST_CHECK == true ]; then
+    echo WARNING: Skipping memcheck. FAST_CHECK=true
+    exit 77
+else
+    echo FAST_CHECK=$FAST_CHECK
 fi
 
 LOG=memcheck.valgrind.log.$$
