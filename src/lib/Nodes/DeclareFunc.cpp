@@ -1,6 +1,7 @@
 #include <llvm/IR/LLVMContext.h>
 #include <llvm/IR/Module.h>
 #include <llvm/IR/Constants.h>
+#include <llvm/IR/Argument.h>
 
 #include <CodeGen.h>
 #include <SnowyAssert.h>
@@ -15,7 +16,7 @@ namespace Snowy
 
 const Log DeclareFunc::log = Log("DeclareFunc");
 
-DeclareFunc::DeclareFunc(const Type* t, const Ident* i, const ArgsDecl* a, const Node* b = NULL) : type(t), ident(i), args(a), block(b)
+DeclareFunc::DeclareFunc(const Type* t, const Ident* i, const ArgsDecl* a, const Node* b = NULL) : type(t), ident(i), args(a), block(b == NULL ? NULL : b->getFirst())
 {
     s_assert_notnull(t);
     s_assert_notnull(i);
@@ -46,8 +47,10 @@ void DeclareFunc::to_sstream(std::ostringstream& s) const
     if (block == NULL) {
         s << "NULL";
     } else {
+        s << endl;
         const Node* current = block;
         while (current != NULL) {
+            s << " ";
             current->to_sstream(s);
             s << endl;
             current = current->getNext();
@@ -58,11 +61,15 @@ void DeclareFunc::to_sstream(std::ostringstream& s) const
 
 Value* DeclareFunc::compile(CodeGen& gen) const
 {
+    log.debug("Compiling function '%s'", ident->getName()->c_str());
     LLVMContext* context = &gen.getBuilder()->getContext();
+    IRBuilder<>& b = *gen.getBuilder();
 
     // TODO map types
-    std::vector<llvm::Type*> fn_args(args->getCount());
-    for (unsigned int i = 0; i < args->getCount(); i++) {
+    std::vector<llvm::Type*> fn_args;
+    for (unsigned int i = 0; i < args->size(); i++) {
+        llvm::Type* argType = llvm::Type::getInt32Ty(*context);
+        fn_args.push_back(argType);
     }
 
     FunctionType *ft = FunctionType::get(llvm::Type::getInt32Ty(*context), fn_args, false);
@@ -73,7 +80,38 @@ Value* DeclareFunc::compile(CodeGen& gen) const
     BasicBlock *bb = BasicBlock::Create(getGlobalContext(), "entry", fn);
     BasicBlock* last_block = gen.getBuilder()->GetInsertBlock();
     gen.getBuilder()->SetInsertPoint(bb);
-    gen.getBuilder()->CreateRet(block->compile(gen));
+
+    // store each arg in memory so that it can be retreived
+    // by the Ident node
+    unsigned int i = 0;
+    for (Function::arg_iterator it = fn->arg_begin(); i != args->size(); ++it, ++i) {
+        it->setName(*args->getIdent(i).getName());
+
+        log.debug("Saving arg '%s' into memory", args->getIdent(i).getName()->c_str());
+        llvm::Type* mem_type = llvm::Type::getInt32Ty(*context);
+        ConstantInt* mem_count = b.getInt32(1);
+        AllocaInst* mem = b.CreateAlloca(mem_type, mem_count, "arg_ptr");
+
+        b.CreateStore(it, mem); // just returns a void Value
+        gen.registerValue(*args->getIdent(i).getName(), mem);
+    }
+
+    // generate function termintaor
+    Value* terminator = NULL;
+    if (block != NULL) {
+        const Node *current = block;
+        while (current != NULL) {
+            log.debug("Compiling node in block");
+            terminator = current->compile(gen);
+            current = current->getNext();
+            if (current == NULL) {
+                log.debug("Next node in block is NULL");
+            }
+        }
+    } else {
+        terminator = ConstantInt::get(*context, APInt(32, 0, false));
+    }
+    gen.getBuilder()->CreateRet(terminator);
 
     gen.getBuilder()->SetInsertPoint(last_block);
 

@@ -86,14 +86,14 @@ void func_two_args(void)
 void func_body_one_line(void)
 {
     const char *code = "int test() do\n1\nend\n";
-    const char *desc = "DeclareFunc=[type=[Type[int]] ident=[Ident[test]] args=[ArgsDecl[size=0]] block=[IntLiteral=[1]]]\n";
+    const char *desc = "DeclareFunc=[type=[Type[int]] ident=[Ident[test]] args=[ArgsDecl[size=0]] block=[\n IntLiteral=[1]\n]]\n";
     assert_code_desc(code, desc);
 }
 
 void func_body_multi_line(void)
 {
     const char *code = "int test() do\n1\n2\n3\nend\n";
-    const char *desc = "DeclareFunc=[type=[Type[int]] ident=[Ident[test]] args=[ArgsDecl[size=0]] block=[IntLiteral=[1] IntLiteral=[2]]]\n";
+    const char *desc = "DeclareFunc=[type=[Type[int]] ident=[Ident[test]] args=[ArgsDecl[size=0]] block=[\n IntLiteral=[1]\n IntLiteral=[2]\n IntLiteral=[3]\n]]\n";
     assert_code_desc(code, desc);
 }
 
@@ -109,6 +109,6 @@ void parser_tests(TestSuite& tests)
     tests.add("/Parser/func/no_args", func_no_args);
     tests.add("/Parser/func/one_arg", func_one_arg);
     tests.add("/Parser/func/two_args", func_two_args);
-    // tests.add("/Parser/func/body_one_line", func_body_one_line);
-    // tests.add("/Parser/func/body_multi_line", func_body_multi_line);
+    tests.add("/Parser/func/body_one_line", func_body_one_line);
+    tests.add("/Parser/func/body_multi_line", func_body_multi_line);
 }

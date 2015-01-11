@@ -34,6 +34,8 @@ public:
         return node_id;
     }
 
+    Node* getFirst() const;
+
     Node* getNext() const
     {
         return next;
@@ -43,6 +45,7 @@ public:
     const std::string to_program_string();
 private:
     static const Log log;
+    Node *first;
     Node *next;
     const int node_id;
 };

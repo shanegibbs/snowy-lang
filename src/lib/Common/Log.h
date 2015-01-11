@@ -3,6 +3,8 @@
 
 #include <stdio.h>
 #include <stdarg.h>
+#include <exception>
+#include <stdexcept>
 
 namespace Snowy
 {
@@ -13,6 +15,12 @@ enum LogLevel {
     WARN,
     ERROR,
     FATAL
+};
+
+class FatalLogEvent : public std::runtime_error
+{
+    public:
+    FatalLogEvent() : std::runtime_error("FatalLogEvent") {}
 };
 
 class Log
@@ -44,6 +52,7 @@ private:
 
     const char* name;
     static LogLevel log_level;
+    static bool abort_on_fatal;
 };
 
 }

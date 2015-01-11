@@ -8,6 +8,7 @@ namespace Snowy
 {
 
 FILE* Log::out = stderr;
+bool Log::abort_on_fatal = true;
 LogLevel Log::log_level = FATAL;
 
 void Log::setup()
@@ -110,8 +111,12 @@ void Log::fatal(const char* format, ...) const
     va_start(args, format);
     log(FATAL, format, &args);
     va_end(args);
-    fprintf(stderr, "** Aborting on FATAL...\n");
-    abort();
+    if (abort_on_fatal) {
+        fprintf(stderr, "** Aborting on FATAL...\n");
+        abort();
+    } else {
+        throw FatalLogEvent();
+    }
 }
 
 }

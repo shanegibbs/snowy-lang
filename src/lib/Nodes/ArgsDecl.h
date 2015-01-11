@@ -3,6 +3,8 @@
 
 #include <vector>
 
+#include <SnowyAssert.h>
+
 #include "Node.h"
 #include "Type.h"
 #include "Ident.h"
@@ -30,8 +32,8 @@ public:
 
     void addArgDecl(const Type*, const Ident*);
 
-    unsigned int getCount() const {
-        // TODO assert types.size() == idents.size()
+    unsigned int size() const {
+        s_assert_cmpint(types.size(), ==, idents.size());
         return types.size();
     }
 

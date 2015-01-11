@@ -40,6 +40,7 @@ void Call::to_sstream(std::ostringstream& s) const
 
 Value* Call::compile(CodeGen& gen) const
 {
+    log.debug("Compiling call to '%s'", name->getName()->c_str());
     // LLVMContext* c = &gen->getBuilder()->getContext();
 
     string fn_name(*name->getName());

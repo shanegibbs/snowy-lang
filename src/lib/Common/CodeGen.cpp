@@ -24,12 +24,12 @@ void CodeGen::registerFunction(Function* fn)
 
 void CodeGen::registerValue(const string name, Value* value)
 {
+    log.debug("Registering value '%s'", name.c_str());
     values[name] = value;
 }
 
 const Value* CodeGen::getValue(const string name) const
 {
-    log.debug("Registering value '%s'", name.c_str());
     try {
         return values.at(name);
     } catch (std::out_of_range e) {
