@@ -1,5 +1,6 @@
 #include <IntLiteral.h>
 #include <DeclareFunc.h>
+#include <DeclareClass.h>
 
 #include "SnowyTestSuite.h"
 
@@ -57,6 +58,19 @@ void node_declare_func_complex(void)
     s_assert_cmpstr(actual, expected.c_str());
 }
 
+void node_declare_class_simple(void)
+{
+    DeclareClass root(new Ident("MyClass"));
+
+    std::ostringstream ss;
+    ss << "DeclareClass=[ident=[Ident[MyClass]]]\n";
+    const string expected = ss.str();
+
+    const string& actual = root.to_program_string();
+    s_assert_cmpint(actual.length(), >, 0);
+    s_assert_cmpstr(actual, expected.c_str());
+}
+
 void nodes_tests(TestSuite& tests)
 {
     tests.add(node_int_literal_tests);
@@ -65,6 +79,7 @@ void nodes_tests(TestSuite& tests)
     tests.add("/Nodes/Call/single_arg", call_single_arg_test);
     tests.add("/Nodes/Call/three_arg", call_three_arg_test);
     tests.add("/Nodes/Node/basic_multi_expr", node_basic_multi_test);
-    tests.add("/Nodes/DeclarFunc/simple", node_declare_func_simple);
-    tests.add("/Nodes/DeclarFunc/complex", node_declare_func_complex);
+    tests.add("/Nodes/DeclareFunc/simple", node_declare_func_simple);
+    tests.add("/Nodes/DeclareFunc/complex", node_declare_func_complex);
+    tests.add("/Nodes/DeclareClass/simple", node_declare_class_simple);
 }

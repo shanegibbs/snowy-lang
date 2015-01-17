@@ -190,6 +190,14 @@ void it_function_declare_and_call_with_args()
     s_assert_cmpint(actual.exit_code, ==, 4);
 }
 
+void it_class_declare_empty()
+{
+    snowy_result_no_stdout(R"snow(
+        class MyClass do
+        end
+    )snow");
+}
+
 void it_tests(Snowy::TestSuite& tests)
 {
     // tests.add("/IT/puts/stdout", it_puts_stdout_test);
@@ -211,4 +219,5 @@ void it_tests(Snowy::TestSuite& tests)
     tests.add("/IT/function/declare_and_call", it_function_declare_and_call);
     tests.add("/IT/function/declare_and_call_with_block", it_function_declare_and_call_with_block);
     tests.add("/IT/function/declare_and_call_with_args", it_function_declare_and_call_with_args);
+    tests.add("/IT/class/declare/empty", it_class_declare_empty);
 }

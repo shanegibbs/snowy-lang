@@ -3,12 +3,12 @@
 
 #include <iostream>
 
-#include "Node.h"
+#include "Expression.h"
 
 namespace Snowy
 {
 
-class Statement : public Node
+class Statement : public Expression
 {
 public:
     Statement() {}

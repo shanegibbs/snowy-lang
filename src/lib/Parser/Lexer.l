@@ -23,6 +23,7 @@ ID [a-zA-Z][a-zA-Z0-9]*
 
 do                  return token::DO;
 end                 return token::END;
+class               return token::CLASS;
 {ID}                return token::ID;
 {INTEGER}+          return token::INTEGER;
 \"(\\.|[^"])*\"     return token::STRING_LIT;

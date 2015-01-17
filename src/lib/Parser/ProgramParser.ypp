@@ -12,6 +12,7 @@
 #include <Call.h>
 #include <DeclareVar.h>
 #include <DeclareFunc.h>
+#include <DeclareClass.h>
 #include <Expression.h>
 #include <Type.h>
 #include <Ident.h>
@@ -53,6 +54,7 @@ namespace Snowy {
   Snowy::Call *call;
   Snowy::DeclareVar *declare_var;
   Snowy::DeclareFunc *declare_func;
+  Snowy::DeclareClass *declare_class;
   Snowy::Expression *expression;
   Snowy::Type *type;
   Snowy::Ident *ident;
@@ -78,6 +80,7 @@ namespace Snowy {
 %token <token> CLOSE_BRACKET
 %token <token> DO
 %token <token> END
+%token <token> CLASS
 
 %type <node> program
 %type <node> block
@@ -91,6 +94,7 @@ namespace Snowy {
 %type <expression> expr
 %type <declare_var> var_decl
 %type <declare_func> func_decl
+%type <declare_class> class_decl
 %type <statement> stmt
 %type <tuple> tuple
 
@@ -139,6 +143,9 @@ block: { $$ = NULL; }
     | node end { $$ = $1; }
     ;
 
+class_decl: CLASS ident DO end block END { $$ = new DeclareClass($2); }
+    ;
+
 func_decl: type ident OPEN_BRACKET args_decl CLOSE_BRACKET DO end block END { $$ = new DeclareFunc($1, $2, $4, $8); }
 
 expr: INTEGER { $$ = new Snowy::IntLiteral($1); }
@@ -147,6 +154,7 @@ expr: INTEGER { $$ = new Snowy::IntLiteral($1); }
     | tuple { $$ = $1; }
     | call { $$ = $1; }
     | ident { $$ = $1; }
+    | class_decl { $$ = $1; }
     ;
 
 args: { $$ = new Args; } // blank

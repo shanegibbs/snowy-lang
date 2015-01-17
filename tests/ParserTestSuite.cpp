@@ -120,6 +120,14 @@ static void comment_part_line_test(void)
     )snow", "IntLiteral=[1]\n");
 }
 
+static void class_declare_empty(void)
+{
+    assert_code_desc(R"snow(
+        class MyClass do
+        end
+    )snow", "DeclareClass=[ident=[Ident[MyClass]]]\n");
+}
+
 void parser_tests(TestSuite& tests)
 {
     tests.add("/Parser/int_literal", int_literal_test);
@@ -137,4 +145,5 @@ void parser_tests(TestSuite& tests)
     tests.add("/Parser/empty_line", empty_line_test);
     tests.add("/Parser/comment/full_line", comment_full_line_test);
     tests.add("/Parser/comment/part_line", comment_part_line_test);
+    tests.add("/Parser/class/empty", class_declare_empty);
 }
