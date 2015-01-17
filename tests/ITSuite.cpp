@@ -9,11 +9,13 @@ using namespace Snowy;
 class Result
 {
 public:
-    Result() {
+    Result()
+    {
         buffer = NULL;
         exit_code = 0;
     }
-    ~Result() {
+    ~Result()
+    {
         free(buffer);
     }
     char* buffer;
@@ -61,7 +63,9 @@ void it_puts_stdout_test()
 
 void it_puts_string_lit_test()
 {
-    Result actual = snowy_result("puts(\"hello world!!\")");
+    Result actual = snowy_result(R"snow(
+        puts("hello world!!")
+    )snow");
     s_assert_cmpstr(actual.buffer, "hello world!!\n");
 }
 
@@ -73,13 +77,16 @@ void it_puts_int_lit_test()
 
 void it_return_int_test()
 {
-    Result actual = snowy_result_no_stdout("5\n");
+    Result actual = snowy_result_no_stdout("5");
     s_assert_cmpint(actual.exit_code, ==, 5);
 }
 
 void it_variable_use_1()
 {
-    Result actual = snowy_result("string a = \"one\"\nputs(a)");
+    Result actual = snowy_result(R"snow(
+        string a = "one"
+        puts(a)
+    )snow");
     s_assert_cmpstr(actual.buffer, "one\n");
 }
 
@@ -91,80 +98,95 @@ void it_variable_use_2()
 
 void it_add_int_single()
 {
-    Result actual = snowy_result_no_stdout("2 + 8\n");
+    Result actual = snowy_result_no_stdout("2 + 8");
     s_assert_cmpint(actual.exit_code, ==, 2 + 8);
 }
 
 void it_add_int_multi()
 {
-    Result actual = snowy_result_no_stdout("2 + 8 + 3 + 7\n");
+    Result actual = snowy_result_no_stdout("2 + 8 + 3 + 7");
     s_assert_cmpint(actual.exit_code, ==, 2 + 8 + 3 + 7);
 }
 
 void it_sub_int_single()
 {
-    Result actual = snowy_result_no_stdout("10 - 2\n");
+    Result actual = snowy_result_no_stdout("10 - 2");
     s_assert_cmpint(actual.exit_code, ==, 10 - 2);
 }
 
 void it_sub_int_multi()
 {
-    Result actual = snowy_result_no_stdout("20 - 12 - 5\n");
+    Result actual = snowy_result_no_stdout("20 - 12 - 5");
     s_assert_cmpint(actual.exit_code, ==, 20 - 12 - 5);
 }
 
 void it_mul_int_single()
 {
-    Result actual = snowy_result_no_stdout("10 * 2\n");
+    Result actual = snowy_result_no_stdout("10 * 2");
     s_assert_cmpint(actual.exit_code, ==, 10 * 2);
 }
 
 void it_mul_int_multi()
 {
-    Result actual = snowy_result_no_stdout("20 * 12 * 5\n");
+    Result actual = snowy_result_no_stdout("20 * 12 * 5");
     s_assert_cmpint(actual.exit_code, ==, 20 * 12 * 5);
 }
 
 void it_div_int_single()
 {
-    Result actual = snowy_result_no_stdout("10 / 2\n");
+    Result actual = snowy_result_no_stdout("10 / 2");
     s_assert_cmpint(actual.exit_code, ==, 10 / 2);
 }
 
 void it_div_int_multi()
 {
-    Result actual = snowy_result_no_stdout("20 / 4 / 2\n");
+    Result actual = snowy_result_no_stdout("20 / 4 / 2");
     s_assert_cmpint(actual.exit_code, ==, 20 / 4 / 2);
 }
 
 void it_brackets_int_left()
 {
-    Result actual = snowy_result_no_stdout("(10 - 5) + 2\n");
+    Result actual = snowy_result_no_stdout("(10 - 5) + 2");
     s_assert_cmpint(actual.exit_code, ==, (10 - 5) + 2);
 }
 
 void it_brackets_int_right()
 {
-    Result actual = snowy_result_no_stdout("10 - (5 + 2)\n");
+    Result actual = snowy_result_no_stdout("10 - (5 + 2)");
     s_assert_cmpint(actual.exit_code, ==, 10 - (5 + 2));
 }
 
 void it_function_declare_and_call()
 {
-    Result actual = snowy_result_no_stdout("int myval() do\nend\nmyval()\n");
+    Result actual = snowy_result_no_stdout(R"snow(
+        int myval() do
+        end
+        myval()
+    )snow");
     s_assert_cmpint(actual.exit_code, ==, 0);
 }
 
 void it_function_declare_and_call_with_block()
 {
-    Result actual = snowy_result("int myfunc() do\nputs(\"In myfunc\")\n1\nend\nmyfunc()\n");
+    Result actual = snowy_result(R"snow(
+        int myfunc() do
+          puts("In myfunc")
+          1
+        end
+        myfunc()
+    )snow");
     s_assert_cmpstr(actual.buffer, "In myfunc\n");
     s_assert_cmpint(actual.exit_code, ==, 1);
 }
 
 void it_function_declare_and_call_with_args()
 {
-    Result actual = snowy_result_no_stdout("int add(int a, int b) do\na + b\nend\nadd(1, 3)\n");
+    Result actual = snowy_result_no_stdout(R"snow(
+        int add(int a, int b) do
+          a + b
+        end
+        add(1, 3)
+    )snow");
     s_assert_cmpint(actual.exit_code, ==, 4);
 }
 

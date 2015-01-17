@@ -1,0 +1,37 @@
+#!/bin/bash -e
+
+if ! which valgrind > /dev/null 2> /dev/null
+then
+    echo WARNING: Skipping memcheck. valgrind not found in PATH
+    exit 77
+fi
+
+if [ $FAST_CHECK == true ]; then
+    echo WARNING: Skipping memcheck. FAST_CHECK=true
+    exit 77
+else
+    echo FAST_CHECK=$FAST_CHECK
+fi
+
+LOG=memcheck.valgrind.log.$$
+trap "rm -f $LOG" EXIT
+
+valgrind --leak-check=full --show-leak-kinds=all --num-callers=50 --error-exitcode=1 ./SnowyTestSuite 2>&1 |tee $LOG
+
+if ! grep 'ERROR SUMMARY: 0 errors' $LOG
+then
+    echo ERROR: Found memory errors
+    exit 1
+fi
+
+if ! grep 'definitely lost: 0 bytes in 0 blocks' $LOG \
+    || ! grep 'indirectly lost: 0 bytes in 0 blocks' $LOG \
+    || ! grep 'possibly lost: 0 bytes in 0 blocks' $LOG \
+    || ! grep 'suppressed: 0 bytes in 0 blocks' $LOG \
+    || ! grep 'still reachable: 2,760 bytes in 10 blocks' $LOG
+then
+    echo ERROR: Found memory leaks
+    exit 1
+fi
+
+exit 0
