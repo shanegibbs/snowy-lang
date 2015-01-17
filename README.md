@@ -7,9 +7,9 @@
 
 * Learn C/C++ and autotools
 * Get a basic language structure in place
-** Similar syntax to Ruby
-** Typing > Ruby typing
-** As powerful as C/C++ but easier to wite
+ * Similar syntax to Ruby
+ * Typing > Ruby typing
+ * As powerful as C/C++ but easier to wite
 * Invistigate questions
 
 ### Questions
