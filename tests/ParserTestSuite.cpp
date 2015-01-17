@@ -97,6 +97,29 @@ void func_body_multi_line(void)
     assert_code_desc(code, desc);
 }
 
+static void empty_line_test(void)
+{
+    assert_code_desc(R"snow(
+
+        1
+    )snow", "IntLiteral=[1]\n");
+}
+
+static void comment_full_line_test(void)
+{
+    assert_code_desc(R"snow(
+        # 1
+        1
+    )snow", "IntLiteral=[1]\n");
+}
+
+static void comment_part_line_test(void)
+{
+    assert_code_desc(R"snow(
+        1 # 2
+    )snow", "IntLiteral=[1]\n");
+}
+
 void parser_tests(TestSuite& tests)
 {
     tests.add("/Parser/int_literal", int_literal_test);
@@ -111,4 +134,7 @@ void parser_tests(TestSuite& tests)
     tests.add("/Parser/func/two_args", func_two_args);
     tests.add("/Parser/func/body_one_line", func_body_one_line);
     tests.add("/Parser/func/body_multi_line", func_body_multi_line);
+    tests.add("/Parser/empty_line", empty_line_test);
+    tests.add("/Parser/comment/full_line", comment_full_line_test);
+    tests.add("/Parser/comment/part_line", comment_part_line_test);
 }

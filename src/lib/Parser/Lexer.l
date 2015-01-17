@@ -31,8 +31,9 @@ end                 return token::END;
 ,                   return token::COMMA;
 "("                 return token::OPEN_BRACKET;
 ")"                 return token::CLOSE_BRACKET;
+#.*
 \n                  return token::ENDL;
-[ \t]+
+[ \t\n]+
 .                   printf("(new char)");
 
 %%
