@@ -3,6 +3,31 @@
 
 # Snowy Lang
 
+## Goals
+
+* Learn C/C++ and autotools
+* Get a basic language structure in place
+** Similar syntax to Ruby
+** Typing > Ruby typing
+** As powerful as C/C++ but easier to wite
+* Invistigate questions
+
+### Questions
+
+* Why is dependency management so hard?
+* Why are some of the most popular languages so slow? (performance wise)
+* Can memory management be easier?
+
+### Notes
+
+#### Ruby and types
+
+Even adding a simple type specifier to Ruby syntax breaks. Language syntax seems to be a delicate balancing act.
+
+#### Type inference
+
+The LLVM IR api naturally lends itself towards type inference. - Need to think of some corner cases.
+
 ### Ubuntu Quick Start
 
 ```
