@@ -27,6 +27,8 @@ public:
         return name;
     }
 
+    NodeType getNodeType() const override { return IDENT; }
+
     llvm::Value* compile(CodeGen&) const;
 
     void to_sstream(ostringstream&) const;

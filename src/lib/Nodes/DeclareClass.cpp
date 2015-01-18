@@ -16,7 +16,13 @@ namespace Snowy
 
 const Log DeclareClass::log = Log("DeclareClass");
 
-DeclareClass::DeclareClass(const Ident* i) : ident(i)
+DeclareClass::DeclareClass()
+{
+    ident = nullptr;
+    log.debug("Creating DeclareClass");
+}
+
+DeclareClass::DeclareClass(Ident* i) : ident(i)
 {
     s_assert_notnull(i);
     log.debug("Creating DeclareClass node %s", ident->getName()->c_str());

@@ -22,6 +22,8 @@ public:
         return new Type(*this);
     }
 
+    NodeType getNodeType() const override { return TYPE; }
+
     const string* getId() const {
         return id;
     }

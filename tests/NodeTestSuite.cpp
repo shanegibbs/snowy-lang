@@ -1,4 +1,5 @@
 #include <IntLiteral.h>
+#include <DeclareVar.h>
 #include <DeclareFunc.h>
 #include <DeclareClass.h>
 
@@ -71,6 +72,22 @@ void node_declare_class_simple(void)
     s_assert_cmpstr(actual, expected.c_str());
 }
 
+void node_declare_class_with_var(void)
+{
+    DeclareVar* var = new DeclareVar(new Type("int"), new Ident("i"), new IntLiteral("1"));
+
+    DeclareClass root(new Ident("MyClass"));
+    root.addVarDecl(var);
+
+    std::ostringstream ss;
+    ss << "DeclareClass=[ident=[Ident[MyClass]]]\n";
+    const string expected = ss.str();
+
+    const string& actual = root.to_program_string();
+    s_assert_cmpint(actual.length(), >, 0);
+    s_assert_cmpstr(actual, expected.c_str());
+}
+
 void nodes_tests(TestSuite& tests)
 {
     tests.add(node_int_literal_tests);
@@ -82,4 +99,5 @@ void nodes_tests(TestSuite& tests)
     tests.add("/Nodes/DeclareFunc/simple", node_declare_func_simple);
     tests.add("/Nodes/DeclareFunc/complex", node_declare_func_complex);
     tests.add("/Nodes/DeclareClass/simple", node_declare_class_simple);
+    tests.add("/Nodes/DeclareClass/with_var", node_declare_class_with_var);
 }

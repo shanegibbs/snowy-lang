@@ -20,6 +20,16 @@ public:
         return new DeclareVar(*this);
     }
 
+    const string& getName() const {
+        return *ident->getName();
+    }
+
+    const Expression& getExpression() const {
+        return *expr;
+    }
+
+    NodeType getNodeType() const override { return DECLARE_VAR; }
+
     llvm::Value* compile(CodeGen&) const;
 
     void to_sstream(std::ostringstream&) const;

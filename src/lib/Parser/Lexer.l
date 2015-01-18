@@ -12,6 +12,7 @@ typedef Snowy::ProgramParser::token token;
 %option debug
 %option noyywrap
 %option nodefault
+%option yylineno
 
 %option c++
 %option outfile="Lexer.cc"

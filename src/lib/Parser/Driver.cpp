@@ -50,7 +50,7 @@ Node* Driver::exec()
 
 void Driver::error(const char* err)
 {
-    log.fatal("Snowy Parse Error: %s", err);
+    log.fatal("Snowy Parse Error: %s on line %d", err, lexer->lineno());
     root = NULL;
 }
 

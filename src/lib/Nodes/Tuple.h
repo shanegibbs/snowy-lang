@@ -18,6 +18,8 @@ public:
         return new Tuple(*this);
     }
 
+    NodeType getNodeType() const override { return TUPLE; }
+
     llvm::Value* compile(CodeGen&) const;
 
     void to_sstream(std::ostringstream&) const;

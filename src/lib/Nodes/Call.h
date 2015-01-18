@@ -21,6 +21,8 @@ public:
         return new Call(*this);
     }
 
+    NodeType getNodeType() const override { return CALL; }
+
     llvm::Value* compile(CodeGen&) const;
     void to_sstream(std::ostringstream&) const;
 

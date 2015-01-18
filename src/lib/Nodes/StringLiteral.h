@@ -24,6 +24,8 @@ public:
         return new StringLiteral(*this);
     }
 
+    NodeType getNodeType() const override { return STRING_LITERAL; }
+
     llvm::Value* compile(CodeGen&) const;
     void to_sstream(ostringstream&) const;
 private:

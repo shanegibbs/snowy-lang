@@ -21,6 +21,12 @@ public:
         return new DeclareFunc(*this);
     }
 
+    const string& getName() const {
+        return *ident->getName();
+    }
+
+    NodeType getNodeType() const override { return DECLARE_FUNC; }
+
     llvm::Value* compile(CodeGen&) const;
 
     void to_sstream(std::ostringstream&) const;

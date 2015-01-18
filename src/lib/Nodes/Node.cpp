@@ -46,7 +46,7 @@ void Node::setNext(Node *n)
     n->first = first;
 }
 
-const char* Node::to_string()
+const char* Node::to_string() const
 {
     ostringstream oss;
     to_sstream(oss);
@@ -62,11 +62,11 @@ const char* Node::to_string()
     return cstr;
 }
 
-const string Node::to_program_string()
+const string Node::to_program_string() const
 {
     ostringstream oss;
 
-    Node* current = this;
+    const Node* current = this;
 
     while (current != NULL) {
         current->to_sstream(oss);

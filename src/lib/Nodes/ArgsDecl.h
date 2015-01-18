@@ -26,6 +26,8 @@ public:
         return new ArgsDecl(*this);
     }
 
+    NodeType getNodeType() const override { return ARGS_DECL; }
+
     virtual llvm::Value* compile(CodeGen&) const {
         return NULL;
     }

@@ -7,9 +7,14 @@
 
 using namespace std;
 
+bool snowy_assert_fail(string str, string func, string file, int line);
 void snowy_assert_cmpstr(const char* val1, const char* val2, string str1, string str2, string func, string file, int line);
 void snowy_assert_cmpstr(const string& val1, const string& val2, string str1, string str2, string func, string file, int line);
+void snowy_assert_cmpstr(const string& val1, const char* val2, string str1, string str2, string func, string file, int line);
+void snowy_assert_cmpstr(const char* val1, const string& val2, string str1, string str2, string func, string file, int line);
 void snowy_assert_notnull(void* o, string strO, string func, string file, int line);
+
+#define s_assert(x) ((void)(!(x) && snowy_assert_fail(#x, __PRETTY_FUNCTION__, __FILE__, __LINE__)))
 
 #define s_assert_cmpstr(s1, s2) do { \
      snowy_assert_cmpstr(s1, s2, #s1, #s2, __PRETTY_FUNCTION__, __FILE__, __LINE__); \

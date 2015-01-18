@@ -2,12 +2,26 @@
 
 #include <Parser.h>
 #include <Node.h>
+#include <DeclareClass.h>
+#include <DeclareVar.h>
+#include <DeclareFunc.h>
 
 #include "SnowyTestSuite.h"
 
 using namespace Snowy;
 
-void assert_code_desc(const char *code, const string& expected)
+static const Node& build_graph(string code)
+{
+    std::stringstream ins;
+    ins << code;
+
+    Parser parser;
+    Node *root = parser.parse(ins);
+    s_assert_notnull(root);
+    return *root;
+}
+
+static void assert_code_desc(const char *code, const string& expected)
 {
     std::stringstream ins;
     ins << code;
@@ -128,6 +142,91 @@ static void class_declare_empty(void)
     )snow", "DeclareClass=[ident=[Ident[MyClass]]]\n");
 }
 
+static void class_declare_with_var(void)
+{
+    const Node& n = build_graph(R"snow(
+        class MyClass do
+          int i = 0
+        end
+    )snow");
+
+    s_assert(n.getNodeType() == DECLARE_CLASS);
+    DeclareClass& c = (DeclareClass&)n;
+
+    s_assert_cmpstr(*c.getIdent().getName(), "MyClass");
+    s_assert(c.getVars().size() == 1);
+
+    DeclareVar& var = *c.getVars()[0];
+    s_assert_cmpstr(var.to_program_string(), "DeclareVar=[type=[Type[int]] ident=[Ident[i]] expr=[IntLiteral=[0]]]\n");
+}
+
+static void class_declare_with_two_vars(void)
+{
+    const Node& n = build_graph(R"snow(
+        class MyClass do
+          int a = 0
+          int b = 0
+        end
+    )snow");
+
+    s_assert(n.getNodeType() == DECLARE_CLASS);
+    DeclareClass& c = (DeclareClass&)n;
+
+    s_assert_cmpstr(*c.getIdent().getName(), "MyClass");
+    s_assert(c.getVars().size() == 2);
+
+    DeclareVar& a = *c.getVars()[0];
+    s_assert_cmpstr(a.to_program_string(), "DeclareVar=[type=[Type[int]] ident=[Ident[a]] expr=[IntLiteral=[0]]]\n");
+
+    DeclareVar& b = *c.getVars()[1];
+    s_assert_cmpstr(b.to_program_string(), "DeclareVar=[type=[Type[int]] ident=[Ident[b]] expr=[IntLiteral=[0]]]\n");
+}
+
+static void class_declare_with_func(void)
+{
+    const Node& n = build_graph(R"snow(
+        class MyClass do
+          int myfunc() do
+          end
+        end
+    )snow");
+
+    s_assert(n.getNodeType() == DECLARE_CLASS);
+    DeclareClass& c = (DeclareClass&)n;
+
+    s_assert_cmpstr(*c.getIdent().getName(), "MyClass");
+    s_assert(c.getFuncs().size() == 1);
+
+    DeclareFunc& func = *c.getFuncs()[0];
+    s_assert_cmpstr(func.getName(), "myfunc");
+}
+
+static void class_declare_with_two_funcs(void)
+{
+    const Node& n = build_graph(R"snow(
+        class MyClass do
+          int firstFunc() do
+            int a = 0
+          end
+          int secondFunc() do
+            int b = 0
+          end
+        end
+    )snow");
+
+    s_assert(n.getNodeType() == DECLARE_CLASS);
+    DeclareClass& c = (DeclareClass&)n;
+
+    s_assert_cmpstr(*c.getIdent().getName(), "MyClass");
+    s_assert(c.getFuncs().size() == 2);
+
+    DeclareFunc& first_func = *c.getFuncs()[0];
+    s_assert_cmpstr(first_func.getName(), "firstFunc");
+
+    DeclareFunc& second_func = *c.getFuncs()[1];
+    s_assert_cmpstr(second_func.getName(), "secondFunc");
+}
+
 void parser_tests(TestSuite& tests)
 {
     tests.add("/Parser/int_literal", int_literal_test);
@@ -146,4 +245,8 @@ void parser_tests(TestSuite& tests)
     tests.add("/Parser/comment/full_line", comment_full_line_test);
     tests.add("/Parser/comment/part_line", comment_part_line_test);
     tests.add("/Parser/class/empty", class_declare_empty);
+    tests.add("/Parser/class/with_var", class_declare_with_var);
+    tests.add("/Parser/class/with_two_vars", class_declare_with_two_vars);
+    tests.add("/Parser/class/with_func", class_declare_with_func);
+    tests.add("/Parser/class/with_two_funcs", class_declare_with_two_funcs);
 }
