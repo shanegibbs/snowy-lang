@@ -3,6 +3,9 @@ AM_CXXFLAGS += -I$(top_srcdir)/src/lib/Common
 AM_CXXFLAGS += -I$(top_srcdir)/src/lib/Nodes
 AM_CXXFLAGS += -I$(top_builddir)/src/lib/Parser
 
+# due to g++ errors with the generated Lexer.cc
+AM_CXXFLAGS += -Wno-error=sign-compare
+
 if DEBUG
 AM_CXXFLAGS += @SNOWY_DEBUG_CXXFLAGS@
 else
@@ -15,10 +18,6 @@ libsnowy_parser_a_SOURCES = ProgramParser.cpp Lexer.cc Driver.cpp Parser.cpp
 
 Lexer.cc: Lexer.l ProgramParser.cpp
 	flex++ $(top_srcdir)/src/lib/Parser/Lexer.l
-
-# gcc does not like Lexer.cc
-# this is a work around for now
-Lexer_cc_CFLAGS = -Wno-sign-compare
 
 ProgramParser.cpp: ProgramParser.ypp
 	bison -v --defines=ProgramParser.h --output=ProgramParser.cpp $(top_srcdir)/src/lib/Parser/ProgramParser.ypp
