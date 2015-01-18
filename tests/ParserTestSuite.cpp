@@ -150,7 +150,7 @@ static void class_declare_with_var(void)
         end
     )snow");
 
-    s_assert(n.getNodeType() == DECLARE_CLASS);
+    s_assert(n.isNodeType(DECLARE_CLASS));
     DeclareClass& c = (DeclareClass&)n;
 
     s_assert_cmpstr(*c.getIdent().getName(), "MyClass");
@@ -169,7 +169,7 @@ static void class_declare_with_two_vars(void)
         end
     )snow");
 
-    s_assert(n.getNodeType() == DECLARE_CLASS);
+    s_assert(n.isNodeType(DECLARE_CLASS));
     DeclareClass& c = (DeclareClass&)n;
 
     s_assert_cmpstr(*c.getIdent().getName(), "MyClass");
@@ -191,7 +191,7 @@ static void class_declare_with_func(void)
         end
     )snow");
 
-    s_assert(n.getNodeType() == DECLARE_CLASS);
+    s_assert(n.isNodeType(DECLARE_CLASS));
     DeclareClass& c = (DeclareClass&)n;
 
     s_assert_cmpstr(*c.getIdent().getName(), "MyClass");
@@ -214,7 +214,7 @@ static void class_declare_with_two_funcs(void)
         end
     )snow");
 
-    s_assert(n.getNodeType() == DECLARE_CLASS);
+    s_assert(n.isNodeType(DECLARE_CLASS));
     DeclareClass& c = (DeclareClass&)n;
 
     s_assert_cmpstr(*c.getIdent().getName(), "MyClass");

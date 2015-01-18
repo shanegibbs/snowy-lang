@@ -33,6 +33,10 @@ public:
 
     virtual NodeType getNodeType() const = 0;
 
+    bool isNodeType(NodeType t) const {
+        return t == getNodeType();
+    }
+
     int getNodeId() const
     {
         return node_id;
