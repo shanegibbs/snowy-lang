@@ -16,6 +16,10 @@ libsnowy_parser_a_SOURCES = ProgramParser.cpp Lexer.cc Driver.cpp Parser.cpp
 Lexer.cc: Lexer.l ProgramParser.cpp
 	flex++ $(top_srcdir)/src/lib/Parser/Lexer.l
 
+# gcc does not like Lexer.cc
+# this is a work around for now
+Lexer_cc_CFLAGS = -Wno-sign-compare
+
 ProgramParser.cpp: ProgramParser.ypp
 	bison -v --defines=ProgramParser.h --output=ProgramParser.cpp $(top_srcdir)/src/lib/Parser/ProgramParser.ypp
 
