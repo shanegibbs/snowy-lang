@@ -13,7 +13,7 @@ namespace Snowy
 class DeclareFunc : public Statement
 {
 public:
-    DeclareFunc(const Type*, const Ident*, const ArgsDecl*, const Node*);
+    DeclareFunc(const Ident*, const ArgsDecl*, const Node*);
     ~DeclareFunc();
 
     DeclareFunc* clone() const
@@ -33,7 +33,6 @@ public:
 
 private:
     static const Log log;
-    const Type* type;
     const Ident* ident;
     const ArgsDecl* args;
     const Node* block;

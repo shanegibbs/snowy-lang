@@ -23,10 +23,10 @@ void node_basic_multi_test(void);
 
 void node_declare_func_simple(void)
 {
-    DeclareFunc root(new Type("int"), new Ident("myfunc"), new ArgsDecl(), NULL);
+    DeclareFunc root(new Ident("myfunc"), new ArgsDecl(), NULL);
 
     std::ostringstream ss;
-    ss << "DeclareFunc=[type=[Type[int]] ident=[Ident[myfunc]] args=[ArgsDecl[size=0]] block=[NULL]]\n";
+    ss << "DeclareFunc=[ident=[Ident[myfunc]] args=[ArgsDecl[size=0]] block=[NULL]]\n";
     const string expected = ss.str();
 
     const string& actual = root.to_program_string();
@@ -42,12 +42,12 @@ void node_declare_func_complex(void)
     a->setNext(b);
     b->setNext(c);
 
-    DeclareFunc root(new Type("int"), new Ident("myfunc"),
-                     new ArgsDecl(new Type("int"), new Ident("a"))
+    DeclareFunc root(new Ident("myfunc"),
+                     new ArgsDecl(new Ident("a"))
                      , a);
 
     std::ostringstream ss;
-    ss << "DeclareFunc=[type=[Type[int]] ident=[Ident[myfunc]] args=[ArgsDecl[size=1 type0=[Type[int]] ident0=[Ident[a]]]] block=[\n";
+    ss << "DeclareFunc=[ident=[Ident[myfunc]] args=[ArgsDecl[size=1 arg0=[Ident[a]]]] block=[\n";
     ss << " IntLiteral=[1]\n";
     ss << " IntLiteral=[2]\n";
     ss << " IntLiteral=[3]\n";
@@ -61,10 +61,10 @@ void node_declare_func_complex(void)
 
 void node_declare_class_simple(void)
 {
-    DeclareClass root(new Ident("MyClass"));
+    DeclareClass root(new Type("MyClass"));
 
     std::ostringstream ss;
-    ss << "DeclareClass=[ident=[Ident[MyClass]]]\n";
+    ss << "DeclareClass=[type=[Type[MyClass]]]\n";
     const string expected = ss.str();
 
     const string& actual = root.to_program_string();
@@ -74,13 +74,13 @@ void node_declare_class_simple(void)
 
 void node_declare_class_with_var(void)
 {
-    DeclareVar* var = new DeclareVar(new Type("int"), new Ident("i"), new IntLiteral("1"));
+    DeclareVar* var = new DeclareVar(new Ident("i"), new IntLiteral("1"));
 
-    DeclareClass root(new Ident("MyClass"));
+    DeclareClass root(new Type("MyClass"));
     root.addVarDecl(var);
 
     std::ostringstream ss;
-    ss << "DeclareClass=[ident=[Ident[MyClass]]]\n";
+    ss << "DeclareClass=[type=[Type[MyClass]]]\n";
     const string expected = ss.str();
 
     const string& actual = root.to_program_string();

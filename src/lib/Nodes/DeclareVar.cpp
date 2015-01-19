@@ -15,9 +15,8 @@ namespace Snowy
 
 const Log DeclareVar::log = Log("DeclareVar");
 
-DeclareVar::DeclareVar(const Type* t, const Ident *i, const Expression* e) : type(t), ident(i), expr(e)
+DeclareVar::DeclareVar(const Ident *i, const Expression* e) : ident(i), expr(e)
 {
-    s_assert_notnull(type);
     s_assert_notnull(ident);
     s_assert_notnull(expr);
 
@@ -27,7 +26,6 @@ DeclareVar::DeclareVar(const Type* t, const Ident *i, const Expression* e) : typ
 DeclareVar::~DeclareVar()
 {
     log.debug("Deleting DeclareVar '%s'", ident->getName()->c_str());
-    delete type;
     delete ident;
     delete expr;
 }
@@ -37,9 +35,7 @@ void DeclareVar::to_sstream(std::ostringstream& s) const
     s_assert_notnull(ident);
     s_assert_notnull(expr);
 
-    s << "DeclareVar=[type=[";
-    type->to_sstream(s);
-    s << "] ident=[";
+    s << "DeclareVar=[ident=[";
     ident->to_sstream(s);
     s << "] expr=[";
     expr->to_sstream(s);

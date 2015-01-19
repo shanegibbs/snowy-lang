@@ -18,7 +18,7 @@ class ArgsDecl : public Node
 {
 public:
     ArgsDecl();
-    ArgsDecl(const Type*, const Ident*);
+    ArgsDecl(const Ident*);
     ~ArgsDecl();
 
     ArgsDecl* clone() const
@@ -32,15 +32,10 @@ public:
         return NULL;
     }
 
-    void addArgDecl(const Type*, const Ident*);
+    void addIdent(const Ident*);
 
     unsigned int size() const {
-        s_assert_cmpint(types.size(), ==, idents.size());
-        return types.size();
-    }
-
-    const Type& getType(unsigned int i) const {
-        return *types[i];
+        return idents.size();
     }
 
     const Ident& getIdent(unsigned int i) const {
@@ -51,7 +46,6 @@ public:
 
 private:
     static const Log log;
-    vector<const Type*> types;
     vector<const Ident*> idents;
 };
 

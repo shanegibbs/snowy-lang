@@ -11,6 +11,7 @@
 #include <CodeGen.h>
 
 #include "Ident.h"
+#include "Type.h"
 
 using namespace llvm;
 
@@ -27,13 +28,23 @@ void Ident::init()
     log.debug("Creating Ident with name '%s'", name->c_str());
 }
 
-Ident::Ident(const char* n) : name(new string(n))
+Ident::Ident(const string* n) : name(n), type(nullptr)
+{
+    init();
+}
+
+Ident::Ident(const char* n, const Type* t) : name(new string(n)), type(t)
 {
     s_assert_notnull(n);
     init();
 }
 
-Ident::Ident(const string* n) : name(n)
+Ident::Ident(const char* n) : name(new string(n)), type(nullptr)
+{
+    init();
+}
+
+Ident::Ident(const string* n, const Type* t) : name(n), type(t)
 {
     init();
 }
@@ -65,7 +76,11 @@ void Snowy::Ident::to_sstream(std::ostringstream& s) const
     s_assert_cmpint(name->length(), >, 0);
     s_assert_cmpint(name->length(), <, 100);
 
-    s << "Ident[" << *name << "]";
+    s << "Ident[" << *name;
+    if (type != nullptr) {
+        s << " type=" << type->getId();
+    }
+    s << "]";
 }
 
 }

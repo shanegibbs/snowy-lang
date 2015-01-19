@@ -17,7 +17,7 @@ class DeclareClass : public Expression
 {
 public:
     DeclareClass();
-    DeclareClass(Ident*);
+    DeclareClass(Type*);
     ~DeclareClass();
 
     DeclareClass* clone() const
@@ -30,9 +30,9 @@ public:
         return DECLARE_CLASS;
     }
 
-    void setIdent(Ident* i)
+    void setType(Type* t)
     {
-        ident = i;
+        type = t;
     }
 
     void addVarDecl(DeclareVar* v)
@@ -55,10 +55,10 @@ public:
         return funcs;
     }
 
-    Ident& getIdent() const
+    Type& getType() const
     {
-        s_assert_notnull(ident);
-        return *ident;
+        s_assert_notnull(type);
+        return *type;
     }
 
     llvm::Value* compile(CodeGen&) const;
@@ -67,7 +67,7 @@ public:
 
 private:
     static const Log log;
-    Ident* ident;
+    Type* type;
     vector<DeclareVar*> vars;
     vector<DeclareFunc*> funcs;
 };

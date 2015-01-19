@@ -43,6 +43,7 @@ private:
     Node* root;
     FlexLexer* lexer;
     ProgramParser *program_parser;
+    bool reached_eof;
 };
 
 }

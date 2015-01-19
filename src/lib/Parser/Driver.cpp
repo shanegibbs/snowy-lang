@@ -14,6 +14,7 @@ const Log Driver::log = Log("Driver");
 Driver::Driver()
 {
     program_parser = new ProgramParser(this);
+    reached_eof = false;
 }
 
 Driver::~Driver()
@@ -26,6 +27,14 @@ int Driver::mylex(ProgramParser::semantic_type *val)
 {
     // exec yylex
     int i = lexer->yylex();
+
+    // make sure there is an ENDL before EOF
+    if (i == 0) {
+        if (!reached_eof) {
+            reached_eof = true;
+            i = ProgramParser::token::ENDL;
+        }
+    }
 
     log.debug("Called mylex - %s(%d), %s", getTokenString(i), i, lexer->YYText());
 
@@ -67,6 +76,10 @@ const char* Driver::getTokenString(int t) const
         return "EQ_OP";
     case ProgramParser::token::OP:
         return "OP";
+    case ProgramParser::token::CLASS:
+        return "CLASS";
+    case ProgramParser::token::DEF:
+        return "DEF";
     case ProgramParser::token::COMMA:
         return "COMMA";
     case ProgramParser::token::OPEN_BRACKET:
@@ -79,6 +92,8 @@ const char* Driver::getTokenString(int t) const
         return "END";
     case ProgramParser::token::ENDL:
         return "ENDL";
+    case 0:
+        return "EOF";
     }
     return "UNKNOWN";
 }

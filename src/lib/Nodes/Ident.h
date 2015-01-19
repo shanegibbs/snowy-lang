@@ -11,12 +11,15 @@ namespace Snowy
 {
 
 class Log;
+class Type;
 
 class Ident : public Expression
 {
 public:
-    Ident(const char* name);
-    Ident(const string* name);
+    Ident(const char*);
+    Ident(const string*);
+    Ident(const char*, const Type*);
+    Ident(const string*, const Type*);
     ~Ident();
 
     Ident* clone() const {
@@ -37,6 +40,7 @@ private:
     static const Log log;
     void init();
     const string* name;
+    const Type* type;
 };
 
 }

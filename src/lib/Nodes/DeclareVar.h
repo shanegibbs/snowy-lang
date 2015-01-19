@@ -12,7 +12,7 @@ namespace Snowy
 class DeclareVar : public Statement
 {
 public:
-    DeclareVar(const Type*, const Ident*, const Expression*);
+    DeclareVar(const Ident*, const Expression*);
     virtual ~DeclareVar();
 
     DeclareVar* clone() const
@@ -36,7 +36,6 @@ public:
 
 private:
     static const Log log;
-    const Type* type;
     const Ident* ident;
     const Expression* expr;
 };
