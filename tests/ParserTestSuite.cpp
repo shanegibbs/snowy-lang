@@ -160,6 +160,20 @@ static void class_declare_with_var(void)
     s_assert_cmpstr(var.to_program_string(), "DeclareVar=[type=[Type[int]] ident=[Ident[i]] expr=[IntLiteral=[0]]]\n");
 }
 
+static void class_declare_with_var_no_spaces(void)
+{
+    const Node& n = build_graph("class MyClass do\nint i = 0\nend\n");
+
+    s_assert(n.isNodeType(DECLARE_CLASS));
+    DeclareClass& c = (DeclareClass&)n;
+
+    s_assert_cmpstr(*c.getIdent().getName(), "MyClass");
+    s_assert(c.getVars().size() == 1);
+
+    DeclareVar& var = *c.getVars()[0];
+    s_assert_cmpstr(var.to_program_string(), "DeclareVar=[type=[Type[int]] ident=[Ident[i]] expr=[IntLiteral=[0]]]\n");
+}
+
 static void class_declare_with_two_vars(void)
 {
     const Node& n = build_graph(R"snow(
@@ -246,6 +260,7 @@ void parser_tests(TestSuite& tests)
     tests.add("/Parser/comment/part_line", comment_part_line_test);
     tests.add("/Parser/class/empty", class_declare_empty);
     tests.add("/Parser/class/with_var", class_declare_with_var);
+    tests.add("/Parser/class/with_var_no_spaces", class_declare_with_var_no_spaces);
     tests.add("/Parser/class/with_two_vars", class_declare_with_two_vars);
     tests.add("/Parser/class/with_func", class_declare_with_func);
     tests.add("/Parser/class/with_two_funcs", class_declare_with_two_funcs);

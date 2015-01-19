@@ -121,7 +121,7 @@ stmt: var_decl { $$ = $1; }
     | func_decl { $$ = $1; }
     ;
 
-var_decl: type ident EQ_OP expr { $$ = new Snowy::DeclareVar($1, $2, $4); }
+var_decl: type ident EQ_OP expr endl { $$ = new Snowy::DeclareVar($1, $2, $4); }
     ;
 
 type: ID { $$ = new Snowy::Type($1); }
@@ -144,7 +144,7 @@ block: { $$ = NULL; }
     | node endl { $$ = $1; }
     ;
 
-class_decl: CLASS ident DO class_body END { $4->setIdent($2); $$ = $4; }
+class_decl: CLASS ident DO endl class_body END { $5->setIdent($2); $$ = $5; }
     ;
 
 class_body: { $$ = new DeclareClass(); }
