@@ -39,10 +39,9 @@ def                 return token::DEF;
 ,                   return token::COMMA;
 "("                 return token::OPEN_BRACKET;
 ")"                 return token::CLOSE_BRACKET;
-#.*\n               parser_log.debug("Skipping comment on line %d: %s", lineno(), YYText());
-^[ \t]*[\n]         parser_log.debug("Skipping empty line %d", lineno());
+#.*                 return token::COMMENT;
+[ \t]+              return token::WHITE_SPACE;
 \n                  return token::ENDL;
-[ \t]+              parser_log.debug("Skipping white space on line %d", lineno());
-.                   parser_log.debug("Skipping char on line %d: '%s'", lineno(), YYText());
+.                   return token::UNRECOGNIZED_CHAR;
 
 %%

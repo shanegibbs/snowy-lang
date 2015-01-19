@@ -32,10 +32,12 @@ namespace Snowy {
 %parse-param { Driver *driver }
 
 %code { /* goes into the impl of Parser */
-   #include <string>
-   #include <iostream>
-   #include <cstdlib>
-   #include <fstream>
+  #include <string>
+  #include <iostream>
+  #include <cstdlib>
+  #include <fstream>
+
+  #include <Log.h>
 
   /* So we can call Driver functions */
   #include "Driver.h"
@@ -83,6 +85,9 @@ namespace Snowy {
 %token <token> END
 %token <token> CLASS
 %token <token> DEF
+%token <token> COMMENT
+%token <token> WHITE_SPACE
+%token <token> UNRECOGNIZED_CHAR
 
 %type <node> program
 %type <node> block
@@ -110,12 +115,15 @@ program: program node { $1->setNext($2); $$ = $2; }
     | node { driver->setRoot($1); }
     ;
 
-endl: endl ENDL {}
-    | ENDL {}
+optional_endl:
+    | endl
+
+endl: endl ENDL
+    | ENDL
     ;
 
-node: stmt endl { $$ = $1; }
-    | expr endl { $$ = $1; }
+node: optional_endl stmt endl { $$ = $2; }
+    | optional_endl expr endl { $$ = $2; }
     ;
 
 stmt: var_decl { $$ = $1; }

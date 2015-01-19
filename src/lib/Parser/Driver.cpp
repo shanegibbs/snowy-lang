@@ -28,6 +28,17 @@ int Driver::mylex(ProgramParser::semantic_type *val)
     // exec yylex
     int i = lexer->yylex();
 
+    // tokens that do not need to be parsed
+    if (i == ProgramParser::token::WHITE_SPACE) {
+        log.debug("Skipping white space on line %d: %s",
+                lexer->lineno(), lexer->YYText());
+        return mylex(val);
+    } else if (i == ProgramParser::token::COMMENT) {
+        log.debug("Skipping comment on line %d: %s",
+                lexer->lineno(), lexer->YYText());
+        return mylex(val);
+    }
+
     // make sure there is an ENDL before EOF
     if (i == 0) {
         if (!reached_eof) {
