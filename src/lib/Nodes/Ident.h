@@ -18,8 +18,8 @@ class Ident : public Expression
 public:
     Ident(const char*);
     Ident(const string*);
-    Ident(const char*, const Type*);
-    Ident(const string*, const Type*);
+    Ident(const char*, Type*);
+    Ident(const string*, Type*);
     ~Ident();
 
     Ident* clone() const {
@@ -28,6 +28,10 @@ public:
 
     const string* getName() const {
         return name;
+    }
+
+    const Type* getType() const {
+        return type;
     }
 
     NodeType getNodeType() const override { return IDENT; }

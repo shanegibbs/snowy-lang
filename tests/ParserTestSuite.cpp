@@ -5,6 +5,8 @@
 #include <DeclareClass.h>
 #include <DeclareVar.h>
 #include <DeclareFunc.h>
+#include <Type.h>
+#include <Ident.h>
 
 #include "SnowyTestSuite.h"
 
@@ -152,7 +154,7 @@ static void class_declare_with_var(void)
     s_assert(n.isNodeType(DECLARE_CLASS));
     DeclareClass& c = (DeclareClass&)n;
 
-    s_assert_cmpstr(*c.getType().getId(), "MyClass");
+    s_assert_cmpstr(*c.getClassType().getId(), "MyClass");
     s_assert(c.getVars().size() == 1);
 
     DeclareVar& var = *c.getVars()[0];
@@ -166,7 +168,7 @@ static void class_declare_with_var_no_spaces(void)
     s_assert(n.isNodeType(DECLARE_CLASS));
     DeclareClass& c = (DeclareClass&)n;
 
-    s_assert_cmpstr(*c.getType().getId(), "MyClass");
+    s_assert_cmpstr(*c.getClassType().getId(), "MyClass");
     s_assert(c.getVars().size() == 1);
 
     DeclareVar& var = *c.getVars()[0];
@@ -185,7 +187,7 @@ static void class_declare_with_two_vars(void)
     s_assert(n.isNodeType(DECLARE_CLASS));
     DeclareClass& c = (DeclareClass&)n;
 
-    s_assert_cmpstr(*c.getType().getId(), "MyClass");
+    s_assert_cmpstr(*c.getClassType().getId(), "MyClass");
     s_assert(c.getVars().size() == 2);
 
     DeclareVar& a = *c.getVars()[0];
@@ -207,7 +209,7 @@ static void class_declare_with_func(void)
     s_assert(n.isNodeType(DECLARE_CLASS));
     DeclareClass& c = (DeclareClass&)n;
 
-    s_assert_cmpstr(*c.getType().getId(), "MyClass");
+    s_assert_cmpstr(*c.getClassType().getId(), "MyClass");
     s_assert(c.getFuncs().size() == 1);
 
     DeclareFunc& func = *c.getFuncs()[0];
@@ -230,7 +232,7 @@ static void class_declare_with_two_funcs(void)
     s_assert(n.isNodeType(DECLARE_CLASS));
     DeclareClass& c = (DeclareClass&)n;
 
-    s_assert_cmpstr(*c.getType().getId(), "MyClass");
+    s_assert_cmpstr(*c.getClassType().getId(), "MyClass");
     s_assert(c.getFuncs().size() == 2);
 
     DeclareFunc& first_func = *c.getFuncs()[0];
@@ -238,6 +240,19 @@ static void class_declare_with_two_funcs(void)
 
     DeclareFunc& second_func = *c.getFuncs()[1];
     s_assert_cmpstr(second_func.getName(), "secondFunc");
+}
+
+static void type_inference_assignment_test()
+{
+    const Node& n = build_graph("i = 0");
+    s_assert(n.isNodeType(DECLARE_VAR));
+
+    const DeclareVar& decl = (DeclareVar&)n;
+    const Ident i = decl.getIdent();
+
+    s_assert_notnull(Type::Integer);
+    // s_assert_notnull(i.getType());
+    // s_assert(i.getType() == Type::Integer);
 }
 
 void parser_tests(TestSuite& tests)
@@ -263,4 +278,5 @@ void parser_tests(TestSuite& tests)
     tests.add("/Parser/class/with_two_vars", class_declare_with_two_vars);
     tests.add("/Parser/class/with_func", class_declare_with_func);
     tests.add("/Parser/class/with_two_funcs", class_declare_with_two_funcs);
+    tests.add("/Parser/type/assignment_inference", type_inference_assignment_test);
 }

@@ -8,6 +8,9 @@
 #include <Log.h>
 
 #include "DeclareFunc.h"
+#include "Type.h"
+#include "ArgsDecl.h"
+#include "Ident.h"
 
 using namespace llvm;
 
@@ -31,6 +34,20 @@ DeclareFunc::~DeclareFunc()
     if (block != NULL) {
         delete block;
     }
+}
+
+DeclareFunc* DeclareFunc::clone() const
+{
+    return new DeclareFunc(*this);
+}
+
+const string& DeclareFunc::getName() const {
+    return *ident->getName();
+}
+
+const Type* DeclareFunc::getType() const
+{
+    return ident->getType();
 }
 
 void DeclareFunc::to_sstream(std::ostringstream& s) const

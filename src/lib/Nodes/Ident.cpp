@@ -33,7 +33,7 @@ Ident::Ident(const string* n) : name(n), type(nullptr)
     init();
 }
 
-Ident::Ident(const char* n, const Type* t) : name(new string(n)), type(t)
+Ident::Ident(const char* n, Type* t) : name(new string(n)), type(t)
 {
     s_assert_notnull(n);
     init();
@@ -44,7 +44,7 @@ Ident::Ident(const char* n) : name(new string(n)), type(nullptr)
     init();
 }
 
-Ident::Ident(const string* n, const Type* t) : name(n), type(t)
+Ident::Ident(const string* n, Type* t) : name(n), type(t)
 {
     init();
 }

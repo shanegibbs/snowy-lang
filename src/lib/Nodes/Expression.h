@@ -6,6 +6,8 @@
 namespace Snowy
 {
 
+class Type;
+
 class Expression : public Node
 {
 public:
@@ -13,7 +15,10 @@ public:
     virtual ~Expression() {};
     virtual Expression* clone() const = 0;
 
-    llvm::Value* compile(CodeGen&) const {
+    virtual const Type* getType() const = 0;
+
+    llvm::Value* compile(CodeGen&) const
+    {
         return NULL;
     }
     void to_sstream(std::ostringstream&) const {}

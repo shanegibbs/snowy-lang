@@ -2,34 +2,32 @@
 #define OPAL_NODES_DECLARE_FUNC_H
 
 #include "Statement.h"
-#include "Type.h"
-#include "ArgsDecl.h"
-#include "Ident.h"
-#include "Expression.h"
 
 namespace Snowy
 {
 
-class DeclareFunc : public Statement
+class Ident;
+class ArgsDecl;
+class Type;
+class Log;
+
+class DeclareFunc final : public Statement
 {
 public:
     DeclareFunc(const Ident*, const ArgsDecl*, const Node*);
     ~DeclareFunc();
 
-    DeclareFunc* clone() const
-    {
-        return new DeclareFunc(*this);
-    }
+    DeclareFunc* clone() const override final;
 
-    const string& getName() const {
-        return *ident->getName();
-    }
+    const string& getName() const;
 
-    NodeType getNodeType() const override { return DECLARE_FUNC; }
+    NodeType getNodeType() const override final { return DECLARE_FUNC; }
 
-    llvm::Value* compile(CodeGen&) const;
+    const Type* getType() const override final;
 
-    void to_sstream(std::ostringstream&) const;
+    llvm::Value* compile(CodeGen&) const override final;
+
+    void to_sstream(std::ostringstream&) const override final;
 
 private:
     static const Log log;
@@ -40,4 +38,3 @@ private:
 
 }
 #endif
-

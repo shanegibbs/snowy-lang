@@ -34,6 +34,52 @@ DeclareClass::~DeclareClass()
     delete type;
 }
 
+DeclareClass* DeclareClass::clone() const
+{
+    return new DeclareClass(*this);
+}
+
+NodeType DeclareClass::getNodeType() const
+{
+    return DECLARE_CLASS;
+}
+
+void DeclareClass::setType(Type* t)
+{
+    type = t;
+}
+
+void DeclareClass::addVarDecl(DeclareVar* v)
+{
+    vars.push_back(v);
+}
+
+void DeclareClass::addFuncDecl(DeclareFunc* v)
+{
+    funcs.push_back(v);
+}
+
+vector<DeclareVar*>& DeclareClass::getVars()
+{
+    return vars;
+}
+
+vector<DeclareFunc*>& DeclareClass::getFuncs()
+{
+    return funcs;
+}
+
+const Type* DeclareClass::getType() const
+{
+    return Type::Class;
+}
+
+Type& DeclareClass::getClassType() const
+{
+    s_assert_notnull(type);
+    return *type;
+}
+
 void DeclareClass::to_sstream(std::ostringstream& s) const
 {
     s << "DeclareClass=[type=[";

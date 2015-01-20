@@ -13,6 +13,9 @@ namespace Snowy
 {
 
 const Log Type::log = Log("Type");
+const Type* Type::Integer = new Type("Integer");
+const Type* Type::String = new Type("String");
+const Type* Type::Class = new Type("Class");
 
 Type::Type(const char* s) : id(new string(s))
 {

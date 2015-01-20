@@ -6,6 +6,8 @@
 #include <SnowyAssert.h>
 #include <Log.h>
 
+#include "Type.h"
+#include "Ident.h"
 #include "DeclareVar.h"
 
 using namespace llvm;
@@ -28,6 +30,28 @@ DeclareVar::~DeclareVar()
     log.debug("Deleting DeclareVar '%s'", ident->getName()->c_str());
     delete ident;
     delete expr;
+}
+
+DeclareVar* DeclareVar::clone() const
+{
+    return new DeclareVar(*this);
+}
+
+const Type* DeclareVar::getType() const
+{
+    return expr->getType();
+}
+
+const string& DeclareVar::getName() const {
+    return *ident->getName();
+}
+
+const Ident& DeclareVar::getIdent() const {
+    return *ident;
+}
+
+const Expression& DeclareVar::getExpression() const {
+    return *expr;
 }
 
 void DeclareVar::to_sstream(std::ostringstream& s) const

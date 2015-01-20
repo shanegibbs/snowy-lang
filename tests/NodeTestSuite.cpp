@@ -2,6 +2,8 @@
 #include <DeclareVar.h>
 #include <DeclareFunc.h>
 #include <DeclareClass.h>
+#include <Ident.h>
+#include <ArgsDecl.h>
 
 #include "SnowyTestSuite.h"
 
