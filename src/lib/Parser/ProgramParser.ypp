@@ -12,6 +12,7 @@
 #include <Call.h>
 #include <DeclareVar.h>
 #include <DeclareFunc.h>
+#include <DeclareClass.h>
 #include <Expression.h>
 #include <Type.h>
 #include <Ident.h>
@@ -31,10 +32,12 @@ namespace Snowy {
 %parse-param { Driver *driver }
 
 %code { /* goes into the impl of Parser */
-   #include <string>
-   #include <iostream>
-   #include <cstdlib>
-   #include <fstream>
+  #include <string>
+  #include <iostream>
+  #include <cstdlib>
+  #include <fstream>
+
+  #include <Log.h>
 
   /* So we can call Driver functions */
   #include "Driver.h"
@@ -53,8 +56,9 @@ namespace Snowy {
   Snowy::Call *call;
   Snowy::DeclareVar *declare_var;
   Snowy::DeclareFunc *declare_func;
+  Snowy::DeclareClass *declare_class;
   Snowy::Expression *expression;
-  Snowy::Type *type;
+  const Snowy::Type *type;
   Snowy::Ident *ident;
   Snowy::IntLiteral *int_literal;
   Snowy::Node *node;
@@ -76,11 +80,18 @@ namespace Snowy {
 %token <token> COMMA
 %token <token> OPEN_BRACKET
 %token <token> CLOSE_BRACKET
+%token <token> SEPERATOR
 %token <token> DO
 %token <token> END
+%token <token> CLASS
+%token <token> DEF
+%token <token> COMMENT
+%token <token> WHITE_SPACE
+%token <token> UNRECOGNIZED_CHAR
 
 %type <node> program
 %type <node> block
+%type <declare_class> class_body
 %type <node> node
 %type <type> type
 %type <ident> ident
@@ -91,6 +102,7 @@ namespace Snowy {
 %type <expression> expr
 %type <declare_var> var_decl
 %type <declare_func> func_decl
+%type <declare_class> class_decl
 %type <statement> stmt
 %type <tuple> tuple
 
@@ -99,30 +111,33 @@ namespace Snowy {
 
 %%
 
-program: program node end { $1->setNext($2); $$ = $2; }
-    | node end { driver->setRoot($1); }
+program: program node { $1->setNext($2); $$ = $2; }
+    | node { driver->setRoot($1); }
     ;
 
-end: {}
-    | end ENDL {}
-    | ENDL {}
+optional_endl:
+    | endl
+
+endl: endl ENDL
+    | ENDL
     ;
 
-node: stmt { $$ = $1; }
-    | expr { $$ = $1; }
+node: optional_endl stmt endl { $$ = $2; }
+    | optional_endl expr endl { $$ = $2; }
     ;
 
 stmt: var_decl { $$ = $1; }
     | func_decl { $$ = $1; }
     ;
 
-var_decl: type ident EQ_OP expr { $$ = new Snowy::DeclareVar($1, $2, $4); }
+var_decl: ident EQ_OP expr { $$ = new Snowy::DeclareVar($1, $3); }
     ;
 
-type: ID { $$ = new Snowy::Type($1); }
+type: ID { $$ = driver->getType($1); }
     ;
 
-ident: ID { $$ = new Snowy::Ident($1); }
+ident: type SEPERATOR ID { $$ = new Snowy::Ident($3, $1); }
+    | ID { $$ = new Snowy::Ident($1); }
     ;
 
 op: OP { $$ = new Snowy::Operator($1); }
@@ -135,11 +150,19 @@ call: ident OPEN_BRACKET args CLOSE_BRACKET { $$ = new Call($1, $3); }
     ;
 
 block: { $$ = NULL; }
-    | block node end { $1->setNext($2); $$ = $2; }
-    | node end { $$ = $1; }
+    | block node { $1->setNext($2); $$ = $2; }
+    | node { $$ = $1; }
     ;
 
-func_decl: type ident OPEN_BRACKET args_decl CLOSE_BRACKET DO end block END { $$ = new DeclareFunc($1, $2, $4, $8); }
+class_decl: CLASS type DO endl class_body END { $5->setType($2); $$ = $5; }
+    ;
+
+class_body: { $$ = new DeclareClass(); }
+    | class_body func_decl endl { $$->addFuncDecl($2); }
+    | class_body var_decl endl { $$->addVarDecl($2); }
+    ;
+
+func_decl: DEF ident OPEN_BRACKET args_decl CLOSE_BRACKET DO endl block END { $$ = new DeclareFunc($2, $4, $8); }
 
 expr: INTEGER { $$ = new Snowy::IntLiteral($1); }
     | STRING_LIT { $$ = new Snowy::StringLiteral($1); }
@@ -147,6 +170,7 @@ expr: INTEGER { $$ = new Snowy::IntLiteral($1); }
     | tuple { $$ = $1; }
     | call { $$ = $1; }
     | ident { $$ = $1; }
+    | class_decl { $$ = $1; }
     ;
 
 args: { $$ = new Args; } // blank
@@ -155,8 +179,8 @@ args: { $$ = new Args; } // blank
     ;
 
 args_decl: { $$ = new ArgsDecl; } // blank
-    | type ident { $$ = new ArgsDecl($1, $2); }
-    | args_decl COMMA type ident { $1->addArgDecl($3, $4); }
+    | ident { $$ = new ArgsDecl($1); }
+    | args_decl COMMA ident { $1->addIdent($3); }
     ;
 
 %%

@@ -2,27 +2,29 @@
 #define SNOWY_NODES_CALL_H
 
 #include "Expression.h"
-#include "Ident.h"
-#include "Args.h"
 
 namespace Snowy
 {
 
+class Ident;
+class Args;
 class Log;
 
-class Call : public Expression
+class Call final : public Expression
 {
 public:
     Call(const Ident*, const Args*);
     ~Call();
 
-    Call* clone() const
-    {
-        return new Call(*this);
-    }
+    Call* clone() const override final;
 
-    llvm::Value* compile(CodeGen&) const;
-    void to_sstream(std::ostringstream&) const;
+    NodeType getNodeType() const override final { return CALL; }
+
+    const Type* getType() const override final;
+
+    llvm::Value* compile(CodeGen&) const override final;
+
+    void to_sstream(std::ostringstream&) const override final;
 
 private:
     static const Log log;

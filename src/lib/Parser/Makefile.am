@@ -3,6 +3,9 @@ AM_CXXFLAGS += -I$(top_srcdir)/src/lib/Common
 AM_CXXFLAGS += -I$(top_srcdir)/src/lib/Nodes
 AM_CXXFLAGS += -I$(top_builddir)/src/lib/Parser
 
+# due to g++ errors with the generated Lexer.cc
+AM_CXXFLAGS += -Wno-error=sign-compare
+
 if DEBUG
 AM_CXXFLAGS += @SNOWY_DEBUG_CXXFLAGS@
 else

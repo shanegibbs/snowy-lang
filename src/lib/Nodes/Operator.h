@@ -28,6 +28,8 @@ public:
         return new Operator(*this);
     }
 
+    NodeType getNodeType() const override { return OPERATOR; }
+
     virtual llvm::Value* compile(CodeGen&) const {
         return NULL;
     }

@@ -21,6 +21,8 @@ using namespace llvm;
 namespace Snowy
 {
 
+typedef llvm::Type LType;
+
 const Log Compiler::log = Log("Compiler");
 
 Compiler::Compiler()
@@ -41,7 +43,7 @@ Value* Compiler::get_exit_value(Value* last_val)
         log.debug("Last value was NULL. Setting exit code to 0");
         return zero;
     }
-    Type *retType = last_val->getType();
+    LType *retType = last_val->getType();
     if (retType->isIntegerTy(32)) {
         log.debug("Last value was i32. Setting exit code to last_val");
         return last_val;
@@ -62,15 +64,15 @@ Module* Compiler::compile(Node* n)
     CodeGen codeGen = CodeGen(builder, TheModule);
 
     // puts
-    Type* ptr_type = Type::getInt8PtrTy(*context);
-    std::vector<Type*> puts_args(1, ptr_type);
-    FunctionType *puts_ft = FunctionType::get(Type::getInt32Ty(*context), puts_args, false);
+    LType* ptr_type = LType::getInt8PtrTy(*context);
+    std::vector<LType*> puts_args(1, ptr_type);
+    FunctionType *puts_ft = FunctionType::get(LType::getInt32Ty(*context), puts_args, false);
     Function* puts_fn = Function::Create(puts_ft, Function::ExternalLinkage, "puts", TheModule);
     codeGen.registerFunction(puts_fn);
 
     // main
-    std::vector<Type*> main_args(2, Type::getInt8PtrTy(*context));
-    FunctionType *main_ft = FunctionType::get(Type::getInt32Ty(*context), main_args, false);
+    std::vector<LType*> main_args(2, LType::getInt8PtrTy(*context));
+    FunctionType *main_ft = FunctionType::get(LType::getInt32Ty(*context), main_args, false);
     Function *main_fn = Function::Create(main_ft, Function::ExternalLinkage, "main", TheModule);
 
     BasicBlock *main_block = BasicBlock::Create(*context, "", main_fn);

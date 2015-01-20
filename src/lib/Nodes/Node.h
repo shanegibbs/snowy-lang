@@ -5,6 +5,8 @@
 #include <sstream>
 #include <string>
 
+#include "NodeType.h"
+
 namespace llvm
 {
 class Value;
@@ -29,6 +31,12 @@ public:
 
     virtual void to_sstream(std::ostringstream&) const = 0;
 
+    virtual NodeType getNodeType() const = 0;
+
+    bool isNodeType(NodeType t) const {
+        return t == getNodeType();
+    }
+
     int getNodeId() const
     {
         return node_id;
@@ -41,8 +49,8 @@ public:
         return next;
     }
 
-    const char* to_string();
-    const std::string to_program_string();
+    const char* to_string() const;
+    const std::string to_program_string() const;
 private:
     static const Log log;
     Node *first;

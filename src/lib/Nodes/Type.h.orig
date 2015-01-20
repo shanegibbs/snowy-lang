@@ -10,9 +10,9 @@ namespace Snowy
 
 class Log;
 
-class Type final : public Node
+class SnowClass : public Node
 {
-
+  
 public:
     Type(const char* s);
     Type(const string* s);
@@ -40,7 +40,6 @@ public:
 
     void to_sstream(ostringstream&) const;
 
-    static const Type* Class;
     static const Type* Integer;
     static const Type* String;
 

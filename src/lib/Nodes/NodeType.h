@@ -1,0 +1,20 @@
+#ifndef SNOWY_NODES_NODE_TYPE_H
+#define SNOWY_NODES_NODE_TYPE_H
+
+enum NodeType {
+    ARGS,
+    ARGS_DECL,
+    CALL,
+    DECLARE_CLASS,
+    DECLARE_FUNC,
+    DECLARE_VAR,
+    IDENT,
+    INT_LITERAL,
+    NODE,
+    OPERATOR,
+    STRING_LITERAL,
+    TUPLE,
+    TYPE
+};
+
+#endif

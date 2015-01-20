@@ -6,6 +6,8 @@
 #include <Log.h>
 
 #include "Call.h"
+#include "Ident.h"
+#include "Args.h"
 
 using namespace llvm;
 using namespace std;
@@ -27,6 +29,16 @@ Call::~Call()
     log.debug("Deleting call '%s'", name->getName()->c_str());
     delete name;
     delete args;
+}
+
+Call* Call::clone() const
+{
+    return new Call(*this);
+}
+
+const Type* Call::getType() const
+{
+    return name->getType();
 }
 
 void Call::to_sstream(std::ostringstream& s) const

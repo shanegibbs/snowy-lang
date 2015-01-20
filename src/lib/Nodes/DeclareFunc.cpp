@@ -8,6 +8,9 @@
 #include <Log.h>
 
 #include "DeclareFunc.h"
+#include "Type.h"
+#include "ArgsDecl.h"
+#include "Ident.h"
 
 using namespace llvm;
 
@@ -16,9 +19,8 @@ namespace Snowy
 
 const Log DeclareFunc::log = Log("DeclareFunc");
 
-DeclareFunc::DeclareFunc(const Type* t, const Ident* i, const ArgsDecl* a, const Node* b = NULL) : type(t), ident(i), args(a), block(b == NULL ? NULL : b->getFirst())
+DeclareFunc::DeclareFunc(const Ident* i, const ArgsDecl* a, const Node* b = NULL) : ident(i), args(a), block(b == NULL ? NULL : b->getFirst())
 {
-    s_assert_notnull(t);
     s_assert_notnull(i);
     s_assert_notnull(a);
 
@@ -27,7 +29,6 @@ DeclareFunc::DeclareFunc(const Type* t, const Ident* i, const ArgsDecl* a, const
 
 DeclareFunc::~DeclareFunc()
 {
-    delete type;
     delete ident;
     delete args;
     if (block != NULL) {
@@ -35,11 +36,23 @@ DeclareFunc::~DeclareFunc()
     }
 }
 
+DeclareFunc* DeclareFunc::clone() const
+{
+    return new DeclareFunc(*this);
+}
+
+const string& DeclareFunc::getName() const {
+    return *ident->getName();
+}
+
+const Type* DeclareFunc::getType() const
+{
+    return ident->getType();
+}
+
 void DeclareFunc::to_sstream(std::ostringstream& s) const
 {
-    s << "DeclareFunc=[type=[";
-    type->to_sstream(s);
-    s << "] ident=[";
+    s << "DeclareFunc=[ident=[";
     ident->to_sstream(s);
     s << "] args=[";
     args->to_sstream(s);

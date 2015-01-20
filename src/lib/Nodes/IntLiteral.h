@@ -4,6 +4,7 @@
 #include <stdlib.h>
 
 #include "Expression.h"
+#include "Type.h"
 
 using namespace std;
 
@@ -21,9 +22,19 @@ public:
         return new IntLiteral(*this);
     }
 
-    llvm::Value* compile(CodeGen&) const;
+    const Type* getType() const override final
+    {
+        return Type::Integer;
+    }
 
-    void to_sstream(ostringstream&) const;
+    NodeType getNodeType() const override final
+    {
+        return INT_LITERAL;
+    }
+
+    llvm::Value* compile(CodeGen&) const override;
+
+    void to_sstream(ostringstream&) const override;
 
 private:
     static const Log log;

@@ -84,7 +84,7 @@ void it_return_int_test()
 void it_variable_use_1()
 {
     Result actual = snowy_result(R"snow(
-        string a = "one"
+        a = "one"
         puts(a)
     )snow");
     s_assert_cmpstr(actual.buffer, "one\n");
@@ -92,7 +92,7 @@ void it_variable_use_1()
 
 void it_variable_use_2()
 {
-    Result actual = snowy_result("string a = \"one\"\nstring b = \"two\"\nputs(a)");
+    Result actual = snowy_result("a = \"one\"\nb = \"two\"\nputs(a)");
     s_assert_cmpstr(actual.buffer, "one\n");
 }
 
@@ -159,7 +159,7 @@ void it_brackets_int_right()
 void it_function_declare_and_call()
 {
     Result actual = snowy_result_no_stdout(R"snow(
-        int myval() do
+        def myval() do
         end
         myval()
     )snow");
@@ -169,7 +169,7 @@ void it_function_declare_and_call()
 void it_function_declare_and_call_with_block()
 {
     Result actual = snowy_result(R"snow(
-        int myfunc() do
+        def myfunc() do
           puts("In myfunc")
           1
         end
@@ -182,12 +182,20 @@ void it_function_declare_and_call_with_block()
 void it_function_declare_and_call_with_args()
 {
     Result actual = snowy_result_no_stdout(R"snow(
-        int add(int a, int b) do
+        def add(a, b) do
           a + b
         end
         add(1, 3)
     )snow");
     s_assert_cmpint(actual.exit_code, ==, 4);
+}
+
+void it_class_declare_empty()
+{
+    snowy_result_no_stdout(R"snow(
+        class MyClass do
+        end
+    )snow");
 }
 
 void it_tests(Snowy::TestSuite& tests)
@@ -211,4 +219,5 @@ void it_tests(Snowy::TestSuite& tests)
     tests.add("/IT/function/declare_and_call", it_function_declare_and_call);
     tests.add("/IT/function/declare_and_call_with_block", it_function_declare_and_call_with_block);
     tests.add("/IT/function/declare_and_call_with_args", it_function_declare_and_call_with_args);
+    tests.add("/IT/class/declare/empty", it_class_declare_empty);
 }
