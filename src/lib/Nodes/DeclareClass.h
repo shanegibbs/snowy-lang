@@ -4,7 +4,6 @@
 #include <vector>
 
 #include "SnowyAssert.h"
-#include "Ident.h"
 #include "Expression.h"
 
 namespace Snowy
@@ -13,66 +12,41 @@ namespace Snowy
 class DeclareVar;
 class DeclareFunc;
 
-class DeclareClass : public Expression
+class DeclareClass final : public Expression
 {
 public:
     DeclareClass();
-    DeclareClass(Ident*);
+    DeclareClass(Type*);
     ~DeclareClass();
 
-    DeclareClass* clone() const
-    {
-        return new DeclareClass(*this);
-    }
+    DeclareClass* clone() const override final;
 
-    NodeType getNodeType() const override
-    {
-        return DECLARE_CLASS;
-    }
+    NodeType getNodeType() const override final;
 
-    void setIdent(Ident* i)
-    {
-        ident = i;
-    }
+    void setType(const Type* t);
 
-    void addVarDecl(DeclareVar* v)
-    {
-        vars.push_back(v);
-    }
+    void addVarDecl(DeclareVar* v);
 
-    void addFuncDecl(DeclareFunc* v)
-    {
-        funcs.push_back(v);
-    }
+    void addFuncDecl(DeclareFunc* v);
 
-    vector<DeclareVar*>& getVars()
-    {
-        return vars;
-    }
+    vector<DeclareVar*>& getVars();
 
-    vector<DeclareFunc*>& getFuncs()
-    {
-        return funcs;
-    }
+    vector<DeclareFunc*>& getFuncs();
 
-    Ident& getIdent() const
-    {
-        s_assert_notnull(ident);
-        return *ident;
-    }
+    const Type* getType() const override final;
 
-    llvm::Value* compile(CodeGen&) const;
+    const Type& getClassType() const;
 
-    void to_sstream(std::ostringstream&) const;
+    llvm::Value* compile(CodeGen&) const override final;
+
+    void to_sstream(std::ostringstream&) const override final;
 
 private:
     static const Log log;
-    Ident* ident;
+    const Type* type;
     vector<DeclareVar*> vars;
     vector<DeclareFunc*> funcs;
 };
 
 }
 #endif
-
-

@@ -8,6 +8,7 @@
 #include <Log.h>
 #include <SnowyAssert.h>
 
+#include "Type.h"
 #include "StringLiteral.h"
 
 using namespace llvm;
@@ -43,6 +44,11 @@ void StringLiteral::init()
     log.debug("Creating StringLiteral '%s'", val->c_str());
 }
 
+const Type* StringLiteral::getType() const
+{
+    return Type::String;
+}
+
 Value* StringLiteral::compile(CodeGen& gen) const
 {
     // strip off the quotes
@@ -54,7 +60,7 @@ Value* StringLiteral::compile(CodeGen& gen) const
     LLVMContext* context = &gen.getBuilder()->getContext();
 
     // global value
-    ArrayType *gv_arr_ty = ArrayType::get(Type::getInt8Ty(*context), actual.length() + 1);
+    ArrayType *gv_arr_ty = ArrayType::get(llvm::Type::getInt8Ty(*context), actual.length() + 1);
     StringRef gv_ref(actual.c_str(), actual.length());
     Constant *str_init = ConstantDataArray::getString(*context, gv_ref, true);
     GlobalVariable *str_lit = new GlobalVariable(*gen.getModule(), gv_arr_ty, true, GlobalValue::ExternalLinkage, str_init, "str_lit");

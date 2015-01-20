@@ -2,27 +2,30 @@
 #define OPAL_NODES_TUPLE_H
 
 #include "Expression.h"
-#include "Operator.h"
 
 namespace Snowy
 {
 
-class Tuple : public Expression
+class Operator;
+
+class Tuple final : public Expression
 {
 public:
     Tuple(Expression*, Operator*, Expression*);
     ~Tuple();
 
-    Tuple* clone() const
+    Tuple* clone() const override final
     {
         return new Tuple(*this);
     }
 
-    NodeType getNodeType() const override { return TUPLE; }
+    NodeType getNodeType() const override final { return TUPLE; }
 
-    llvm::Value* compile(CodeGen&) const;
+    const Type* getType() const override final;
 
-    void to_sstream(std::ostringstream&) const;
+    llvm::Value* compile(CodeGen&) const override final;
+
+    void to_sstream(std::ostringstream&) const override final;
 
 private:
     static const Log log;

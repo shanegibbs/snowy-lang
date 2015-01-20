@@ -5,6 +5,8 @@
 
 #include <Nodes/Call.h>
 #include <Nodes/IntLiteral.h>
+#include <Nodes/Ident.h>
+#include <Nodes/Args.h>
 
 using namespace Snowy;
 using namespace std;

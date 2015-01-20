@@ -5,6 +5,8 @@
 #include <DeclareClass.h>
 #include <DeclareVar.h>
 #include <DeclareFunc.h>
+#include <Type.h>
+#include <Ident.h>
 
 #include "SnowyTestSuite.h"
 
@@ -12,6 +14,7 @@ using namespace Snowy;
 
 static const Node& build_graph(string code)
 {
+    Log("Test").debug("Building:\n---\n%s---", code.c_str());
     std::stringstream ins;
     ins << code;
 
@@ -27,11 +30,9 @@ static void assert_code_desc(const char *code, const string& expected)
     ins << code;
 
     Parser parser;
-    Node *root = parser.parse(ins);
-    s_assert_notnull(root);
+    const Node& root = build_graph(string(code));
 
-    const string& actual = root->to_program_string();
-    delete root;
+    const string& actual = root.to_program_string();
     s_assert_cmpstr(actual, expected);
 }
 
@@ -59,15 +60,15 @@ void arithmetic_expr_test(void)
 
 void assignment_test(void)
 {
-    const char *code = "int a = 1 + 2\n";
-    const char *desc = "DeclareVar=[type=[Type[int]] ident=[Ident[a]] expr=[Tuple=[lhs=[IntLiteral=[1]] op=[+] rhs=[IntLiteral=[2]]]]]\n";
+    const char *code = "a = 1 + 2\n";
+    const char *desc = "DeclareVar=[ident=[Ident[a type=Integer]] expr=[Tuple=[lhs=[IntLiteral=[1]] op=[+] rhs=[IntLiteral=[2]]]]]\n";
     assert_code_desc(code, desc);
 }
 
 void string_assignment_test(void)
 {
-    const char *code = "String a = \"this is a test\"\n";
-    const char *desc = "DeclareVar=[type=[Type[String]] ident=[Ident[a]] expr=[StringLiteral=[\"this is a test\"]]]\n";
+    const char *code = "a = \"this is a test\"\n";
+    const char *desc = "DeclareVar=[ident=[Ident[a type=String]] expr=[StringLiteral=[\"this is a test\"]]]\n";
     assert_code_desc(code, desc);
 }
 
@@ -78,36 +79,36 @@ void multi_assignment_test(void)
 
 void func_no_args(void)
 {
-    const char *code = "int add() do\nend\n";
-    const char *desc = "DeclareFunc=[type=[Type[int]] ident=[Ident[add]] args=[ArgsDecl[size=0]] block=[NULL]]\n";
+    const char *code = "def add() do\nend\n";
+    const char *desc = "DeclareFunc=[ident=[Ident[add]] args=[ArgsDecl[size=0]] block=[NULL]]\n";
     assert_code_desc(code, desc);
 }
 
 void func_one_arg(void)
 {
-    const char *code = "int add(int one) do\nend\n";
-    const char *desc = "DeclareFunc=[type=[Type[int]] ident=[Ident[add]] args=[ArgsDecl[size=1 type0=[Type[int]] ident0=[Ident[one]]]] block=[NULL]]\n";
+    const char *code = "def add(one) do\nend\n";
+    const char *desc = "DeclareFunc=[ident=[Ident[add]] args=[ArgsDecl[size=1 arg0=[Ident[one]]]] block=[NULL]]\n";
     assert_code_desc(code, desc);
 }
 
 void func_two_args(void)
 {
-    const char *code = "int add(int one, String two) do\nend\n";
-    const char *desc = "DeclareFunc=[type=[Type[int]] ident=[Ident[add]] args=[ArgsDecl[size=2 type0=[Type[int]] ident0=[Ident[one]] type1=[Type[String]] ident1=[Ident[two]]]] block=[NULL]]\n";
+    const char *code = "def add(one, two) do\nend\n";
+    const char *desc = "DeclareFunc=[ident=[Ident[add]] args=[ArgsDecl[size=2 arg0=[Ident[one]] arg1=[Ident[two]]]] block=[NULL]]\n";
     assert_code_desc(code, desc);
 }
 
 void func_body_one_line(void)
 {
-    const char *code = "int test() do\n1\nend\n";
-    const char *desc = "DeclareFunc=[type=[Type[int]] ident=[Ident[test]] args=[ArgsDecl[size=0]] block=[\n IntLiteral=[1]\n]]\n";
+    const char *code = "def test() do\n1\nend\n";
+    const char *desc = "DeclareFunc=[ident=[Ident[test]] args=[ArgsDecl[size=0]] block=[\n IntLiteral=[1]\n]]\n";
     assert_code_desc(code, desc);
 }
 
 void func_body_multi_line(void)
 {
-    const char *code = "int test() do\n1\n2\n3\nend\n";
-    const char *desc = "DeclareFunc=[type=[Type[int]] ident=[Ident[test]] args=[ArgsDecl[size=0]] block=[\n IntLiteral=[1]\n IntLiteral=[2]\n IntLiteral=[3]\n]]\n";
+    const char *code = "def test() do\n1\n2\n3\nend\n";
+    const char *desc = "DeclareFunc=[ident=[Ident[test]] args=[ArgsDecl[size=0]] block=[\n IntLiteral=[1]\n IntLiteral=[2]\n IntLiteral=[3]\n]]\n";
     assert_code_desc(code, desc);
 }
 
@@ -139,68 +140,68 @@ static void class_declare_empty(void)
     assert_code_desc(R"snow(
         class MyClass do
         end
-    )snow", "DeclareClass=[ident=[Ident[MyClass]]]\n");
+    )snow", "DeclareClass=[type=[Type[MyClass]]]\n");
 }
 
 static void class_declare_with_var(void)
 {
     const Node& n = build_graph(R"snow(
         class MyClass do
-          int i = 0
+          i = 0
         end
     )snow");
 
     s_assert(n.isNodeType(DECLARE_CLASS));
     DeclareClass& c = (DeclareClass&)n;
 
-    s_assert_cmpstr(*c.getIdent().getName(), "MyClass");
+    s_assert_cmpstr(*c.getClassType().getId(), "MyClass");
     s_assert(c.getVars().size() == 1);
 
     DeclareVar& var = *c.getVars()[0];
-    s_assert_cmpstr(var.to_program_string(), "DeclareVar=[type=[Type[int]] ident=[Ident[i]] expr=[IntLiteral=[0]]]\n");
+    s_assert_cmpstr(var.to_program_string(), "DeclareVar=[ident=[Ident[i type=Integer]] expr=[IntLiteral=[0]]]\n");
 }
 
 static void class_declare_with_var_no_spaces(void)
 {
-    const Node& n = build_graph("class MyClass do\nint i = 0\nend\n");
+    const Node& n = build_graph("class MyClass do\ni = 0\nend\n");
 
     s_assert(n.isNodeType(DECLARE_CLASS));
     DeclareClass& c = (DeclareClass&)n;
 
-    s_assert_cmpstr(*c.getIdent().getName(), "MyClass");
+    s_assert_cmpstr(*c.getClassType().getId(), "MyClass");
     s_assert(c.getVars().size() == 1);
 
     DeclareVar& var = *c.getVars()[0];
-    s_assert_cmpstr(var.to_program_string(), "DeclareVar=[type=[Type[int]] ident=[Ident[i]] expr=[IntLiteral=[0]]]\n");
+    s_assert_cmpstr(var.to_program_string(), "DeclareVar=[ident=[Ident[i type=Integer]] expr=[IntLiteral=[0]]]\n");
 }
 
 static void class_declare_with_two_vars(void)
 {
     const Node& n = build_graph(R"snow(
         class MyClass do
-          int a = 0
-          int b = 0
+          a = 0
+          b = 0
         end
     )snow");
 
     s_assert(n.isNodeType(DECLARE_CLASS));
     DeclareClass& c = (DeclareClass&)n;
 
-    s_assert_cmpstr(*c.getIdent().getName(), "MyClass");
+    s_assert_cmpstr(*c.getClassType().getId(), "MyClass");
     s_assert(c.getVars().size() == 2);
 
     DeclareVar& a = *c.getVars()[0];
-    s_assert_cmpstr(a.to_program_string(), "DeclareVar=[type=[Type[int]] ident=[Ident[a]] expr=[IntLiteral=[0]]]\n");
+    s_assert_cmpstr(a.to_program_string(), "DeclareVar=[ident=[Ident[a type=Integer]] expr=[IntLiteral=[0]]]\n");
 
     DeclareVar& b = *c.getVars()[1];
-    s_assert_cmpstr(b.to_program_string(), "DeclareVar=[type=[Type[int]] ident=[Ident[b]] expr=[IntLiteral=[0]]]\n");
+    s_assert_cmpstr(b.to_program_string(), "DeclareVar=[ident=[Ident[b type=Integer]] expr=[IntLiteral=[0]]]\n");
 }
 
 static void class_declare_with_func(void)
 {
     const Node& n = build_graph(R"snow(
         class MyClass do
-          int myfunc() do
+          def myfunc() do
           end
         end
     )snow");
@@ -208,7 +209,7 @@ static void class_declare_with_func(void)
     s_assert(n.isNodeType(DECLARE_CLASS));
     DeclareClass& c = (DeclareClass&)n;
 
-    s_assert_cmpstr(*c.getIdent().getName(), "MyClass");
+    s_assert_cmpstr(*c.getClassType().getId(), "MyClass");
     s_assert(c.getFuncs().size() == 1);
 
     DeclareFunc& func = *c.getFuncs()[0];
@@ -219,11 +220,11 @@ static void class_declare_with_two_funcs(void)
 {
     const Node& n = build_graph(R"snow(
         class MyClass do
-          int firstFunc() do
-            int a = 0
+          def firstFunc() do
+            a = 0
           end
-          int secondFunc() do
-            int b = 0
+          def secondFunc() do
+            b = 0
           end
         end
     )snow");
@@ -231,7 +232,7 @@ static void class_declare_with_two_funcs(void)
     s_assert(n.isNodeType(DECLARE_CLASS));
     DeclareClass& c = (DeclareClass&)n;
 
-    s_assert_cmpstr(*c.getIdent().getName(), "MyClass");
+    s_assert_cmpstr(*c.getClassType().getId(), "MyClass");
     s_assert(c.getFuncs().size() == 2);
 
     DeclareFunc& first_func = *c.getFuncs()[0];
@@ -240,6 +241,34 @@ static void class_declare_with_two_funcs(void)
     DeclareFunc& second_func = *c.getFuncs()[1];
     s_assert_cmpstr(second_func.getName(), "secondFunc");
 }
+
+static void type_static()
+{
+    const Node& n = build_graph("Integer:i = 0");
+    s_assert(n.isNodeType(DECLARE_VAR));
+
+    const DeclareVar& decl = (DeclareVar&)n;
+    const Ident i = decl.getIdent();
+
+    s_assert_notnull(Type::Integer);
+    s_assert_notnull(i.getType());
+    s_assert(i.getType() == Type::Integer);
+}
+
+static void type_inference_assignment_test()
+{
+    const Node& n = build_graph("i = 0");
+    s_assert(n.isNodeType(DECLARE_VAR));
+
+    const DeclareVar& decl = (DeclareVar&)n;
+    const Ident i = decl.getIdent();
+
+    s_assert_notnull(Type::Integer);
+    s_assert_notnull(i.getType());
+    s_assert(i.getType() == Type::Integer);
+}
+
+
 
 void parser_tests(TestSuite& tests)
 {
@@ -264,4 +293,6 @@ void parser_tests(TestSuite& tests)
     tests.add("/Parser/class/with_two_vars", class_declare_with_two_vars);
     tests.add("/Parser/class/with_func", class_declare_with_func);
     tests.add("/Parser/class/with_two_funcs", class_declare_with_two_funcs);
+    tests.add("/Parser/type/static", type_static);
+    tests.add("/Parser/type/assignment_inference", type_inference_assignment_test);
 }

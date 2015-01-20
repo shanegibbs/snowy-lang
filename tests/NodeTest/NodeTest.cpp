@@ -15,14 +15,11 @@ using namespace std;
 
 void node_basic_multi_test(void)
 {
-    Type type("int");
-
     Tuple* one_plus_two = new Tuple(
         new IntLiteral("1"),
         new Operator("+"),
         new IntLiteral("2"));
     DeclareVar root(
-        new Type("int"),
         new Ident("a"),
         one_plus_two);
 
@@ -31,7 +28,6 @@ void node_basic_multi_test(void)
         new Operator("+"),
         new IntLiteral("5"));
     DeclareVar* bDecl = new DeclareVar(
-        new Type("int"),
         new Ident("b"),
         four_plus_five);
     root.setNext(bDecl);
@@ -41,15 +37,14 @@ void node_basic_multi_test(void)
         new Operator("+"),
         new IntLiteral("11"));
     DeclareVar* cDecl = new DeclareVar(
-        new Type(new string("int")),
         new Ident(new string("c")),
         ten_plus_eleven);
     bDecl->setNext(cDecl);
 
     std::ostringstream ss;
-    ss << "DeclareVar=[type=[Type[int]] ident=[Ident[a]] expr=[Tuple=[lhs=[IntLiteral=[1]] op=[+] rhs=[IntLiteral=[2]]]]]\n";
-    ss << "DeclareVar=[type=[Type[int]] ident=[Ident[b]] expr=[Tuple=[lhs=[IntLiteral=[4]] op=[+] rhs=[IntLiteral=[5]]]]]\n";
-    ss << "DeclareVar=[type=[Type[int]] ident=[Ident[c]] expr=[Tuple=[lhs=[IntLiteral=[10]] op=[+] rhs=[IntLiteral=[11]]]]]\n";
+    ss << "DeclareVar=[ident=[Ident[a type=Integer]] expr=[Tuple=[lhs=[IntLiteral=[1]] op=[+] rhs=[IntLiteral=[2]]]]]\n";
+    ss << "DeclareVar=[ident=[Ident[b type=Integer]] expr=[Tuple=[lhs=[IntLiteral=[4]] op=[+] rhs=[IntLiteral=[5]]]]]\n";
+    ss << "DeclareVar=[ident=[Ident[c type=Integer]] expr=[Tuple=[lhs=[IntLiteral=[10]] op=[+] rhs=[IntLiteral=[11]]]]]\n";
     const string expected = ss.str();
 
     const string& actual = root.to_program_string();

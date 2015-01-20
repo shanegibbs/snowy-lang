@@ -6,6 +6,8 @@
 #include <CodeGen.h>
 
 #include <SnowyAssert.h>
+#include "Type.h"
+#include "Operator.h"
 #include "Tuple.h"
 
 using namespace llvm;
@@ -28,6 +30,10 @@ Tuple::~Tuple()
     delete lhs;
     delete rhs;
     delete op;
+}
+
+const Type* Tuple::getType() const {
+    return Type::Integer;
 }
 
 Value* Tuple::compile(CodeGen& gen) const

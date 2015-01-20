@@ -2,42 +2,39 @@
 #define OPAL_NODES_DECLARE_VAR_H
 
 #include "Statement.h"
-#include "Type.h"
-#include "Ident.h"
-#include "Expression.h"
 
 namespace Snowy
 {
 
-class DeclareVar : public Statement
+class Ident;
+class Type;
+
+class DeclareVar final : public Statement
 {
+
 public:
-    DeclareVar(const Type*, const Ident*, const Expression*);
+    DeclareVar(Ident*, const Expression*);
     virtual ~DeclareVar();
 
-    DeclareVar* clone() const
-    {
-        return new DeclareVar(*this);
-    }
+    DeclareVar* clone() const override final;
 
-    const string& getName() const {
-        return *ident->getName();
-    }
+    const string& getName() const;
 
-    const Expression& getExpression() const {
-        return *expr;
-    }
+    const Ident& getIdent() const;
 
-    NodeType getNodeType() const override { return DECLARE_VAR; }
+    const Expression& getExpression() const;
 
-    llvm::Value* compile(CodeGen&) const;
+    NodeType getNodeType() const override final { return DECLARE_VAR; }
 
-    void to_sstream(std::ostringstream&) const;
+    const Type* getType() const override final;
+
+    llvm::Value* compile(CodeGen&) const  override final;
+
+    void to_sstream(std::ostringstream&) const override final;
 
 private:
     static const Log log;
-    const Type* type;
-    const Ident* ident;
+    Ident* ident;
     const Expression* expr;
 };
 

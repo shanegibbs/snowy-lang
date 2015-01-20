@@ -37,7 +37,7 @@ void snowy_assert_cmpstr(const char* val1, const string& val2, string str1, stri
 
 void snowy_assert_notnull(void* o, string strO, string func, string file, int line)
 {
-    if (o == NULL) {
+    if (o == NULL || o == nullptr) {
         Log("assert").fatal("Assertion failed at %s:%d\n\nIn function: %s\n\nAssertion was [\x1b[33m%s\x1b[0m] != NULL\n", file.c_str(), line, func.c_str(), strO.c_str());
     }
 }

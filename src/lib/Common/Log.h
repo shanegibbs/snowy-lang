@@ -14,6 +14,7 @@ enum LogLevel {
     INFO,
     WARN,
     ERROR,
+    UI,
     FATAL
 };
 
@@ -31,6 +32,7 @@ public:
     void info(const char* format, ...) const;
     void warn(const char* format, ...) const;
     void error(const char* format, ...) const;
+    void ui(const char* format, ...) const;
     void fatal(const char* format, ...) const;
 
     bool isLogLevel(LogLevel l) const
