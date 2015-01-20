@@ -9,13 +9,13 @@
 * Get a basic language structure in place
  * Similar syntax to Ruby
  * Typing > Ruby typing
- * As powerful as C/C++ but easier to wite
+ * As powerful as C/C++ but easier to write
 * Invistigate questions
 
 ### Questions
 
 * Why is dependency management so hard?
-* Why are some of the most popular languages so slow? (performance wise)
+* Why are some of the most popular languages slow? (performance wise)
 * Can memory management be easier?
 
 ### Notes
