@@ -17,12 +17,20 @@ namespace Snowy
 
 const Log DeclareVar::log = Log("DeclareVar");
 
-DeclareVar::DeclareVar(const Ident *i, const Expression* e) : ident(i), expr(e)
+DeclareVar::DeclareVar(Ident *i, const Expression* e) : ident(i), expr(e)
 {
     s_assert_notnull(ident);
     s_assert_notnull(expr);
 
     log.debug("Creating DeclareVar '%s'", ident->getName()->c_str());
+
+    if (ident->getType() == nullptr) {
+        ident->setType(expr->getType());
+    } else {
+        if (ident->getType() != expr->getType()) {
+            log.ui("Type mismatch");
+        }
+    }
 }
 
 DeclareVar::~DeclareVar()

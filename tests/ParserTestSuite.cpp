@@ -61,14 +61,14 @@ void arithmetic_expr_test(void)
 void assignment_test(void)
 {
     const char *code = "a = 1 + 2\n";
-    const char *desc = "DeclareVar=[ident=[Ident[a]] expr=[Tuple=[lhs=[IntLiteral=[1]] op=[+] rhs=[IntLiteral=[2]]]]]\n";
+    const char *desc = "DeclareVar=[ident=[Ident[a type=Integer]] expr=[Tuple=[lhs=[IntLiteral=[1]] op=[+] rhs=[IntLiteral=[2]]]]]\n";
     assert_code_desc(code, desc);
 }
 
 void string_assignment_test(void)
 {
     const char *code = "a = \"this is a test\"\n";
-    const char *desc = "DeclareVar=[ident=[Ident[a]] expr=[StringLiteral=[\"this is a test\"]]]\n";
+    const char *desc = "DeclareVar=[ident=[Ident[a type=String]] expr=[StringLiteral=[\"this is a test\"]]]\n";
     assert_code_desc(code, desc);
 }
 
@@ -158,7 +158,7 @@ static void class_declare_with_var(void)
     s_assert(c.getVars().size() == 1);
 
     DeclareVar& var = *c.getVars()[0];
-    s_assert_cmpstr(var.to_program_string(), "DeclareVar=[ident=[Ident[i]] expr=[IntLiteral=[0]]]\n");
+    s_assert_cmpstr(var.to_program_string(), "DeclareVar=[ident=[Ident[i type=Integer]] expr=[IntLiteral=[0]]]\n");
 }
 
 static void class_declare_with_var_no_spaces(void)
@@ -172,7 +172,7 @@ static void class_declare_with_var_no_spaces(void)
     s_assert(c.getVars().size() == 1);
 
     DeclareVar& var = *c.getVars()[0];
-    s_assert_cmpstr(var.to_program_string(), "DeclareVar=[ident=[Ident[i]] expr=[IntLiteral=[0]]]\n");
+    s_assert_cmpstr(var.to_program_string(), "DeclareVar=[ident=[Ident[i type=Integer]] expr=[IntLiteral=[0]]]\n");
 }
 
 static void class_declare_with_two_vars(void)
@@ -191,10 +191,10 @@ static void class_declare_with_two_vars(void)
     s_assert(c.getVars().size() == 2);
 
     DeclareVar& a = *c.getVars()[0];
-    s_assert_cmpstr(a.to_program_string(), "DeclareVar=[ident=[Ident[a]] expr=[IntLiteral=[0]]]\n");
+    s_assert_cmpstr(a.to_program_string(), "DeclareVar=[ident=[Ident[a type=Integer]] expr=[IntLiteral=[0]]]\n");
 
     DeclareVar& b = *c.getVars()[1];
-    s_assert_cmpstr(b.to_program_string(), "DeclareVar=[ident=[Ident[b]] expr=[IntLiteral=[0]]]\n");
+    s_assert_cmpstr(b.to_program_string(), "DeclareVar=[ident=[Ident[b type=Integer]] expr=[IntLiteral=[0]]]\n");
 }
 
 static void class_declare_with_func(void)
@@ -242,6 +242,19 @@ static void class_declare_with_two_funcs(void)
     s_assert_cmpstr(second_func.getName(), "secondFunc");
 }
 
+static void type_static()
+{
+    const Node& n = build_graph("Integer:i = 0");
+    s_assert(n.isNodeType(DECLARE_VAR));
+
+    const DeclareVar& decl = (DeclareVar&)n;
+    const Ident i = decl.getIdent();
+
+    s_assert_notnull(Type::Integer);
+    s_assert_notnull(i.getType());
+    s_assert(i.getType() == Type::Integer);
+}
+
 static void type_inference_assignment_test()
 {
     const Node& n = build_graph("i = 0");
@@ -251,9 +264,11 @@ static void type_inference_assignment_test()
     const Ident i = decl.getIdent();
 
     s_assert_notnull(Type::Integer);
-    // s_assert_notnull(i.getType());
-    // s_assert(i.getType() == Type::Integer);
+    s_assert_notnull(i.getType());
+    s_assert(i.getType() == Type::Integer);
 }
+
+
 
 void parser_tests(TestSuite& tests)
 {
@@ -278,5 +293,6 @@ void parser_tests(TestSuite& tests)
     tests.add("/Parser/class/with_two_vars", class_declare_with_two_vars);
     tests.add("/Parser/class/with_func", class_declare_with_func);
     tests.add("/Parser/class/with_two_funcs", class_declare_with_two_funcs);
+    tests.add("/Parser/type/static", type_static);
     tests.add("/Parser/type/assignment_inference", type_inference_assignment_test);
 }

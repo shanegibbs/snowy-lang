@@ -2,6 +2,7 @@
 #define SNOWY_DRIVER_HPP
 
 #include <string>
+#include <map>
 #include <FlexLexer.h>
 
 #include <Log.h>
@@ -12,6 +13,7 @@ class FlexLexer;
 namespace Snowy
 {
 
+class Type;
 class Log;
 
 class Driver
@@ -36,6 +38,8 @@ public:
         root = r;
     }
 
+    const Type* getType(string*);
+
     const char* getTokenString(int) const;
 
 private:
@@ -44,6 +48,8 @@ private:
     FlexLexer* lexer;
     ProgramParser *program_parser;
     bool reached_eof;
+
+    map<string, const Type*> types;
 };
 
 }

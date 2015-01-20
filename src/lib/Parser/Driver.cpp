@@ -15,12 +15,30 @@ Driver::Driver()
 {
     program_parser = new ProgramParser(this);
     reached_eof = false;
+
+    // Add language types
+    types[*Type::Class->getId()] = Type::Class;
+    types[*Type::Integer->getId()] = Type::Integer;
+    types[*Type::String->getId()] = Type::String;
 }
 
 Driver::~Driver()
 {
     log.debug("Destroying Driver");
     delete program_parser;
+}
+
+const Type* Driver::getType(string* id)
+{
+    const Type* t = types[*id];
+
+    if (t == nullptr) {
+        t = new Type(id);
+        types[*id] = t;
+        return t;
+    } else {
+        return t;
+    }
 }
 
 int Driver::mylex(ProgramParser::semantic_type *val)
@@ -30,8 +48,8 @@ int Driver::mylex(ProgramParser::semantic_type *val)
 
     // tokens that do not need to be parsed
     if (i == ProgramParser::token::WHITE_SPACE) {
-        log.debug("Skipping white space on line %d: %s",
-                lexer->lineno(), lexer->YYText());
+        /* log.debug("Skipping white space on line %d: %s",
+                lexer->lineno(), lexer->YYText()); */
         return mylex(val);
     } else if (i == ProgramParser::token::COMMENT) {
         log.debug("Skipping comment on line %d: %s",
@@ -79,6 +97,8 @@ const char* Driver::getTokenString(int t) const
     switch(t) {
     case ProgramParser::token::ID:
         return "ID";
+    case ProgramParser::token::SEPERATOR:
+        return "SEPERATOR";
     case ProgramParser::token::INTEGER:
         return "INTEGER";
     case ProgramParser::token::STRING_LIT:

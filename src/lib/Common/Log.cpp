@@ -9,7 +9,7 @@ namespace Snowy
 
 FILE* Log::out = stderr;
 bool Log::abort_on_fatal = true;
-LogLevel Log::log_level = FATAL;
+LogLevel Log::log_level = UI;
 
 void Log::setup()
 {
@@ -23,6 +23,10 @@ void Log::setup()
             Snowy::Log::setLogLevel(Snowy::WARN);
         } else if (strcmp(log_level, "error") == 0) {
             Snowy::Log::setLogLevel(Snowy::ERROR);
+        } else if (strcmp(log_level, "ui") == 0) {
+            Snowy::Log::setLogLevel(Snowy::UI);
+        } else if (strcmp(log_level, "fatal") == 0) {
+            Snowy::Log::setLogLevel(Snowy::FATAL);
         }
     }
 }
@@ -50,6 +54,9 @@ void Log::log(LogLevel l, const char* format, va_list* args) const
         break;
     case ERROR:
         level = "ERROR";
+        break;
+    case UI:
+        level = "UI";
         break;
     case FATAL:
         level = "\x1b[31mFATAL\x1b[0m";
@@ -102,6 +109,27 @@ void Log::error(const char* format, ...) const
     va_list args;
     va_start(args, format);
     log(ERROR, format, &args);
+    va_end(args);
+}
+
+void Log::ui(const char* format, ...) const
+{
+    if (log_level > UI) {
+        return;
+    }
+
+    char* msg = (char*)malloc(4096);
+
+    va_list args;
+    va_start(args, format);
+
+    vsprintf(msg, format, args);
+    fprintf(out, "%s\n", msg);
+
+    free(msg);
+    fflush(out);
+
+    info(format, &args);
     va_end(args);
 }
 

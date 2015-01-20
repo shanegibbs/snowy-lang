@@ -44,8 +44,9 @@ NodeType DeclareClass::getNodeType() const
     return DECLARE_CLASS;
 }
 
-void DeclareClass::setType(Type* t)
+void DeclareClass::setType(const Type* t)
 {
+    s_assert_notnull(t);
     type = t;
 }
 
@@ -74,7 +75,7 @@ const Type* DeclareClass::getType() const
     return Type::Class;
 }
 
-Type& DeclareClass::getClassType() const
+const Type& DeclareClass::getClassType() const
 {
     s_assert_notnull(type);
     return *type;
@@ -82,6 +83,7 @@ Type& DeclareClass::getClassType() const
 
 void DeclareClass::to_sstream(std::ostringstream& s) const
 {
+    s_assert_notnull(type);
     s << "DeclareClass=[type=[";
     type->to_sstream(s);
     s << "]]";

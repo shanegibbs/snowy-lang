@@ -23,7 +23,7 @@ public:
 
     NodeType getNodeType() const override final;
 
-    void setType(Type* t);
+    void setType(const Type* t);
 
     void addVarDecl(DeclareVar* v);
 
@@ -35,7 +35,7 @@ public:
 
     const Type* getType() const override final;
 
-    Type& getClassType() const;
+    const Type& getClassType() const;
 
     llvm::Value* compile(CodeGen&) const override final;
 
@@ -43,7 +43,7 @@ public:
 
 private:
     static const Log log;
-    Type* type;
+    const Type* type;
     vector<DeclareVar*> vars;
     vector<DeclareFunc*> funcs;
 };

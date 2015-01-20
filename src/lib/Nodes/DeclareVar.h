@@ -13,7 +13,7 @@ class DeclareVar final : public Statement
 {
 
 public:
-    DeclareVar(const Ident*, const Expression*);
+    DeclareVar(Ident*, const Expression*);
     virtual ~DeclareVar();
 
     DeclareVar* clone() const override final;
@@ -34,7 +34,7 @@ public:
 
 private:
     static const Log log;
-    const Ident* ident;
+    Ident* ident;
     const Expression* expr;
 };
 

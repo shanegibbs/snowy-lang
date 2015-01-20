@@ -35,7 +35,7 @@ Type::~Type()
 
 void Type::init()
 {
-    log.debug("Creating Type with id '%s'", id->c_str());
+    log.debug("Creating Type '%s'", id->c_str());
 
     s_assert_cmpint(id->length(), >, 0);
     s_assert_cmpint(id->length(), <, 100);

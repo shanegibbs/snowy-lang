@@ -13,32 +13,28 @@ namespace Snowy
 class Log;
 class Type;
 
-class Ident : public Expression
+class Ident final : public Expression
 {
 public:
     Ident(const char*);
     Ident(const string*);
-    Ident(const char*, Type*);
-    Ident(const string*, Type*);
+    Ident(const char*, const Type*);
+    Ident(const string*, const Type*);
     ~Ident();
 
-    Ident* clone() const {
-        return new Ident(*this);
-    }
+    Ident* clone() const;
 
-    const string* getName() const {
-        return name;
-    }
+    const string* getName() const;
 
-    const Type* getType() const {
-        return type;
-    }
+    const Type* getType() const override final;
 
-    NodeType getNodeType() const override { return IDENT; }
+    void setType(const Type*);
 
-    llvm::Value* compile(CodeGen&) const;
+    NodeType getNodeType() const override final { return IDENT; }
 
-    void to_sstream(ostringstream&) const;
+    llvm::Value* compile(CodeGen&) const override final;
+
+    void to_sstream(ostringstream&) const override final;
 
 private:
     static const Log log;
