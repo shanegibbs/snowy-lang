@@ -20,6 +20,8 @@
 
 ### Notes
 
+* Rust looks very interesting
+
 #### Ruby and types
 
 Even adding a simple type specifier to Ruby syntax breaks. Language syntax seems to be a delicate balancing act.
