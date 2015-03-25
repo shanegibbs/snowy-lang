@@ -16,7 +16,7 @@
 
 * Why is dependency management so hard?
 * Why are some of the most popular languages slow? (performance wise)
-* Can memory management be easier?
+* Can (dynamic) memory management be easier?
 
 ### Notes
 
