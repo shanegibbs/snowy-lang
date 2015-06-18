@@ -3,6 +3,37 @@
 
 # Snowy Lang
 
+Arithmetic
+
+```
+a = 1 + 2
+```
+
+String literal
+
+```
+a = "Hello World!!"
+puts(a)
+```
+
+Function
+
+```
+def add(a, b)
+  a + b
+end
+```
+
+Class
+
+```
+class MyClass do
+  def one() do
+    1
+  end
+end
+```
+
 ## Goals
 
 * Learn C/C++ and autotools

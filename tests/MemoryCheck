@@ -6,7 +6,7 @@ then
     exit 77
 fi
 
-if [ $FAST_CHECK == true ]; then
+if [ "$FAST_CHECK" == true ]; then
     echo WARNING: Skipping memcheck. FAST_CHECK=true
     exit 77
 else
