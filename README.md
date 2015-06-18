@@ -9,6 +9,13 @@ Arithmetic
 a = 1 + 2
 ```
 
+String literal
+
+```
+a = "Hello World!!"
+puts(a)
+```
+
 Function
 
 ```
