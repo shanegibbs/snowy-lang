@@ -3,15 +3,13 @@
 
 # Snowy Lang
 
-## Examples
-
 Arithmetic
 
 ```
 a = 1 + 2
 ```
 
-Functions
+Function
 
 ```
 def add(a, b)
