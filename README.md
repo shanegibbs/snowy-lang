@@ -3,6 +3,32 @@
 
 # Snowy Lang
 
+## Examples
+
+Arithmetic
+
+```
+a = 1 + 2
+```
+
+Functions
+
+```
+def add(a, b)
+  a + b
+end
+```
+
+Class
+
+```
+class MyClass do
+  def one() do
+    1
+  end
+end
+```
+
 ## Goals
 
 * Learn C/C++ and autotools
