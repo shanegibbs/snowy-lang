@@ -32,6 +32,8 @@ DeclareClass::DeclareClass(Type* t) : type(t)
 DeclareClass::~DeclareClass()
 {
     delete type;
+    vars.clear();
+    funcs.clear();
 }
 
 DeclareClass* DeclareClass::clone() const

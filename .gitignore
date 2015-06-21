@@ -38,7 +38,7 @@ Makefile.in
 /depcomp
 /config.h.in*
 /install-sh
-/build
+/*build
 /autom4te.cache
 /test-driver
 /tmp
