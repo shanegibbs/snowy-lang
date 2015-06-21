@@ -9,8 +9,11 @@ fi
 
 apt-get update
 
-PACKAGES="libc6-dev-i386 m4 libffi-dev gettext curl wget build-essential libncurses5-dev zlib1g-dev pkg-config groff"
-PACKAGES="$PACKAGES zsh vim tmux"
+# dependencies
+PACKAGES="libc6-dev-i386 m4 libffi-dev gettext curl wget build-essential libncurses5-dev zlib1g-dev pkg-config groff python"
+
+# dev tools
+PACKAGES="$PACKAGES zsh vim tmux git"
 
 if [ "$DISTRIB_RELEASE" == "14.04" ]; then
   sudo apt-get install -y $PACKAGES
