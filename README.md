@@ -58,7 +58,7 @@ Run `build` to execute a standard build. The build output goes to `~/build`.
  * Similar syntax to Ruby
  * Typing > Ruby typing
  * As powerful as C/C++ but easier to write
-* Invistigate questions
+* Investigate questions
 
 ### Questions
 
