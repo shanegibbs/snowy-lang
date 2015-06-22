@@ -43,9 +43,12 @@ AC_SEARCH_LIBS([pow], [m], [], [
 # Check for flex
 AM_PROG_LEX
 AC_CHECK_PROG([FLEX], [flex lex], [flex])
-AC_CHECK_HEADERS([FlexLexer.h], [],
-  AC_MSG_ERROR([FlexLexer.h mising])
-)
+# AC_CHECK_HEADERS([FlexLexer.h], [],
+#   AC_MSG_ERROR([FlexLexer.h mising]),
+#   [[extern "C" {
+# #include <FlexLexer.h>
+# }]]
+# )
 
 # Check for bison
 AC_PROG_YACC
@@ -91,7 +94,7 @@ AC_SUBST([LLVM_LIBDIR])
 CXXFLAGS="$EXTERNAL_CXXFLAGS"
 
 AC_SUBST([SNOWY_CXXFLAGS], ["-std=c++11 -DG_DISABLE_ASSERT"])
-AC_SUBST([SNOWY_DEBUG_CXXFLAGS], ["-std=c++11 -Wall -Werror"]) # -Wno-deprecated-register
+AC_SUBST([SNOWY_DEBUG_CXXFLAGS], ["-g -std=c++11 -Wall -Werror -Wno-deprecated-register -fsanitize=address -fno-omit-frame-pointer"])
 
 # debug flag
 AC_ARG_ENABLE([debug],

@@ -15,6 +15,7 @@ Driver::Driver()
 {
     program_parser = new ProgramParser(this);
     reached_eof = false;
+    lexer = nullptr;
 
     // Add language types
     types[*Type::Class->getId()] = Type::Class;
@@ -26,6 +27,9 @@ Driver::~Driver()
 {
     log.debug("Destroying Driver");
     delete program_parser;
+    if (lexer != nullptr) {
+        delete lexer;
+    }
 }
 
 const Type* Driver::getType(string* id)

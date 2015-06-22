@@ -14,7 +14,7 @@ LDADD += $(top_builddir)/src/lib/Nodes/libsnowy-nodes.a
 LDADD += $(top_builddir)/src/lib/Common/libsnowy-common.a
 LDADD += @LLVM_LIBS@
 
-TESTS=$(check_PROGRAMS) MemoryCheck
+TESTS=$(check_PROGRAMS)
 
 check_PROGRAMS=SnowyTestSuite
 
