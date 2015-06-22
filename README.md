@@ -34,6 +34,23 @@ class MyClass do
 end
 ```
 
+## Hacking
+
+Setup
+
+```
+git clone git@github.com:shanegibbs/snowy-lang.git && cd snowy-lang
+sudo apt-get install -y docker.io
+```
+
+Enter the snowy development container. `~/src` inside the container is mounted to the project directory. Anything not stored in this directory will be lost when you leave the container.
+
+```
+./scripts/docker-console.sh
+```
+
+Run `build` to execute a standard build. The build output goes to `~/build`.
+
 ## Goals
 
 * Learn C/C++ and autotools
