@@ -41,14 +41,6 @@ const Type* Driver::getType(string* id)
         types[*id] = t;
     }
 
-    for(map<string, const Type*>::iterator it = types.begin(); it != types.end(); ++it) {
-        cout << "Type: " << it->first << "\n";
-
-        const Type* n = types[it->first];
-        cout << "  ID: " << n->getId() << "\n";
-
-    }
-
     delete id;
     return t;
 }
