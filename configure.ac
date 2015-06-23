@@ -95,7 +95,7 @@ AC_SUBST([LLVM_LIBDIR])
 CXXFLAGS="$EXTERNAL_CXXFLAGS"
 
 AC_SUBST([SNOWY_CXXFLAGS], ["-std=c++11 -DG_DISABLE_ASSERT"])
-AC_SUBST([SNOWY_DEBUG_CXXFLAGS], ["-g -std=c++11 -Wall -Werror -Wno-deprecated-register -fno-omit-frame-pointer"])
+AC_SUBST([SNOWY_DEBUG_CXXFLAGS], ["-g -std=c++11 -Wall -Werror -fno-omit-frame-pointer"])
 # Clang memory check flag: -fsanitize=address
 
 # debug flag
