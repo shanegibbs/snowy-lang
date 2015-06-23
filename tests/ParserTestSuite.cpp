@@ -177,6 +177,8 @@ static void class_declare_with_var_no_spaces(void)
 
     DeclareVar *var = c->getVars()[0];
     s_assert_cmpstr(var->to_program_string(), "DeclareVar=[ident=[Ident[i type=Integer]] expr=[IntLiteral=[0]]]\n");
+
+    delete n;
 }
 
 static void class_declare_with_two_vars(void)
