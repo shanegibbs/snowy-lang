@@ -9,6 +9,7 @@
 
 #include "DeclareClass.h"
 #include "DeclareFunc.h"
+#include "DeclareVar.h"
 #include "Type.h"
 
 using namespace llvm;
@@ -35,6 +36,10 @@ DeclareClass::~DeclareClass()
     log.debug("Deleting DeclareClass '%s'", type->getId().c_str());
 
     delete type;
+
+    for (DeclareVar *v : vars) {
+        delete v;
+    }
     vars.clear();
 
     for (DeclareFunc *f : funcs) {
@@ -62,7 +67,8 @@ void DeclareClass::setType(const Type* t)
 
 void DeclareClass::addVarDecl(DeclareVar* v)
 {
-    vars.push_back(v);
+    DeclareVar* obj = dynamic_cast<DeclareVar*>(v);
+    vars.push_back(obj);
 }
 
 void DeclareClass::addFuncDecl(DeclareFunc* v)

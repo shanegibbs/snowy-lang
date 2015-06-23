@@ -76,10 +76,10 @@ void node_declare_class_simple(void)
 
 void node_declare_class_with_var(void)
 {
-    DeclareVar var = DeclareVar(new Ident("i"), new IntLiteral("1"));
+    DeclareVar *var = new DeclareVar(new Ident("i"), new IntLiteral("1"));
 
     DeclareClass root(new Type("MyClass"));
-    root.addVarDecl(&var);
+    root.addVarDecl(var);
 
     std::ostringstream ss;
     ss << "DeclareClass=[type=[Type[MyClass]]]\n";
