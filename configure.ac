@@ -8,6 +8,7 @@ AC_INIT([snowy], [0.1], [shane@gibbsdevops.com])
 AC_CONFIG_SRCDIR([src/bin/main.cpp])
 AC_CONFIG_HEADERS([config.h])
 
+# 'serial-tests' option is prefered
 AM_INIT_AUTOMAKE([subdir-objects])
 #LT_INIT
 
@@ -94,7 +95,8 @@ AC_SUBST([LLVM_LIBDIR])
 CXXFLAGS="$EXTERNAL_CXXFLAGS"
 
 AC_SUBST([SNOWY_CXXFLAGS], ["-std=c++11 -DG_DISABLE_ASSERT"])
-AC_SUBST([SNOWY_DEBUG_CXXFLAGS], ["-g -std=c++11 -Wall -Werror -Wno-deprecated-register -fsanitize=address -fno-omit-frame-pointer"])
+AC_SUBST([SNOWY_DEBUG_CXXFLAGS], ["-g -std=c++11 -Wall -Werror -Wno-deprecated-register -fno-omit-frame-pointer"])
+# Clang memory check flag: -fsanitize=address
 
 # debug flag
 AC_ARG_ENABLE([debug],

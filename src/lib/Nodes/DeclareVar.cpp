@@ -29,8 +29,8 @@ DeclareVar::DeclareVar(Ident *i, const Expression* e) : ident(i), expr(e)
     } else {
         if (ident->getType() != expr->getType()) {
             log.ui("Type mismatch, can not assign %s to %s",
-                    expr->getType()->getId()->c_str(),
-                    ident->getType()->getId()->c_str());
+                    expr->getType()->getId().c_str(),
+                    ident->getType()->getId().c_str());
         }
     }
 }

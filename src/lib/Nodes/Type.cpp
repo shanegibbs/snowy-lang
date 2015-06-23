@@ -19,13 +19,25 @@ const Type* Type::Class = new Type("Class");
 
 Type::Type(const char* s) : id(new string(s))
 {
+    log.debug("Creating Type(%d) with id '%s'", getNodeId(), s);
     init();
 }
 
-Type::Type(const string* s) : id(s)
+Type::Type(const string* s)
 {
+    char *id_str = (char*)malloc(sizeof(char) * (strlen(s->data()) + 1));
+    strcpy(id_str, s->data());
+    id = new string(id_str);
+    free(id_str);
+
     init();
 }
+
+Type* Type::clone() const
+{
+    return new Type(*this);
+}
+
 
 Type::~Type()
 {

@@ -43,3 +43,5 @@ Makefile.in
 /test-driver
 /tmp
 /m4
+.deps
+Makefile

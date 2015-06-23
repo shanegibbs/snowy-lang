@@ -18,9 +18,9 @@ Driver::Driver()
     lexer = nullptr;
 
     // Add language types
-    types[*Type::Class->getId()] = Type::Class;
-    types[*Type::Integer->getId()] = Type::Integer;
-    types[*Type::String->getId()] = Type::String;
+    types[Type::Class->getId()] = Type::Class;
+    types[Type::Integer->getId()] = Type::Integer;
+    types[Type::String->getId()] = Type::String;
 }
 
 Driver::~Driver()
@@ -39,10 +39,18 @@ const Type* Driver::getType(string* id)
     if (t == nullptr) {
         t = new Type(id);
         types[*id] = t;
-        return t;
-    } else {
-        return t;
     }
+
+    for(map<string, const Type*>::iterator it = types.begin(); it != types.end(); ++it) {
+        cout << "Type: " << it->first << "\n";
+
+        const Type* n = types[it->first];
+        cout << "  ID: " << n->getId() << "\n";
+
+    }
+
+    delete id;
+    return t;
 }
 
 int Driver::mylex(ProgramParser::semantic_type *val)

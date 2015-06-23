@@ -5,7 +5,7 @@ BUILD="$HOME/build"
 
 if [ ! -d "$BUILD" ]; then
   mkdir "$BUILD" && cd $BUILD
-  $SRC/configure --enable-debug
+  $SRC/configure CXXFLAGS='-fsanitize=address' --enable-debug
 fi
 
 cd $BUILD

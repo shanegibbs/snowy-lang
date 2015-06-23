@@ -18,19 +18,16 @@ public:
     Type(const string* s);
     ~Type();
 
-    Type* clone() const
-    {
-        return new Type(*this);
-    }
+    Type* clone() const;
 
     NodeType getNodeType() const override
     {
         return TYPE;
     }
 
-    const string* getId() const
+    const string& getId() const
     {
-        return id;
+        return *id;
     }
 
     llvm::Value* compile(CodeGen&) const

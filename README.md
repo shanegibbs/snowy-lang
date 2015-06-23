@@ -49,7 +49,18 @@ Enter the snowy development container. `~/src` inside the container is mounted t
 ./scripts/docker-console.sh
 ```
 
-Run `build` to execute a standard build. The build output goes to `~/build`.
+Run `build` to execute a standard build or rebuild after any changes. Build output goes to `~/build`.
+
+```
+build
+```
+
+The build bin path (`~/build/src/bin`) is on the default `PATH`, so to test the build simply:
+
+```
+# (due to zsh, you may need to run `rehash` after the first build)
+echo 'puts("test")' |LOG_LEVEL=warn snowy
+```
 
 ## Goals
 

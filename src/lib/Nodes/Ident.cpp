@@ -26,14 +26,19 @@ void Ident::init()
     s_assert_cmpint(name->length(), >, 0);
     s_assert_cmpint(name->length(), <, 100);
     if (type != nullptr) {
-        log.debug("Creating Identity '%s' with static type '%s'", name->c_str(), type->getId()->c_str());
+        log.debug("Creating Identity '%s' with static type '%s'", name->c_str(), type->getId().c_str());
     } else {
         log.debug("Creating Identity '%s'", name->c_str());
     }
 }
 
-Ident::Ident(const string* n) : name(n), type(nullptr)
+Ident::Ident(const string* n) : type(nullptr)
 {
+    char *n_str = (char*)malloc(sizeof(char) * (strlen(n->data()) + 1));
+    strcpy(n_str, n->data());
+    name = new string(n_str);
+    free(n_str);
+  
     init();
 }
 
@@ -49,8 +54,13 @@ Ident::Ident(const char* n) : name(new string(n)), type(nullptr)
     init();
 }
 
-Ident::Ident(const string* n, const Type* t) : name(n), type(t)
+Ident::Ident(const string* n, const Type* t) : type(t)
 {
+    char *n_str = (char*)malloc(sizeof(char) * (strlen(n->data()) + 1));
+    strcpy(n_str, n->data());
+    name = new string(n_str);
+    free(n_str);
+
     s_assert_notnull(t);
     init();
 }
@@ -102,7 +112,7 @@ void Snowy::Ident::to_sstream(std::ostringstream& s) const
 
     s << "Ident[" << *name;
     if (type != nullptr) {
-        s << " type=" << *type->getId();
+        s << " type=" << type->getId();
     }
     s << "]";
 }

@@ -1,6 +1,8 @@
-#!/bin/sh
+#!/bin/bash
 
-`dirname "$(readlink -f $0)"`/../configure \
+DIR=$(cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd)
+
+$DIR/../configure \
   CXX=clang++ \
   CXXFLAGS='-g -std=c++11 -Wno-deprecated-register' \
   LDFLAGS='-L/usr/local/lib' \
