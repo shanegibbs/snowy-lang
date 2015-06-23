@@ -101,7 +101,7 @@ mkdir build && cd build
 ../scripts/configure.ubuntu.sh
 
 # Build and test
-make -j check
+ASAN_SYMBOLIZER_PATH=/usr/bin/llvm-symbolizer-3.5 make -j check
 
 # Run
 echo 'puts("Hello World!!")' | ./src/bin/snowy
