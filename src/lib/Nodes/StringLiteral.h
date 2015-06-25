@@ -16,7 +16,6 @@ class Type;
 class StringLiteral final : public Expression
 {
 public:
-    StringLiteral(const char*);
     StringLiteral(const string*);
     ~StringLiteral();
 

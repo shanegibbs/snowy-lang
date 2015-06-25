@@ -13,23 +13,18 @@ namespace Snowy
 {
 
 const Log Type::log = Log("Type");
+
 const Type* Type::Integer = new Type("Integer");
 const Type* Type::String = new Type("String");
 const Type* Type::Class = new Type("Class");
 
-Type::Type(const char* s) : id(new string(s))
+Type::Type(const char *s) : id(new string(s))
 {
-    log.debug("Creating Type(%d) with id '%s'", getNodeId(), s);
     init();
 }
 
-Type::Type(const string* s)
+Type::Type(const string* s) : id(new string(*s))
 {
-    char *id_str = (char*)malloc(sizeof(char) * (strlen(s->data()) + 1));
-    strcpy(id_str, s->data());
-    id = new string(id_str);
-    free(id_str);
-
     init();
 }
 
@@ -37,7 +32,6 @@ Type* Type::clone() const
 {
     return new Type(*this);
 }
-
 
 Type::~Type()
 {

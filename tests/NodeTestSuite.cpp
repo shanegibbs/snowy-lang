@@ -1,3 +1,5 @@
+#include <memory>
+
 #include <IntLiteral.h>
 #include <DeclareVar.h>
 #include <DeclareFunc.h>
@@ -7,6 +9,7 @@
 
 #include "SnowyTestSuite.h"
 
+using namespace std;
 using namespace Snowy;
 
 // IntLiteralTest
@@ -25,7 +28,7 @@ void node_basic_multi_test(void);
 
 void node_declare_func_simple(void)
 {
-    DeclareFunc root(new Ident("myfunc"), new ArgsDecl(), NULL);
+    DeclareFunc root(new Ident(new string("myfunc")), new ArgsDecl(), NULL);
 
     std::ostringstream ss;
     ss << "DeclareFunc=[ident=[Ident[myfunc]] args=[ArgsDecl[size=0]] block=[NULL]]\n";
@@ -38,14 +41,14 @@ void node_declare_func_simple(void)
 
 void node_declare_func_complex(void)
 {
-    IntLiteral* a = new IntLiteral("1");
-    IntLiteral* b = new IntLiteral("2");
-    IntLiteral* c = new IntLiteral("3");
+    IntLiteral* a = new IntLiteral(new string("1"));
+    IntLiteral* b = new IntLiteral(new string("2"));
+    IntLiteral* c = new IntLiteral(new string("3"));
     a->setNext(b);
     b->setNext(c);
 
-    DeclareFunc root(new Ident("myfunc"),
-                     new ArgsDecl(new Ident("a"))
+    DeclareFunc root(new Ident(new string("myfunc")),
+                     new ArgsDecl(new Ident(new string("a")))
                      , a);
 
     std::ostringstream ss;
@@ -63,7 +66,7 @@ void node_declare_func_complex(void)
 
 void node_declare_class_simple(void)
 {
-    DeclareClass root(new Type("MyClass"));
+    DeclareClass root(new Type(new string("MyClass")));
 
     std::ostringstream ss;
     ss << "DeclareClass=[type=[Type[MyClass]]]\n";
@@ -76,10 +79,10 @@ void node_declare_class_simple(void)
 
 void node_declare_class_with_var(void)
 {
-    DeclareVar *var = new DeclareVar(new Ident("i"), new IntLiteral("1"));
-
-    DeclareClass root(new Type("MyClass"));
-    root.addVarDecl(var);
+    unique_ptr<string> typeName(new string("MyClass"));
+    Type *type = new Type(typeName.get());
+    DeclareClass root(type);
+    root.addVarDecl(new DeclareVar(new Ident(new string("i")), new IntLiteral(new string("1"))));
 
     std::ostringstream ss;
     ss << "DeclareClass=[type=[Type[MyClass]]]\n";

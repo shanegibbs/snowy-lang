@@ -13,12 +13,6 @@ namespace Snowy
 
 const Log IntLiteral::log = Log("IntLiteral");
 
-IntLiteral::IntLiteral(const char* str) : val(atoi(str))
-{
-    s_assert_notnull(str);
-    log.debug("Creating IntLiteral '%d'", val);
-}
-
 IntLiteral::IntLiteral(const string* str) : val(stoi(*str))
 {
     s_assert_notnull(str);

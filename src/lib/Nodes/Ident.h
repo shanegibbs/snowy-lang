@@ -16,9 +16,7 @@ class Type;
 class Ident final : public Expression
 {
 public:
-    Ident(const char*);
     Ident(const string*);
-    Ident(const char*, const Type*);
     Ident(const string*, const Type*);
     ~Ident();
 

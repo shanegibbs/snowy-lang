@@ -14,7 +14,6 @@ namespace Snowy
 class IntLiteral : public Expression
 {
 public:
-    IntLiteral(const char* str);
     IntLiteral(const string* str);
 
     IntLiteral* clone() const

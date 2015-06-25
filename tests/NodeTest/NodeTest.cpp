@@ -16,29 +16,28 @@ using namespace std;
 void node_basic_multi_test(void)
 {
     Tuple* one_plus_two = new Tuple(
-        new IntLiteral("1"),
-        new Operator("+"),
-        new IntLiteral("2"));
+        new IntLiteral(new string("1")),
+        new Operator(new string("+")),
+        new IntLiteral(new string("2")));
     DeclareVar root(
-        new Ident("a"),
+        new Ident(new string("a")),
         one_plus_two);
 
     Tuple* four_plus_five = new Tuple(
-        new IntLiteral("4"),
-        new Operator("+"),
-        new IntLiteral("5"));
+        new IntLiteral(new string("4")),
+        new Operator(new string("+")),
+        new IntLiteral(new string("5")));
     DeclareVar* bDecl = new DeclareVar(
-        new Ident("b"),
+        new Ident(new string("b")),
         four_plus_five);
     root.setNext(bDecl);
 
     Tuple* ten_plus_eleven = new Tuple(
-        new IntLiteral("10"),
-        new Operator("+"),
-        new IntLiteral("11"));
-    DeclareVar* cDecl = new DeclareVar(
-        new Ident(new string("c")),
-        ten_plus_eleven);
+        new IntLiteral(new string("10")),
+        new Operator(new string("+")),
+        new IntLiteral(new string("11")));
+    Ident *c = new Ident(new string("c"));
+    DeclareVar* cDecl = new DeclareVar(c, ten_plus_eleven);
     bDecl->setNext(cDecl);
 
     std::ostringstream ss;

@@ -38,19 +38,7 @@ Ident::Ident(const string* n) : type(nullptr)
     strcpy(n_str, n->data());
     name = new string(n_str);
     free(n_str);
-  
-    init();
-}
 
-Ident::Ident(const char* n, const Type* t) : name(new string(n)), type(t)
-{
-    s_assert_notnull(n);
-    s_assert_notnull(t);
-    init();
-}
-
-Ident::Ident(const char* n) : name(new string(n)), type(nullptr)
-{
     init();
 }
 

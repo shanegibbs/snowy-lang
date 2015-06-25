@@ -11,7 +11,7 @@ using namespace Snowy;
 
 static void int_literal_test(void)
 {
-    IntLiteral i("3");
+    IntLiteral i(new string("3"));
     const char* expected = "IntLiteral=[3]\n";
     const char* actual = i.to_string();
     s_assert_cmpstr(actual, expected);
@@ -20,9 +20,9 @@ static void int_literal_test(void)
 
 static void int_literal_multi_test(void)
 {
-    IntLiteral root("1");
-    IntLiteral* b = new IntLiteral("2");
-    IntLiteral* c = new IntLiteral("3");
+    IntLiteral root(new string("1"));
+    IntLiteral* b = new IntLiteral(new string("2"));
+    IntLiteral* c = new IntLiteral(new string("3"));
 
     root.setNext(b);
     b->setNext(c);

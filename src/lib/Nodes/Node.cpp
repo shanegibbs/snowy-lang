@@ -21,14 +21,14 @@ Node::Node() : node_id(next_node_index++)
 {
     // printf("Created node with ID %d\n", node_id);
     first = this;
-    next = NULL;
+    next = nullptr;
 }
 
 Node::~Node()
 {
-    // log.debug("Deleting node %d", node_id);
-    if (next != NULL) {
-        // log.debug("Deleting next node");
+    log.debug("Deleting node %d", node_id);
+    if (next != nullptr) {
+        log.debug("Deleting next node");
         delete next;
     }
 }

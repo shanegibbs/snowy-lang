@@ -19,11 +19,6 @@ namespace Snowy
 
 const Log StringLiteral::log = Log("StringLiteral");
 
-StringLiteral::StringLiteral(const char* str) : val(new string(str))
-{
-    init();
-}
-
 StringLiteral::StringLiteral(const string* str) : val(str)
 {
     init();
