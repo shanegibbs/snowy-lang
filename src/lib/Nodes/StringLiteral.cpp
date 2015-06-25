@@ -19,7 +19,7 @@ namespace Snowy
 
 const Log StringLiteral::log = Log("StringLiteral");
 
-StringLiteral::StringLiteral(const string* str) : val(str)
+StringLiteral::StringLiteral(const shared_ptr<const string> str) : val(str)
 {
     init();
 }
@@ -27,12 +27,11 @@ StringLiteral::StringLiteral(const string* str) : val(str)
 StringLiteral::~StringLiteral()
 {
     log.debug("Deleting StringLiteral '%s'", val->c_str());
-    delete val;
 }
 
 void StringLiteral::init()
 {
-    s_assert_notnull(val);
+    s_assert_notnull(val.get());
     s_assert_cmpint(val->length(), >, 0);
     s_assert_cmpint(val->length(), <, 100);
 
@@ -73,7 +72,7 @@ Value* StringLiteral::compile(CodeGen& gen) const
 
 void StringLiteral::to_sstream(ostringstream& s) const
 {
-    s_assert_notnull(val);
+    s_assert_notnull(val.get());
     s_assert_cmpint(val->length(), >, 0);
     s_assert_cmpint(val->length(), <, 100);
 

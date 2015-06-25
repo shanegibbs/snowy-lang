@@ -32,7 +32,7 @@ Driver::~Driver()
     }
 }
 
-const Type* Driver::getType(string* id)
+const Type* Driver::getType(const string* id)
 {
     const Type* t = types[*id];
 
@@ -77,7 +77,7 @@ int Driver::mylex(ProgramParser::semantic_type *val)
             || i == ProgramParser::token::INTEGER
             || i == ProgramParser::token::STRING_LIT
             || i == ProgramParser::token::OP) {
-        val->str = new string(lexer->YYText());
+        val->str = new std::shared_ptr<const string>(new string(lexer->YYText()));
     }
 
     return i;

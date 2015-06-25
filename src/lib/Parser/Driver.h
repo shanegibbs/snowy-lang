@@ -38,7 +38,7 @@ public:
         root = r;
     }
 
-    const Type* getType(string*);
+    const Type* getType(const string*);
 
     const char* getTokenString(int) const;
 

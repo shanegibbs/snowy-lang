@@ -18,4 +18,4 @@ TESTS=$(check_PROGRAMS)
 
 check_PROGRAMS=SnowyTestSuite
 
-SnowyTestSuite_SOURCES = SnowyTestSuite.cpp ITSuite.cpp ParserTestSuite.cpp NodeTestSuite.cpp NodeTest/IntLiteralTest.cpp NodeTest/NodeTest.cpp NodeTest/StringLiteralTest.cpp NodeTest/CallTest.cpp
+SnowyTestSuite_SOURCES = ITSuite.cpp ParserTestSuite.cpp NodeTestSuite.cpp NodeTest/IntLiteralTest.cpp NodeTest/NodeTest.cpp NodeTest/StringLiteralTest.cpp NodeTest/CallTest.cpp SnowyTestSuite.cpp

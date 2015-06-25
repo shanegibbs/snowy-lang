@@ -1,3 +1,7 @@
+#ifndef SNOWY_TEST_SUITE_TYPE_H
+#define SNOWY_TEST_SUITE_TYPE_H
+
+#include <memory>
 #include <vector>
 #include <algorithm>
 #include <iostream>
@@ -10,6 +14,8 @@ using namespace std;
 
 namespace Snowy
 {
+
+const shared_ptr<const string> strptr(const char *s);
 
 class TestSuite;
 
@@ -135,3 +141,5 @@ private:
 };
 
 }
+
+#endif

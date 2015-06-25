@@ -1,5 +1,6 @@
 #ifndef SNOWY_NODES_OPERATOR_H
 #define SNOWY_NODES_OPERATOR_H
+#include <memory>
 #include <string.h>
 
 #include "Node.h"
@@ -19,8 +20,7 @@ enum OperatorType {
 class Operator : public Node
 {
 public:
-    Operator(const char*);
-    Operator(const string*);
+    Operator(const shared_ptr<const string>);
     ~Operator();
 
     Operator* clone() const

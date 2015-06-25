@@ -22,7 +22,7 @@ const Log Ident::log = Log("Ident");
 
 void Ident::init()
 {
-    s_assert_notnull(name);
+    s_assert_notnull(name.get());
     s_assert_cmpint(name->length(), >, 0);
     s_assert_cmpint(name->length(), <, 100);
     if (type != nullptr) {
@@ -32,23 +32,13 @@ void Ident::init()
     }
 }
 
-Ident::Ident(const string* n) : type(nullptr)
+Ident::Ident(const shared_ptr<const string> s) : name(s), type(nullptr)
 {
-    char *n_str = (char*)malloc(sizeof(char) * (strlen(n->data()) + 1));
-    strcpy(n_str, n->data());
-    name = new string(n_str);
-    free(n_str);
-
     init();
 }
 
-Ident::Ident(const string* n, const Type* t) : type(t)
+Ident::Ident(const shared_ptr<const string> s, const Type* t) : name(s), type(t)
 {
-    char *n_str = (char*)malloc(sizeof(char) * (strlen(n->data()) + 1));
-    strcpy(n_str, n->data());
-    name = new string(n_str);
-    free(n_str);
-
     s_assert_notnull(t);
     init();
 }
@@ -56,7 +46,6 @@ Ident::Ident(const string* n, const Type* t) : type(t)
 Ident::~Ident()
 {
     log.debug("Deleting Ident with name '%s'", name->c_str());
-    delete name;
 }
 
 Ident* Ident::clone() const {
@@ -64,7 +53,7 @@ Ident* Ident::clone() const {
 }
 
 const string* Ident::getName() const {
-    return name;
+    return name.get();
 }
 
 const Type* Ident::getType() const {

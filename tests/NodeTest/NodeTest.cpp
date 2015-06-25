@@ -1,6 +1,8 @@
 #include <string.h>
 #include <sstream>
 
+#include "SnowyTestSuite.h"
+
 #include <SnowyAssert.h>
 
 #include <Type.h>
@@ -16,27 +18,27 @@ using namespace std;
 void node_basic_multi_test(void)
 {
     Tuple* one_plus_two = new Tuple(
-        new IntLiteral(new string("1")),
-        new Operator(new string("+")),
-        new IntLiteral(new string("2")));
+        new IntLiteral(strptr("1")),
+        new Operator(strptr("+")),
+        new IntLiteral(strptr("2")));
     DeclareVar root(
-        new Ident(new string("a")),
+        new Ident(strptr("a")),
         one_plus_two);
 
     Tuple* four_plus_five = new Tuple(
-        new IntLiteral(new string("4")),
-        new Operator(new string("+")),
-        new IntLiteral(new string("5")));
+        new IntLiteral(strptr("4")),
+        new Operator(strptr("+")),
+        new IntLiteral(strptr("5")));
     DeclareVar* bDecl = new DeclareVar(
-        new Ident(new string("b")),
+        new Ident(strptr("b")),
         four_plus_five);
     root.setNext(bDecl);
 
     Tuple* ten_plus_eleven = new Tuple(
-        new IntLiteral(new string("10")),
-        new Operator(new string("+")),
-        new IntLiteral(new string("11")));
-    Ident *c = new Ident(new string("c"));
+        new IntLiteral(strptr("10")),
+        new Operator(strptr("+")),
+        new IntLiteral(strptr("11")));
+    Ident *c = new Ident(strptr("c"));
     DeclareVar* cDecl = new DeclareVar(c, ten_plus_eleven);
     bDecl->setNext(cDecl);
 

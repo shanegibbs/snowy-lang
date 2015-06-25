@@ -16,7 +16,7 @@ class Type;
 class StringLiteral final : public Expression
 {
 public:
-    StringLiteral(const string*);
+    StringLiteral(const shared_ptr<const string>);
     ~StringLiteral();
 
     StringLiteral* clone() const override final
@@ -34,7 +34,7 @@ public:
 private:
     void init();
     static const Log log;
-    const string* val;
+    const shared_ptr<const string> val;
 };
 
 }
