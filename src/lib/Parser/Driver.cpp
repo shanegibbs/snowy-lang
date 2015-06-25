@@ -35,7 +35,7 @@ Driver::~Driver()
     }
 }
 
-const Type* Driver::getType(const string* id)
+const Type* Driver::getType(const shared_ptr<const string> id)
 {
     const Type* t = types[*id];
 
@@ -44,7 +44,6 @@ const Type* Driver::getType(const string* id)
         types[*id] = t;
     }
 
-    delete id;
     return t;
 }
 

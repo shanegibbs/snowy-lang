@@ -38,7 +38,7 @@ public:
         root = r;
     }
 
-    const Type* getType(const string*);
+    const Type* getType(const shared_ptr<const string>);
 
     const char* getTokenString(int) const;
 

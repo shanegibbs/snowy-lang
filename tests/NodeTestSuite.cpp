@@ -66,7 +66,7 @@ void node_declare_func_complex(void)
 
 void node_declare_class_simple(void)
 {
-    DeclareClass root(new Type(new string("MyClass")));
+    DeclareClass root(new Type(strptr("MyClass")));
 
     std::ostringstream ss;
     ss << "DeclareClass=[type=[Type[MyClass]]]\n";
@@ -79,8 +79,7 @@ void node_declare_class_simple(void)
 
 void node_declare_class_with_var(void)
 {
-    unique_ptr<string> typeName(new string("MyClass"));
-    Type *type = new Type(typeName.get());
+    Type *type = new Type(strptr("MyClass"));
     DeclareClass root(type);
     root.addVarDecl(new DeclareVar(new Ident(strptr("i")), new IntLiteral(strptr("1"))));
 
