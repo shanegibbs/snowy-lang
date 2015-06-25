@@ -1,3 +1,4 @@
+#include <memory>
 #include <sstream>
 #include <string.h>
 
@@ -5,6 +6,8 @@
 #include <Node.h>
 
 #include "Driver.h"
+
+using namespace std;
 
 namespace Snowy
 {
@@ -77,6 +80,7 @@ int Driver::mylex(ProgramParser::semantic_type *val)
             || i == ProgramParser::token::INTEGER
             || i == ProgramParser::token::STRING_LIT
             || i == ProgramParser::token::OP) {
+
         val->str = new std::shared_ptr<const string>(new string(lexer->YYText()));
     }
 

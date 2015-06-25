@@ -138,11 +138,11 @@ var_decl: ident EQ_OP expr { $$ = new Snowy::DeclareVar($1, $3); }
 type: ID { $$ = driver->getType($1->get()); }
     ;
 
-ident: type SEPERATOR ID { $$ = new Snowy::Ident(*$3, $1); }
-    | ID { $$ = new Snowy::Ident(*$1); }
+ident: type SEPERATOR ID { $$ = new Snowy::Ident(*$3, $1); delete $3; }
+    | ID { $$ = new Snowy::Ident(*$1); delete $1; }
     ;
 
-op: OP { $$ = new Snowy::Operator(*$1); }
+op: OP { $$ = new Snowy::Operator(*$1); delete $1; }
     ;
 
 tuple: expr op expr %prec UOP { $$ = new Snowy::Tuple($1, $2, $3); }
@@ -166,8 +166,8 @@ class_body: { $$ = new DeclareClass(); }
 
 func_decl: DEF ident OPEN_BRACKET args_decl CLOSE_BRACKET DO endl block END { $$ = new DeclareFunc($2, $4, $8); }
 
-expr: INTEGER { $$ = new Snowy::IntLiteral(*$1); }
-    | STRING_LIT { $$ = new Snowy::StringLiteral(*$1); }
+expr: INTEGER { $$ = new Snowy::IntLiteral(*$1); delete $1; }
+    | STRING_LIT { $$ = new Snowy::StringLiteral(*$1); delete $1; }
     | OPEN_BRACKET tuple CLOSE_BRACKET { $$ = $2; }
     | tuple { $$ = $1; }
     | call { $$ = $1; }
