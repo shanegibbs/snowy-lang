@@ -13,17 +13,10 @@ namespace Snowy
 
 const Log IntLiteral::log = Log("IntLiteral");
 
-IntLiteral::IntLiteral(const char* str) : val(atoi(str))
+IntLiteral::IntLiteral(const shared_ptr<const string> str) : val(stoi(str->c_str()))
 {
-    s_assert_notnull(str);
+    s_assert_notnull(str.get());
     log.debug("Creating IntLiteral '%d'", val);
-}
-
-IntLiteral::IntLiteral(const string* str) : val(stoi(*str))
-{
-    s_assert_notnull(str);
-    log.debug("Creating IntLiteral '%d'", val);
-    delete str;
 }
 
 void IntLiteral::to_sstream(ostringstream& s) const

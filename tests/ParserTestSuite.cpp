@@ -12,16 +12,16 @@
 
 using namespace Snowy;
 
-static const Node& build_graph(string code)
+static const Node* build_graph(string code)
 {
     Log("Test").debug("Building:\n---\n%s---", code.c_str());
     std::stringstream ins;
     ins << code;
 
     Parser parser;
-    Node *root = parser.parse(ins);
+    const Node *root = parser.parse(ins);
     s_assert_notnull(root);
-    return *root;
+    return root;
 }
 
 static void assert_code_desc(const char *code, const string& expected)
@@ -30,10 +30,12 @@ static void assert_code_desc(const char *code, const string& expected)
     ins << code;
 
     Parser parser;
-    const Node& root = build_graph(string(code));
+    const Node *root = build_graph(string(code));
 
-    const string& actual = root.to_program_string();
+    const string& actual = root->to_program_string();
     s_assert_cmpstr(actual, expected);
+
+    delete root;
 }
 
 void string_literal_test(void)
@@ -145,80 +147,89 @@ static void class_declare_empty(void)
 
 static void class_declare_with_var(void)
 {
-    const Node& n = build_graph(R"snow(
+    const Node *n = build_graph(R"snow(
         class MyClass do
           i = 0
         end
     )snow");
 
-    s_assert(n.isNodeType(DECLARE_CLASS));
-    DeclareClass& c = (DeclareClass&)n;
+    s_assert(n->isNodeType(DECLARE_CLASS));
+    DeclareClass *c = (DeclareClass*)n;
 
-    s_assert_cmpstr(*c.getClassType().getId(), "MyClass");
-    s_assert(c.getVars().size() == 1);
+    s_assert_cmpstr(c->getClassType().getId(), "MyClass");
+    s_assert(c->getVars().size() == 1);
 
-    DeclareVar& var = *c.getVars()[0];
-    s_assert_cmpstr(var.to_program_string(), "DeclareVar=[ident=[Ident[i type=Integer]] expr=[IntLiteral=[0]]]\n");
+    DeclareVar *var = c->getVars()[0];
+    s_assert_cmpstr(var->to_program_string(), "DeclareVar=[ident=[Ident[i type=Integer]] expr=[IntLiteral=[0]]]\n");
+
+    delete n;
 }
 
 static void class_declare_with_var_no_spaces(void)
 {
-    const Node& n = build_graph("class MyClass do\ni = 0\nend\n");
+    const Node *n = build_graph("class MyClass do\ni = 0\nend\n");
 
-    s_assert(n.isNodeType(DECLARE_CLASS));
-    DeclareClass& c = (DeclareClass&)n;
+    s_assert(n->isNodeType(DECLARE_CLASS));
+    DeclareClass *c = (DeclareClass*)n;
 
-    s_assert_cmpstr(*c.getClassType().getId(), "MyClass");
-    s_assert(c.getVars().size() == 1);
+    s_assert_cmpstr(c->getClassType().getId(), "MyClass");
+    s_assert(c->getVars().size() == 1);
 
-    DeclareVar& var = *c.getVars()[0];
-    s_assert_cmpstr(var.to_program_string(), "DeclareVar=[ident=[Ident[i type=Integer]] expr=[IntLiteral=[0]]]\n");
+    DeclareVar *var = c->getVars()[0];
+    s_assert_cmpstr(var->to_program_string(), "DeclareVar=[ident=[Ident[i type=Integer]] expr=[IntLiteral=[0]]]\n");
+
+    delete n;
 }
 
 static void class_declare_with_two_vars(void)
 {
-    const Node& n = build_graph(R"snow(
+    const Node *n = build_graph(R"snow(
         class MyClass do
           a = 0
           b = 0
         end
     )snow");
 
-    s_assert(n.isNodeType(DECLARE_CLASS));
-    DeclareClass& c = (DeclareClass&)n;
+    s_assert(n->isNodeType(DECLARE_CLASS));
+    DeclareClass *c = (DeclareClass*)n;
 
-    s_assert_cmpstr(*c.getClassType().getId(), "MyClass");
-    s_assert(c.getVars().size() == 2);
+    cout << c->getClassType().getNodeId() << "\n";
+    s_assert_cmpstr(c->getClassType().getId(), "MyClass");
+    s_assert(c->getVars().size() == 2);
 
-    DeclareVar& a = *c.getVars()[0];
+    DeclareVar& a = *c->getVars()[0];
     s_assert_cmpstr(a.to_program_string(), "DeclareVar=[ident=[Ident[a type=Integer]] expr=[IntLiteral=[0]]]\n");
 
-    DeclareVar& b = *c.getVars()[1];
+    DeclareVar& b = *c->getVars()[1];
     s_assert_cmpstr(b.to_program_string(), "DeclareVar=[ident=[Ident[b type=Integer]] expr=[IntLiteral=[0]]]\n");
+
+    delete n;
 }
 
 static void class_declare_with_func(void)
 {
-    const Node& n = build_graph(R"snow(
+    const Node *n = build_graph(R"snow(
         class MyClass do
           def myfunc() do
           end
         end
     )snow");
 
-    s_assert(n.isNodeType(DECLARE_CLASS));
-    DeclareClass& c = (DeclareClass&)n;
+    s_assert(n->isNodeType(DECLARE_CLASS));
+    DeclareClass *c = (DeclareClass*)n;
 
-    s_assert_cmpstr(*c.getClassType().getId(), "MyClass");
-    s_assert(c.getFuncs().size() == 1);
+    s_assert_cmpstr(c->getClassType().getId(), "MyClass");
+    s_assert(c->getFuncs().size() == 1);
 
-    DeclareFunc& func = *c.getFuncs()[0];
+    DeclareFunc& func = *c->getFuncs()[0];
     s_assert_cmpstr(func.getName(), "myfunc");
+
+    delete n;
 }
 
 static void class_declare_with_two_funcs(void)
 {
-    const Node& n = build_graph(R"snow(
+    const Node *n = build_graph(R"snow(
         class MyClass do
           def firstFunc() do
             a = 0
@@ -229,46 +240,51 @@ static void class_declare_with_two_funcs(void)
         end
     )snow");
 
-    s_assert(n.isNodeType(DECLARE_CLASS));
-    DeclareClass& c = (DeclareClass&)n;
+    s_assert(n->isNodeType(DECLARE_CLASS));
+    DeclareClass *c = (DeclareClass*)n;
 
-    s_assert_cmpstr(*c.getClassType().getId(), "MyClass");
-    s_assert(c.getFuncs().size() == 2);
+    s_assert_cmpstr(c->getClassType().getId(), "MyClass");
+    s_assert(c->getFuncs().size() == 2);
 
-    DeclareFunc& first_func = *c.getFuncs()[0];
+    DeclareFunc& first_func = *c->getFuncs()[0];
     s_assert_cmpstr(first_func.getName(), "firstFunc");
 
-    DeclareFunc& second_func = *c.getFuncs()[1];
+    DeclareFunc& second_func = *c->getFuncs()[1];
     s_assert_cmpstr(second_func.getName(), "secondFunc");
+
+    delete n;
 }
 
 static void type_static()
 {
-    const Node& n = build_graph("Integer:i = 0");
-    s_assert(n.isNodeType(DECLARE_VAR));
+    const Node *n = build_graph("Integer:i = 0");
+    s_assert(n->isNodeType(DECLARE_VAR));
 
-    const DeclareVar& decl = (DeclareVar&)n;
-    const Ident i = decl.getIdent();
+    const DeclareVar& decl = *(DeclareVar*)n;
+    const Ident& i = decl.getIdent();
+    s_assert_cmpstr(i.getName()->c_str(), "i");
 
     s_assert_notnull(Type::Integer);
     s_assert_notnull(i.getType());
     s_assert(i.getType() == Type::Integer);
+
+    delete n;
 }
 
 static void type_inference_assignment_test()
 {
-    const Node& n = build_graph("i = 0");
-    s_assert(n.isNodeType(DECLARE_VAR));
+    const Node *n = build_graph("i = 0");
+    s_assert(n->isNodeType(DECLARE_VAR));
 
-    const DeclareVar& decl = (DeclareVar&)n;
-    const Ident i = decl.getIdent();
+    const DeclareVar& decl = *(DeclareVar*)n;
+    const Ident& i = decl.getIdent();
 
     s_assert_notnull(Type::Integer);
     s_assert_notnull(i.getType());
     s_assert(i.getType() == Type::Integer);
+
+    delete n;
 }
-
-
 
 void parser_tests(TestSuite& tests)
 {

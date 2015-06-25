@@ -2,6 +2,7 @@
 #define OPAL_NODES_INT_LITERAL_H
 
 #include <stdlib.h>
+#include <memory>
 
 #include "Expression.h"
 #include "Type.h"
@@ -14,8 +15,7 @@ namespace Snowy
 class IntLiteral : public Expression
 {
 public:
-    IntLiteral(const char* str);
-    IntLiteral(const string* str);
+    IntLiteral(const shared_ptr<const string>);
 
     IntLiteral* clone() const
     {

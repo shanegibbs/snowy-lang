@@ -7,35 +7,24 @@ namespace Snowy
 
 const Log Operator::log = Log("Operator");
 
-Operator::Operator(const char* op_str)
+Operator::Operator(const shared_ptr<const string> op_str)
 {
-    init(op_str);
-}
-
-Operator::Operator(const string* op_str)
-{
-    init(*op_str);
-    delete op_str;
+    if (strcmp(op_str->c_str(), "+") == 0) {
+        op = OP_PLUS;
+    } else if (strcmp(op_str->c_str(), "-") == 0) {
+        op = OP_MINUS;
+    } else if (strcmp(op_str->c_str(), "*") == 0) {
+        op = OP_MULTIPLY;
+    } else if (strcmp(op_str->c_str(), "/") == 0) {
+        op = OP_DIVIDE;
+    } else {
+        log.fatal("Unknown operator found: '%s'", op_str->c_str());
+    }
 }
 
 Operator::~Operator()
 {
     log.debug("Deleting Operator");
-}
-
-void Operator::init(const string& op_str)
-{
-    if (op_str == "+") {
-        op = OP_PLUS;
-    } else if (op_str == "-") {
-        op = OP_MINUS;
-    } else if (op_str == "*") {
-        op = OP_MULTIPLY;
-    } else if (op_str == "/") {
-        op = OP_DIVIDE;
-    } else {
-        log.fatal("Unknown operator found: '%s'", op_str.c_str());
-    }
 }
 
 void Snowy::Operator::to_sstream(std::ostringstream& s) const

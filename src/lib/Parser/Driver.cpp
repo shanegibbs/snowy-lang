@@ -1,3 +1,4 @@
+#include <memory>
 #include <sstream>
 #include <string.h>
 
@@ -5,6 +6,8 @@
 #include <Node.h>
 
 #include "Driver.h"
+
+using namespace std;
 
 namespace Snowy
 {
@@ -15,30 +18,33 @@ Driver::Driver()
 {
     program_parser = new ProgramParser(this);
     reached_eof = false;
+    lexer = nullptr;
 
     // Add language types
-    types[*Type::Class->getId()] = Type::Class;
-    types[*Type::Integer->getId()] = Type::Integer;
-    types[*Type::String->getId()] = Type::String;
+    types[Type::Class->getId()] = Type::Class;
+    types[Type::Integer->getId()] = Type::Integer;
+    types[Type::String->getId()] = Type::String;
 }
 
 Driver::~Driver()
 {
     log.debug("Destroying Driver");
     delete program_parser;
+    if (lexer != nullptr) {
+        delete lexer;
+    }
 }
 
-const Type* Driver::getType(string* id)
+const Type* Driver::getType(const shared_ptr<const string> id)
 {
     const Type* t = types[*id];
 
     if (t == nullptr) {
         t = new Type(id);
         types[*id] = t;
-        return t;
-    } else {
-        return t;
     }
+
+    return t;
 }
 
 int Driver::mylex(ProgramParser::semantic_type *val)
@@ -73,7 +79,8 @@ int Driver::mylex(ProgramParser::semantic_type *val)
             || i == ProgramParser::token::INTEGER
             || i == ProgramParser::token::STRING_LIT
             || i == ProgramParser::token::OP) {
-        val->str = new string(lexer->YYText());
+
+        val->str = new std::shared_ptr<const string>(new string(lexer->YYText()));
     }
 
     return i;

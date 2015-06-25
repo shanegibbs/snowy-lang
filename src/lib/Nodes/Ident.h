@@ -1,6 +1,7 @@
 #ifndef OPAL_NODES_IDENT_H
 #define OPAL_NODES_IDENT_H
 
+#include <memory>
 #include <string>
 
 #include "Expression.h"
@@ -16,10 +17,8 @@ class Type;
 class Ident final : public Expression
 {
 public:
-    Ident(const char*);
-    Ident(const string*);
-    Ident(const char*, const Type*);
-    Ident(const string*, const Type*);
+    Ident(const shared_ptr<const string>);
+    Ident(const shared_ptr<const string>, const Type*);
     ~Ident();
 
     Ident* clone() const;
@@ -39,7 +38,7 @@ public:
 private:
     static const Log log;
     void init();
-    const string* name;
+    const shared_ptr<const string> name;
     const Type* type;
 };
 

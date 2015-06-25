@@ -1,6 +1,12 @@
+#include<memory>
+
 #include <Engine.h>
 
 #include "SnowyTestSuite.h"
+
+const shared_ptr<const string> Snowy::strptr(const char *s) {
+  return shared_ptr<const string>(new string(s));
+}
 
 void nodes_tests(Snowy::TestSuite&);
 void parser_tests(Snowy::TestSuite&);

@@ -34,6 +34,34 @@ class MyClass do
 end
 ```
 
+## Hacking
+
+Setup
+
+```
+git clone git@github.com:shanegibbs/snowy-lang.git && cd snowy-lang
+sudo apt-get install -y docker.io
+```
+
+Enter the snowy development container. `~/src` inside the container is mounted to the project directory. Anything not stored in this directory will be lost when you leave the container.
+
+```
+./scripts/docker-console.sh
+```
+
+Run `build` to execute a standard build or rebuild after any changes. Build output goes to `~/build`.
+
+```
+build
+```
+
+The build bin path (`~/build/src/bin`) is on the default `PATH`, so to test the build simply:
+
+```
+# (due to zsh, you may need to run `rehash` after the first build)
+echo 'puts("test")' |LOG_LEVEL=warn snowy
+```
+
 ## Goals
 
 * Learn C/C++ and autotools
@@ -41,7 +69,7 @@ end
  * Similar syntax to Ruby
  * Typing > Ruby typing
  * As powerful as C/C++ but easier to write
-* Invistigate questions
+* Investigate questions
 
 ### Questions
 
@@ -73,7 +101,7 @@ mkdir build && cd build
 ../scripts/configure.ubuntu.sh
 
 # Build and test
-make -j check
+ASAN_SYMBOLIZER_PATH=/usr/bin/llvm-symbolizer-3.5 make -j check
 
 # Run
 echo 'puts("Hello World!!")' | ./src/bin/snowy

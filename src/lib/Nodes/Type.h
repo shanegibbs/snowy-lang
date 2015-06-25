@@ -1,5 +1,6 @@
 #ifndef SNOWY_NODES_TYPE_H
 #define SNOWY_NODES_TYPE_H
+#include <memory>
 
 #include "Node.h"
 
@@ -14,23 +15,19 @@ class Type final : public Node
 {
 
 public:
-    Type(const char* s);
-    Type(const string* s);
+    Type(const shared_ptr<const string>);
     ~Type();
 
-    Type* clone() const
-    {
-        return new Type(*this);
-    }
+    Type* clone() const;
 
     NodeType getNodeType() const override
     {
         return TYPE;
     }
 
-    const string* getId() const
+    const string& getId() const
     {
-        return id;
+        return *id;
     }
 
     llvm::Value* compile(CodeGen&) const
@@ -48,7 +45,7 @@ private:
     void init();
 
     static const Log log;
-    const string* id;
+    const shared_ptr<const string> id;
 };
 
 }

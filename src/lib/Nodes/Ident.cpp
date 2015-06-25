@@ -22,34 +22,22 @@ const Log Ident::log = Log("Ident");
 
 void Ident::init()
 {
-    s_assert_notnull(name);
+    s_assert_notnull(name.get());
     s_assert_cmpint(name->length(), >, 0);
     s_assert_cmpint(name->length(), <, 100);
     if (type != nullptr) {
-        log.debug("Creating Identity '%s' with static type '%s'", name->c_str(), type->getId()->c_str());
+        log.debug("Creating Identity '%s' with static type '%s'", name->c_str(), type->getId().c_str());
     } else {
         log.debug("Creating Identity '%s'", name->c_str());
     }
 }
 
-Ident::Ident(const string* n) : name(n), type(nullptr)
+Ident::Ident(const shared_ptr<const string> s) : name(s), type(nullptr)
 {
     init();
 }
 
-Ident::Ident(const char* n, const Type* t) : name(new string(n)), type(t)
-{
-    s_assert_notnull(n);
-    s_assert_notnull(t);
-    init();
-}
-
-Ident::Ident(const char* n) : name(new string(n)), type(nullptr)
-{
-    init();
-}
-
-Ident::Ident(const string* n, const Type* t) : name(n), type(t)
+Ident::Ident(const shared_ptr<const string> s, const Type* t) : name(s), type(t)
 {
     s_assert_notnull(t);
     init();
@@ -58,7 +46,6 @@ Ident::Ident(const string* n, const Type* t) : name(n), type(t)
 Ident::~Ident()
 {
     log.debug("Deleting Ident with name '%s'", name->c_str());
-    delete name;
 }
 
 Ident* Ident::clone() const {
@@ -66,7 +53,7 @@ Ident* Ident::clone() const {
 }
 
 const string* Ident::getName() const {
-    return name;
+    return name.get();
 }
 
 const Type* Ident::getType() const {
@@ -102,7 +89,7 @@ void Snowy::Ident::to_sstream(std::ostringstream& s) const
 
     s << "Ident[" << *name;
     if (type != nullptr) {
-        s << " type=" << *type->getId();
+        s << " type=" << type->getId();
     }
     s << "]";
 }

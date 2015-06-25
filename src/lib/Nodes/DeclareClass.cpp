@@ -8,6 +8,8 @@
 #include <Log.h>
 
 #include "DeclareClass.h"
+#include "DeclareFunc.h"
+#include "DeclareVar.h"
 #include "Type.h"
 
 using namespace llvm;
@@ -26,12 +28,24 @@ DeclareClass::DeclareClass()
 DeclareClass::DeclareClass(Type* t) : type(t)
 {
     s_assert_notnull(t);
-    log.debug("Creating DeclareClass node %s", type->getId()->c_str());
+    log.debug("Creating DeclareClass node %s", type->getId().c_str());
 }
 
 DeclareClass::~DeclareClass()
 {
+    log.debug("Deleting DeclareClass '%s'", type->getId().c_str());
+
     delete type;
+
+    for (DeclareVar *v : vars) {
+        delete v;
+    }
+    vars.clear();
+
+    for (DeclareFunc *f : funcs) {
+        delete f;
+    }
+    funcs.clear();
 }
 
 DeclareClass* DeclareClass::clone() const
@@ -47,12 +61,14 @@ NodeType DeclareClass::getNodeType() const
 void DeclareClass::setType(const Type* t)
 {
     s_assert_notnull(t);
+    log.debug("Setting type of DeclareClass to %s", t->getId().c_str());
     type = t;
 }
 
 void DeclareClass::addVarDecl(DeclareVar* v)
 {
-    vars.push_back(v);
+    DeclareVar* obj = dynamic_cast<DeclareVar*>(v);
+    vars.push_back(obj);
 }
 
 void DeclareClass::addFuncDecl(DeclareFunc* v)
@@ -91,7 +107,7 @@ void DeclareClass::to_sstream(std::ostringstream& s) const
 
 Value* DeclareClass::compile(CodeGen& gen) const
 {
-    log.debug("Compiling function '%s'", type->getId()->c_str());
+    log.debug("Compiling function '%s'", type->getId().c_str());
     return NULL;
 }
 

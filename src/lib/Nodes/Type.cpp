@@ -13,24 +13,24 @@ namespace Snowy
 {
 
 const Log Type::log = Log("Type");
-const Type* Type::Integer = new Type("Integer");
-const Type* Type::String = new Type("String");
-const Type* Type::Class = new Type("Class");
 
-Type::Type(const char* s) : id(new string(s))
+const Type* Type::Integer = new Type(shared_ptr<const string>(new string("Integer")));
+const Type* Type::String = new Type(shared_ptr<const string>(new string("String")));
+const Type* Type::Class = new Type(shared_ptr<const string>(new string("Class")));
+
+Type::Type(const shared_ptr<const string> s) : id(s)
 {
     init();
 }
 
-Type::Type(const string* s) : id(s)
+Type* Type::clone() const
 {
-    init();
+    return new Type(*this);
 }
 
 Type::~Type()
 {
     log.debug("Deleting Type(%d) with id '%s'", getNodeId(), id->c_str());
-    delete id;
 }
 
 void Type::init()

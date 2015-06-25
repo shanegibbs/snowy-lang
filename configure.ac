@@ -8,6 +8,7 @@ AC_INIT([snowy], [0.1], [shane@gibbsdevops.com])
 AC_CONFIG_SRCDIR([src/bin/main.cpp])
 AC_CONFIG_HEADERS([config.h])
 
+# 'serial-tests' option is prefered
 AM_INIT_AUTOMAKE([subdir-objects])
 #LT_INIT
 
@@ -43,9 +44,12 @@ AC_SEARCH_LIBS([pow], [m], [], [
 # Check for flex
 AM_PROG_LEX
 AC_CHECK_PROG([FLEX], [flex lex], [flex])
-AC_CHECK_HEADERS([FlexLexer.h], [],
-  AC_MSG_ERROR([FlexLexer.h mising])
-)
+# AC_CHECK_HEADERS([FlexLexer.h], [],
+#   AC_MSG_ERROR([FlexLexer.h mising]),
+#   [[extern "C" {
+# #include <FlexLexer.h>
+# }]]
+# )
 
 # Check for bison
 AC_PROG_YACC
@@ -91,7 +95,8 @@ AC_SUBST([LLVM_LIBDIR])
 CXXFLAGS="$EXTERNAL_CXXFLAGS"
 
 AC_SUBST([SNOWY_CXXFLAGS], ["-std=c++11 -DG_DISABLE_ASSERT"])
-AC_SUBST([SNOWY_DEBUG_CXXFLAGS], ["-std=c++11 -Wall -Werror"]) # -Wno-deprecated-register
+AC_SUBST([SNOWY_DEBUG_CXXFLAGS], ["-g -std=c++11 -Wall -Werror -fno-omit-frame-pointer"])
+# Clang memory check flag: -fsanitize=address
 
 # debug flag
 AC_ARG_ENABLE([debug],

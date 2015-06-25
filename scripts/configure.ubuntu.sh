@@ -11,5 +11,5 @@ fi
 
 `dirname "$(readlink -f $0)"`/../configure \
   CXX=$CLANG \
-  CXXFLAGS='-g -std=c++11 -Wno-deprecated-register'\
+  CXXFLAGS='-Wno-deprecated-register -fsanitize=address'\
   --enable-debug
