@@ -56,7 +56,7 @@ AC_PROG_YACC
 
 # Check for LLVM
 AC_CHECK_PROG([LLVM_CONFIG], [llvm-config], [llvm-config])
-AC_CHECK_PROG([LLVM_CONFIG], [llvm-config-3.5], [llvm-config-3.5])
+AC_CHECK_PROG([LLVM_CONFIG], [llvm-config-3.6], [llvm-config-3.6])
 if test x"${LLVM_CONFIG}" == x"" ; then
   AC_MSG_ERROR([unable to find llvm-config command])
 fi

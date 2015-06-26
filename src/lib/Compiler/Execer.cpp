@@ -46,9 +46,8 @@ int Execer::exec(Module* module)
     std::string ErrStr;
     // ExecutionEngine takes ownership of module from here
     // when EE is deleted, so is module.
-    ExecutionEngine *TheExecutionEngine = EngineBuilder(module)
+    ExecutionEngine *TheExecutionEngine = EngineBuilder(unique_ptr<Module>(module))
                                           .setErrorStr(&ErrStr)
-                                          .setUseMCJIT(true)
                                           .create();
     if (!TheExecutionEngine) {
         log.fatal("Could not create ExecutionEngine: %s", ErrStr.c_str());
