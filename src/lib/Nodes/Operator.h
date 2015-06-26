@@ -23,14 +23,14 @@ public:
     Operator(const shared_ptr<const string>);
     ~Operator();
 
-    Operator* clone() const
+    Operator* clone() const override
     {
         return new Operator(*this);
     }
 
     NodeType getNodeType() const override { return OPERATOR; }
 
-    virtual llvm::Value* compile(CodeGen&) const {
+    virtual llvm::Value* compile(CodeGen&) const override {
         return NULL;
     }
 
@@ -38,7 +38,7 @@ public:
         return op;
     }
 
-    virtual void to_sstream(ostringstream&) const;
+    virtual void to_sstream(ostringstream&) const override;
 
 private:
     void init(const string& op_str);

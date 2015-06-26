@@ -17,7 +17,7 @@ class IntLiteral : public Expression
 public:
     IntLiteral(const shared_ptr<const string>);
 
-    IntLiteral* clone() const
+    IntLiteral* clone() const override
     {
         return new IntLiteral(*this);
     }

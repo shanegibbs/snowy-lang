@@ -21,14 +21,14 @@ public:
     ArgsDecl(const Ident*);
     ~ArgsDecl();
 
-    ArgsDecl* clone() const
+    ArgsDecl* clone() const override
     {
         return new ArgsDecl(*this);
     }
 
     NodeType getNodeType() const override { return ARGS_DECL; }
 
-    virtual llvm::Value* compile(CodeGen&) const {
+    virtual llvm::Value* compile(CodeGen&) const override {
         return NULL;
     }
 
@@ -42,7 +42,7 @@ public:
         return *idents[i];
     }
 
-    virtual void to_sstream(std::ostringstream&) const;
+    virtual void to_sstream(std::ostringstream&) const override;
 
 private:
     static const Log log;
