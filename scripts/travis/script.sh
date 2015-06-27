@@ -5,16 +5,16 @@ if [ "x$CXX" == "x" ]; then
   exit 1
 fi
 
-export PATH=/home/travis/snowy-deps/bin:/usr/sbin:/sbin:/usr/bin:/bin
-export LD_SEARCH_PATH=/home/travis/snowy-deps/lib:/home/travis/snowy-deps/lib64
-export PKG_CONFIG_PATH=/home/travis/snowy-deps/lib/pkgconfig
+export PATH=/home/travis/usr/bin:/usr/sbin:/sbin:/usr/bin:/bin
+export LD_SEARCH_PATH=/home/travis/usr/lib:/home/travis/usr/lib64
+export PKG_CONFIG_PATH=/home/travis/usr/lib/pkgconfig
 
-export LDFLAGS="$LDFLAGS -Wl,--rpath=/home/travis/snowy-deps/lib64"
-export LDFLAGS="$LDFLAGS -Wl,--rpath=/home/travis/snowy-deps/lib"
+export LDFLAGS="$LDFLAGS -Wl,--rpath=/home/travis/usr/lib64"
+export LDFLAGS="$LDFLAGS -Wl,--rpath=/home/travis/usr/lib"
 
 # CXXFLAGS="$CXXFLAGS -v"
-CXXFLAGS="$CXXFLAGS -I/home/travis/snowy-deps/include"
-# CXXFLAGS="$CXXFLAGS -L/home/travis/snowy-deps/lib"
+CXXFLAGS="$CXXFLAGS -I/home/travis/usr/include"
+# CXXFLAGS="$CXXFLAGS -L/home/travis/usr/lib"
 
 if [ "$CXX" == "clang++" ]; then
   echo 'Setting clang++ flags'
