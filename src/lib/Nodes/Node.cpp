@@ -26,9 +26,9 @@ Node::Node() : node_id(next_node_index++)
 
 Node::~Node()
 {
-    log.debug("Deleting node %d", node_id);
+    // log.debug("Deleting node %d", node_id);
     if (next != nullptr) {
-        log.debug("Deleting next node");
+        // log.debug("Deleting next node");
         delete next;
     }
 }

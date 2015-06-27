@@ -17,14 +17,14 @@ public:
     Args(const Expression*);
     ~Args();
 
-    Args* clone() const
+    Args* clone() const override
     {
         return new Args(*this);
     }
 
     NodeType getNodeType() const override { return ARGS; }
 
-    virtual llvm::Value* compile(CodeGen&) const
+    virtual llvm::Value* compile(CodeGen&) const override
     {
         return NULL;
     }
@@ -41,7 +41,7 @@ public:
         return *list[i];
     }
 
-    virtual void to_sstream(std::ostringstream&) const;
+    virtual void to_sstream(std::ostringstream&) const override;
 
 private:
     static const Log log;

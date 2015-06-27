@@ -21,7 +21,7 @@ public:
     Ident(const shared_ptr<const string>, const Type*);
     ~Ident();
 
-    Ident* clone() const;
+    Ident* clone() const override;
 
     const string* getName() const;
 

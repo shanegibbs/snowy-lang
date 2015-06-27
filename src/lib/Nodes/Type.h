@@ -18,7 +18,7 @@ public:
     Type(const shared_ptr<const string>);
     ~Type();
 
-    Type* clone() const;
+    Type* clone() const override;
 
     NodeType getNodeType() const override
     {
@@ -30,12 +30,12 @@ public:
         return *id;
     }
 
-    llvm::Value* compile(CodeGen&) const
+    llvm::Value* compile(CodeGen&) const override
     {
         return NULL;
     }
 
-    void to_sstream(ostringstream&) const;
+    void to_sstream(ostringstream&) const override;
 
     static const Type* Class;
     static const Type* Integer;
