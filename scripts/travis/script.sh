@@ -22,8 +22,7 @@ CXXFLAGS="$CXXFLAGS -I$PREFIX/include"
 
 if [ "$CXX" == "clang++" ]; then
   echo 'Setting clang++ flags'
-  #CXXFLAGS="$CXXFLAGS -Qunused-arguments"
-  CXXFLAGS="$CXXFLAGS -Wno-deprecated-register"
+  CXXFLAGS="$CXXFLAGS -Wno-deprecated-register -fsanitize=address"
 fi
 
 if [ "$CXX" == "g++" ]; then
