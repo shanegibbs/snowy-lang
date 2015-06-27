@@ -93,7 +93,7 @@ The LLVM IR api naturally lends itself towards type inference. - Need to think o
 
 ```
 # Install dependencies
-sudo apt-get install build-essential autoconf clang-3.5 llvm-3.5 llvm-3.5-dev libedit-dev bison flex
+sudo apt-get install build-essential autoconf llvm-3.6 llvm-3.6-dev llvm-3.6-runtime clang-3.6 llvm-3.6-tools libedit-dev bison flex
 
 # Configure
 ./autogen.sh
