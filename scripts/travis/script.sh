@@ -43,5 +43,5 @@ rm -rf build
 mkdir build && cd build
 
 set -x
-$CONFIGURE CXX="$CXX" CXXFLAGS="$CXXFLAGS" LDFLAGS="$LDFLAGS" --enable-debug
+$CONFIGURE CXX="$CXX" CXXFLAGS="$CXXFLAGS" LDFLAGS="$LDFLAGS" --enable-debug || cat config.log
 make check
