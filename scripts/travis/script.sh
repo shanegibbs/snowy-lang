@@ -18,16 +18,7 @@ export LD_SEARCH_PATH=$PREFIX/lib:$PREFIX/lib64
 export LD_LIBRARY_PATH=$PREFIX/lib:$PREFIX/lib64
 export LD_RUN_PATH=$PREFIX/lib:$PREFIX/lib64
 
-#export PATH=/home/travis/usr/bin:/usr/sbin:/sbin:/usr/bin:/bin
-#export LD_SEARCH_PATH=/home/travis/usr/lib:/home/travis/usr/lib64
-#export PKG_CONFIG_PATH=/home/travis/usr/lib/pkgconfig
-
-#export LDFLAGS="$LDFLAGS -Wl,--rpath=/home/travis/usr/lib64"
-#export LDFLAGS="$LDFLAGS -Wl,--rpath=/home/travis/usr/lib"
-
-# CXXFLAGS="$CXXFLAGS -v"
-CXXFLAGS="$CXXFLAGS -I/home/travis/usr/include"
-# CXXFLAGS="$CXXFLAGS -L/home/travis/usr/lib"
+CXXFLAGS="$CXXFLAGS -I$PREFIX/include"
 
 if [ "$CXX" == "clang++" ]; then
   echo 'Setting clang++ flags'
