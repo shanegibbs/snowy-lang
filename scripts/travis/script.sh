@@ -5,12 +5,25 @@ if [ "x$CXX" == "x" ]; then
   exit 1
 fi
 
-export PATH=/home/travis/usr/bin:/usr/sbin:/sbin:/usr/bin:/bin
-export LD_SEARCH_PATH=/home/travis/usr/lib:/home/travis/usr/lib64
-export PKG_CONFIG_PATH=/home/travis/usr/lib/pkgconfig
+export LC_ALL="en_US.UTF-8"
+export PREFIX=$HOME/usr
+export PROC_COUNT=`expr $(grep -c ^processor /proc/cpuinfo) + 1 `
+export PATH=$HOME/build/src/bin:$HOME/build/tests:$PREFIX/bin:$PATH
 
-export LDFLAGS="$LDFLAGS -Wl,--rpath=/home/travis/usr/lib64"
-export LDFLAGS="$LDFLAGS -Wl,--rpath=/home/travis/usr/lib"
+# pkgconfig
+export PKG_CONFIG_PATH=$PREFIX/lib/pkgconfig
+
+# linker paths
+export LD_SEARCH_PATH=$PREFIX/lib:$PREFIX/lib64
+export LD_LIBRARY_PATH=$PREFIX/lib:$PREFIX/lib64
+export LD_RUN_PATH=$PREFIX/lib:$PREFIX/lib64
+
+#export PATH=/home/travis/usr/bin:/usr/sbin:/sbin:/usr/bin:/bin
+#export LD_SEARCH_PATH=/home/travis/usr/lib:/home/travis/usr/lib64
+#export PKG_CONFIG_PATH=/home/travis/usr/lib/pkgconfig
+
+#export LDFLAGS="$LDFLAGS -Wl,--rpath=/home/travis/usr/lib64"
+#export LDFLAGS="$LDFLAGS -Wl,--rpath=/home/travis/usr/lib"
 
 # CXXFLAGS="$CXXFLAGS -v"
 CXXFLAGS="$CXXFLAGS -I/home/travis/usr/include"
