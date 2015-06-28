@@ -10,7 +10,7 @@ namespace Snowy
 {
 
 class DeclareVar;
-class DeclareFunc;
+class FuncDef;
 
 class DeclareClass final : public Expression
 {
@@ -27,11 +27,11 @@ public:
 
     void addVarDecl(DeclareVar* v);
 
-    void addFuncDecl(DeclareFunc* v);
+    void addFuncDecl(FuncDef* v);
 
     vector<DeclareVar*>& getVars();
 
-    vector<DeclareFunc*>& getFuncs();
+    vector<FuncDef*>& getFuncs();
 
     const Type* getType() const override final;
 
@@ -45,7 +45,7 @@ private:
     static const Log log;
     const Type* type;
     vector<DeclareVar*> vars;
-    vector<DeclareFunc*> funcs;
+    vector<FuncDef*> funcs;
 };
 
 }

@@ -4,7 +4,7 @@
 #include <Node.h>
 #include <DeclareClass.h>
 #include <DeclareVar.h>
-#include <DeclareFunc.h>
+#include <FuncDef.h>
 #include <Type.h>
 #include <Ident.h>
 
@@ -82,35 +82,35 @@ void multi_assignment_test(void)
 void func_no_args(void)
 {
     const char *code = "def add() do\nend\n";
-    const char *desc = "DeclareFunc=[ident=[Ident[add]] args=[ArgsDecl[size=0]] block=[NULL]]\n";
+    const char *desc = "FuncDef=[ident=[Ident[add]] args=[ArgsDecl[size=0]] block=[NULL]]\n";
     assert_code_desc(code, desc);
 }
 
 void func_one_arg(void)
 {
     const char *code = "def add(one) do\nend\n";
-    const char *desc = "DeclareFunc=[ident=[Ident[add]] args=[ArgsDecl[size=1 arg0=[Ident[one]]]] block=[NULL]]\n";
+    const char *desc = "FuncDef=[ident=[Ident[add]] args=[ArgsDecl[size=1 arg0=[Ident[one]]]] block=[NULL]]\n";
     assert_code_desc(code, desc);
 }
 
 void func_two_args(void)
 {
     const char *code = "def add(one, two) do\nend\n";
-    const char *desc = "DeclareFunc=[ident=[Ident[add]] args=[ArgsDecl[size=2 arg0=[Ident[one]] arg1=[Ident[two]]]] block=[NULL]]\n";
+    const char *desc = "FuncDef=[ident=[Ident[add]] args=[ArgsDecl[size=2 arg0=[Ident[one]] arg1=[Ident[two]]]] block=[NULL]]\n";
     assert_code_desc(code, desc);
 }
 
 void func_body_one_line(void)
 {
     const char *code = "def test() do\n1\nend\n";
-    const char *desc = "DeclareFunc=[ident=[Ident[test]] args=[ArgsDecl[size=0]] block=[\n IntLiteral=[1]\n]]\n";
+    const char *desc = "FuncDef=[ident=[Ident[test]] args=[ArgsDecl[size=0]] block=[\n IntLiteral=[1]\n]]\n";
     assert_code_desc(code, desc);
 }
 
 void func_body_multi_line(void)
 {
     const char *code = "def test() do\n1\n2\n3\nend\n";
-    const char *desc = "DeclareFunc=[ident=[Ident[test]] args=[ArgsDecl[size=0]] block=[\n IntLiteral=[1]\n IntLiteral=[2]\n IntLiteral=[3]\n]]\n";
+    const char *desc = "FuncDef=[ident=[Ident[test]] args=[ArgsDecl[size=0]] block=[\n IntLiteral=[1]\n IntLiteral=[2]\n IntLiteral=[3]\n]]\n";
     assert_code_desc(code, desc);
 }
 
@@ -221,7 +221,7 @@ static void class_declare_with_func(void)
     s_assert_cmpstr(c->getClassType().getId(), "MyClass");
     s_assert(c->getFuncs().size() == 1);
 
-    DeclareFunc& func = *c->getFuncs()[0];
+    FuncDef& func = *c->getFuncs()[0];
     s_assert_cmpstr(func.getName(), "myfunc");
 
     delete n;
@@ -246,10 +246,10 @@ static void class_declare_with_two_funcs(void)
     s_assert_cmpstr(c->getClassType().getId(), "MyClass");
     s_assert(c->getFuncs().size() == 2);
 
-    DeclareFunc& first_func = *c->getFuncs()[0];
+    FuncDef& first_func = *c->getFuncs()[0];
     s_assert_cmpstr(first_func.getName(), "firstFunc");
 
-    DeclareFunc& second_func = *c->getFuncs()[1];
+    FuncDef& second_func = *c->getFuncs()[1];
     s_assert_cmpstr(second_func.getName(), "secondFunc");
 
     delete n;

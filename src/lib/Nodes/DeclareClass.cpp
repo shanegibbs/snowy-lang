@@ -8,7 +8,7 @@
 #include <Log.h>
 
 #include "DeclareClass.h"
-#include "DeclareFunc.h"
+#include "FuncDef.h"
 #include "DeclareVar.h"
 #include "Type.h"
 
@@ -42,7 +42,7 @@ DeclareClass::~DeclareClass()
     }
     vars.clear();
 
-    for (DeclareFunc *f : funcs) {
+    for (FuncDef *f : funcs) {
         delete f;
     }
     funcs.clear();
@@ -71,7 +71,7 @@ void DeclareClass::addVarDecl(DeclareVar* v)
     vars.push_back(obj);
 }
 
-void DeclareClass::addFuncDecl(DeclareFunc* v)
+void DeclareClass::addFuncDecl(FuncDef* v)
 {
     funcs.push_back(v);
 }
@@ -81,7 +81,7 @@ vector<DeclareVar*>& DeclareClass::getVars()
     return vars;
 }
 
-vector<DeclareFunc*>& DeclareClass::getFuncs()
+vector<FuncDef*>& DeclareClass::getFuncs()
 {
     return funcs;
 }

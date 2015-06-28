@@ -1,5 +1,5 @@
-#ifndef OPAL_NODES_DECLARE_FUNC_H
-#define OPAL_NODES_DECLARE_FUNC_H
+#ifndef OPAL_NODES_FUNC_DEF_H
+#define OPAL_NODES_FUNC_DEF_H
 
 #include "Statement.h"
 
@@ -11,13 +11,14 @@ class ArgsDecl;
 class Type;
 class Log;
 
-class DeclareFunc final : public Statement
+class FuncDef final : public Statement
 {
 public:
-    DeclareFunc(const Ident*, const ArgsDecl*, const Node*);
-    ~DeclareFunc();
-
-    DeclareFunc* clone() const override final;
+    FuncDef(const Ident*, const ArgsDecl*, const Node*);
+    FuncDef();
+    ~FuncDef();
+    
+    FuncDef* clone() const override final;
 
     const string& getName() const;
 
