@@ -74,7 +74,13 @@ Module* Compiler::compile(Node* n)
     // atoi
     Function* atoi_fn = Function::Create(puts_ft, Function::ExternalLinkage, "atoi", TheModule);
     codeGen.registerFunction(atoi_fn);
-    
+
+    // getenv
+    std::vector<llvm::Type*> getenv_args(1, int8_ptr_type);
+    FunctionType *getenv_ft = FunctionType::get(int8_ptr_type, getenv_args, false);
+    Function* getenv_fn = Function::Create(getenv_ft, Function::ExternalLinkage, "getenv", TheModule);
+    codeGen.registerFunction(getenv_fn);
+
     // printf
     std::vector<llvm::Type*>printf_ft_args;
     printf_ft_args.push_back(int8_ptr_type);
@@ -107,9 +113,14 @@ Module* Compiler::compile(Node* n)
     llvm::Type* mem_type = int32_ac->getType();
     ConstantInt* mem_count = builder->getInt32(1);
     AllocaInst* mem = builder->CreateAlloca(mem_type, mem_count, "argc");
-    /* StoreInst* stored = */ builder->CreateStore(int32_ac, mem);
-    
+    builder->CreateStore(int32_ac, mem);
     codeGen.registerValue("argc", mem);
+    
+    mem_type = ptr_av->getType();
+    mem_count = builder->getInt32(1);
+    mem = builder->CreateAlloca(mem_type, mem_count, "argv");
+    builder->CreateStore(ptr_av, mem);
+    codeGen.registerValue("argv", mem);
     
     Node* current = n;
     Value* value = NULL;
