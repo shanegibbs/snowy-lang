@@ -45,7 +45,7 @@ Ident::Ident(const shared_ptr<const string> s, const Type* t) : name(s), type(t)
 
 Ident::~Ident()
 {
-    log.debug("Deleting Ident with name '%s'", name->c_str());
+    // log.debug("Deleting Ident with name '%s'", name->c_str());
 }
 
 Ident* Ident::clone() const {

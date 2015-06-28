@@ -30,7 +30,7 @@ Type* Type::clone() const
 
 Type::~Type()
 {
-    log.debug("Deleting Type(%d) with id '%s'", getNodeId(), id->c_str());
+    // log.debug("Deleting Type(%d) with id '%s'", getNodeId(), id->c_str());
 }
 
 void Type::init()

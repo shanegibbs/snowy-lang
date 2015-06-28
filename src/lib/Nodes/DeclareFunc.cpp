@@ -90,7 +90,7 @@ Value* DeclareFunc::compile(CodeGen& gen) const
     Function* fn = Function::Create(ft, Function::ExternalLinkage, *ident->getName(), gen.getModule());
     gen.registerFunction(fn);
 
-    BasicBlock *bb = BasicBlock::Create(getGlobalContext(), "entry", fn);
+    BasicBlock *bb = BasicBlock::Create(getGlobalContext(), *ident->getName(), fn);
     BasicBlock* last_block = gen.getBuilder()->GetInsertBlock();
     gen.getBuilder()->SetInsertPoint(bb);
 

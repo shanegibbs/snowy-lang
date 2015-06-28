@@ -26,7 +26,7 @@ Tuple::Tuple(Expression* l, Operator* o, Expression* r) : lhs(l), rhs(r), op(o)
 
 Tuple::~Tuple()
 {
-    log.debug("Deleting Tuple with id '%d'", getNodeId());
+    // log.debug("Deleting Tuple with id '%d'", getNodeId());
     delete lhs;
     delete rhs;
     delete op;
