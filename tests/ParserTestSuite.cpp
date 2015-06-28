@@ -86,6 +86,13 @@ void func_decl_no_args(void)
   assert_code_desc(code, desc);
 }
 
+void func_decl_one_arg(void)
+{
+  const char *code = "declare int:puts(String:s)\n";
+  const char *desc = "FuncDecl=[ident=[Ident[puts type=int]] args=[ArgsDecl[size=1 arg0=[Ident[s type=String]]]]]\n";
+  assert_code_desc(code, desc);
+}
+
 void func_no_args(void)
 {
     const char *code = "def add() do\nend\n";
@@ -301,6 +308,7 @@ void parser_tests(TestSuite& tests)
     tests.add("/Parser/string_assignment_test", string_assignment_test);
     tests.add("/Parser/multi_assignment_test", multi_assignment_test);
     tests.add("/Parser/func_decl/no_args", func_decl_no_args);
+    tests.add("/Parser/func_decl/one_arg", func_decl_one_arg);
     tests.add("/Parser/func/no_args", func_no_args);
     tests.add("/Parser/func/one_arg", func_one_arg);
     tests.add("/Parser/func/two_args", func_two_args);
