@@ -22,9 +22,9 @@ public:
 
     const string& getName() const;
 
-    NodeType getNodeType() const override final { return DECLARE_FUNC; }
+    NodeType getNodeType() const override final { return FUNC_DEF; }
 
-    const Type* getType() const override final;
+    const TypePtr getType() const override final;
 
     llvm::Value* compile(CodeGen&) const override final;
 

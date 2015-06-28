@@ -38,9 +38,9 @@ void StringLiteral::init()
     log.debug("Creating StringLiteral '%s'", val->c_str());
 }
 
-const Type* StringLiteral::getType() const
+const TypePtr StringLiteral::getType() const
 {
-    return Type::String;
+  return TypePtr(new Type(shared_ptr<string>(new string("String"))));
 }
 
 Value* StringLiteral::compile(CodeGen& gen) const

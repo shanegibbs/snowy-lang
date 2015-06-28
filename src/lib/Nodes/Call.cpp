@@ -36,7 +36,7 @@ Call* Call::clone() const
     return new Call(*this);
 }
 
-const Type* Call::getType() const
+const TypePtr Call::getType() const
 {
     return name->getType();
 }

@@ -63,7 +63,7 @@ void arithmetic_expr_test(void)
 void assignment_test(void)
 {
     const char *code = "a = 1 + 2\n";
-    const char *desc = "DeclareVar=[ident=[Ident[a type=Integer]] expr=[Tuple=[lhs=[IntLiteral=[1]] op=[+] rhs=[IntLiteral=[2]]]]]\n";
+    const char *desc = "DeclareVar=[ident=[Ident[a type=int]] expr=[Tuple=[lhs=[IntLiteral=[1]] op=[+] rhs=[IntLiteral=[2]]]]]\n";
     assert_code_desc(code, desc);
 }
 
@@ -77,6 +77,13 @@ void string_assignment_test(void)
 void multi_assignment_test(void)
 {
     // TODO
+}
+
+void func_decl_no_args(void)
+{
+  const char *code = "declare int:puts()\n";
+  const char *desc = "FuncDecl=[ident=[Ident[puts type=int]] args=[ArgsDecl[size=0]]]\n";
+  assert_code_desc(code, desc);
 }
 
 void func_no_args(void)
@@ -160,7 +167,7 @@ static void class_declare_with_var(void)
     s_assert(c->getVars().size() == 1);
 
     DeclareVar *var = c->getVars()[0];
-    s_assert_cmpstr(var->to_program_string(), "DeclareVar=[ident=[Ident[i type=Integer]] expr=[IntLiteral=[0]]]\n");
+    s_assert_cmpstr(var->to_program_string(), "DeclareVar=[ident=[Ident[i type=int]] expr=[IntLiteral=[0]]]\n");
 
     delete n;
 }
@@ -176,7 +183,7 @@ static void class_declare_with_var_no_spaces(void)
     s_assert(c->getVars().size() == 1);
 
     DeclareVar *var = c->getVars()[0];
-    s_assert_cmpstr(var->to_program_string(), "DeclareVar=[ident=[Ident[i type=Integer]] expr=[IntLiteral=[0]]]\n");
+    s_assert_cmpstr(var->to_program_string(), "DeclareVar=[ident=[Ident[i type=int]] expr=[IntLiteral=[0]]]\n");
 
     delete n;
 }
@@ -198,10 +205,10 @@ static void class_declare_with_two_vars(void)
     s_assert(c->getVars().size() == 2);
 
     DeclareVar& a = *c->getVars()[0];
-    s_assert_cmpstr(a.to_program_string(), "DeclareVar=[ident=[Ident[a type=Integer]] expr=[IntLiteral=[0]]]\n");
+    s_assert_cmpstr(a.to_program_string(), "DeclareVar=[ident=[Ident[a type=int]] expr=[IntLiteral=[0]]]\n");
 
     DeclareVar& b = *c->getVars()[1];
-    s_assert_cmpstr(b.to_program_string(), "DeclareVar=[ident=[Ident[b type=Integer]] expr=[IntLiteral=[0]]]\n");
+    s_assert_cmpstr(b.to_program_string(), "DeclareVar=[ident=[Ident[b type=int]] expr=[IntLiteral=[0]]]\n");
 
     delete n;
 }
@@ -257,16 +264,15 @@ static void class_declare_with_two_funcs(void)
 
 static void type_static()
 {
-    const Node *n = build_graph("Integer:i = 0");
+    const Node *n = build_graph("int:i = 0");
     s_assert(n->isNodeType(DECLARE_VAR));
 
     const DeclareVar& decl = *(DeclareVar*)n;
     const Ident& i = decl.getIdent();
     s_assert_cmpstr(i.getName()->c_str(), "i");
 
-    s_assert_notnull(Type::Integer);
-    s_assert_notnull(i.getType());
-    s_assert(i.getType() == Type::Integer);
+    s_assert(i.getType());
+    s_assert(i.getType()->getId() == "int");
 
     delete n;
 }
@@ -279,9 +285,8 @@ static void type_inference_assignment_test()
     const DeclareVar& decl = *(DeclareVar*)n;
     const Ident& i = decl.getIdent();
 
-    s_assert_notnull(Type::Integer);
-    s_assert_notnull(i.getType());
-    s_assert(i.getType() == Type::Integer);
+    s_assert(i.getType());
+    s_assert(i.getType()->getId() == "int");
 
     delete n;
 }
@@ -295,6 +300,7 @@ void parser_tests(TestSuite& tests)
     tests.add("/Parser/assignment_test", assignment_test);
     tests.add("/Parser/string_assignment_test", string_assignment_test);
     tests.add("/Parser/multi_assignment_test", multi_assignment_test);
+    tests.add("/Parser/func_decl/no_args", func_decl_no_args);
     tests.add("/Parser/func/no_args", func_no_args);
     tests.add("/Parser/func/one_arg", func_one_arg);
     tests.add("/Parser/func/two_args", func_two_args);

@@ -2,6 +2,7 @@
 #define OPAL_NODES_EXPRESSION_H
 
 #include "Node.h"
+#include "Type.h"
 
 namespace Snowy
 {
@@ -15,7 +16,7 @@ public:
     virtual ~Expression() {};
     virtual Expression* clone() const = 0;
 
-    virtual const Type* getType() const = 0;
+    virtual const TypePtr getType() const = 0;
 
     llvm::Value* compile(CodeGen&) const
     {

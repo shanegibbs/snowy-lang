@@ -19,11 +19,6 @@ Driver::Driver()
     program_parser = new ProgramParser(this);
     reached_eof = false;
     lexer = nullptr;
-
-    // Add language types
-    types[Type::Class->getId()] = Type::Class;
-    types[Type::Integer->getId()] = Type::Integer;
-    types[Type::String->getId()] = Type::String;
 }
 
 Driver::~Driver()
@@ -35,16 +30,15 @@ Driver::~Driver()
     }
 }
 
-const Type* Driver::getType(const shared_ptr<const string> id)
+const TypePtr* Driver::getType(const shared_ptr<const string> id)
 {
-    const Type* t = types[*id];
-
-    if (t == nullptr) {
-        t = new Type(id);
-        types[*id] = t;
-    }
-
+  if (types.find(*id) == types.end()) {
+    const TypePtr *t = new const TypePtr(new Type(id));
+    types.insert(pair<string, const TypePtr>(*id, *t));
     return t;
+  } else {
+    return &types[*id];
+  }
 }
 
 int Driver::mylex(ProgramParser::semantic_type *val)
@@ -118,6 +112,8 @@ const char* Driver::getTokenString(int t) const
         return "CLASS";
     case ProgramParser::token::DEF:
         return "DEF";
+    case ProgramParser::token::DECLARE:
+        return "DECLARE";
     case ProgramParser::token::COMMA:
         return "COMMA";
     case ProgramParser::token::OPEN_BRACKET:

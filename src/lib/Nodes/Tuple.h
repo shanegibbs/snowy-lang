@@ -21,7 +21,7 @@ public:
 
     NodeType getNodeType() const override final { return TUPLE; }
 
-    const Type* getType() const override final;
+    const TypePtr getType() const override final;
 
     llvm::Value* compile(CodeGen&) const override final;
 

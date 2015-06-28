@@ -25,17 +25,15 @@ DeclareClass::DeclareClass()
     log.debug("Creating DeclareClass");
 }
 
-DeclareClass::DeclareClass(Type* t) : type(t)
+DeclareClass::DeclareClass(TypePtr t) : type(t)
 {
-    s_assert_notnull(t);
+    s_assert(t);
     log.debug("Creating DeclareClass node %s", type->getId().c_str());
 }
 
 DeclareClass::~DeclareClass()
 {
     log.debug("Deleting DeclareClass '%s'", type->getId().c_str());
-
-    delete type;
 
     for (DeclareVar *v : vars) {
         delete v;
@@ -58,9 +56,9 @@ NodeType DeclareClass::getNodeType() const
     return DECLARE_CLASS;
 }
 
-void DeclareClass::setType(const Type* t)
+void DeclareClass::setType(const TypePtr t)
 {
-    s_assert_notnull(t);
+    s_assert(t);
     log.debug("Setting type of DeclareClass to %s", t->getId().c_str());
     type = t;
 }
@@ -86,20 +84,20 @@ vector<FuncDef*>& DeclareClass::getFuncs()
     return funcs;
 }
 
-const Type* DeclareClass::getType() const
+const TypePtr DeclareClass::getType() const
 {
-    return Type::Class;
+  return TypePtr(new Type(shared_ptr<string>(new string("Class"))));
 }
 
 const Type& DeclareClass::getClassType() const
 {
-    s_assert_notnull(type);
+    s_assert(type);
     return *type;
 }
 
 void DeclareClass::to_sstream(std::ostringstream& s) const
 {
-    s_assert_notnull(type);
+    s_assert(type);
     s << "DeclareClass=[type=[";
     type->to_sstream(s);
     s << "]]";

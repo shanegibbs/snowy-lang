@@ -47,7 +47,7 @@ DeclareVar* DeclareVar::clone() const
     return new DeclareVar(*this);
 }
 
-const Type* DeclareVar::getType() const
+const TypePtr DeclareVar::getType() const
 {
     return expr->getType();
 }

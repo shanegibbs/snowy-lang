@@ -45,7 +45,7 @@ const string& FuncDef::getName() const {
     return *ident->getName();
 }
 
-const Type* FuncDef::getType() const
+const TypePtr FuncDef::getType() const
 {
     return ident->getType();
 }

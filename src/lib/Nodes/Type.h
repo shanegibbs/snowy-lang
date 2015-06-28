@@ -10,7 +10,7 @@ namespace Snowy
 {
 
 class Log;
-
+  
 class Type final : public Node
 {
 
@@ -37,10 +37,6 @@ public:
 
     void to_sstream(ostringstream&) const override;
 
-    static const Type* Class;
-    static const Type* Integer;
-    static const Type* String;
-
 private:
     void init();
 
@@ -48,5 +44,7 @@ private:
     const shared_ptr<const string> id;
 };
 
+typedef shared_ptr<Type> TypePtr;
+  
 }
 #endif

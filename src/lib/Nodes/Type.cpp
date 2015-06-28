@@ -14,10 +14,6 @@ namespace Snowy
 
 const Log Type::log = Log("Type");
 
-const Type* Type::Integer = new Type(shared_ptr<const string>(new string("Integer")));
-const Type* Type::String = new Type(shared_ptr<const string>(new string("String")));
-const Type* Type::Class = new Type(shared_ptr<const string>(new string("Class")));
-
 Type::Type(const shared_ptr<const string> s) : id(s)
 {
     init();

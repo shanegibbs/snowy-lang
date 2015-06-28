@@ -12,22 +12,21 @@ namespace Snowy
 {
 
 class Log;
-class Type;
 
 class Ident final : public Expression
 {
 public:
     Ident(const shared_ptr<const string>);
-    Ident(const shared_ptr<const string>, const Type*);
+    Ident(const shared_ptr<const string>, const TypePtr);
     ~Ident();
 
     Ident* clone() const override;
 
     const string* getName() const;
 
-    const Type* getType() const override final;
+    const TypePtr getType() const override final;
 
-    void setType(const Type*);
+    void setType(const TypePtr);
 
     NodeType getNodeType() const override final { return IDENT; }
 
@@ -39,7 +38,7 @@ private:
     static const Log log;
     void init();
     const shared_ptr<const string> name;
-    const Type* type;
+    TypePtr type;
 };
 
 }

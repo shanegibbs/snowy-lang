@@ -22,9 +22,9 @@ public:
         return new IntLiteral(*this);
     }
 
-    const Type* getType() const override final
+    const TypePtr getType() const override final
     {
-        return Type::Integer;
+        return TypePtr(new Type(shared_ptr<string>(new string("int"))));
     }
 
     NodeType getNodeType() const override final
