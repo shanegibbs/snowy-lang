@@ -286,6 +286,27 @@ static void type_inference_assignment_test()
     delete n;
 }
 
+static void type_inference_assignment_from_call_test()
+{
+    const Node *n = build_graph(R"snow(
+        def Integer:one() do
+            0
+        end
+        x = one()
+    )snow");
+
+    s_assert(n->getNext()->isNodeType(DECLARE_VAR));
+    
+    const DeclareVar& decl = *(DeclareVar*)n->getNext();
+    const Ident& i = decl.getIdent();
+    
+    s_assert_notnull(Type::Integer);
+    s_assert_notnull(i.getType());
+    s_assert(i.getType() == Type::Integer);
+    
+    delete n;
+}
+
 void parser_tests(TestSuite& tests)
 {
     tests.add("/Parser/int_literal", int_literal_test);
@@ -311,4 +332,5 @@ void parser_tests(TestSuite& tests)
     tests.add("/Parser/class/with_two_funcs", class_declare_with_two_funcs);
     tests.add("/Parser/type/static", type_static);
     tests.add("/Parser/type/assignment_inference", type_inference_assignment_test);
+    tests.add("/Parser/type/assignment_from_call", type_inference_assignment_from_call_test);
 }

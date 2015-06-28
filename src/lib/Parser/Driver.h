@@ -39,6 +39,10 @@ public:
     }
 
     const Type* getType(const shared_ptr<const string>);
+    
+    const DeclareFunc* toFunc(const Ident *i) const;
+    
+    void registerFunc(const DeclareFunc*);
 
     const char* getTokenString(int) const;
 
@@ -50,6 +54,7 @@ private:
     bool reached_eof;
 
     map<string, const Type*> types;
+    map<const string, const DeclareFunc*> funcs;
 };
 
 }

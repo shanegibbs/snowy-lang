@@ -46,6 +46,21 @@ const Type* Driver::getType(const shared_ptr<const string> id)
 
     return t;
 }
+    
+const DeclareFunc* Driver::toFunc(const Ident *i) const
+{
+    auto search = funcs.find(*i->getName());
+    if(search != funcs.end()) {
+        return search->second; // `first` == key, `second` == vale
+    }
+    log.fatal("Function '%s' not found", i->getName()->c_str());
+    return nullptr;
+}
+    
+void Driver::registerFunc(const DeclareFunc* f)
+{
+    funcs[f->getName()] = f;
+}
 
 int Driver::mylex(ProgramParser::semantic_type *val)
 {

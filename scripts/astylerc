@@ -1,0 +1,16 @@
+style=google
+delete-empty-lines
+keep-one-line-blocks
+convert-tabs
+indent=spaces=2
+indent-namespaces
+indent-classes
+indent-cases
+indent-preprocessor
+break-blocks
+pad-oper
+unpad-paren
+pad-header
+align-pointer=name
+align-reference=name
+suffix=nonekr
