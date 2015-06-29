@@ -59,7 +59,8 @@ const TypePtr Ident::getType() const {
 
 void Ident::setType(const TypePtr t)
 {
-  log.debug("Setting ident %s to type %s", name->c_str(), t->getId().c_str());
+    s_assert(t);
+    log.debug("Setting ident %s to type %s", name->c_str(), t->getId().c_str());
     type = t;
 }
 

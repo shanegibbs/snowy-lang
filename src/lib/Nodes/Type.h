@@ -2,6 +2,7 @@
 #define SNOWY_NODES_TYPE_H
 #include <memory>
 
+#include "SnowyAssert.h"
 #include "Node.h"
 
 using namespace std;
@@ -27,6 +28,7 @@ public:
 
     const string& getId() const
     {
+        s_assert(id);
         return *id;
     }
 

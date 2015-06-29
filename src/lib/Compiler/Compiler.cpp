@@ -61,6 +61,10 @@ Module* Compiler::compile(Node* n)
     TheModule->setTargetTriple("x86_64-unknown-linux-gnu");
 
     CodeGen codeGen = CodeGen(builder, TheModule);
+  
+    BasicBlock* def_block = builder->GetInsertBlock();
+    // s_assert_notnull(def_block);
+    codeGen.setDefInsertPoint(def_block);
 
     llvm::Type* int8_ptr_type = llvm::Type::getInt8PtrTy(*context);
     llvm::Type* int32_type = IntegerType::get(*context, 32);
@@ -68,9 +72,11 @@ Module* Compiler::compile(Node* n)
     // puts
     std::vector<llvm::Type*> puts_args(1, int8_ptr_type);
     FunctionType *puts_ft = FunctionType::get(llvm::Type::getInt32Ty(*context), puts_args, false);
+    /*
     Function* puts_fn = Function::Create(puts_ft, Function::ExternalLinkage, "puts", TheModule);
     codeGen.registerFunction(puts_fn);
-
+    */
+  
     // atoi
     Function* atoi_fn = Function::Create(puts_ft, Function::ExternalLinkage, "atoi", TheModule);
     codeGen.registerFunction(atoi_fn);
