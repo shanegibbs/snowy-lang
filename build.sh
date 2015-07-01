@@ -5,7 +5,7 @@ BUILD="$HOME/build"
 
 if [ ! -d "$BUILD" ]; then
   mkdir "$BUILD" && cd $BUILD
-  $SRC/configure CXXFLAGS='-Wno-deprecated-register  -fsanitize=address' --enable-debug
+  $SRC/configure CXXFLAGS='-Wno-deprecated-register -fsanitize=address -fcolor-diagnostics' --enable-debug
 fi
 
 cd $BUILD

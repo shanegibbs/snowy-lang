@@ -38,7 +38,11 @@ public:
         root = r;
     }
 
-    const Type* getType(const shared_ptr<const string>);
+    const TypePtr* getType(const shared_ptr<const string>);
+  
+    const Callable* toFunc(const Ident *i) const;
+    
+    void registerFunc(const Callable *);
 
     const char* getTokenString(int) const;
 
@@ -49,7 +53,8 @@ private:
     ProgramParser *program_parser;
     bool reached_eof;
 
-    map<string, const Type*> types;
+    map<string, const TypePtr> types;
+    map<const string, const Callable*> funcs;
 };
 
 }

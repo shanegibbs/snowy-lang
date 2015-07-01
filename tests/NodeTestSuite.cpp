@@ -2,7 +2,7 @@
 
 #include <IntLiteral.h>
 #include <DeclareVar.h>
-#include <DeclareFunc.h>
+#include <FuncDef.h>
 #include <DeclareClass.h>
 #include <Ident.h>
 #include <ArgsDecl.h>
@@ -28,10 +28,10 @@ void node_basic_multi_test(void);
 
 void node_declare_func_simple(void)
 {
-    DeclareFunc root(new Ident(strptr("myfunc")), new ArgsDecl(), NULL);
+    FuncDef root(new Ident(strptr("myfunc")), new ArgsDecl(), NULL);
 
     std::ostringstream ss;
-    ss << "DeclareFunc=[ident=[Ident[myfunc]] args=[ArgsDecl[size=0]] block=[NULL]]\n";
+    ss << "FuncDef=[ident=[Ident[myfunc]] args=[ArgsDecl[size=0]] block=[NULL]]\n";
     const string expected = ss.str();
 
     const string& actual = root.to_program_string();
@@ -47,12 +47,12 @@ void node_declare_func_complex(void)
     a->setNext(b);
     b->setNext(c);
 
-    DeclareFunc root(new Ident(strptr("myfunc")),
+    FuncDef root(new Ident(strptr("myfunc")),
                      new ArgsDecl(new Ident(strptr("a")))
                      , a);
 
     std::ostringstream ss;
-    ss << "DeclareFunc=[ident=[Ident[myfunc]] args=[ArgsDecl[size=1 arg0=[Ident[a]]]] block=[\n";
+    ss << "FuncDef=[ident=[Ident[myfunc]] args=[ArgsDecl[size=1 arg0=[Ident[a]]]] block=[\n";
     ss << " IntLiteral=[1]\n";
     ss << " IntLiteral=[2]\n";
     ss << " IntLiteral=[3]\n";
@@ -66,7 +66,7 @@ void node_declare_func_complex(void)
 
 void node_declare_class_simple(void)
 {
-    DeclareClass root(new Type(strptr("MyClass")));
+    DeclareClass root(TypePtr(new Type(strptr("MyClass"))));
 
     std::ostringstream ss;
     ss << "DeclareClass=[type=[Type[MyClass]]]\n";
@@ -79,8 +79,7 @@ void node_declare_class_simple(void)
 
 void node_declare_class_with_var(void)
 {
-    Type *type = new Type(strptr("MyClass"));
-    DeclareClass root(type);
+    DeclareClass root(TypePtr(new Type(strptr("MyClass"))));
     root.addVarDecl(new DeclareVar(new Ident(strptr("i")), new IntLiteral(strptr("1"))));
 
     std::ostringstream ss;
@@ -100,8 +99,8 @@ void nodes_tests(TestSuite& tests)
     tests.add("/Nodes/Call/single_arg", call_single_arg_test);
     tests.add("/Nodes/Call/three_arg", call_three_arg_test);
     tests.add("/Nodes/Node/basic_multi_expr", node_basic_multi_test);
-    tests.add("/Nodes/DeclareFunc/simple", node_declare_func_simple);
-    tests.add("/Nodes/DeclareFunc/complex", node_declare_func_complex);
+    tests.add("/Nodes/FuncDef/simple", node_declare_func_simple);
+    tests.add("/Nodes/FuncDef/complex", node_declare_func_complex);
     tests.add("/Nodes/DeclareClass/simple", node_declare_class_simple);
     tests.add("/Nodes/DeclareClass/with_var", node_declare_class_with_var);
 }

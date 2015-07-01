@@ -25,6 +25,7 @@ DeclareVar::DeclareVar(Ident *i, const Expression* e) : ident(i), expr(e)
     log.debug("Creating DeclareVar '%s'", ident->getName()->c_str());
 
     if (ident->getType() == nullptr) {
+        s_assert(expr->getType());
         ident->setType(expr->getType());
     } else {
         if (ident->getType() != expr->getType()) {
@@ -47,7 +48,7 @@ DeclareVar* DeclareVar::clone() const
     return new DeclareVar(*this);
 }
 
-const Type* DeclareVar::getType() const
+const TypePtr DeclareVar::getType() const
 {
     return expr->getType();
 }

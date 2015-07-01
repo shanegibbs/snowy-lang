@@ -7,7 +7,7 @@
 #include <SnowyAssert.h>
 #include <Log.h>
 
-#include "DeclareFunc.h"
+#include "FuncDef.h"
 #include "Type.h"
 #include "ArgsDecl.h"
 #include "Ident.h"
@@ -17,42 +17,31 @@ using namespace llvm;
 namespace Snowy
 {
 
-const Log DeclareFunc::log = Log("DeclareFunc");
+const Log FuncDef::log = Log("FuncDef");
 
-DeclareFunc::DeclareFunc(const Ident* i, const ArgsDecl* a, const Node* b = NULL) : ident(i), args(a), block(b == NULL ? NULL : b->getFirst())
+FuncDef::FuncDef(const Ident* i, const ArgsDecl* a, const Node* b = NULL) : Callable(i, a), block(b == NULL ? NULL : b->getFirst())
 {
     s_assert_notnull(i);
     s_assert_notnull(a);
 
-    log.debug("Creating DeclarerFunc node %s", ident->getName()->c_str());
+    log.debug("Creating FuncDef node %s", ident->getName()->c_str());
 }
 
-DeclareFunc::~DeclareFunc()
+FuncDef::~FuncDef()
 {
-    delete ident;
-    delete args;
     if (block != NULL) {
         delete block;
     }
 }
 
-DeclareFunc* DeclareFunc::clone() const
+FuncDef* FuncDef::clone() const
 {
-    return new DeclareFunc(*this);
+    return new FuncDef(*this);
 }
 
-const string& DeclareFunc::getName() const {
-    return *ident->getName();
-}
-
-const Type* DeclareFunc::getType() const
+void FuncDef::to_sstream(std::ostringstream& s) const
 {
-    return ident->getType();
-}
-
-void DeclareFunc::to_sstream(std::ostringstream& s) const
-{
-    s << "DeclareFunc=[ident=[";
+    s << "FuncDef=[ident=[";
     ident->to_sstream(s);
     s << "] args=[";
     args->to_sstream(s);
@@ -72,7 +61,7 @@ void DeclareFunc::to_sstream(std::ostringstream& s) const
     s << "]]";
 }
 
-Value* DeclareFunc::compile(CodeGen& gen) const
+Value* FuncDef::compile(CodeGen& gen) const
 {
     log.debug("Compiling function '%s'", ident->getName()->c_str());
     LLVMContext* context = &gen.getBuilder()->getContext();
@@ -90,7 +79,7 @@ Value* DeclareFunc::compile(CodeGen& gen) const
     Function* fn = Function::Create(ft, Function::ExternalLinkage, *ident->getName(), gen.getModule());
     gen.registerFunction(fn);
 
-    BasicBlock *bb = BasicBlock::Create(getGlobalContext(), "entry", fn);
+    BasicBlock *bb = BasicBlock::Create(getGlobalContext(), *ident->getName(), fn);
     BasicBlock* last_block = gen.getBuilder()->GetInsertBlock();
     gen.getBuilder()->SetInsertPoint(bb);
 

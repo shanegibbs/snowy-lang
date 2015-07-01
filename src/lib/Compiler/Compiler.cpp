@@ -21,8 +21,6 @@ using namespace llvm;
 namespace Snowy
 {
 
-typedef llvm::Type LType;
-
 const Log Compiler::log = Log("Compiler");
 
 Compiler::Compiler()
@@ -43,7 +41,7 @@ Value* Compiler::get_exit_value(Value* last_val)
         log.debug("Last value was NULL. Setting exit code to 0");
         return zero;
     }
-    LType *retType = last_val->getType();
+    llvm::Type *retType = last_val->getType();
     if (retType->isIntegerTy(32)) {
         log.debug("Last value was i32. Setting exit code to last_val");
         return last_val;
@@ -59,25 +57,77 @@ Module* Compiler::compile(Node* n)
 
     IRBuilder<>* builder = new IRBuilder<>(*context);
 
-    Module *TheModule = new Module("program.snowy", *context);
+    Module *TheModule = new Module("org.default", *context);
+    TheModule->setTargetTriple("x86_64-unknown-linux-gnu");
 
     CodeGen codeGen = CodeGen(builder, TheModule);
+  
+    BasicBlock* def_block = builder->GetInsertBlock();
+    // s_assert_notnull(def_block);
+    codeGen.setDefInsertPoint(def_block);
 
+    llvm::Type* int8_ptr_type = llvm::Type::getInt8PtrTy(*context);
+    llvm::Type* int32_type = IntegerType::get(*context, 32);
+    
     // puts
-    LType* ptr_type = LType::getInt8PtrTy(*context);
-    std::vector<LType*> puts_args(1, ptr_type);
-    FunctionType *puts_ft = FunctionType::get(LType::getInt32Ty(*context), puts_args, false);
+    std::vector<llvm::Type*> puts_args(1, int8_ptr_type);
+    FunctionType *puts_ft = FunctionType::get(llvm::Type::getInt32Ty(*context), puts_args, false);
+    /*
     Function* puts_fn = Function::Create(puts_ft, Function::ExternalLinkage, "puts", TheModule);
     codeGen.registerFunction(puts_fn);
+    */
+  
+    // atoi
+    Function* atoi_fn = Function::Create(puts_ft, Function::ExternalLinkage, "atoi", TheModule);
+    codeGen.registerFunction(atoi_fn);
+
+    // getenv
+    std::vector<llvm::Type*> getenv_args(1, int8_ptr_type);
+    FunctionType *getenv_ft = FunctionType::get(int8_ptr_type, getenv_args, false);
+    Function* getenv_fn = Function::Create(getenv_ft, Function::ExternalLinkage, "getenv", TheModule);
+    codeGen.registerFunction(getenv_fn);
+
+    // printf
+    std::vector<llvm::Type*>printf_ft_args;
+    printf_ft_args.push_back(int8_ptr_type);
+    FunctionType* printf_ft = FunctionType::get(int32_type, printf_ft_args, true);
+    Function* printf_fn = Function::Create(printf_ft, Function::ExternalLinkage, "printf", TheModule);
+    codeGen.registerFunction(printf_fn);
 
     // main
-    std::vector<LType*> main_args(2, LType::getInt8PtrTy(*context));
-    FunctionType *main_ft = FunctionType::get(LType::getInt32Ty(*context), main_args, false);
+    std::vector<llvm::Type*> main_args;
+    // int argc
+    main_args.push_back(IntegerType::get(*context, 32));
+    // char** argv
+    PointerType* char_star_type = PointerType::get(IntegerType::get(*context, 8), 0);
+    PointerType* char_star_arr_type = PointerType::get(char_star_type, 0);
+    main_args.push_back(char_star_arr_type);
+    // prototype
+    FunctionType *main_ft = FunctionType::get(llvm::Type::getInt32Ty(*context), main_args, false);
+
+    // function
     Function *main_fn = Function::Create(main_ft, Function::ExternalLinkage, "main", TheModule);
+    Function::arg_iterator args = main_fn->arg_begin();
+    Value* int32_ac = args++;
+    int32_ac->setName("argc_val");
+    Value* ptr_av = args++;
+    ptr_av->setName("argv_val");
 
-    BasicBlock *main_block = BasicBlock::Create(*context, "", main_fn);
+    BasicBlock *main_block = BasicBlock::Create(*context, "main_block", main_fn);
     builder->SetInsertPoint(main_block);
-
+  
+    llvm::Type* mem_type = int32_ac->getType();
+    ConstantInt* mem_count = builder->getInt32(1);
+    AllocaInst* mem = builder->CreateAlloca(mem_type, mem_count, "argc");
+    builder->CreateStore(int32_ac, mem);
+    codeGen.registerValue("argc", mem);
+    
+    mem_type = ptr_av->getType();
+    mem_count = builder->getInt32(1);
+    mem = builder->CreateAlloca(mem_type, mem_count, "argv");
+    builder->CreateStore(ptr_av, mem);
+    codeGen.registerValue("argv", mem);
+    
     Node* current = n;
     Value* value = NULL;
     while (current != NULL) {

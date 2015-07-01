@@ -19,11 +19,6 @@ Driver::Driver()
     program_parser = new ProgramParser(this);
     reached_eof = false;
     lexer = nullptr;
-
-    // Add language types
-    types[Type::Class->getId()] = Type::Class;
-    types[Type::Integer->getId()] = Type::Integer;
-    types[Type::String->getId()] = Type::String;
 }
 
 Driver::~Driver()
@@ -35,18 +30,44 @@ Driver::~Driver()
     }
 }
 
-const Type* Driver::getType(const shared_ptr<const string> id)
+// the return value is expecting to be manually deleted
+// so we must make a copy of the shared_ptr to return
+const TypePtr* Driver::getType(const shared_ptr<const string> id)
 {
-    const Type* t = types[*id];
+  const TypePtr* t;
+  
+  if (types.find(*id) == types.end()) {
+    t = new const TypePtr(new Type(id));
+    types.insert(pair<string, const TypePtr>(*id, *t));
+  } else {
+    t = new TypePtr(types[*id]);
+  }
 
-    if (t == nullptr) {
-        t = new Type(id);
-        types[*id] = t;
-    }
-
-    return t;
+  s_assert_notnull(t);
+  s_assert(t);
+  return t;
 }
 
+const Callable* Driver::toFunc(const Ident *i) const
+{
+    auto search = funcs.find(*i->getName());
+    delete i;
+    if(search != funcs.end()) {
+        return search->second; // `first` == key, `second` == vale
+    }
+    log.fatal("Callable '%s' not found", i->getName()->c_str());
+    return nullptr;
+}
+    
+void Driver::registerFunc(const Callable *f)
+{
+    funcs[f->getName()] = f;
+}
+
+  static void copy_string(ProgramParser::semantic_type *val, FlexLexer* lexer) {
+    val->str = new std::shared_ptr<const string>(new string(lexer->YYText()));
+  }
+  
 int Driver::mylex(ProgramParser::semantic_type *val)
 {
     // exec yylex
@@ -75,17 +96,19 @@ int Driver::mylex(ProgramParser::semantic_type *val)
 
     // need to copy string as it will get nurfed when the
     // parser does a look ahead
-    if (i == ProgramParser::token::ID
-            || i == ProgramParser::token::INTEGER
-            || i == ProgramParser::token::STRING_LIT
-            || i == ProgramParser::token::OP) {
-
-        val->str = new std::shared_ptr<const string>(new string(lexer->YYText()));
-    }
+  if (i == ProgramParser::token::ID) {
+    copy_string(val, lexer);
+  } else if (i == ProgramParser::token::INTEGER) {
+    copy_string(val, lexer);
+  } else if (i == ProgramParser::token::STRING_LIT) {
+    copy_string(val, lexer);
+  } else if (i == ProgramParser::token::OP) {
+    copy_string(val, lexer);
+  }
 
     return i;
 }
-
+  
 Node* Driver::exec()
 {
     s_assert_notnull(lexer);
@@ -118,6 +141,8 @@ const char* Driver::getTokenString(int t) const
         return "CLASS";
     case ProgramParser::token::DEF:
         return "DEF";
+    case ProgramParser::token::DECLARE:
+        return "DECLARE";
     case ProgramParser::token::COMMA:
         return "COMMA";
     case ProgramParser::token::OPEN_BRACKET:

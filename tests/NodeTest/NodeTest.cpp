@@ -43,9 +43,9 @@ void node_basic_multi_test(void)
     bDecl->setNext(cDecl);
 
     std::ostringstream ss;
-    ss << "DeclareVar=[ident=[Ident[a type=Integer]] expr=[Tuple=[lhs=[IntLiteral=[1]] op=[+] rhs=[IntLiteral=[2]]]]]\n";
-    ss << "DeclareVar=[ident=[Ident[b type=Integer]] expr=[Tuple=[lhs=[IntLiteral=[4]] op=[+] rhs=[IntLiteral=[5]]]]]\n";
-    ss << "DeclareVar=[ident=[Ident[c type=Integer]] expr=[Tuple=[lhs=[IntLiteral=[10]] op=[+] rhs=[IntLiteral=[11]]]]]\n";
+    ss << "DeclareVar=[ident=[Ident[a type=int]] expr=[Tuple=[lhs=[IntLiteral=[1]] op=[+] rhs=[IntLiteral=[2]]]]]\n";
+    ss << "DeclareVar=[ident=[Ident[b type=int]] expr=[Tuple=[lhs=[IntLiteral=[4]] op=[+] rhs=[IntLiteral=[5]]]]]\n";
+    ss << "DeclareVar=[ident=[Ident[c type=int]] expr=[Tuple=[lhs=[IntLiteral=[10]] op=[+] rhs=[IntLiteral=[11]]]]]\n";
     const string expected = ss.str();
 
     const string& actual = root.to_program_string();

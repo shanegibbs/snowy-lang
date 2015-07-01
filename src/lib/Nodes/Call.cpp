@@ -6,8 +6,8 @@
 #include <Log.h>
 
 #include "Call.h"
-#include "Ident.h"
 #include "Args.h"
+#include "Callable.h"
 
 using namespace llvm;
 using namespace std;
@@ -17,17 +17,16 @@ namespace Snowy
 
 const Log Call::log = Log("Call");
 
-Call::Call(const Ident* i, const Args* a) : name(i), args(a)
+Call::Call(const Callable *f, const Args* a) : func(f), args(a)
 {
-    s_assert_notnull(name);
+    s_assert_notnull(func);
     s_assert_notnull(args);
-    log.debug("Creating call '%s'", name->getName()->c_str());
+    log.debug("Creating call to '%s'", func->getName().c_str());
 }
 
 Call::~Call()
 {
-    log.debug("Deleting call '%s'", name->getName()->c_str());
-    delete name;
+    // log.debug("Deleting call %d", getNodeId());
     delete args;
 }
 
@@ -36,15 +35,15 @@ Call* Call::clone() const
     return new Call(*this);
 }
 
-const Type* Call::getType() const
+const TypePtr Call::getType() const
 {
-    return name->getType();
+    return func->getType();
 }
 
 void Call::to_sstream(std::ostringstream& s) const
 {
     s << "Call=[name=[";
-    name->to_sstream(s);
+    func->to_sstream(s);
     s << "],args=[";
     args->to_sstream(s);
     s << "]]";
@@ -52,10 +51,10 @@ void Call::to_sstream(std::ostringstream& s) const
 
 Value* Call::compile(CodeGen& gen) const
 {
-    log.debug("Compiling call to '%s'", name->getName()->c_str());
+    log.debug("Compiling call to '%s'", func->getName().c_str());
     // LLVMContext* c = &gen->getBuilder()->getContext();
 
-    string fn_name(*name->getName());
+    string fn_name(func->getName());
     Function *fn = gen.getModule()->getFunction(fn_name);
     if (fn == NULL) {
         log.fatal("Function '%s' not found", fn_name.c_str());

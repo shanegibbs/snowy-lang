@@ -30,6 +30,7 @@ do                  return token::DO;
 end                 return token::END;
 class               return token::CLASS;
 def                 return token::DEF;
+declare             return token::DECLARE;
 {ID}                return token::ID;
 {INTEGER}+          return token::INTEGER;
 \"(\\.|[^"])*\"     return token::STRING_LIT;

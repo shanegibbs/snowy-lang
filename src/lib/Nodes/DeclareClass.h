@@ -10,30 +10,30 @@ namespace Snowy
 {
 
 class DeclareVar;
-class DeclareFunc;
+class FuncDef;
 
 class DeclareClass final : public Expression
 {
 public:
     DeclareClass();
-    DeclareClass(Type*);
+    DeclareClass(TypePtr);
     ~DeclareClass();
 
     DeclareClass* clone() const override final;
 
     NodeType getNodeType() const override final;
 
-    void setType(const Type* t);
+    void setType(const TypePtr t);
 
     void addVarDecl(DeclareVar* v);
 
-    void addFuncDecl(DeclareFunc* v);
+    void addFuncDecl(FuncDef* v);
 
     vector<DeclareVar*>& getVars();
 
-    vector<DeclareFunc*>& getFuncs();
+    vector<FuncDef*>& getFuncs();
 
-    const Type* getType() const override final;
+    const TypePtr getType() const override final;
 
     const Type& getClassType() const;
 
@@ -43,9 +43,9 @@ public:
 
 private:
     static const Log log;
-    const Type* type;
+    TypePtr type;
     vector<DeclareVar*> vars;
-    vector<DeclareFunc*> funcs;
+    vector<FuncDef*> funcs;
 };
 
 }

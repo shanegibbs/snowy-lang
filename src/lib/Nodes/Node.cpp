@@ -19,14 +19,14 @@ const Log Node::log = Log("Node");
 
 Node::Node() : node_id(next_node_index++)
 {
-    // printf("Created node with ID %d\n", node_id);
+    log.debug("Created node with ID %d\n", node_id);
     first = this;
     next = nullptr;
 }
 
 Node::~Node()
 {
-    // log.debug("Deleting node %d", node_id);
+    log.debug("Deleting node %d", node_id);
     if (next != nullptr) {
         // log.debug("Deleting next node");
         delete next;

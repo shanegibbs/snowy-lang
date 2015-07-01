@@ -26,14 +26,14 @@ Tuple::Tuple(Expression* l, Operator* o, Expression* r) : lhs(l), rhs(r), op(o)
 
 Tuple::~Tuple()
 {
-    log.debug("Deleting Tuple with id '%d'", getNodeId());
+    // log.debug("Deleting Tuple with id '%d'", getNodeId());
     delete lhs;
     delete rhs;
     delete op;
 }
 
-const Type* Tuple::getType() const {
-    return Type::Integer;
+const TypePtr Tuple::getType() const {
+    return lhs->getType();
 }
 
 Value* Tuple::compile(CodeGen& gen) const

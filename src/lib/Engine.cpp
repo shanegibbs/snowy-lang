@@ -21,9 +21,6 @@ const Log Engine::log = Log("Engine");
 void Engine::shutdown()
 {
     Execer::shutdown();
-    delete Type::Integer;
-    delete Type::String;
-    delete Type::Class;
 }
 
 void Engine::init()

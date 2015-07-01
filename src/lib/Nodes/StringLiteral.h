@@ -26,7 +26,7 @@ public:
 
     NodeType getNodeType() const override { return STRING_LITERAL; }
 
-    const Type* getType() const override final;
+    const TypePtr getType() const override final;
 
     llvm::Value* compile(CodeGen&) const override final;
     void to_sstream(ostringstream&) const override final;

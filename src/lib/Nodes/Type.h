@@ -2,6 +2,7 @@
 #define SNOWY_NODES_TYPE_H
 #include <memory>
 
+#include "SnowyAssert.h"
 #include "Node.h"
 
 using namespace std;
@@ -10,7 +11,7 @@ namespace Snowy
 {
 
 class Log;
-
+  
 class Type final : public Node
 {
 
@@ -27,6 +28,7 @@ public:
 
     const string& getId() const
     {
+        s_assert(id);
         return *id;
     }
 
@@ -37,10 +39,6 @@ public:
 
     void to_sstream(ostringstream&) const override;
 
-    static const Type* Class;
-    static const Type* Integer;
-    static const Type* String;
-
 private:
     void init();
 
@@ -48,5 +46,7 @@ private:
     const shared_ptr<const string> id;
 };
 
+typedef shared_ptr<Type> TypePtr;
+  
 }
 #endif

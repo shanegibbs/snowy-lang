@@ -13,7 +13,7 @@ int main(int argc, char** argv)
 
     Log log("main");
 
-    ifstream f("default.snow");
+    ifstream f("run.s");
     if (!f.is_open()) {
         log.fatal("Failed to open default.snow");
     }
