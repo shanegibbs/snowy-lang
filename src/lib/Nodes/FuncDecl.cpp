@@ -18,27 +18,12 @@ namespace Snowy {
 
   const Log FuncDecl::log = Log("FuncDecl");
 
-  FuncDecl::FuncDecl(const Ident *i, const ArgsDecl *a) : ident(i), args(a) {
-    s_assert_notnull(i);
-    s_assert_notnull(a);
+  FuncDecl::FuncDecl(const Ident *i, const ArgsDecl *a) : Callable(i, a) {
     log.debug("Creating FuncDecl node %s", ident->getName()->c_str());
-  }
-
-  FuncDecl::~FuncDecl() {
-    delete ident;
-    delete args;
   }
 
   FuncDecl *FuncDecl::clone() const {
     return new FuncDecl(*this);
-  }
-
-  const string &FuncDecl::getName() const {
-    return *ident->getName();
-  }
-
-  const TypePtr FuncDecl::getType() const {
-    return ident->getType();
   }
 
   void FuncDecl::to_sstream(std::ostringstream &s) const {

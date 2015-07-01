@@ -64,6 +64,7 @@ void it_puts_stdout_test()
 void it_puts_string_lit_test()
 {
     Result actual = snowy_result(R"snow(
+        declare int:puts(String:s)
         puts("hello world!!")
     )snow");
     s_assert_cmpstr(actual.buffer, "hello world!!\n");
@@ -84,6 +85,7 @@ void it_return_int_test()
 void it_variable_use_1()
 {
     Result actual = snowy_result(R"snow(
+        declare int:puts(String:s)
         a = "one"
         puts(a)
     )snow");
@@ -92,7 +94,7 @@ void it_variable_use_1()
 
 void it_variable_use_2()
 {
-    Result actual = snowy_result("a = \"one\"\nb = \"two\"\nputs(a)");
+    Result actual = snowy_result("declare int:puts(String:s)\na = \"one\"\nb = \"two\"\nputs(a)");
     s_assert_cmpstr(actual.buffer, "one\n");
 }
 
@@ -169,6 +171,7 @@ void it_function_declare_and_call()
 void it_function_declare_and_call_with_block()
 {
     Result actual = snowy_result(R"snow(
+        declare int:puts(String:s)
         def myfunc() do
           puts("In myfunc")
           1

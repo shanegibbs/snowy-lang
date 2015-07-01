@@ -40,9 +40,9 @@ public:
 
     const TypePtr* getType(const shared_ptr<const string>);
   
-    const FuncDef* toFunc(const Ident *i) const;
+    const Callable* toFunc(const Ident *i) const;
     
-    void registerFunc(const FuncDef*);
+    void registerFunc(const Callable *);
 
     const char* getTokenString(int) const;
 
@@ -54,7 +54,7 @@ private:
     bool reached_eof;
 
     map<string, const TypePtr> types;
-    map<const string, const FuncDef*> funcs;
+    map<const string, const Callable*> funcs;
 };
 
 }

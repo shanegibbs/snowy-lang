@@ -7,7 +7,7 @@
 
 #include "Call.h"
 #include "Args.h"
-#include "FuncDef.h"
+#include "Callable.h"
 
 using namespace llvm;
 using namespace std;
@@ -17,7 +17,7 @@ namespace Snowy
 
 const Log Call::log = Log("Call");
 
-Call::Call(const FuncDef *f, const Args* a) : func(f), args(a)
+Call::Call(const Callable *f, const Args* a) : func(f), args(a)
 {
     s_assert_notnull(func);
     s_assert_notnull(args);

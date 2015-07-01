@@ -10,4 +10,4 @@ endif
 
 noinst_LIBRARIES = libsnowy-nodes.a
 
-libsnowy_nodes_a_SOURCES = Node.cpp Expression.cpp Type.cpp Ident.cpp Tuple.cpp Operator.cpp IntLiteral.cpp StringLiteral.cpp DeclareVar.cpp Call.cpp Args.cpp FuncDecl.cpp FuncDef.cpp ArgsDecl.cpp DeclareClass.cpp
+libsnowy_nodes_a_SOURCES = Node.cpp Expression.cpp Type.cpp Ident.cpp Tuple.cpp Operator.cpp IntLiteral.cpp StringLiteral.cpp DeclareVar.cpp Call.cpp Args.cpp FuncDecl.cpp FuncDef.cpp ArgsDecl.cpp DeclareClass.cpp Callable.cpp

@@ -19,18 +19,16 @@ namespace Snowy
 
 const Log FuncDef::log = Log("FuncDef");
 
-FuncDef::FuncDef(const Ident* i, const ArgsDecl* a, const Node* b = NULL) : ident(i), args(a), block(b == NULL ? NULL : b->getFirst())
+FuncDef::FuncDef(const Ident* i, const ArgsDecl* a, const Node* b = NULL) : Callable(i, a), block(b == NULL ? NULL : b->getFirst())
 {
     s_assert_notnull(i);
     s_assert_notnull(a);
 
-    log.debug("Creating DeclarerFunc node %s", ident->getName()->c_str());
+    log.debug("Creating FuncDef node %s", ident->getName()->c_str());
 }
 
 FuncDef::~FuncDef()
 {
-    delete ident;
-    delete args;
     if (block != NULL) {
         delete block;
     }
@@ -39,15 +37,6 @@ FuncDef::~FuncDef()
 FuncDef* FuncDef::clone() const
 {
     return new FuncDef(*this);
-}
-
-const string& FuncDef::getName() const {
-    return *ident->getName();
-}
-
-const TypePtr FuncDef::getType() const
-{
-    return ident->getType();
 }
 
 void FuncDef::to_sstream(std::ostringstream& s) const

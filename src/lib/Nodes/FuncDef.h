@@ -1,7 +1,7 @@
 #ifndef OPAL_NODES_FUNC_DEF_H
 #define OPAL_NODES_FUNC_DEF_H
 
-#include "Statement.h"
+#include "Callable.h"
 
 namespace Snowy
 {
@@ -11,20 +11,15 @@ class ArgsDecl;
 class Type;
 class Log;
 
-class FuncDef final : public Statement
+class FuncDef final : public Callable
 {
 public:
     FuncDef(const Ident*, const ArgsDecl*, const Node*);
-    FuncDef();
     ~FuncDef();
     
     FuncDef* clone() const override final;
 
-    const string& getName() const;
-
     NodeType getNodeType() const override final { return FUNC_DEF; }
-
-    const TypePtr getType() const override final;
 
     llvm::Value* compile(CodeGen&) const override final;
 
@@ -32,8 +27,6 @@ public:
 
 private:
     static const Log log;
-    const Ident* ident;
-    const ArgsDecl* args;
     const Node* block;
 };
 

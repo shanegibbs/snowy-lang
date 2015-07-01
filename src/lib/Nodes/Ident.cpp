@@ -29,7 +29,7 @@ void Ident::init()
 
 Ident::Ident(const shared_ptr<const string> s) : name(s), type(nullptr)
 {
-    log.debug("Creating Identity '%s'", name->c_str());
+    log.debug("Creating Ident[%d] '%s'", getNodeId(), name->c_str());
     init();
 }
 

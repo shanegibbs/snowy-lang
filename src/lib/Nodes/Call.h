@@ -6,14 +6,14 @@
 namespace Snowy
 {
 
-class FuncDef;
+class Callable;
 class Args;
 class Log;
 
 class Call final : public Expression
 {
 public:
-    Call(const FuncDef*, const Args*);
+    Call(const Callable*, const Args*);
     ~Call();
 
     Call* clone() const override final;
@@ -28,7 +28,7 @@ public:
 
 private:
     static const Log log;
-    const FuncDef* func;
+    const Callable* func;
     const Args* args;
 };
 
