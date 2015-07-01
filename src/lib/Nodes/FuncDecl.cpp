@@ -43,7 +43,7 @@ namespace Snowy {
 
     vector<llvm::Type*> ft_args = vector<llvm::Type*>();
 
-    for (int i = 0; i < args->size(); i++) {
+    for (unsigned int i = 0; i < args->size(); i++) {
       const Ident &a = args->getIdent(i);
       llvm::Type *t = nullptr;
       if (a.getType()->getId() == "int") {
