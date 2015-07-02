@@ -6,22 +6,23 @@
 
 using namespace Snowy;
 
-int main(int argc, char** argv)
-{
-    Log::setup();
-    Engine::init();
+int main(int argc, char **argv) {
+  Log::setup();
+  Engine::init();
 
-    Log log("main");
+  Log log("main");
 
-    ifstream f("run.s");
-    if (!f.is_open()) {
-        log.fatal("Failed to open default.snow");
-    }
+  ifstream f("run.s");
 
-    Engine engine;
-    if (engine.parse(f)) {
-        return engine.exec();
-    } else {
-        log.fatal("Parsing failed");
-    }
+  if (!f.is_open()) {
+    log.fatal("Failed to open default.snow");
+  }
+
+  Engine engine;
+
+  if (engine.parse(f)) {
+    return engine.exec();
+  } else {
+    log.fatal("Parsing failed");
+  }
 }

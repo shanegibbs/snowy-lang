@@ -2,32 +2,29 @@
 
 using namespace llvm;
 
-namespace llvm
-{
-class Module;
-class LLVMContext;
-class Value;
+namespace llvm {
+  class Module;
+  class LLVMContext;
+  class Value;
 }
 
-namespace Snowy
-{
+namespace Snowy {
 
-class Log;
+  class Log;
 
-class Compiler
-{
-public:
+  class Compiler {
+   public:
     Compiler();
     ~Compiler();
-    llvm::Module* compile(Node*);
+    llvm::Module *compile(Node *);
 
-private:
+   private:
     static const Log log;
 
-    LLVMContext* context;
-    Module* module;
-    void write(const llvm::Module*);
-    Value* get_exit_value(Value*);
-};
+    LLVMContext *context;
+    Module *module;
+    void write(const llvm::Module *);
+    Value *get_exit_value(Value *);
+  };
 
 }

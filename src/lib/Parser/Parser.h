@@ -4,26 +4,24 @@
 #include <istream>
 #include <string>
 
-namespace Snowy
-{
+namespace Snowy {
 
-class Log;
-class Driver;
-class Node;
+  class Log;
+  class Driver;
+  class Node;
 
-class Parser
-{
-public:
+  class Parser {
+   public:
     Parser();
     ~Parser();
 
-    Node* parse();
-    Node* parse(std::istream&);
+    Node *parse();
+    Node *parse(std::istream &);
 
-private:
+   private:
     static const Log log;
-    Driver* driver;
-};
+    Driver *driver;
+  };
 
 }
 #endif

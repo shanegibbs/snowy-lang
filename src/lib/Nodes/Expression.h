@@ -4,26 +4,23 @@
 #include "Node.h"
 #include "Type.h"
 
-namespace Snowy
-{
+namespace Snowy {
 
-class Type;
+  class Type;
 
-class Expression : public Node
-{
-public:
+  class Expression : public Node {
+   public:
     Expression() {}
     virtual ~Expression() {};
-    virtual Expression* clone() const = 0;
+    virtual Expression *clone() const = 0;
 
     virtual const TypePtr getType() const = 0;
 
-    llvm::Value* compile(CodeGen&) const
-    {
-        return NULL;
+    llvm::Value *compile(CodeGen &) const {
+      return NULL;
     }
-    void to_sstream(std::ostringstream&) const {}
-};
+    void to_sstream(std::ostringstream &) const {}
+  };
 
 }
 #endif

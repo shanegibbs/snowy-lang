@@ -5,19 +5,17 @@
 
 #include "Expression.h"
 
-namespace Snowy
-{
+namespace Snowy {
 
-class Statement : public Expression
-{
-public:
+  class Statement : public Expression {
+   public:
     Statement() {}
     virtual ~Statement() {}
 
-    virtual llvm::Value* compile(CodeGen&) const = 0;
-    virtual void to_sstream(std::ostringstream&) const = 0;
+    virtual llvm::Value *compile(CodeGen &) const = 0;
+    virtual void to_sstream(std::ostringstream &) const = 0;
 
-};
+  };
 
 }
 #endif

@@ -10,7 +10,7 @@ namespace Snowy {
   class Log;
 
   class FuncDecl : public Callable {
-    
+
    public:
 
     FuncDecl(const Ident *, const ArgsDecl *);
