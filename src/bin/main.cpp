@@ -6,30 +6,31 @@
 
 using namespace Snowy;
 
-int main(int argc, char** argv)
-{
-    Log::setup();
-    Log log("main");
+int main(int argc, char **argv) {
+  Log::setup();
+  Log log("main");
 
-    Engine::init();
+  Engine::init();
 
-    Engine engine;
+  Engine engine;
 
-    int parse_result = 0;
+  int parse_result = 0;
 
-    if (argc == 2) {
-        ifstream f(argv[1]);
-        if (!f.is_open()) {
-            log.fatal("Failed to open '%s'", argv[1]);
-        }
-        parse_result = engine.parse(f);
-    } else {
-        parse_result = engine.parse();
+  if (argc == 2) {
+    ifstream f(argv[1]);
+
+    if (!f.is_open()) {
+      log.fatal("Failed to open '%s'", argv[1]);
     }
 
-    if (!parse_result) {
-        log.fatal("Parsing failed");
-    }
+    parse_result = engine.parse(f);
+  } else {
+    parse_result = engine.parse();
+  }
 
-    return engine.exec();
+  if (!parse_result) {
+    log.fatal("Parsing failed");
+  }
+
+  return engine.exec();
 }

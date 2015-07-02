@@ -1,26 +1,23 @@
-namespace llvm
-{
-class Module;
+namespace llvm {
+  class Module;
 }
 
-namespace Snowy
-{
+namespace Snowy {
 
-class Log;
+  class Log;
 
-class Execer
-{
-public:
+  class Execer {
+   public:
     Execer();
-    int exec(llvm::Module*);
-    void setStdoutBuffer(char* buffer, int size);
+    int exec(llvm::Module *);
+    void setStdoutBuffer(char *buffer, int size);
     static void shutdown();
 
-private:
+   private:
     static const Log log;
-    char* buffer;
+    char *buffer;
     unsigned int buffer_size;
-};
+  };
 
 }
 

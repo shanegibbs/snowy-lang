@@ -12,54 +12,52 @@
 
 using namespace llvm;
 
-namespace Snowy
-{
+namespace Snowy {
 
-const Log Tuple::log = Log("Tuple");
+  const Log Tuple::log = Log("Tuple");
 
-Tuple::Tuple(Expression* l, Operator* o, Expression* r) : lhs(l), rhs(r), op(o)
-{
+  Tuple::Tuple(Expression *l, Operator *o, Expression *r) : lhs(l), rhs(r), op(o) {
     s_assert_notnull(lhs);
     s_assert_notnull(op);
     s_assert_notnull(rhs);
-}
+  }
 
-Tuple::~Tuple()
-{
+  Tuple::~Tuple() {
     // log.debug("Deleting Tuple with id '%d'", getNodeId());
     delete lhs;
     delete rhs;
     delete op;
-}
+  }
 
-const TypePtr Tuple::getType() const {
+  const TypePtr Tuple::getType() const {
     return lhs->getType();
-}
+  }
 
-Value* Tuple::compile(CodeGen& gen) const
-{
-    Value* lhs_val = lhs->compile(gen);
-    Value* rhs_val = rhs->compile(gen);
+  Value *Tuple::compile(CodeGen &gen) const {
+    Value *lhs_val = lhs->compile(gen);
+    Value *rhs_val = rhs->compile(gen);
 
-    IRBuilder<>* b = gen.getBuilder();
+    IRBuilder<> *b = gen.getBuilder();
 
-    switch(op->getOp()) {
+    switch (op->getOp()) {
     case OP_PLUS:
-        return b->CreateAdd(lhs_val, rhs_val, "tuple");
+      return b->CreateAdd(lhs_val, rhs_val, "tuple");
+
     case OP_MINUS:
-        return b->CreateSub(lhs_val, rhs_val, "tuple");
+      return b->CreateSub(lhs_val, rhs_val, "tuple");
+
     case OP_MULTIPLY:
-        return b->CreateMul(lhs_val, rhs_val, "tuple");
+      return b->CreateMul(lhs_val, rhs_val, "tuple");
+
     case OP_DIVIDE:
-        return b->CreateUDiv(lhs_val, rhs_val, "tuple");
+      return b->CreateUDiv(lhs_val, rhs_val, "tuple");
     }
 
     s_assert_unreachable();
     return NULL;
-}
+  }
 
-void Snowy::Tuple::to_sstream(std::ostringstream& s) const
-{
+  void Snowy::Tuple::to_sstream(std::ostringstream &s) const {
     s << "Tuple=[lhs=[";
     lhs->to_sstream(s);
     s << "] op=[";
@@ -67,6 +65,6 @@ void Snowy::Tuple::to_sstream(std::ostringstream& s) const
     s << "] rhs=[";
     rhs->to_sstream(s);
     s << "]]";
-}
+  }
 
 }

@@ -18,25 +18,21 @@
 using namespace std;
 using namespace llvm;
 
-namespace Snowy
-{
+namespace Snowy {
 
-const Log Execer::log = Log("Execer");
+  const Log Execer::log = Log("Execer");
 
-Execer::Execer()
-{
+  Execer::Execer() {
     buffer = NULL;
-}
+  }
 
-void Execer::setStdoutBuffer(char* b, int s)
-{
+  void Execer::setStdoutBuffer(char *b, int s) {
     log.debug("Setting stdout buffer");
     buffer = b;
     buffer_size = s;
-}
+  }
 
-int Execer::exec(Module* module)
-{
+  int Execer::exec(Module *module) {
     log.debug("Execing");
 
     InitializeNativeTarget();
@@ -49,10 +45,12 @@ int Execer::exec(Module* module)
     ExecutionEngine *TheExecutionEngine = EngineBuilder(unique_ptr<Module>(module))
                                           .setErrorStr(&ErrStr)
                                           .create();
+
     if (!TheExecutionEngine) {
-        log.fatal("Could not create ExecutionEngine: %s", ErrStr.c_str());
-        exit(1);
+      log.fatal("Could not create ExecutionEngine: %s", ErrStr.c_str());
+      exit(1);
     }
+
     TheExecutionEngine->finalizeObject();
     TheExecutionEngine->runStaticConstructorsDestructors(false);
 
@@ -68,19 +66,19 @@ int Execer::exec(Module* module)
     int saved_stdout = 0;
 
     if (buffer != NULL) {
-        s_assert_notnull(buffer);
+      s_assert_notnull(buffer);
 
-        // save stdout
-        saved_stdout = dup(STDOUT_FILENO);
+      // save stdout
+      saved_stdout = dup(STDOUT_FILENO);
 
-        // make pipe
-        if( pipe(out_pipe) != 0 ) {
-            log.fatal("Failed to create pipe");
-        }
+      // make pipe
+      if (pipe(out_pipe) != 0) {
+        log.fatal("Failed to create pipe");
+      }
 
-        // redirect stdout to pipe
-        dup2(out_pipe[1], STDOUT_FILENO);
-        close(out_pipe[1]);
+      // redirect stdout to pipe
+      dup2(out_pipe[1], STDOUT_FILENO);
+      close(out_pipe[1]);
     }
 
     int ret = program_main(2, 4);
@@ -91,30 +89,30 @@ int Execer::exec(Module* module)
     delete TheExecutionEngine;
 
     if (buffer != NULL) {
-        // read from pipe
-        fcntl(out_pipe[0], F_SETFL, O_NONBLOCK);
-        ssize_t r = read(out_pipe[0], buffer, buffer_size);
-        if (r != -1) {
-            buffer[r] = 0;
-        } else {
-            buffer[0] = 0;
-        }
+      // read from pipe
+      fcntl(out_pipe[0], F_SETFL, O_NONBLOCK);
+      ssize_t r = read(out_pipe[0], buffer, buffer_size);
 
-        // swap back real stdout
-        dup2(saved_stdout, STDOUT_FILENO);
+      if (r != -1) {
+        buffer[r] = 0;
+      } else {
+        buffer[0] = 0;
+      }
 
-        log.debug("Read %d bytes", r);
-        log.debug("stdout was: '%s'\n", buffer);
+      // swap back real stdout
+      dup2(saved_stdout, STDOUT_FILENO);
+
+      log.debug("Read %d bytes", r);
+      log.debug("stdout was: '%s'\n", buffer);
     }
 
     log.info("main returned %i", ret);
 
     return ret;
-}
+  }
 
-void Execer::shutdown()
-{
+  void Execer::shutdown() {
     llvm_shutdown();
-}
+  }
 
 }

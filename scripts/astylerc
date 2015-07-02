@@ -1,5 +1,4 @@
 style=google
-delete-empty-lines
 keep-one-line-blocks
 convert-tabs
 indent=spaces=2

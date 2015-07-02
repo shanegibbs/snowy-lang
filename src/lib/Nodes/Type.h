@@ -7,46 +7,41 @@
 
 using namespace std;
 
-namespace Snowy
-{
+namespace Snowy {
 
-class Log;
-  
-class Type final : public Node
-{
+  class Log;
 
-public:
+  class Type final : public Node {
+
+   public:
     Type(const shared_ptr<const string>);
     ~Type();
 
-    Type* clone() const override;
+    Type *clone() const override;
 
-    NodeType getNodeType() const override
-    {
-        return TYPE;
+    NodeType getNodeType() const override {
+      return TYPE;
     }
 
-    const string& getId() const
-    {
-        s_assert(id);
-        return *id;
+    const string &getId() const {
+      s_assert(id);
+      return *id;
     }
 
-    llvm::Value* compile(CodeGen&) const override
-    {
-        return NULL;
+    llvm::Value *compile(CodeGen &) const override {
+      return NULL;
     }
 
-    void to_sstream(ostringstream&) const override;
+    void to_sstream(ostringstream &) const override;
 
-private:
+   private:
     void init();
 
     static const Log log;
     const shared_ptr<const string> id;
-};
+  };
 
-typedef shared_ptr<Type> TypePtr;
-  
+  typedef shared_ptr<Type> TypePtr;
+
 }
 #endif

@@ -19,7 +19,7 @@ namespace Snowy {
     const string  &getName() const;
     const TypePtr  getType() const;
 
-  protected:
+   protected:
     const Ident *ident;
     const ArgsDecl *args;
 
