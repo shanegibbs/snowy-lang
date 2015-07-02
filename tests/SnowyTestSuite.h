@@ -38,7 +38,11 @@ public:
         cerr << path << ": ";
         try {
             f();
-            cerr << "\x1b[32mOK\x1b[0m" << endl;
+            if (getenv("TERM") != NULL) {
+              cerr << "\x1b[32mOK\x1b[0m" << endl;
+            } else {
+              cerr << "OK" << endl;
+            }
         } catch (FatalLogEvent e) {
             cerr << "FAIL" << endl;
         }
@@ -123,7 +127,11 @@ public:
         double seconds = chrono::duration_cast<chrono::milliseconds>(time).count() / 1000.0f;
         cerr << "Ran " << tests_run_count << " tests in " << seconds << "s" << endl;
 
-        cerr << endl << "\x1b[32mOK\x1b[0m" << endl;
+        if (getenv("TERM") != NULL) {
+          cerr << endl << "\x1b[32mOK\x1b[0m" << endl;
+        } else {
+          cerr << endl << "OK" << endl;
+        }
         return 0;
     }
     int run_script()

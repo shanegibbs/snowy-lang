@@ -1,5 +1,5 @@
-#include<memory>
-
+#include <memory>
+#include <stdlib.h>
 #include <Engine.h>
 
 #include "SnowyTestSuite.h"
