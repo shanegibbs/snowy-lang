@@ -157,6 +157,9 @@ namespace Snowy {
     case ProgramParser::token::DO:
       return "DO";
 
+    case ProgramParser::token::IF:
+      return "IF";
+        
     case ProgramParser::token::END:
       return "END";
 

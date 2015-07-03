@@ -22,6 +22,7 @@
 #include <IntLiteral.h>
 #include <Node.h>
 #include <Statement.h>
+#include <IfCond.h>
 #include <StringLiteral.h>
 #include <Tuple.h>
 #include <Operator.h>
@@ -70,6 +71,7 @@ namespace Snowy {
   Snowy::Statement* statement;
   Snowy::StringLiteral* string_literal;
   Snowy::Tuple* tuple;
+  Snowy::IfLogic *ifLogic;
   char* character;
   const std::shared_ptr<const string> *str;
   int token;
@@ -86,6 +88,7 @@ namespace Snowy {
 %token <token> CLOSE_BRACKET
 %token <token> SEPERATOR
 %token <token> DO
+%token <token> IF
 %token <token> END
 %token <token> CLASS
 %token <token> DEF
@@ -111,6 +114,7 @@ namespace Snowy {
 %type <declare_class> class_decl
 %type <statement> stmt
 %type <tuple> tuple
+%type <ifLogic> if_logic
 
 %left OP
 %left UOP
@@ -135,6 +139,7 @@ node: optional_endl stmt endl { $$ = $2; }
 stmt: var_decl { $$ = $1; }
     | func_decl { $$ = $1; }
     | func_def { $$ = $1; }
+    | if_logic { $$ = $1; }
     ;
 
 var_decl: ident EQ_OP expr { $$ = new Snowy::DeclareVar($1, $3); }
@@ -176,6 +181,8 @@ class_body: { $$ = new DeclareClass(); }
 func_decl: DECLARE ident OPEN_BRACKET args_decl CLOSE_BRACKET { $$ = new FuncDecl($2, $4); driver->registerFunc($$); }
 
 func_def: DEF ident OPEN_BRACKET args_decl CLOSE_BRACKET DO endl block END { $$ = new FuncDef($2, $4, $8); driver->registerFunc($$); }
+
+if_logic: IF OPEN_BRACKET expr CLOSE_BRACKET DO endl block END { $$ = new IfLogic($3, $7); }
 
 expr: INTEGER { $$ = new Snowy::IntLiteral(*$1); delete $1; }
     | STRING_LIT { $$ = new Snowy::StringLiteral(*$1); delete $1; }
