@@ -7,46 +7,31 @@
 
 using namespace std;
 
-namespace Snowy
-{
+namespace Snowy {
 
-class Args : public Node
-{
-public:
-    Args();
-    Args(const Expression*);
-    ~Args();
+class Args : public Node {
+ public:
+  Args();
+  Args(const Expression *);
+  ~Args();
 
-    Args* clone() const override
-    {
-        return new Args(*this);
-    }
+  Args *clone() const override { return new Args(*this); }
 
-    NodeType getNodeType() const override { return ARGS; }
+  NodeType getNodeType() const override { return ARGS; }
 
-    virtual llvm::Value* compile(CodeGen&) const override
-    {
-        return NULL;
-    }
+  virtual llvm::Value *compile(CodeGen &) const override { return NULL; }
 
-    void addArg(const Expression*);
+  void addArg(const Expression *);
 
-    unsigned int getCount() const
-    {
-        return list.size();
-    }
+  unsigned int getCount() const { return list.size(); }
 
-    const Expression& get(unsigned int i) const
-    {
-        return *list[i];
-    }
+  const Expression &get(unsigned int i) const { return *list[i]; }
 
-    virtual void to_sstream(std::ostringstream&) const override;
+  virtual void to_sstream(std::ostringstream &) const override;
 
-private:
-    static const Log log;
-    vector<const Expression*> list;
+ private:
+  static const Log log;
+  vector<const Expression *> list;
 };
-
 }
 #endif

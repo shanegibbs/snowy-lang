@@ -5,28 +5,25 @@
 
 namespace Snowy {
 
-  class Ident;
-  class ArgsDecl;
-  class Type;
-  class Log;
+class Ident;
+class ArgsDecl;
+class Type;
+class Log;
 
-  class Callable : public Statement {
+class Callable : public Statement {
+ public:
+  Callable(const Ident *, const ArgsDecl *);
+  ~Callable();
 
-   public:
-    Callable(const Ident *, const ArgsDecl *);
-    ~Callable();
+  const string &getName() const;
+  const TypePtr getType() const;
 
-    const string  &getName() const;
-    const TypePtr  getType() const;
+ protected:
+  const Ident *ident;
+  const ArgsDecl *args;
 
-  protected:
-    const Ident *ident;
-    const ArgsDecl *args;
-
-   private:
-    static const Log log;
-
-  };
-
+ private:
+  static const Log log;
+};
 }
 #endif

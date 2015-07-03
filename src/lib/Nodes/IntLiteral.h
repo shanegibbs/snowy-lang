@@ -9,37 +9,27 @@
 
 using namespace std;
 
-namespace Snowy
-{
+namespace Snowy {
 
-class IntLiteral : public Expression
-{
-public:
-    IntLiteral(const shared_ptr<const string>);
+class IntLiteral : public Expression {
+ public:
+  IntLiteral(const shared_ptr<const string>);
 
-    IntLiteral* clone() const override
-    {
-        return new IntLiteral(*this);
-    }
+  IntLiteral *clone() const override { return new IntLiteral(*this); }
 
-    const TypePtr getType() const override final
-    {
-        return TypePtr(new Type(shared_ptr<string>(new string("int"))));
-    }
+  const TypePtr getType() const override final {
+    return TypePtr(new Type(shared_ptr<string>(new string("int"))));
+  }
 
-    NodeType getNodeType() const override final
-    {
-        return INT_LITERAL;
-    }
+  NodeType getNodeType() const override final { return INT_LITERAL; }
 
-    llvm::Value* compile(CodeGen&) const override;
+  llvm::Value *compile(CodeGen &) const override;
 
-    void to_sstream(ostringstream&) const override;
+  void to_sstream(ostringstream &) const override;
 
-private:
-    static const Log log;
-    const int val;
+ private:
+  static const Log log;
+  const int val;
 };
-
 }
 #endif

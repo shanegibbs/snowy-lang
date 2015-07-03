@@ -9,31 +9,28 @@
 
 using namespace Snowy;
 
-static void int_literal_test(void)
-{
-    IntLiteral i(strptr("3"));
-    const char* expected = "IntLiteral=[3]\n";
-    const char* actual = i.to_string();
-    s_assert_cmpstr(actual, expected);
-    delete[] actual;
+static void int_literal_test(void) {
+  IntLiteral i(strptr("3"));
+  const char *expected = "IntLiteral=[3]\n";
+  const char *actual = i.to_string();
+  s_assert_cmpstr(actual, expected);
+  delete[] actual;
 }
 
-static void int_literal_multi_test(void)
-{
-    IntLiteral root(strptr("1"));
-    IntLiteral* b = new IntLiteral(strptr("2"));
-    IntLiteral* c = new IntLiteral(strptr("3"));
+static void int_literal_multi_test(void) {
+  IntLiteral root(strptr("1"));
+  IntLiteral *b = new IntLiteral(strptr("2"));
+  IntLiteral *c = new IntLiteral(strptr("3"));
 
-    root.setNext(b);
-    b->setNext(c);
+  root.setNext(b);
+  b->setNext(c);
 
-    const string& expected = "IntLiteral=[1]\nIntLiteral=[2]\nIntLiteral=[3]\n";
-    const string& actual = root.to_program_string();
-    s_assert_cmpstr(actual, expected);
+  const string &expected = "IntLiteral=[1]\nIntLiteral=[2]\nIntLiteral=[3]\n";
+  const string &actual = root.to_program_string();
+  s_assert_cmpstr(actual, expected);
 }
 
-void node_int_literal_tests(TestSuite& tests)
-{
-    tests.add("/Nodes/IntLiteral/test", int_literal_test);
-    tests.add("/Nodes/IntLiteral/multi", int_literal_multi_test);
+void node_int_literal_tests(TestSuite &tests) {
+  tests.add("/Nodes/IntLiteral/test", int_literal_test);
+  tests.add("/Nodes/IntLiteral/multi", int_literal_multi_test);
 }

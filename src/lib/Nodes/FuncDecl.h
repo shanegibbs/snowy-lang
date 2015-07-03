@@ -5,27 +5,22 @@
 
 namespace Snowy {
 
-  class Ident;
-  class ArgsDecl;
-  class Log;
+class Ident;
+class ArgsDecl;
+class Log;
 
-  class FuncDecl : public Callable {
-    
-   public:
+class FuncDecl : public Callable {
+ public:
+  FuncDecl(const Ident *, const ArgsDecl *);
 
-    FuncDecl(const Ident *, const ArgsDecl *);
+  FuncDecl *clone() const override final;
+  llvm::Value *compile(CodeGen &) const override final;
+  void to_sstream(std::ostringstream &) const override final;
 
-    FuncDecl *clone() const override final;
-    llvm::Value *compile(CodeGen &) const override final;
-    void to_sstream(std::ostringstream &) const override final;
+  NodeType getNodeType() const override final { return FUNC_DECL; }
 
-    NodeType getNodeType() const override final { return FUNC_DECL; }
-
-   private:
-
-    static const Log log;
-
-  };
-
+ private:
+  static const Log log;
+};
 }
 #endif

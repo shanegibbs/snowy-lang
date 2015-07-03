@@ -9,40 +9,29 @@
 
 using namespace std;
 
-namespace Snowy
-{
+namespace Snowy {
 
 const Log Type::log = Log("Type");
 
-Type::Type(const shared_ptr<const string> s) : id(s)
-{
-    init();
+Type::Type(const shared_ptr<const string> s) : id(s) { init(); }
+
+Type *Type::clone() const { return new Type(*this); }
+
+Type::~Type() {
+  // log.debug("Deleting Type(%d) with id '%s'", getNodeId(), id->c_str());
 }
 
-Type* Type::clone() const
-{
-    return new Type(*this);
+void Type::init() {
+  log.debug("Creating Type '%s'", id->c_str());
+
+  s_assert_cmpint(id->length(), >, 0);
+  s_assert_cmpint(id->length(), <, 100);
 }
 
-Type::~Type()
-{
-    // log.debug("Deleting Type(%d) with id '%s'", getNodeId(), id->c_str());
+void Type::to_sstream(std::ostringstream &s) const {
+  s_assert_cmpint(id->length(), >, 0);
+  s_assert_cmpint(id->length(), <, 100);
+
+  s << "Type[" << *id << "]";
 }
-
-void Type::init()
-{
-    log.debug("Creating Type '%s'", id->c_str());
-
-    s_assert_cmpint(id->length(), >, 0);
-    s_assert_cmpint(id->length(), <, 100);
-}
-
-void Type::to_sstream(std::ostringstream& s) const
-{
-    s_assert_cmpint(id->length(), >, 0);
-    s_assert_cmpint(id->length(), <, 100);
-
-    s << "Type[" << *id << "]";
-}
-
 }

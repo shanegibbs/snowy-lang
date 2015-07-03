@@ -11,55 +11,42 @@
 using namespace std;
 using namespace llvm;
 
-namespace Snowy
-{
+namespace Snowy {
 
 class Log;
 
-class CodeGen
-{
-public:
-    CodeGen(IRBuilder<>*, Module*);
-    void registerFunction(Function* fn);
+class CodeGen {
+ public:
+  CodeGen(IRBuilder<> *, Module *);
+  void registerFunction(Function *fn);
 
-    IRBuilder<>* getBuilder() const {
-        return builder;
-    }
+  IRBuilder<> *getBuilder() const { return builder; }
 
-    LLVMContext* getContext() const {
-        return &builder->getContext();
-    }
+  LLVMContext *getContext() const { return &builder->getContext(); }
 
-    Module* getModule() const {
-        return module;
-    }
+  Module *getModule() const { return module; }
 
-    unsigned int getNextStringLiteralIndex() {
-        return stringLiteralIndex++;
-    }
-  
-    void setDefInsertPoint(BasicBlock *b) {
-      def_point = b;
-    }
+  unsigned int getNextStringLiteralIndex() { return stringLiteralIndex++; }
 
-    BasicBlock* getDefInsertPoint() {
-      s_assert_notnull(def_point);
-      return def_point;
-    }
-  
-    void registerValue(const string name, Value* value);
-    const Value* getValue(const string) const;
+  void setDefInsertPoint(BasicBlock *b) { def_point = b; }
 
-private:
-    static const Log log;
-    unsigned int stringLiteralIndex;
-    IRBuilder<>* builder;
-    Module* module;
-    map<string, Function*> functions;
-    map<string, Value*> values;
-  
-    BasicBlock *def_point;
+  BasicBlock *getDefInsertPoint() {
+    s_assert_notnull(def_point);
+    return def_point;
+  }
+
+  void registerValue(const string name, Value *value);
+  const Value *getValue(const string) const;
+
+ private:
+  static const Log log;
+  unsigned int stringLiteralIndex;
+  IRBuilder<> *builder;
+  Module *module;
+  map<string, Function *> functions;
+  map<string, Value *> values;
+
+  BasicBlock *def_point;
 };
-
 }
 #endif

@@ -5,50 +5,44 @@
 
 using namespace std;
 
-namespace Snowy
-{
+namespace Snowy {
 
-class Log;
+  class Log;
 
-class SnowClass : public Node
-{
-  
-public:
-    Type(const char* s);
-    Type(const string* s);
+  class SnowClass : public Node {
+
+   public:
+    Type(const char *s);
+    Type(const string *s);
     ~Type();
 
-    Type* clone() const
-    {
-        return new Type(*this);
+    Type *clone() const {
+      return new Type(*this);
     }
 
-    NodeType getNodeType() const override
-    {
-        return TYPE;
+    NodeType getNodeType() const override {
+      return TYPE;
     }
 
-    const string* getId() const
-    {
-        return id;
+    const string *getId() const {
+      return id;
     }
 
-    llvm::Value* compile(CodeGen&) const
-    {
-        return NULL;
+    llvm::Value *compile(CodeGen &) const {
+      return NULL;
     }
 
-    void to_sstream(ostringstream&) const;
+    void to_sstream(ostringstream &) const;
 
-    static const Type* Integer;
-    static const Type* String;
+    static const Type *Integer;
+    static const Type *String;
 
-private:
+   private:
     void init();
 
     static const Log log;
-    const string* id;
-};
+    const string *id;
+  };
 
 }
 #endif

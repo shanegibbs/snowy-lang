@@ -1,6 +1,3 @@
 #include "Expression.h"
 
-namespace Snowy
-{
-
-}
+namespace Snowy {}
