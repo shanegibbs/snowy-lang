@@ -30,7 +30,8 @@ void node_declare_func_simple(void) {
   FuncDef root(new Ident(strptr("myfunc")), new ArgsDecl(), NULL);
 
   std::ostringstream ss;
-  ss << "FuncDef=[ident=[Ident[myfunc]] args=[ArgsDecl[size=0]] block=[NULL]]\n";
+  ss << "FuncDef=[ident=[Ident[myfunc]] args=[ArgsDecl[size=0]] "
+        "block=[NULL]]\n";
   const string expected = ss.str();
 
   const string &actual = root.to_program_string();
@@ -46,11 +47,11 @@ void node_declare_func_complex(void) {
   b->setNext(c);
 
   FuncDef root(new Ident(strptr("myfunc")),
-               new ArgsDecl(new Ident(strptr("a")))
-               , a);
+               new ArgsDecl(new Ident(strptr("a"))), a);
 
   std::ostringstream ss;
-  ss << "FuncDef=[ident=[Ident[myfunc]] args=[ArgsDecl[size=1 arg0=[Ident[a]]]] block=[\n";
+  ss << "FuncDef=[ident=[Ident[myfunc]] args=[ArgsDecl[size=1 "
+        "arg0=[Ident[a]]]] block=[\n";
   ss << " IntLiteral=[1]\n";
   ss << " IntLiteral=[2]\n";
   ss << " IntLiteral=[3]\n";
@@ -76,7 +77,8 @@ void node_declare_class_simple(void) {
 
 void node_declare_class_with_var(void) {
   DeclareClass root(TypePtr(new Type(strptr("MyClass"))));
-  root.addVarDecl(new DeclareVar(new Ident(strptr("i")), new IntLiteral(strptr("1"))));
+  root.addVarDecl(
+      new DeclareVar(new Ident(strptr("i")), new IntLiteral(strptr("1"))));
 
   std::ostringstream ss;
   ss << "DeclareClass=[type=[Type[MyClass]]]\n";

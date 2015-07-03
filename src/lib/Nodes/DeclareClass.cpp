@@ -16,84 +16,73 @@ using namespace llvm;
 
 namespace Snowy {
 
-  const Log DeclareClass::log = Log("DeclareClass");
+const Log DeclareClass::log = Log("DeclareClass");
 
-  DeclareClass::DeclareClass() {
-    type = nullptr;
-    log.debug("Creating DeclareClass");
+DeclareClass::DeclareClass() {
+  type = nullptr;
+  log.debug("Creating DeclareClass");
+}
+
+DeclareClass::DeclareClass(TypePtr t) : type(t) {
+  s_assert(t);
+  log.debug("Creating DeclareClass node %s", type->getId().c_str());
+}
+
+DeclareClass::~DeclareClass() {
+  log.debug("Deleting DeclareClass '%s'", type->getId().c_str());
+
+  for (DeclareVar *v : vars) {
+    delete v;
   }
 
-  DeclareClass::DeclareClass(TypePtr t) : type(t) {
-    s_assert(t);
-    log.debug("Creating DeclareClass node %s", type->getId().c_str());
+  vars.clear();
+
+  for (FuncDef *f : funcs) {
+    delete f;
   }
 
-  DeclareClass::~DeclareClass() {
-    log.debug("Deleting DeclareClass '%s'", type->getId().c_str());
+  funcs.clear();
+}
 
-    for (DeclareVar *v : vars) {
-      delete v;
-    }
+DeclareClass *DeclareClass::clone() const { return new DeclareClass(*this); }
 
-    vars.clear();
+NodeType DeclareClass::getNodeType() const { return DECLARE_CLASS; }
 
-    for (FuncDef *f : funcs) {
-      delete f;
-    }
+void DeclareClass::setType(const TypePtr t) {
+  s_assert(t);
+  log.debug("Setting type of DeclareClass to %s", t->getId().c_str());
+  type = t;
+}
 
-    funcs.clear();
-  }
+void DeclareClass::addVarDecl(DeclareVar *v) {
+  DeclareVar *obj = dynamic_cast<DeclareVar *>(v);
+  vars.push_back(obj);
+}
 
-  DeclareClass *DeclareClass::clone() const {
-    return new DeclareClass(*this);
-  }
+void DeclareClass::addFuncDecl(FuncDef *v) { funcs.push_back(v); }
 
-  NodeType DeclareClass::getNodeType() const {
-    return DECLARE_CLASS;
-  }
+vector<DeclareVar *> &DeclareClass::getVars() { return vars; }
 
-  void DeclareClass::setType(const TypePtr t) {
-    s_assert(t);
-    log.debug("Setting type of DeclareClass to %s", t->getId().c_str());
-    type = t;
-  }
+vector<FuncDef *> &DeclareClass::getFuncs() { return funcs; }
 
-  void DeclareClass::addVarDecl(DeclareVar *v) {
-    DeclareVar *obj = dynamic_cast<DeclareVar *>(v);
-    vars.push_back(obj);
-  }
+const TypePtr DeclareClass::getType() const {
+  return TypePtr(new Type(shared_ptr<string>(new string("Class"))));
+}
 
-  void DeclareClass::addFuncDecl(FuncDef *v) {
-    funcs.push_back(v);
-  }
+const Type &DeclareClass::getClassType() const {
+  s_assert(type);
+  return *type;
+}
 
-  vector<DeclareVar *> &DeclareClass::getVars() {
-    return vars;
-  }
+void DeclareClass::to_sstream(std::ostringstream &s) const {
+  s_assert(type);
+  s << "DeclareClass=[type=[";
+  type->to_sstream(s);
+  s << "]]";
+}
 
-  vector<FuncDef *> &DeclareClass::getFuncs() {
-    return funcs;
-  }
-
-  const TypePtr DeclareClass::getType() const {
-    return TypePtr(new Type(shared_ptr<string>(new string("Class"))));
-  }
-
-  const Type &DeclareClass::getClassType() const {
-    s_assert(type);
-    return *type;
-  }
-
-  void DeclareClass::to_sstream(std::ostringstream &s) const {
-    s_assert(type);
-    s << "DeclareClass=[type=[";
-    type->to_sstream(s);
-    s << "]]";
-  }
-
-  Value *DeclareClass::compile(CodeGen &gen) const {
-    log.debug("Compiling function '%s'", type->getId().c_str());
-    return NULL;
-  }
-
+Value *DeclareClass::compile(CodeGen &gen) const {
+  log.debug("Compiling function '%s'", type->getId().c_str());
+  return NULL;
+}
 }

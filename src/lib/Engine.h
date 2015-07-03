@@ -7,40 +7,39 @@
 using namespace std;
 
 namespace llvm {
-  class Module;
+class Module;
 }
 
 namespace Snowy {
 
-  class Log;
-  class Parser;
-  class Compiler;
-  class Execer;
+class Log;
+class Parser;
+class Compiler;
+class Execer;
 
-  class Engine {
-   public:
-    Engine();
-    ~Engine();
+class Engine {
+ public:
+  Engine();
+  ~Engine();
 
-    bool parse();
-    bool parse(string code);
-    bool parse(istream &);
-    void setStdoutBuffer(char *buffer, int size);
-    int exec();
+  bool parse();
+  bool parse(string code);
+  bool parse(istream &);
+  void setStdoutBuffer(char *buffer, int size);
+  int exec();
 
-    static void init();
-    static void shutdown();
+  static void init();
+  static void shutdown();
 
-   private:
-    static const Log log;
-    char *buffer;
-    unsigned int buffer_size;
-    llvm::Module *module;
-    Parser *parser;
-    Compiler *compiler;
-    Execer *execer;
-  };
-
+ private:
+  static const Log log;
+  char *buffer;
+  unsigned int buffer_size;
+  llvm::Module *module;
+  Parser *parser;
+  Compiler *compiler;
+  Execer *execer;
+};
 }
 
 #endif

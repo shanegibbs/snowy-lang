@@ -8,43 +8,42 @@
 
 namespace Snowy {
 
-  class DeclareVar;
-  class FuncDef;
+class DeclareVar;
+class FuncDef;
 
-  class DeclareClass final : public Expression {
-   public:
-    DeclareClass();
-    DeclareClass(TypePtr);
-    ~DeclareClass();
+class DeclareClass final : public Expression {
+ public:
+  DeclareClass();
+  DeclareClass(TypePtr);
+  ~DeclareClass();
 
-    DeclareClass *clone() const override final;
+  DeclareClass *clone() const override final;
 
-    NodeType getNodeType() const override final;
+  NodeType getNodeType() const override final;
 
-    void setType(const TypePtr t);
+  void setType(const TypePtr t);
 
-    void addVarDecl(DeclareVar *v);
+  void addVarDecl(DeclareVar *v);
 
-    void addFuncDecl(FuncDef *v);
+  void addFuncDecl(FuncDef *v);
 
-    vector<DeclareVar *> &getVars();
+  vector<DeclareVar *> &getVars();
 
-    vector<FuncDef *> &getFuncs();
+  vector<FuncDef *> &getFuncs();
 
-    const TypePtr getType() const override final;
+  const TypePtr getType() const override final;
 
-    const Type &getClassType() const;
+  const Type &getClassType() const;
 
-    llvm::Value *compile(CodeGen &) const override final;
+  llvm::Value *compile(CodeGen &) const override final;
 
-    void to_sstream(std::ostringstream &) const override final;
+  void to_sstream(std::ostringstream &) const override final;
 
-   private:
-    static const Log log;
-    TypePtr type;
-    vector<DeclareVar *> vars;
-    vector<FuncDef *> funcs;
-  };
-
+ private:
+  static const Log log;
+  TypePtr type;
+  vector<DeclareVar *> vars;
+  vector<FuncDef *> funcs;
+};
 }
 #endif

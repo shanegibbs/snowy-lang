@@ -40,29 +40,33 @@ void string_literal_test(void) {
   assert_code_desc("\"abc\"\n", "StringLiteral=[\"abc\"]\n");
 }
 
-void int_literal_test(void) {
-  assert_code_desc("1\n", "IntLiteral=[1]\n");
-}
+void int_literal_test(void) { assert_code_desc("1\n", "IntLiteral=[1]\n"); }
 
 void multi_node_test(void) {
-  assert_code_desc("1\n2\n3\n", "IntLiteral=[1]\nIntLiteral=[2]\nIntLiteral=[3]\n");
+  assert_code_desc("1\n2\n3\n",
+                   "IntLiteral=[1]\nIntLiteral=[2]\nIntLiteral=[3]\n");
 }
 
 void arithmetic_expr_test(void) {
   const char *code = "1 + 2\n";
-  const char *desc = "Tuple=[lhs=[IntLiteral=[1]] op=[+] rhs=[IntLiteral=[2]]]\n";
+  const char *desc =
+      "Tuple=[lhs=[IntLiteral=[1]] op=[+] rhs=[IntLiteral=[2]]]\n";
   assert_code_desc(code, desc);
 }
 
 void assignment_test(void) {
   const char *code = "a = 1 + 2\n";
-  const char *desc = "DeclareVar=[ident=[Ident[a type=int]] expr=[Tuple=[lhs=[IntLiteral=[1]] op=[+] rhs=[IntLiteral=[2]]]]]\n";
+  const char *desc =
+      "DeclareVar=[ident=[Ident[a type=int]] expr=[Tuple=[lhs=[IntLiteral=[1]] "
+      "op=[+] rhs=[IntLiteral=[2]]]]]\n";
   assert_code_desc(code, desc);
 }
 
 void string_assignment_test(void) {
   const char *code = "a = \"this is a test\"\n";
-  const char *desc = "DeclareVar=[ident=[Ident[a type=String]] expr=[StringLiteral=[\"this is a test\"]]]\n";
+  const char *desc =
+      "DeclareVar=[ident=[Ident[a type=String]] expr=[StringLiteral=[\"this is "
+      "a test\"]]]\n";
   assert_code_desc(code, desc);
 }
 
@@ -72,43 +76,55 @@ void multi_assignment_test(void) {
 
 void func_decl_no_args(void) {
   const char *code = "declare int:puts()\n";
-  const char *desc = "FuncDecl=[ident=[Ident[puts type=int]] args=[ArgsDecl[size=0]]]\n";
+  const char *desc =
+      "FuncDecl=[ident=[Ident[puts type=int]] args=[ArgsDecl[size=0]]]\n";
   assert_code_desc(code, desc);
 }
 
 void func_decl_one_arg(void) {
   const char *code = "declare int:puts(String:s)\n";
-  const char *desc = "FuncDecl=[ident=[Ident[puts type=int]] args=[ArgsDecl[size=1 arg0=[Ident[s type=String]]]]]\n";
+  const char *desc =
+      "FuncDecl=[ident=[Ident[puts type=int]] args=[ArgsDecl[size=1 "
+      "arg0=[Ident[s type=String]]]]]\n";
   assert_code_desc(code, desc);
 }
 
 void func_no_args(void) {
   const char *code = "def add() do\nend\n";
-  const char *desc = "FuncDef=[ident=[Ident[add]] args=[ArgsDecl[size=0]] block=[NULL]]\n";
+  const char *desc =
+      "FuncDef=[ident=[Ident[add]] args=[ArgsDecl[size=0]] block=[NULL]]\n";
   assert_code_desc(code, desc);
 }
 
 void func_one_arg(void) {
   const char *code = "def add(one) do\nend\n";
-  const char *desc = "FuncDef=[ident=[Ident[add]] args=[ArgsDecl[size=1 arg0=[Ident[one]]]] block=[NULL]]\n";
+  const char *desc =
+      "FuncDef=[ident=[Ident[add]] args=[ArgsDecl[size=1 arg0=[Ident[one]]]] "
+      "block=[NULL]]\n";
   assert_code_desc(code, desc);
 }
 
 void func_two_args(void) {
   const char *code = "def add(one, two) do\nend\n";
-  const char *desc = "FuncDef=[ident=[Ident[add]] args=[ArgsDecl[size=2 arg0=[Ident[one]] arg1=[Ident[two]]]] block=[NULL]]\n";
+  const char *desc =
+      "FuncDef=[ident=[Ident[add]] args=[ArgsDecl[size=2 arg0=[Ident[one]] "
+      "arg1=[Ident[two]]]] block=[NULL]]\n";
   assert_code_desc(code, desc);
 }
 
 void func_body_one_line(void) {
   const char *code = "def test() do\n1\nend\n";
-  const char *desc = "FuncDef=[ident=[Ident[test]] args=[ArgsDecl[size=0]] block=[\n IntLiteral=[1]\n]]\n";
+  const char *desc =
+      "FuncDef=[ident=[Ident[test]] args=[ArgsDecl[size=0]] block=[\n "
+      "IntLiteral=[1]\n]]\n";
   assert_code_desc(code, desc);
 }
 
 void func_body_multi_line(void) {
   const char *code = "def test() do\n1\n2\n3\nend\n";
-  const char *desc = "FuncDef=[ident=[Ident[test]] args=[ArgsDecl[size=0]] block=[\n IntLiteral=[1]\n IntLiteral=[2]\n IntLiteral=[3]\n]]\n";
+  const char *desc =
+      "FuncDef=[ident=[Ident[test]] args=[ArgsDecl[size=0]] block=[\n "
+      "IntLiteral=[1]\n IntLiteral=[2]\n IntLiteral=[3]\n]]\n";
   assert_code_desc(code, desc);
 }
 
@@ -116,27 +132,31 @@ static void empty_line_test(void) {
   assert_code_desc(R"snow(
 
         1
-    )snow", "IntLiteral=[1]\n");
+    )snow",
+                   "IntLiteral=[1]\n");
 }
 
 static void comment_full_line_test(void) {
   assert_code_desc(R"snow(
         # 1
         1
-    )snow", "IntLiteral=[1]\n");
+    )snow",
+                   "IntLiteral=[1]\n");
 }
 
 static void comment_part_line_test(void) {
   assert_code_desc(R"snow(
         1 # 2
-    )snow", "IntLiteral=[1]\n");
+    )snow",
+                   "IntLiteral=[1]\n");
 }
 
 static void class_declare_empty(void) {
   assert_code_desc(R"snow(
         class MyClass do
         end
-    )snow", "DeclareClass=[type=[Type[MyClass]]]\n");
+    )snow",
+                   "DeclareClass=[type=[Type[MyClass]]]\n");
 }
 
 static void class_declare_with_var(void) {
@@ -153,7 +173,9 @@ static void class_declare_with_var(void) {
   s_assert(c->getVars().size() == 1);
 
   DeclareVar *var = c->getVars()[0];
-  s_assert_cmpstr(var->to_program_string(), "DeclareVar=[ident=[Ident[i type=int]] expr=[IntLiteral=[0]]]\n");
+  s_assert_cmpstr(
+      var->to_program_string(),
+      "DeclareVar=[ident=[Ident[i type=int]] expr=[IntLiteral=[0]]]\n");
 
   delete n;
 }
@@ -168,7 +190,9 @@ static void class_declare_with_var_no_spaces(void) {
   s_assert(c->getVars().size() == 1);
 
   DeclareVar *var = c->getVars()[0];
-  s_assert_cmpstr(var->to_program_string(), "DeclareVar=[ident=[Ident[i type=int]] expr=[IntLiteral=[0]]]\n");
+  s_assert_cmpstr(
+      var->to_program_string(),
+      "DeclareVar=[ident=[Ident[i type=int]] expr=[IntLiteral=[0]]]\n");
 
   delete n;
 }
@@ -189,10 +213,14 @@ static void class_declare_with_two_vars(void) {
   s_assert(c->getVars().size() == 2);
 
   DeclareVar &a = *c->getVars()[0];
-  s_assert_cmpstr(a.to_program_string(), "DeclareVar=[ident=[Ident[a type=int]] expr=[IntLiteral=[0]]]\n");
+  s_assert_cmpstr(
+      a.to_program_string(),
+      "DeclareVar=[ident=[Ident[a type=int]] expr=[IntLiteral=[0]]]\n");
 
   DeclareVar &b = *c->getVars()[1];
-  s_assert_cmpstr(b.to_program_string(), "DeclareVar=[ident=[Ident[b type=int]] expr=[IntLiteral=[0]]]\n");
+  s_assert_cmpstr(
+      b.to_program_string(),
+      "DeclareVar=[ident=[Ident[b type=int]] expr=[IntLiteral=[0]]]\n");
 
   delete n;
 }
@@ -309,11 +337,14 @@ void parser_tests(TestSuite &tests) {
   tests.add("/Parser/comment/part_line", comment_part_line_test);
   tests.add("/Parser/class/empty", class_declare_empty);
   tests.add("/Parser/class/with_var", class_declare_with_var);
-  tests.add("/Parser/class/with_var_no_spaces", class_declare_with_var_no_spaces);
+  tests.add("/Parser/class/with_var_no_spaces",
+            class_declare_with_var_no_spaces);
   tests.add("/Parser/class/with_two_vars", class_declare_with_two_vars);
   tests.add("/Parser/class/with_func", class_declare_with_func);
   tests.add("/Parser/class/with_two_funcs", class_declare_with_two_funcs);
   tests.add("/Parser/type/static", type_static);
-  tests.add("/Parser/type/assignment_inference", type_inference_assignment_test);
-  tests.add("/Parser/type/assignment_from_call", type_inference_assignment_from_call_test);
+  tests.add("/Parser/type/assignment_inference",
+            type_inference_assignment_test);
+  tests.add("/Parser/type/assignment_from_call",
+            type_inference_assignment_from_call_test);
 }

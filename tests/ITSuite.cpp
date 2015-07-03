@@ -12,9 +12,7 @@ class Result {
     buffer = NULL;
     exit_code = 0;
   }
-  ~Result() {
-    free(buffer);
-  }
+  ~Result() { free(buffer); }
   char *buffer;
   int exit_code;
 };
@@ -51,7 +49,8 @@ void it_puts_stdout_test()
         return;
     }
 
-    g_test_trap_subprocess("/IT/puts/stdout", 0, G_TEST_SUBPROCESS_INHERIT_STDIN);
+    g_test_trap_subprocess("/IT/puts/stdout", 0,
+G_TEST_SUBPROCESS_INHERIT_STDIN);
     g_test_trap_assert_stdout("hello world!!\n");
 }
 */
@@ -84,7 +83,8 @@ void it_variable_use_1() {
 }
 
 void it_variable_use_2() {
-  Result actual = snowy_result("declare int:puts(String:s)\na = \"one\"\nb = \"two\"\nputs(a)");
+  Result actual = snowy_result(
+      "declare int:puts(String:s)\na = \"one\"\nb = \"two\"\nputs(a)");
   s_assert_cmpstr(actual.buffer, "one\n");
 }
 
@@ -195,7 +195,9 @@ void it_tests(Snowy::TestSuite &tests) {
   tests.add("/IT/brackets/int/left", it_brackets_int_left);
   tests.add("/IT/brackets/int/right", it_brackets_int_right);
   tests.add("/IT/function/declare_and_call", it_function_declare_and_call);
-  tests.add("/IT/function/declare_and_call_with_block", it_function_declare_and_call_with_block);
-  tests.add("/IT/function/declare_and_call_with_args", it_function_declare_and_call_with_args);
+  tests.add("/IT/function/declare_and_call_with_block",
+            it_function_declare_and_call_with_block);
+  tests.add("/IT/function/declare_and_call_with_args",
+            it_function_declare_and_call_with_args);
   tests.add("/IT/class/declare/empty", it_class_declare_empty);
 }
