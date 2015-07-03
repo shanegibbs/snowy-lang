@@ -28,6 +28,7 @@ ID [a-zA-Z][a-zA-Z0-9]*
 
 do                  return token::DO;
 end                 return token::END;
+if                  return token::IF;
 class               return token::CLASS;
 def                 return token::DEF;
 declare             return token::DECLARE;

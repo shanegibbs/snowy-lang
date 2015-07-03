@@ -10,34 +10,33 @@ using namespace std;
 
 namespace Snowy {
 
-  class Log;
+class Log;
 
-  class Ident final : public Expression {
-   public:
-    Ident(const shared_ptr<const string>);
-    Ident(const shared_ptr<const string>, const TypePtr);
-    ~Ident();
+class Ident final : public Expression {
+ public:
+  Ident(const shared_ptr<const string>);
+  Ident(const shared_ptr<const string>, const TypePtr);
+  ~Ident();
 
-    Ident *clone() const override;
+  Ident *clone() const override;
 
-    const string *getName() const;
+  const string *getName() const;
 
-    const TypePtr getType() const override final;
+  const TypePtr getType() const override final;
 
-    void setType(const TypePtr);
+  void setType(const TypePtr);
 
-    NodeType getNodeType() const override final { return IDENT; }
+  NodeType getNodeType() const override final { return IDENT; }
 
-    llvm::Value *compile(CodeGen &) const override final;
+  llvm::Value *compile(CodeGen &) const override final;
 
-    void to_sstream(ostringstream &) const override final;
+  void to_sstream(ostringstream &) const override final;
 
-   private:
-    static const Log log;
-    void init();
-    const shared_ptr<const string> name;
-    TypePtr type;
-  };
-
+ private:
+  static const Log log;
+  void init();
+  const shared_ptr<const string> name;
+  TypePtr type;
+};
 }
 #endif
