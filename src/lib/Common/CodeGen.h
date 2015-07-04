@@ -35,6 +35,10 @@ class CodeGen {
     return def_point;
   }
 
+  void setCurrentFunc(Function *f) { currentFunc = f; }
+
+  Function *getCurrentFunc() const { return currentFunc; };
+
   void registerValue(const string name, Value *value);
   const Value *getValue(const string) const;
 
@@ -47,6 +51,7 @@ class CodeGen {
   map<string, Value *> values;
 
   BasicBlock *def_point;
+  Function *currentFunc;
 };
 }
 #endif

@@ -15,7 +15,10 @@ enum NodeType {
   OPERATOR,
   STRING_LITERAL,
   TUPLE,
-  TYPE
+  TYPE,
+  IF_CONF,
+  COMP,
+  BOOL_LITERAL
 };
 
 #endif

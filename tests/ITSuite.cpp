@@ -38,34 +38,12 @@ Result snowy_result_no_stdout(const char *code) {
   return result;
 }
 
-/* TODO port stdout test
-void it_puts_stdout_test()
-{
-    Engine engine;
-    engine.parse("puts(\"hello world!!\")");
-
-    if (g_test_subprocess()) {
-        engine.exec();
-        return;
-    }
-
-    g_test_trap_subprocess("/IT/puts/stdout", 0,
-G_TEST_SUBPROCESS_INHERIT_STDIN);
-    g_test_trap_assert_stdout("hello world!!\n");
-}
-*/
-
 void it_puts_string_lit_test() {
   Result actual = snowy_result(R"snow(
         declare int:puts(String:s)
         puts("hello world!!")
     )snow");
   s_assert_cmpstr(actual.buffer, "hello world!!\n");
-}
-
-void it_puts_int_lit_test() {
-  Result actual = snowy_result("puts 5\n");
-  s_assert_cmpstr(actual.buffer, "5\n");
 }
 
 void it_return_int_test() {
@@ -177,10 +155,30 @@ void it_class_declare_empty() {
     )snow");
 }
 
+void it_if_true() {
+  Result actual = snowy_result(R"snow(
+    declare int:puts(String:s)
+    if (true) do
+      puts("yes")
+    end
+  )snow");
+  s_assert_cmpstr(actual.buffer, "yes\n");
+  s_assert_cmpint(actual.exit_code, ==, 0);
+}
+
+void it_if_false() {
+  Result actual = snowy_result(R"snow(
+    declare int:puts(String:s)
+    if (false) do
+      puts("yes")
+    end
+  )snow");
+  s_assert_cmpstr(actual.buffer, "");
+  s_assert_cmpint(actual.exit_code, ==, 0);
+}
+
 void it_tests(Snowy::TestSuite &tests) {
-  // tests.add("/IT/puts/stdout", it_puts_stdout_test);
   tests.add("/IT/puts/StringLiteral", it_puts_string_lit_test);
-  // tests.add("/IT/puts/IntLiteral", it_puts_int_lit_test);
   tests.add("/IT/return/Int", it_return_int_test);
   tests.add("/IT/variable/use/1", it_variable_use_1);
   tests.add("/IT/variable/use/2", it_variable_use_2);
@@ -200,4 +198,6 @@ void it_tests(Snowy::TestSuite &tests) {
   tests.add("/IT/function/declare_and_call_with_args",
             it_function_declare_and_call_with_args);
   tests.add("/IT/class/declare/empty", it_class_declare_empty);
+  tests.add("/IT/if/true", it_if_true);
+  tests.add("/IT/if/false", it_if_false);
 }

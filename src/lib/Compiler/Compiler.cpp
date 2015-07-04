@@ -115,8 +115,9 @@ Module *Compiler::compile(Node *n) {
   Value *ptr_av = args++;
   ptr_av->setName("argv_val");
 
-  BasicBlock *main_block = BasicBlock::Create(*context, "main_block", main_fn);
+  BasicBlock *main_block = BasicBlock::Create(*context, "main_fn", main_fn);
   builder->SetInsertPoint(main_block);
+  codeGen.setCurrentFunc(main_fn);
 
   llvm::Type *mem_type = int32_ac->getType();
   ConstantInt *mem_count = builder->getInt32(1);
@@ -138,7 +139,6 @@ Module *Compiler::compile(Node *n) {
     current = current->getNext();
   }
 
-  builder->SetInsertPoint(main_block);
   builder->CreateRet(get_exit_value(value));
   delete builder;
 
