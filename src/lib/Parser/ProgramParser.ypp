@@ -190,7 +190,7 @@ func_decl: DECLARE ident OPEN_BRACKET args_decl CLOSE_BRACKET { $$ = new FuncDec
 
 func_def: DEF ident OPEN_BRACKET args_decl CLOSE_BRACKET DO endl block END { $$ = new FuncDef($2, $4, $8); driver->registerFunc($$); }
 
-if_cond: IF OPEN_BRACKET expr CLOSE_BRACKET DO endl block END { $$ = new IfCond($3, $7); }
+if_cond: IF OPEN_BRACKET expr CLOSE_BRACKET endl block END { $$ = new IfCond($3, $6); }
 
 expr: INTEGER { $$ = new Snowy::IntLiteral(*$1); delete $1; }
     | STRING_LIT { $$ = new Snowy::StringLiteral(*$1); delete $1; }

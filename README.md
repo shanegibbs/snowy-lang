@@ -16,6 +16,13 @@ a = "Hello World!!"
 puts(a)
 ```
 
+Logic
+
+```
+if (true)
+end
+```
+
 Function
 
 ```

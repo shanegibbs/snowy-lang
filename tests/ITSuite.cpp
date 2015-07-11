@@ -158,7 +158,7 @@ void it_class_declare_empty() {
 void it_if_true() {
   Result actual = snowy_result(R"snow(
     declare int:puts(String:s)
-    if (true) do
+    if (true)
       puts("yes")
     end
   )snow");
@@ -169,7 +169,7 @@ void it_if_true() {
 void it_if_false() {
   Result actual = snowy_result(R"snow(
     declare int:puts(String:s)
-    if (false) do
+    if (false)
       puts("yes")
     end
   )snow");
@@ -180,8 +180,8 @@ void it_if_false() {
 void it_if_nested_true() {
   Result actual = snowy_result(R"snow(
     declare int:puts(String:s)
-      if (true) do
-        if (true) do
+      if (true)
+        if (true)
           puts("yes")
         end
       end
