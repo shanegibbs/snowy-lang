@@ -131,15 +131,16 @@ Module *Compiler::compile(Node *n) {
   builder->CreateStore(ptr_av, mem);
   codeGen.registerValue("argv", mem);
 
-  Node *current = n;
-  Value *value = NULL;
+  // create exit block. we should jump here when we run out of nodes
+  BasicBlock *exit_block = BasicBlock::Create(*context, "exit_block", main_fn);
 
-  while (current != NULL) {
-    value = current->compile(codeGen);
-    current = current->getNext();
-  }
+  builder->SetInsertPoint(main_block);
 
+  auto value = n->compileBlock(codeGen, exit_block);
+
+  builder->SetInsertPoint(exit_block);
   builder->CreateRet(get_exit_value(value));
+
   delete builder;
 
   if (log.isLogLevel(DEBUG)) {

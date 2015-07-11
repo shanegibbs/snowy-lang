@@ -9,7 +9,10 @@
 
 namespace llvm {
 class Value;
+class BasicBlock;
 }
+
+using namespace llvm;
 
 namespace Snowy {
 
@@ -24,7 +27,7 @@ class Node {
 
   void setNext(Node *n);
 
-  virtual llvm::Value *compile(CodeGen &) const = 0;
+  virtual Value *compile(CodeGen &) const = 0;
 
   virtual void to_sstream(std::ostringstream &) const = 0;
 
@@ -40,6 +43,8 @@ class Node {
 
   const char *to_string() const;
   const std::string to_program_string() const;
+
+  Value *compileBlock(CodeGen &, BasicBlock *returnTo) const;
 
  private:
   static const Log log;

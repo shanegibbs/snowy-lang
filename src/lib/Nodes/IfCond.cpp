@@ -47,8 +47,7 @@ Value *IfCond::compile(CodeGen &gen) const {
   BranchInst::Create(label_if_then, label_if_end, icmp, b.GetInsertBlock());
 
   gen.getBuilder()->SetInsertPoint(label_if_then);
-  block->compile(gen);
-  BranchInst::Create(label_if_end, label_if_then);
+  block->compileBlock(gen, label_if_end);
 
   gen.getBuilder()->SetInsertPoint(label_if_end);
 

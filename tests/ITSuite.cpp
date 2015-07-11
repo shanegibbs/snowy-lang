@@ -177,6 +177,19 @@ void it_if_false() {
   s_assert_cmpint(actual.exit_code, ==, 0);
 }
 
+void it_if_nested_true() {
+  Result actual = snowy_result(R"snow(
+    declare int:puts(String:s)
+      if (true) do
+        if (true) do
+          puts("yes")
+        end
+      end
+    )snow");
+  s_assert_cmpstr(actual.buffer, "yes\n");
+  s_assert_cmpint(actual.exit_code, ==, 0);
+}
+
 void it_tests(Snowy::TestSuite &tests) {
   tests.add("/IT/puts/StringLiteral", it_puts_string_lit_test);
   tests.add("/IT/return/Int", it_return_int_test);
@@ -200,4 +213,5 @@ void it_tests(Snowy::TestSuite &tests) {
   tests.add("/IT/class/declare/empty", it_class_declare_empty);
   tests.add("/IT/if/true", it_if_true);
   tests.add("/IT/if/false", it_if_false);
+  tests.add("/IT/if/nested/true", it_if_nested_true);
 }

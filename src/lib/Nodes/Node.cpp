@@ -2,8 +2,12 @@
 #include <string>
 #include <cstring>
 
+#include <llvm/IR/LLVMContext.h>
+#include <llvm/IR/Module.h>
+
 #include <Log.h>
 #include <SnowyAssert.h>
+#include <CodeGen.h>
 
 #include "Node.h"
 
@@ -17,13 +21,13 @@ namespace Snowy {
 const Log Node::log = Log("Node");
 
 Node::Node() : node_id(next_node_index++) {
-  log.debug("Created node with ID %d\n", node_id);
+  log.trace("Created node with ID %d\n", node_id);
   first = this;
   next = nullptr;
 }
 
 Node::~Node() {
-  log.debug("Deleting node %d", node_id);
+  log.trace("Deleting node %d", node_id);
 
   if (next != nullptr) {
     // log.debug("Deleting next node");
@@ -69,5 +73,24 @@ const string Node::to_program_string() const {
   }
 
   return oss.str();
+}
+
+Value *Node::compileBlock(CodeGen &gen, BasicBlock *returnTo) const {
+  log.debug("Compiling block. Will return to %s", returnTo->getName());
+
+  Value *value = NULL;
+  const Node *n = this;
+  while (n != NULL) {
+    value = n->compile(gen);
+    n = n->getNext();
+
+    if (n == nullptr) {
+      log.debug("Found end of block. Returning to %s", returnTo->getName());
+      BranchInst::Create(returnTo, gen.getBuilder()->GetInsertBlock());
+      gen.getBuilder()->SetInsertPoint(returnTo);
+    }
+  }
+
+  return value;
 }
 }

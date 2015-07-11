@@ -135,3 +135,19 @@ There are some pre setup scripts you can use. For ubuntu, run `../scripts/config
 ```
 # ../configure CXX=clang++ CXXFLAGS='-g' LDFLAGS=-L/usr/local/lib CFLAGS=-I/usr/local/include --enable-debug
 ```
+
+### Testing
+
+Assuming you have run `./scripts/docker-console.sh`.
+
+Build and run test suite.
+
+```
+build
+```
+
+Debug single test without leak detection.
+
+```
+ASAN_OPTIONS=detect_leaks=0 LOG_LEVEL=debug SnowyTestSuite /IT/if/nested/true
+```
