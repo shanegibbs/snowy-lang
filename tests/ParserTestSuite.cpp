@@ -317,6 +317,44 @@ static void type_inference_assignment_from_call_test() {
   delete n;
 }
 
+static void parse_if_then_block_oneline() {
+  const Node *n = build_graph(R"snow(
+    declare int:puts(String:s)
+    if (true)
+      1
+    end
+  )snow");
+
+  s_assert_cmpstr(n->to_program_string(), 1 + R"prog(
+FuncDecl=[ident=[Ident[puts type=int]] args=[ArgsDecl[size=1 arg0=[Ident[s type=String]]]]]
+IfCond=[cond=[BoolLiteral=[true]] then=[
+IntLiteral=[1]
+]]
+)prog");
+
+  delete n;
+}
+
+static void parse_if_then_block_twoline() {
+  const Node *n = build_graph(R"snow(
+    declare int:puts(String:s)
+    if (true)
+      1
+      2
+    end
+  )snow");
+
+  s_assert_cmpstr(n->to_program_string(), 1 + R"prog(
+FuncDecl=[ident=[Ident[puts type=int]] args=[ArgsDecl[size=1 arg0=[Ident[s type=String]]]]]
+IfCond=[cond=[BoolLiteral=[true]] then=[
+IntLiteral=[1]
+IntLiteral=[2]
+]]
+)prog");
+
+  delete n;
+}
+
 void parser_tests(TestSuite &tests) {
   tests.add("/Parser/int_literal", int_literal_test);
   tests.add("/Parser/string_literal", string_literal_test);
@@ -347,4 +385,6 @@ void parser_tests(TestSuite &tests) {
             type_inference_assignment_test);
   tests.add("/Parser/type/assignment_from_call",
             type_inference_assignment_from_call_test);
+  tests.add("/Parser/if/then/oneline", parse_if_then_block_oneline);
+  tests.add("/Parser/if/then/twoline", parse_if_then_block_twoline);
 }

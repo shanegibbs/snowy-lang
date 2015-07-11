@@ -190,6 +190,38 @@ void it_if_nested_true() {
   s_assert_cmpint(actual.exit_code, ==, 0);
 }
 
+void it_if_block_simple() {
+  Result actual = snowy_result(R"snow(
+    declare int:puts(String:s)
+    puts("1")
+    if (true)
+      puts("2")
+    end
+    puts("3")
+    0
+    )snow");
+  s_assert_cmpstr(actual.buffer, "1\n2\n3\n");
+  s_assert_cmpint(actual.exit_code, ==, 0);
+}
+
+void it_if_block_nested() {
+  Result actual = snowy_result(R"snow(
+    declare int:puts(String:s)
+    puts("1")
+    if (true)
+      puts("2")
+      if (true)
+        puts("3")
+      end
+      puts("4")
+    end
+    puts("5")
+    0
+    )snow");
+  s_assert_cmpstr(actual.buffer, "1\n2\n3\n4\n5\n");
+  s_assert_cmpint(actual.exit_code, ==, 0);
+}
+
 void it_tests(Snowy::TestSuite &tests) {
   tests.add("/IT/puts/StringLiteral", it_puts_string_lit_test);
   tests.add("/IT/return/Int", it_return_int_test);
@@ -214,4 +246,6 @@ void it_tests(Snowy::TestSuite &tests) {
   tests.add("/IT/if/true", it_if_true);
   tests.add("/IT/if/false", it_if_false);
   tests.add("/IT/if/nested/true", it_if_nested_true);
+  tests.add("/IT/if/block/simple", it_if_block_simple);
+  tests.add("/IT/if/block/nested", it_if_block_nested);
 }

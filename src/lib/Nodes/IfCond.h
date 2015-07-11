@@ -10,10 +10,8 @@ class Type;
 
 class IfCond final : public Statement {
  public:
-  IfCond(const Expression *c, const Node *b = nullptr) {
-    cond = c;
-    block = b;
-  };
+  IfCond(const Expression *c, const Node *b = nullptr);
+
   virtual ~IfCond() {
     delete cond;
     if (block != nullptr) delete block;

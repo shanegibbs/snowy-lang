@@ -16,10 +16,18 @@ namespace Snowy {
 
 const Log IfCond::log = Log("IfCond");
 
+IfCond::IfCond(const Expression *c, const Node *b) : cond(c), block(b) {
+  log.debug("Creating IfCond node");
+  if (b != nullptr)
+    s_assert(b == b->getFirst());  // a block must be the first node
+};
+
 void IfCond::to_sstream(std::ostringstream &s) const {
   s_assert(cond);
   s << "IfCond=[cond=[";
   cond->to_sstream(s);
+  s << "] then=[" << endl;
+  s << block->to_program_string();
   s << "]]";
 }
 

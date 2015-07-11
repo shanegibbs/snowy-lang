@@ -188,9 +188,9 @@ comp: expr COMP_OP expr { $$ = new Comp($1, *$2, $3); delete $2; }
 
 func_decl: DECLARE ident OPEN_BRACKET args_decl CLOSE_BRACKET { $$ = new FuncDecl($2, $4); driver->registerFunc($$); }
 
-func_def: DEF ident OPEN_BRACKET args_decl CLOSE_BRACKET DO endl block END { $$ = new FuncDef($2, $4, $8); driver->registerFunc($$); }
+func_def: DEF ident OPEN_BRACKET args_decl CLOSE_BRACKET DO endl block END { $$ = new FuncDef($2, $4, $8 ? $8->getFirst() : NULL); driver->registerFunc($$); }
 
-if_cond: IF OPEN_BRACKET expr CLOSE_BRACKET endl block END { $$ = new IfCond($3, $6); }
+if_cond: IF OPEN_BRACKET expr CLOSE_BRACKET endl block END { $$ = new IfCond($3, $6 ? $6->getFirst() : NULL); }
 
 expr: INTEGER { $$ = new Snowy::IntLiteral(*$1); delete $1; }
     | STRING_LIT { $$ = new Snowy::StringLiteral(*$1); delete $1; }

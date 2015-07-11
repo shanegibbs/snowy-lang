@@ -28,13 +28,6 @@ class CodeGen {
 
   unsigned int getNextStringLiteralIndex() { return stringLiteralIndex++; }
 
-  void setDefInsertPoint(BasicBlock *b) { def_point = b; }
-
-  BasicBlock *getDefInsertPoint() {
-    s_assert_notnull(def_point);
-    return def_point;
-  }
-
   void setCurrentFunc(Function *f) { currentFunc = f; }
 
   Function *getCurrentFunc() const { return currentFunc; };
@@ -50,7 +43,6 @@ class CodeGen {
   map<string, Function *> functions;
   map<string, Value *> values;
 
-  BasicBlock *def_point;
   Function *currentFunc;
 };
 }

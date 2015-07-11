@@ -5,7 +5,7 @@ my-hello: my-hello.ll
 
 fromc.ll: fromc.c
 	clang -O0 -emit-llvm fromc.c -c -o fromc.bc
-	llvm-dis-3.5 < fromc.bc > fromc.ll
+	llvm-dis < fromc.bc > fromc.ll
 
 fromc: fromc.ll
 	clang fromc.ll -o fromc
