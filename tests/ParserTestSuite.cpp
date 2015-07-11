@@ -325,13 +325,14 @@ static void parse_if_then_block_oneline() {
     end
   )snow");
 
-  s_assert_cmpstr(n->to_program_string(), 1 + R"prog(
+  const char *expected = 1 + R"prog(
 FuncDecl=[ident=[Ident[puts type=int]] args=[ArgsDecl[size=1 arg0=[Ident[s type=String]]]]]
 IfCond=[cond=[BoolLiteral=[true]] then=[
 IntLiteral=[1]
 ]]
-)prog");
+)prog";
 
+  s_assert_cmpstr(n->to_program_string(), expected);
   delete n;
 }
 
@@ -344,14 +345,15 @@ static void parse_if_then_block_twoline() {
     end
   )snow");
 
-  s_assert_cmpstr(n->to_program_string(), 1 + R"prog(
+  const char *expected = 1 + R"prog(
 FuncDecl=[ident=[Ident[puts type=int]] args=[ArgsDecl[size=1 arg0=[Ident[s type=String]]]]]
 IfCond=[cond=[BoolLiteral=[true]] then=[
 IntLiteral=[1]
 IntLiteral=[2]
 ]]
-)prog");
+)prog";
 
+  s_assert_cmpstr(n->to_program_string(), expected);
   delete n;
 }
 
