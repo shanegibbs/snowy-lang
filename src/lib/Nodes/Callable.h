@@ -12,7 +12,7 @@ class Log;
 
 class Callable : public Statement {
  public:
-  Callable(const Ident *, const ArgsDecl *);
+  Callable(const Ident *, const ArgsDecl *, const bool vararg = false);
   ~Callable();
 
   const string &getName() const;
@@ -21,6 +21,7 @@ class Callable : public Statement {
  protected:
   const Ident *ident;
   const ArgsDecl *args;
+  const bool vararg;
 
  private:
   static const Log log;

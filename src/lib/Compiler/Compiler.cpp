@@ -55,40 +55,6 @@ Module *Compiler::compile(Node *n) {
 
   CodeGen codeGen = CodeGen(builder, TheModule);
 
-  llvm::Type *int8_ptr_type = llvm::Type::getInt8PtrTy(*context);
-  llvm::Type *int32_type = IntegerType::get(*context, 32);
-
-  /*
-  // puts
-  std::vector<llvm::Type *> puts_args(1, int8_ptr_type);
-  FunctionType *puts_ft =
-      FunctionType::get(llvm::Type::getInt32Ty(*context), puts_args, false);
-  Function* puts_fn = Function::Create(puts_ft, Function::ExternalLinkage,
-  "puts", TheModule);
-  codeGen.registerFunction(puts_fn);
-
-  // atoi
-  Function *atoi_fn =
-      Function::Create(puts_ft, Function::ExternalLinkage, "atoi", TheModule);
-  codeGen.registerFunction(atoi_fn);
-
-  // getenv
-  std::vector<llvm::Type *> getenv_args(1, int8_ptr_type);
-  FunctionType *getenv_ft =
-      FunctionType::get(int8_ptr_type, getenv_args, false);
-  Function *getenv_fn = Function::Create(getenv_ft, Function::ExternalLinkage,
-                                         "getenv", TheModule);
-  codeGen.registerFunction(getenv_fn);
-  */
-
-  // printf
-  std::vector<llvm::Type *> printf_ft_args;
-  printf_ft_args.push_back(int8_ptr_type);
-  FunctionType *printf_ft = FunctionType::get(int32_type, printf_ft_args, true);
-  Function *printf_fn = Function::Create(printf_ft, Function::ExternalLinkage,
-                                         "printf", TheModule);
-  codeGen.registerFunction(printf_fn);
-
   // main
   std::vector<llvm::Type *> main_args;
   // int argc

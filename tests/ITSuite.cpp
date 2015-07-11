@@ -148,6 +148,16 @@ void it_function_declare_and_call_with_args() {
   s_assert_cmpint(actual.exit_code, ==, 4);
 }
 
+void it_function_declare_vararg() {
+  Result actual = snowy_result(R"snow(
+    declare int:printf(String:s, ...)
+    printf("test %d", 123)
+    0
+    )snow");
+  s_assert_cmpstr(actual.buffer, "test 123");
+  s_assert_cmpint(actual.exit_code, ==, 0);
+}
+
 void it_class_declare_empty() {
   snowy_result_no_stdout(R"snow(
         class MyClass do
@@ -242,6 +252,7 @@ void it_tests(Snowy::TestSuite &tests) {
             it_function_declare_and_call_with_block);
   tests.add("/IT/function/declare_and_call_with_args",
             it_function_declare_and_call_with_args);
+  tests.add("/IT/function/declare/vararg", it_function_declare_vararg);
   tests.add("/IT/class/declare/empty", it_class_declare_empty);
   tests.add("/IT/if/true", it_if_true);
   tests.add("/IT/if/false", it_if_false);

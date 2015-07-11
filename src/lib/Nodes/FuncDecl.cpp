@@ -18,7 +18,7 @@ namespace Snowy {
 
 const Log FuncDecl::log = Log("FuncDecl");
 
-FuncDecl::FuncDecl(const Ident *i, const ArgsDecl *a) : Callable(i, a) {
+FuncDecl::FuncDecl(const Ident *i, const ArgsDecl *a, const bool vararg) : Callable(i, a, vararg) {
   log.debug("Creating FuncDecl node %s", ident->getName()->c_str());
 }
 
@@ -29,7 +29,11 @@ void FuncDecl::to_sstream(std::ostringstream &s) const {
   ident->to_sstream(s);
   s << "] args=[";
   args->to_sstream(s);
-  s << "]]";
+  s << "]";
+  if (vararg) {
+    s << " vararg=true";
+  }
+  s << "]";
 }
 
 Value *FuncDecl::compile(CodeGen &gen) const {
@@ -66,7 +70,7 @@ Value *FuncDecl::compile(CodeGen &gen) const {
   }
 
   s_assert_notnull(t);
-  FunctionType *ft = FunctionType::get(t, ft_args, false);
+  FunctionType *ft = FunctionType::get(t, ft_args, vararg);
 
   Function *fn = Function::Create(ft, Function::ExternalLinkage,
                                   *ident->getName(), gen.getModule());

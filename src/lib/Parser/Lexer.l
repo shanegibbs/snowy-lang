@@ -33,6 +33,7 @@ class               return token::CLASS;
 def                 return token::DEF;
 declare             return token::DECLARE;
 true|false          return token::BOOL_LIT;
+\.\.\.              return token::VARARG;
 {ID}                return token::ID;
 {INTEGER}+          return token::INTEGER;
 \"(\\.|[^"])*\"     return token::STRING_LIT;

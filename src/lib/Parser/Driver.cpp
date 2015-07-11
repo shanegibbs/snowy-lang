@@ -174,6 +174,9 @@ const char *Driver::getTokenString(int t) const {
     case ProgramParser::token::ENDL:
       return "ENDL";
 
+    case ProgramParser::token::VARARG:
+      return "VARARG";
+
     case 0:
       return "EOF";
   }

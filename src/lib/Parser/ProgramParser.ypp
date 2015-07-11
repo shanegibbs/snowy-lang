@@ -101,6 +101,7 @@ namespace Snowy {
 %token <token> COMMENT
 %token <token> WHITE_SPACE
 %token <token> UNRECOGNIZED_CHAR
+%token <token> VARARG
 
 %type <node> program
 %type <node> block
@@ -186,7 +187,8 @@ class_body: { $$ = new DeclareClass(); }
 
 comp: expr COMP_OP expr { $$ = new Comp($1, *$2, $3); delete $2; }
 
-func_decl: DECLARE ident OPEN_BRACKET args_decl CLOSE_BRACKET { $$ = new FuncDecl($2, $4); driver->registerFunc($$); }
+func_decl: DECLARE ident OPEN_BRACKET args_decl CLOSE_BRACKET { $$ = new FuncDecl($2, $4, false); driver->registerFunc($$); }
+    | DECLARE ident OPEN_BRACKET args_decl COMMA VARARG CLOSE_BRACKET { $$ = new FuncDecl($2, $4, true); driver->registerFunc($$); }
 
 func_def: DEF ident OPEN_BRACKET args_decl CLOSE_BRACKET DO endl block END { $$ = new FuncDef($2, $4, $8 ? $8->getFirst() : NULL); driver->registerFunc($$); }
 
