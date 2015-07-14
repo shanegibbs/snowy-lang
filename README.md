@@ -3,6 +3,8 @@
 
 # Snowy Lang
 
+Example: `main.s`
+
 Arithmetic
 
 ```
@@ -35,9 +37,23 @@ Class
 
 ```
 class MyClass do
-  def one() do
+  def one()
     1
   end
+end
+```
+
+TODO:
+
+* Operators (perhaps as functions on classes. need base Object?)
+
+```
+def int:operator+(int:lhs, int:rhs)
+end
+```
+
+```
+def bool:operator==(bool:lhs, bool:rhs)
 end
 ```
 
