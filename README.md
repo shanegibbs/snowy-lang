@@ -3,7 +3,7 @@
 
 # Snowy Lang
 
-Example: `main.s`
+Example: [main.s](main.s)
 
 Arithmetic
 
