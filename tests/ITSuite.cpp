@@ -118,7 +118,7 @@ void it_brackets_int_right() {
 
 void it_function_declare_and_call() {
   Result actual = snowy_result_no_stdout(R"snow(
-        def myval() do
+        def myval()
         end
         myval()
     )snow");
@@ -128,7 +128,7 @@ void it_function_declare_and_call() {
 void it_function_declare_and_call_with_block() {
   Result actual = snowy_result(R"snow(
         declare int:puts(String:s)
-        def myfunc() do
+        def myfunc()
           puts("In myfunc")
           1
         end
@@ -140,7 +140,7 @@ void it_function_declare_and_call_with_block() {
 
 void it_function_declare_and_call_with_args() {
   Result actual = snowy_result_no_stdout(R"snow(
-        def add(a, b) do
+        def add(a, b)
           a + b
         end
         add(1, 3)
