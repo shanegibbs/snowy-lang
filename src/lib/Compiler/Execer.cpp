@@ -33,10 +33,6 @@ void Execer::setStdoutBuffer(char *b, int s) {
 int Execer::exec(Module *module) {
   log.debug("Execing");
 
-  InitializeNativeTarget();
-  InitializeNativeTargetAsmPrinter();
-  InitializeNativeTargetAsmParser();
-
   std::string ErrStr;
   // ExecutionEngine takes ownership of module from here
   // when EE is deleted, so is module.

@@ -9,7 +9,8 @@ namespace Snowy {
 
 const Log Callable::log = Log("Callable");
 
-Callable::Callable(const Ident *i, const ArgsDecl *a, bool v) : ident(i), args(a), vararg(v) {
+Callable::Callable(const Ident *i, const ArgsDecl *a, bool v)
+    : ident(i), args(a), vararg(v) {
   s_assert_notnull(i);
   s_assert_notnull(a);
   log.debug("Creating Callable node %s", ident->getName()->c_str());

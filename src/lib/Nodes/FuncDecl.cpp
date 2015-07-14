@@ -18,7 +18,8 @@ namespace Snowy {
 
 const Log FuncDecl::log = Log("FuncDecl");
 
-FuncDecl::FuncDecl(const Ident *i, const ArgsDecl *a, const bool vararg) : Callable(i, a, vararg) {
+FuncDecl::FuncDecl(const Ident *i, const ArgsDecl *a, const bool vararg)
+    : Callable(i, a, vararg) {
   log.debug("Creating FuncDecl node %s", ident->getName()->c_str());
 }
 

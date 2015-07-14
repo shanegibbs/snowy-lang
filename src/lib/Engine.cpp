@@ -19,7 +19,10 @@ const Log Engine::log = Log("Engine");
 
 void Engine::shutdown() { Execer::shutdown(); }
 
-void Engine::init() { atexit(Engine::shutdown); }
+void Engine::init() {
+  Compiler::init();
+  atexit(Engine::shutdown);
+}
 
 Engine::Engine() {
   log.debug("Creating Engine");

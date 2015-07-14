@@ -18,6 +18,8 @@ class Compiler {
   ~Compiler();
   llvm::Module *compile(Node *);
 
+  static void init();
+
  private:
   static const Log log;
 
