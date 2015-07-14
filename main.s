@@ -5,7 +5,7 @@ declare int:atoi(String:s)
 declare int:printf(String:s, ...)
 declare String:getenv(String:s)
 
-def hello(int:i) do
+def hello(int:i)
   printf("hello world %d!%c", i + 2, 10) # TODO parse \n
 end
 
