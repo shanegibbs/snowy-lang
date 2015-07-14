@@ -38,34 +38,12 @@ Result snowy_result_no_stdout(const char *code) {
   return result;
 }
 
-/* TODO port stdout test
-void it_puts_stdout_test()
-{
-    Engine engine;
-    engine.parse("puts(\"hello world!!\")");
-
-    if (g_test_subprocess()) {
-        engine.exec();
-        return;
-    }
-
-    g_test_trap_subprocess("/IT/puts/stdout", 0,
-G_TEST_SUBPROCESS_INHERIT_STDIN);
-    g_test_trap_assert_stdout("hello world!!\n");
-}
-*/
-
 void it_puts_string_lit_test() {
   Result actual = snowy_result(R"snow(
         declare int:puts(String:s)
         puts("hello world!!")
     )snow");
   s_assert_cmpstr(actual.buffer, "hello world!!\n");
-}
-
-void it_puts_int_lit_test() {
-  Result actual = snowy_result("puts 5\n");
-  s_assert_cmpstr(actual.buffer, "5\n");
 }
 
 void it_return_int_test() {
@@ -140,7 +118,7 @@ void it_brackets_int_right() {
 
 void it_function_declare_and_call() {
   Result actual = snowy_result_no_stdout(R"snow(
-        def myval() do
+        def myval()
         end
         myval()
     )snow");
@@ -150,7 +128,7 @@ void it_function_declare_and_call() {
 void it_function_declare_and_call_with_block() {
   Result actual = snowy_result(R"snow(
         declare int:puts(String:s)
-        def myfunc() do
+        def myfunc()
           puts("In myfunc")
           1
         end
@@ -162,12 +140,22 @@ void it_function_declare_and_call_with_block() {
 
 void it_function_declare_and_call_with_args() {
   Result actual = snowy_result_no_stdout(R"snow(
-        def add(a, b) do
+        def add(a, b)
           a + b
         end
         add(1, 3)
     )snow");
   s_assert_cmpint(actual.exit_code, ==, 4);
+}
+
+void it_function_declare_vararg() {
+  Result actual = snowy_result(R"snow(
+    declare int:printf(String:s, ...)
+    printf("test %d", 123)
+    0
+    )snow");
+  s_assert_cmpstr(actual.buffer, "test 123");
+  s_assert_cmpint(actual.exit_code, ==, 0);
 }
 
 void it_class_declare_empty() {
@@ -177,10 +165,75 @@ void it_class_declare_empty() {
     )snow");
 }
 
+void it_if_true() {
+  Result actual = snowy_result(R"snow(
+    declare int:puts(String:s)
+    if (true)
+      puts("yes")
+    end
+  )snow");
+  s_assert_cmpstr(actual.buffer, "yes\n");
+  s_assert_cmpint(actual.exit_code, ==, 0);
+}
+
+void it_if_false() {
+  Result actual = snowy_result(R"snow(
+    declare int:puts(String:s)
+    if (false)
+      puts("yes")
+    end
+  )snow");
+  s_assert_cmpstr(actual.buffer, "");
+  s_assert_cmpint(actual.exit_code, ==, 0);
+}
+
+void it_if_nested_true() {
+  Result actual = snowy_result(R"snow(
+    declare int:puts(String:s)
+      if (true)
+        if (true)
+          puts("yes")
+        end
+      end
+    )snow");
+  s_assert_cmpstr(actual.buffer, "yes\n");
+  s_assert_cmpint(actual.exit_code, ==, 0);
+}
+
+void it_if_block_simple() {
+  Result actual = snowy_result(R"snow(
+    declare int:puts(String:s)
+    puts("1")
+    if (true)
+      puts("2")
+    end
+    puts("3")
+    0
+    )snow");
+  s_assert_cmpstr(actual.buffer, "1\n2\n3\n");
+  s_assert_cmpint(actual.exit_code, ==, 0);
+}
+
+void it_if_block_nested() {
+  Result actual = snowy_result(R"snow(
+    declare int:puts(String:s)
+    puts("1")
+    if (true)
+      puts("2")
+      if (true)
+        puts("3")
+      end
+      puts("4")
+    end
+    puts("5")
+    0
+    )snow");
+  s_assert_cmpstr(actual.buffer, "1\n2\n3\n4\n5\n");
+  s_assert_cmpint(actual.exit_code, ==, 0);
+}
+
 void it_tests(Snowy::TestSuite &tests) {
-  // tests.add("/IT/puts/stdout", it_puts_stdout_test);
   tests.add("/IT/puts/StringLiteral", it_puts_string_lit_test);
-  // tests.add("/IT/puts/IntLiteral", it_puts_int_lit_test);
   tests.add("/IT/return/Int", it_return_int_test);
   tests.add("/IT/variable/use/1", it_variable_use_1);
   tests.add("/IT/variable/use/2", it_variable_use_2);
@@ -199,5 +252,11 @@ void it_tests(Snowy::TestSuite &tests) {
             it_function_declare_and_call_with_block);
   tests.add("/IT/function/declare_and_call_with_args",
             it_function_declare_and_call_with_args);
+  tests.add("/IT/function/declare/vararg", it_function_declare_vararg);
   tests.add("/IT/class/declare/empty", it_class_declare_empty);
+  tests.add("/IT/if/true", it_if_true);
+  tests.add("/IT/if/false", it_if_false);
+  tests.add("/IT/if/nested/true", it_if_nested_true);
+  tests.add("/IT/if/block/simple", it_if_block_simple);
+  tests.add("/IT/if/block/nested", it_if_block_nested);
 }

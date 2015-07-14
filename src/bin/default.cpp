@@ -12,10 +12,10 @@ int main(int argc, char **argv) {
 
   Log log("main");
 
-  ifstream f("run.s");
+  ifstream f("main.s");
 
   if (!f.is_open()) {
-    log.fatal("Failed to open default.snow");
+    log.fatal("Failed to open main.s");
   }
 
   Engine engine;

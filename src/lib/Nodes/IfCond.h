@@ -8,30 +8,31 @@ namespace Snowy {
 class Ident;
 class Type;
 
-class IfLogic final : public Statement {
+class IfCond final : public Statement {
  public:
-  IfLogic(const Expression *e, const Node *n) {
-    expr = e;
-    block = n;
-  };
-  virtual ~IfLogic() {
-    delete expr;
-    delete block;
+  IfCond(const Expression *c, const Node *b = nullptr);
+
+  virtual ~IfCond() {
+    delete cond;
+    if (block != nullptr) delete block;
   };
 
-  IfLogic *clone() const override final { return nullptr; };
+  IfCond *clone() const override final { return new IfCond(*this); };
 
-  NodeType getNodeType() const override final { return DECLARE_VAR; }
+  NodeType getNodeType() const override final { return IF_CONF; }
 
-  const TypePtr getType() const override final { return nullptr; };
+  const TypePtr getType() const override final {
+    log.fatal("IfCond.getType() not implemented");
+    return nullptr;
+  };
 
-  llvm::Value *compile(CodeGen &) const override final { return nullptr; };
+  llvm::Value *compile(CodeGen &) const override final;
 
-  void to_sstream(std::ostringstream &) const override final{};
+  void to_sstream(std::ostringstream &) const override;
 
  private:
   static const Log log;
-  const Expression *expr;
+  const Expression *cond;
   const Node *block;
 };
 }

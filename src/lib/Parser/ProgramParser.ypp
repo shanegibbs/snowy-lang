@@ -11,21 +11,23 @@
 
 #include <Args.h>
 #include <ArgsDecl.h>
+#include <BoolLiteral.h>
 #include <Call.h>
+#include <Comp.h>
 #include <DeclareVar.h>
 #include <FuncDecl.h>
 #include <FuncDef.h>
 #include <DeclareClass.h>
 #include <Expression.h>
-#include <Type.h>
 #include <Ident.h>
+#include <IfCond.h>
 #include <IntLiteral.h>
+#include <Operator.h>
 #include <Node.h>
 #include <Statement.h>
-#include <IfCond.h>
 #include <StringLiteral.h>
 #include <Tuple.h>
-#include <Operator.h>
+#include <Type.h>
 
 namespace Snowy {
    class Driver;
@@ -71,7 +73,8 @@ namespace Snowy {
   Snowy::Statement* statement;
   Snowy::StringLiteral* string_literal;
   Snowy::Tuple* tuple;
-  Snowy::IfLogic *ifLogic;
+  Snowy::IfCond *ifCond;
+  Snowy::Comp *comp;
   char* character;
   const std::shared_ptr<const string> *str;
   int token;
@@ -80,9 +83,11 @@ namespace Snowy {
 %token <str> ID
 %token <str> INTEGER
 %token <str> STRING_LIT
+%token <str> BOOL_LIT
 %token <str> ENDL
 %token <token> EQ_OP
 %token <str> OP
+%token <str> COMP_OP
 %token <token> COMMA
 %token <token> OPEN_BRACKET
 %token <token> CLOSE_BRACKET
@@ -96,6 +101,7 @@ namespace Snowy {
 %token <token> COMMENT
 %token <token> WHITE_SPACE
 %token <token> UNRECOGNIZED_CHAR
+%token <token> VARARG
 
 %type <node> program
 %type <node> block
@@ -114,7 +120,8 @@ namespace Snowy {
 %type <declare_class> class_decl
 %type <statement> stmt
 %type <tuple> tuple
-%type <ifLogic> if_logic
+%type <ifCond> if_cond
+%type <comp> comp
 
 %left OP
 %left UOP
@@ -139,7 +146,7 @@ node: optional_endl stmt endl { $$ = $2; }
 stmt: var_decl { $$ = $1; }
     | func_decl { $$ = $1; }
     | func_def { $$ = $1; }
-    | if_logic { $$ = $1; }
+    | if_cond { $$ = $1; }
     ;
 
 var_decl: ident EQ_OP expr { $$ = new Snowy::DeclareVar($1, $3); }
@@ -178,19 +185,24 @@ class_body: { $$ = new DeclareClass(); }
     | class_body var_decl endl { $$->addVarDecl($2); }
     ;
 
-func_decl: DECLARE ident OPEN_BRACKET args_decl CLOSE_BRACKET { $$ = new FuncDecl($2, $4); driver->registerFunc($$); }
+comp: expr COMP_OP expr { $$ = new Comp($1, *$2, $3); delete $2; }
 
-func_def: DEF ident OPEN_BRACKET args_decl CLOSE_BRACKET DO endl block END { $$ = new FuncDef($2, $4, $8); driver->registerFunc($$); }
+func_decl: DECLARE ident OPEN_BRACKET args_decl CLOSE_BRACKET { $$ = new FuncDecl($2, $4, false); driver->registerFunc($$); }
+    | DECLARE ident OPEN_BRACKET args_decl COMMA VARARG CLOSE_BRACKET { $$ = new FuncDecl($2, $4, true); driver->registerFunc($$); }
 
-if_logic: IF OPEN_BRACKET expr CLOSE_BRACKET DO endl block END { $$ = new IfLogic($3, $7); }
+func_def: DEF ident OPEN_BRACKET args_decl CLOSE_BRACKET endl block END { $$ = new FuncDef($2, $4, $7 ? $7->getFirst() : NULL); driver->registerFunc($$); }
+
+if_cond: IF OPEN_BRACKET expr CLOSE_BRACKET endl block END { $$ = new IfCond($3, $6 ? $6->getFirst() : NULL); }
 
 expr: INTEGER { $$ = new Snowy::IntLiteral(*$1); delete $1; }
     | STRING_LIT { $$ = new Snowy::StringLiteral(*$1); delete $1; }
+    | BOOL_LIT { $$ = new Snowy::BoolLiteral(*$1); delete $1; }
     | OPEN_BRACKET tuple CLOSE_BRACKET { $$ = $2; }
     | tuple { $$ = $1; }
     | call { $$ = $1; }
     | ident { $$ = $1; }
     | class_decl { $$ = $1; }
+    | comp { $$ = $1; }
     ;
 
 args: { $$ = new Args; } // blank

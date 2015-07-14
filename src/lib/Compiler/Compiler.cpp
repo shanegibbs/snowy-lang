@@ -1,13 +1,22 @@
-#include <llvm/IR/LLVMContext.h>
-#include <llvm/IR/Module.h>
+#include <llvm/Bitcode/ReaderWriter.h>
 #include <llvm/IR/Constants.h>
 #include <llvm/IR/IRBuilder.h>
-
-#include <llvm/Support/TargetSelect.h>
-
-#include <llvm/Support/raw_ostream.h>
+#include <llvm/IR/LegacyPassManager.h>
+#include <llvm/IR/LLVMContext.h>
+#include <llvm/IR/Module.h>
+#include <llvm/IR/Verifier.h>
+#include <llvm/MC/SubtargetFeature.h>
 #include <llvm/Support/FileSystem.h>
-#include <llvm/Bitcode/ReaderWriter.h>
+#include <llvm/Support/FormattedStream.h>
+#include <llvm/Support/Host.h>
+#include <llvm/Support/TargetRegistry.h>
+#include <llvm/Support/TargetSelect.h>
+#include <llvm/Support/ToolOutputFile.h>
+#include <llvm/Support/raw_ostream.h>
+#include <llvm/Target/TargetMachine.h>
+#include <llvm/Target/TargetOptions.h>
+
+#include <llvm/MC/MCELFObjectWriter.h>
 
 #include <Log.h>
 #include <Call.h>
@@ -21,6 +30,13 @@ using namespace llvm;
 namespace Snowy {
 
 const Log Compiler::log = Log("Compiler");
+
+void Compiler::init() {
+  InitializeAllTargets();
+  InitializeAllTargetMCs();
+  InitializeAllAsmPrinters();
+  InitializeAllAsmParsers();
+}
 
 Compiler::Compiler() { context = new LLVMContext(); }
 
@@ -45,53 +61,30 @@ Value *Compiler::get_exit_value(Value *last_val) {
   }
 }
 
+static string getFeaturesStr() {
+  SubtargetFeatures Features;
+
+  StringMap<bool> HostFeatures;
+  if (sys::getHostCPUFeatures(HostFeatures)) {
+    for (auto &F : HostFeatures) {
+      if (F.second) Features.AddFeature(F.first());
+    }
+  }
+
+  return Features.getString();
+}
+
 Module *Compiler::compile(Node *n) {
   log.info("Compiling");
+
+  // Prints target archs that are supported:
+  // TargetRegistry::printRegisteredTargetsForVersion();
 
   IRBuilder<> *builder = new IRBuilder<>(*context);
 
   Module *TheModule = new Module("org.default", *context);
-  TheModule->setTargetTriple("x86_64-unknown-linux-gnu");
 
   CodeGen codeGen = CodeGen(builder, TheModule);
-
-  BasicBlock *def_block = builder->GetInsertBlock();
-  // s_assert_notnull(def_block);
-  codeGen.setDefInsertPoint(def_block);
-
-  llvm::Type *int8_ptr_type = llvm::Type::getInt8PtrTy(*context);
-  llvm::Type *int32_type = IntegerType::get(*context, 32);
-
-  // puts
-  std::vector<llvm::Type *> puts_args(1, int8_ptr_type);
-  FunctionType *puts_ft =
-      FunctionType::get(llvm::Type::getInt32Ty(*context), puts_args, false);
-  /*
-  Function* puts_fn = Function::Create(puts_ft, Function::ExternalLinkage,
-  "puts", TheModule);
-  codeGen.registerFunction(puts_fn);
-  */
-
-  // atoi
-  Function *atoi_fn =
-      Function::Create(puts_ft, Function::ExternalLinkage, "atoi", TheModule);
-  codeGen.registerFunction(atoi_fn);
-
-  // getenv
-  std::vector<llvm::Type *> getenv_args(1, int8_ptr_type);
-  FunctionType *getenv_ft =
-      FunctionType::get(int8_ptr_type, getenv_args, false);
-  Function *getenv_fn = Function::Create(getenv_ft, Function::ExternalLinkage,
-                                         "getenv", TheModule);
-  codeGen.registerFunction(getenv_fn);
-
-  // printf
-  std::vector<llvm::Type *> printf_ft_args;
-  printf_ft_args.push_back(int8_ptr_type);
-  FunctionType *printf_ft = FunctionType::get(int32_type, printf_ft_args, true);
-  Function *printf_fn = Function::Create(printf_ft, Function::ExternalLinkage,
-                                         "printf", TheModule);
-  codeGen.registerFunction(printf_fn);
 
   // main
   std::vector<llvm::Type *> main_args;
@@ -115,8 +108,9 @@ Module *Compiler::compile(Node *n) {
   Value *ptr_av = args++;
   ptr_av->setName("argv_val");
 
-  BasicBlock *main_block = BasicBlock::Create(*context, "main_block", main_fn);
+  BasicBlock *main_block = BasicBlock::Create(*context, "main_fn", main_fn);
   builder->SetInsertPoint(main_block);
+  codeGen.setCurrentFunc(main_fn);
 
   llvm::Type *mem_type = int32_ac->getType();
   ConstantInt *mem_count = builder->getInt32(1);
@@ -130,37 +124,75 @@ Module *Compiler::compile(Node *n) {
   builder->CreateStore(ptr_av, mem);
   codeGen.registerValue("argv", mem);
 
-  Node *current = n;
-  Value *value = NULL;
-
-  while (current != NULL) {
-    value = current->compile(codeGen);
-    current = current->getNext();
-  }
+  // create exit block. we should jump here when we run out of nodes
+  BasicBlock *exit_block = BasicBlock::Create(*context, "exit_block", main_fn);
 
   builder->SetInsertPoint(main_block);
+
+  auto value = n->compileBlock(codeGen, exit_block);
+
+  builder->SetInsertPoint(exit_block);
   builder->CreateRet(get_exit_value(value));
+
   delete builder;
 
-  if (log.isLogLevel(DEBUG)) {
+  if (log.isLogLevel(DEBUG) ||
+      (getenv("SN_DUMP_PROGRAM") != nullptr &&
+       strcmp(getenv("SN_DUMP_PROGRAM"), "true") == 0)) {
     TheModule->dump();
+    printf("; end\n\n");
   }
 
-  write(TheModule);
+  string error_str;
+  llvm::raw_string_ostream oss(error_str);
+  bool moduleFail = llvm::verifyModule(*TheModule, &oss);
+  if (moduleFail) {
+    log.fatal("Module is not good: %s", error_str.c_str());
+    return nullptr;
+  }
+  log.info("Module verified");
+
+  auto triple = sys::getDefaultTargetTriple();
+  log.info("Using target architecture %s", triple.c_str());
+  TheModule->setTargetTriple(triple);
+
+  std::string err;
+  const Target *target = TargetRegistry::lookupTarget(triple, err);
+  if (!target) {
+    log.fatal("Failed to get target: %s", err.c_str());
+    return nullptr;
+  }
+
+  legacy::PassManager pm;
+
+  string cpuStr = sys::getHostCPUName();
+  string featuresStr = getFeaturesStr();
+
+  TargetOptions options;
+
+  std::unique_ptr<TargetMachine> machine(
+      target->createTargetMachine(triple, cpuStr, featuresStr, options));
+
+  // setup the output file
+  error_code EC;
+  sys::fs::OpenFlags OpenFlags = sys::fs::F_None;
+  raw_fd_ostream rawStream("main.o", EC, OpenFlags);
+  if (EC) {
+    log.fatal(EC.message().c_str());
+    return nullptr;
+  }
+
+  formatted_raw_ostream fStream(rawStream, false);
+
+  if (machine->addPassesToEmitFile(pm, fStream,
+                                   TargetMachine::CGFT_ObjectFile)) {
+    log.fatal("Target does not support generation of this file type!\n");
+    return nullptr;
+  }
+
+  pm.run(*TheModule);
 
   module = TheModule;
   return TheModule;
-}
-
-void Compiler::write(const Module *m) {
-  const char *filename = "program.bc";
-
-  log.info("Writing program to '%s'. Compile with clang program.bc -o program",
-           filename);
-
-  std::error_code errorInfo;
-  raw_fd_ostream myfile(filename, errorInfo, llvm::sys::fs::F_None);
-
-  WriteBitcodeToFile(m, myfile);
 }
 }

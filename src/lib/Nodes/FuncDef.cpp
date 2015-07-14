@@ -19,9 +19,12 @@ namespace Snowy {
 const Log FuncDef::log = Log("FuncDef");
 
 FuncDef::FuncDef(const Ident *i, const ArgsDecl *a, const Node *b = NULL)
-    : Callable(i, a), block(b == NULL ? NULL : b->getFirst()) {
+    : Callable(i, a), block(b) {
   s_assert_notnull(i);
   s_assert_notnull(a);
+
+  if (b != nullptr)
+    s_assert(b == b->getFirst());  // a block must be the first node
 
   log.debug("Creating FuncDef node %s", ident->getName()->c_str());
 }

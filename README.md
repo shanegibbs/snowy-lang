@@ -3,6 +3,8 @@
 
 # Snowy Lang
 
+Example: [main.s](main.s)
+
 Arithmetic
 
 ```
@@ -14,6 +16,13 @@ String literal
 ```
 a = "Hello World!!"
 puts(a)
+```
+
+Logic
+
+```
+if (true)
+end
 ```
 
 Function
@@ -28,9 +37,23 @@ Class
 
 ```
 class MyClass do
-  def one() do
+  def one()
     1
   end
+end
+```
+
+TODO:
+
+* Operators (perhaps as functions on classes. need base Object?)
+
+```
+def int:operator+(int:lhs, int:rhs)
+end
+```
+
+```
+def bool:operator==(bool:lhs, bool:rhs)
 end
 ```
 
@@ -134,4 +157,20 @@ There are some pre setup scripts you can use. For ubuntu, run `../scripts/config
 
 ```
 # ../configure CXX=clang++ CXXFLAGS='-g' LDFLAGS=-L/usr/local/lib CFLAGS=-I/usr/local/include --enable-debug
+```
+
+### Testing
+
+Assuming you have run `./scripts/docker-console.sh`.
+
+Build and run test suite.
+
+```
+build
+```
+
+Debug single test without leak detection.
+
+```
+ASAN_OPTIONS=detect_leaks=0 LOG_LEVEL=debug SnowyTestSuite /IT/if/nested/true
 ```

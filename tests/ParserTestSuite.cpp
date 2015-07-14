@@ -89,15 +89,23 @@ void func_decl_one_arg(void) {
   assert_code_desc(code, desc);
 }
 
+static void func_decl_var_arg() {
+  const char *code = "declare int:printf(String:s, ...)\n";
+  const char *desc =
+      "FuncDecl=[ident=[Ident[printf type=int]] args=[ArgsDecl[size=1 "
+      "arg0=[Ident[s type=String]]]] vararg=true]\n";
+  assert_code_desc(code, desc);
+}
+
 void func_no_args(void) {
-  const char *code = "def add() do\nend\n";
+  const char *code = "def add()\nend\n";
   const char *desc =
       "FuncDef=[ident=[Ident[add]] args=[ArgsDecl[size=0]] block=[NULL]]\n";
   assert_code_desc(code, desc);
 }
 
 void func_one_arg(void) {
-  const char *code = "def add(one) do\nend\n";
+  const char *code = "def add(one)\nend\n";
   const char *desc =
       "FuncDef=[ident=[Ident[add]] args=[ArgsDecl[size=1 arg0=[Ident[one]]]] "
       "block=[NULL]]\n";
@@ -105,7 +113,7 @@ void func_one_arg(void) {
 }
 
 void func_two_args(void) {
-  const char *code = "def add(one, two) do\nend\n";
+  const char *code = "def add(one, two)\nend\n";
   const char *desc =
       "FuncDef=[ident=[Ident[add]] args=[ArgsDecl[size=2 arg0=[Ident[one]] "
       "arg1=[Ident[two]]]] block=[NULL]]\n";
@@ -113,7 +121,7 @@ void func_two_args(void) {
 }
 
 void func_body_one_line(void) {
-  const char *code = "def test() do\n1\nend\n";
+  const char *code = "def test()\n1\nend\n";
   const char *desc =
       "FuncDef=[ident=[Ident[test]] args=[ArgsDecl[size=0]] block=[\n "
       "IntLiteral=[1]\n]]\n";
@@ -121,7 +129,7 @@ void func_body_one_line(void) {
 }
 
 void func_body_multi_line(void) {
-  const char *code = "def test() do\n1\n2\n3\nend\n";
+  const char *code = "def test()\n1\n2\n3\nend\n";
   const char *desc =
       "FuncDef=[ident=[Ident[test]] args=[ArgsDecl[size=0]] block=[\n "
       "IntLiteral=[1]\n IntLiteral=[2]\n IntLiteral=[3]\n]]\n";
@@ -228,7 +236,7 @@ static void class_declare_with_two_vars(void) {
 static void class_declare_with_func(void) {
   const Node *n = build_graph(R"snow(
         class MyClass do
-          def myfunc() do
+          def myfunc()
           end
         end
     )snow");
@@ -248,10 +256,10 @@ static void class_declare_with_func(void) {
 static void class_declare_with_two_funcs(void) {
   const Node *n = build_graph(R"snow(
         class MyClass do
-          def firstFunc() do
+          def firstFunc()
             a = 0
           end
-          def secondFunc() do
+          def secondFunc()
             b = 0
           end
         end
@@ -301,7 +309,7 @@ static void type_inference_assignment_test() {
 
 static void type_inference_assignment_from_call_test() {
   const Node *n = build_graph(R"snow(
-        def int:one() do
+        def int:one()
             0
         end
         x = one()
@@ -317,6 +325,46 @@ static void type_inference_assignment_from_call_test() {
   delete n;
 }
 
+static void parse_if_then_block_oneline() {
+  const Node *n = build_graph(R"snow(
+    declare int:puts(String:s)
+    if (true)
+      1
+    end
+  )snow");
+
+  const char *expected = 1 + R"prog(
+FuncDecl=[ident=[Ident[puts type=int]] args=[ArgsDecl[size=1 arg0=[Ident[s type=String]]]]]
+IfCond=[cond=[BoolLiteral=[true]] then=[
+IntLiteral=[1]
+]]
+)prog";
+
+  s_assert_cmpstr(n->to_program_string(), expected);
+  delete n;
+}
+
+static void parse_if_then_block_twoline() {
+  const Node *n = build_graph(R"snow(
+    declare int:puts(String:s)
+    if (true)
+      1
+      2
+    end
+  )snow");
+
+  const char *expected = 1 + R"prog(
+FuncDecl=[ident=[Ident[puts type=int]] args=[ArgsDecl[size=1 arg0=[Ident[s type=String]]]]]
+IfCond=[cond=[BoolLiteral=[true]] then=[
+IntLiteral=[1]
+IntLiteral=[2]
+]]
+)prog";
+
+  s_assert_cmpstr(n->to_program_string(), expected);
+  delete n;
+}
+
 void parser_tests(TestSuite &tests) {
   tests.add("/Parser/int_literal", int_literal_test);
   tests.add("/Parser/string_literal", string_literal_test);
@@ -327,6 +375,7 @@ void parser_tests(TestSuite &tests) {
   tests.add("/Parser/multi_assignment_test", multi_assignment_test);
   tests.add("/Parser/func_decl/no_args", func_decl_no_args);
   tests.add("/Parser/func_decl/one_arg", func_decl_one_arg);
+  tests.add("/Parser/func_decl/var_arg", func_decl_var_arg);
   tests.add("/Parser/func/no_args", func_no_args);
   tests.add("/Parser/func/one_arg", func_one_arg);
   tests.add("/Parser/func/two_args", func_two_args);
@@ -347,4 +396,6 @@ void parser_tests(TestSuite &tests) {
             type_inference_assignment_test);
   tests.add("/Parser/type/assignment_from_call",
             type_inference_assignment_from_call_test);
+  tests.add("/Parser/if/then/oneline", parse_if_then_block_oneline);
+  tests.add("/Parser/if/then/twoline", parse_if_then_block_twoline);
 }

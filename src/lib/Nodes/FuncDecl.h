@@ -11,7 +11,7 @@ class Log;
 
 class FuncDecl : public Callable {
  public:
-  FuncDecl(const Ident *, const ArgsDecl *);
+  FuncDecl(const Ident *, const ArgsDecl *, const bool vararg = false);
 
   FuncDecl *clone() const override final;
   llvm::Value *compile(CodeGen &) const override final;

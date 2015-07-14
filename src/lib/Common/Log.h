@@ -8,7 +8,7 @@
 
 namespace Snowy {
 
-enum LogLevel { DEBUG, INFO, WARN, ERROR, UI, FATAL };
+enum LogLevel { TRACE, DEBUG, INFO, WARN, ERROR, UI, FATAL };
 
 class FatalLogEvent : public std::runtime_error {
  public:
@@ -18,6 +18,7 @@ class FatalLogEvent : public std::runtime_error {
 class Log {
  public:
   Log(const char *name);
+  void trace(const char *format, ...) const;
   void debug(const char *format, ...) const;
   void info(const char *format, ...) const;
   void warn(const char *format, ...) const;

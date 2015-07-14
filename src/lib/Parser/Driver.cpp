@@ -96,6 +96,10 @@ int Driver::mylex(ProgramParser::semantic_type *val) {
     copy_string(val, lexer);
   } else if (i == ProgramParser::token::STRING_LIT) {
     copy_string(val, lexer);
+  } else if (i == ProgramParser::token::BOOL_LIT) {
+    copy_string(val, lexer);
+  } else if (i == ProgramParser::token::COMP_OP) {
+    copy_string(val, lexer);
   } else if (i == ProgramParser::token::OP) {
     copy_string(val, lexer);
   }
@@ -128,8 +132,14 @@ const char *Driver::getTokenString(int t) const {
     case ProgramParser::token::STRING_LIT:
       return "STRING_LIT";
 
+    case ProgramParser::token::BOOL_LIT:
+      return "BOOL_LIT";
+
     case ProgramParser::token::EQ_OP:
       return "EQ_OP";
+
+    case ProgramParser::token::COMP_OP:
+      return "COMP_OP";
 
     case ProgramParser::token::OP:
       return "OP";
@@ -163,6 +173,9 @@ const char *Driver::getTokenString(int t) const {
 
     case ProgramParser::token::ENDL:
       return "ENDL";
+
+    case ProgramParser::token::VARARG:
+      return "VARARG";
 
     case 0:
       return "EOF";

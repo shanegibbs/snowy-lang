@@ -14,7 +14,9 @@ void Log::setup() {
   char *log_level = getenv("LOG_LEVEL");
 
   if (log_level) {
-    if (strcmp(log_level, "debug") == 0) {
+    if (strcmp(log_level, "trace") == 0) {
+      Snowy::Log::setLogLevel(Snowy::TRACE);
+    } else if (strcmp(log_level, "debug") == 0) {
       Snowy::Log::setLogLevel(Snowy::DEBUG);
     } else if (strcmp(log_level, "info") == 0) {
       Snowy::Log::setLogLevel(Snowy::INFO);
@@ -39,20 +41,24 @@ void Log::log(LogLevel l, const char *format, va_list *args) const {
   const char *level = "UNKNOWN";
 
   switch (l) {
+    case TRACE:
+      level = "TRACE";
+      break;
+
     case DEBUG:
-      level = "DEBUG";
+      level = "\x1b[36mDEBUG\x1b[0m";
       break;
 
     case INFO:
-      level = "INFO";
+      level = "\x1b[34mINFO\x1b[0m ";
       break;
 
     case WARN:
-      level = "WARN";
+      level = "\x1b[33mWARN\x1b[0m ";
       break;
 
     case ERROR:
-      level = "ERROR";
+      level = "\x1b[31mERROR\x1b[0m";
       break;
 
     case UI:
@@ -69,6 +75,17 @@ void Log::log(LogLevel l, const char *format, va_list *args) const {
   free(msg);
 
   fflush(out);
+}
+
+void Log::trace(const char *format, ...) const {
+  if (log_level > TRACE) {
+    return;
+  }
+
+  va_list args;
+  va_start(args, format);
+  log(TRACE, format, &args);
+  va_end(args);
 }
 
 void Log::debug(const char *format, ...) const {
