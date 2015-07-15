@@ -61,7 +61,7 @@ if test x"${LLVM_CONFIG}" == x"" ; then
   AC_MSG_ERROR([unable to find llvm-config command])
 fi
 
-LLVM_CPPFLAGS=`${LLVM_CONFIG} --cppflags`
+LLVM_CPPFLAGS=`${LLVM_CONFIG} --cxxflags`
 LLVM_LIBS=`${LLVM_CONFIG} --system-libs |sed '/^ *$/d'`
 LLVM_LIBDIR=-L`${LLVM_CONFIG} --libdir`
 
