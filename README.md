@@ -1,5 +1,4 @@
-![Build Status]
-(https://travis-ci.org/shanegibbs/snowy-lang.svg?branch=master)
+![Build Status](https://travis-ci.org/shanegibbs/snowy-lang.svg?branch=master)
 
 # Snowy Lang
 
